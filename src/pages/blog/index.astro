@@ -1,0 +1,18 @@
+---
+import PostCard from '@components/PostCard.astro';
+import Layout from '@layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('posts')).sort(
+  (a, b) => b.data.published.valueOf() - a.data.published.valueOf(),
+);
+---
+
+<Layout title="Blog">
+  <section class="mx-auto mt-fluid-3 flex max-w-screen-sm flex-col gap-fluid-2">
+    <h1 class="text-4xl">Posts</h1>
+    <ul class="flex flex-col gap-fluid-2">
+      {posts.map((post) => <PostCard post={post} />)}
+    </ul>
+  </section>
+</Layout>

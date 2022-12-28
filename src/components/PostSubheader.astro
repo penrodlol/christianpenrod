@@ -1,0 +1,18 @@
+---
+import { Link } from 'lucide-preact';
+
+const slot = await Astro.slots.render('default');
+const hash = slot.toLowerCase().replace(/ /g, '-');
+---
+
+<h2 class="group relative mt-fluid-4">
+  <a
+    href={`#${hash}`}
+    aria-label={slot}
+    class={`absolute left-[-40px] top-1/2 hidden -translate-y-1/2 pr-4
+            opacity-0 group-hover:opacity-100 lg:block`}
+  >
+    <Link class="h-7 w-7 stroke-brand-1" aria-hidden />
+  </a>
+  <span id={hash} class="text-brand-2 text-2xl">{slot}</span>
+</h2>

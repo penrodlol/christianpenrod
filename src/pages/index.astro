@@ -1,0 +1,50 @@
+---
+import Anchor from '@components/Anchor.astro';
+import GithubCard from '@components/GithubCard.astro';
+import PostCard from '@components/PostCard.astro';
+import Layout from '@layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { ArrowRight } from 'lucide-preact';
+
+const projects = ['fizzbuzzopedia', 'geoguessr-clone'];
+const posts = (await getCollection('posts'))
+  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
+  .slice(0, 2);
+---
+
+<Layout>
+  <section class="mt-fluid-5 flex justify-between gap-fluid-4">
+    <div>
+      <h1 class="text-5xl">Hi, I'm Christian</h1>
+      <h2 class="text-1 text-2xl">Front-End Web Developer</h2>
+      <ul class="mt-fluid-4 flex flex-col gap-4 text-lg">
+        <li class="flex flex-wrap items-center gap-x-2">
+          <ArrowRight class="shrink-0" /> Web Developer
+          <Anchor href={import.meta.env.JOB}>@McKesson</Anchor>
+        </li>
+        <li class="flex flex-wrap items-center gap-x-2">
+          <ArrowRight class="shrink-0" /> CS Bachelors
+          <Anchor href={import.meta.env.COLLEGE}>@LaRoche</Anchor>
+        </li>
+        <li class="flex flex-wrap items-center gap-x-2">
+          <ArrowRight class="shrink-0" /> Pittsburgh, PA, USA
+        </li>
+      </ul>
+    </div>
+    <!-- TODO: A pic of me -->
+  </section>
+  <div class="my-fluid-4 mx-auto h-1 w-10/12 rounded-md bg-2"></div>
+  <section class="flex flex-col gap-fluid-2">
+    <h3 class="text-1 text-xl">Projects</h3>
+    <ul class="grid gap-fluid-4 lg:grid-cols-2">
+      {projects.map((project) => <GithubCard repo={project} />)}
+    </ul>
+  </section>
+  <div class="my-fluid-4 mx-auto h-1 w-10/12 rounded-md bg-2"></div>
+  <section class="flex flex-col gap-fluid-2">
+    <h3 class="text-1 text-xl">Recent Posts</h3>
+    <ul class="grid gap-fluid-4 lg:grid-cols-2">
+      {posts.map((post) => <PostCard post={post} />)}
+    </ul>
+  </section>
+</Layout>

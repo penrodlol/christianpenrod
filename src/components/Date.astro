@@ -1,0 +1,14 @@
+---
+const props = Astro.props;
+const datetime = new Date(await Astro.slots.render('default'));
+const formatter = new Intl.DateTimeFormat('en-US', {
+  month: '2-digit',
+  day: '2-digit',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+---
+
+<time class={props.class} datetime={datetime.toISOString()}>
+  {formatter.format(datetime)}
+</time>

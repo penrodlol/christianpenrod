@@ -1,0 +1,18 @@
+---
+import Anchor from '@components/Anchor.astro';
+import Layout from '@layouts/Layout.astro';
+import { ArrowLeft } from 'lucide-preact';
+---
+
+<Layout>
+  <section class="mt-fluid-7 flex flex-col items-center">
+    <h1 class="text-brand-2 text-9xl">404</h1>
+    <p class="mb-fluid-5 text-4xl">Page Not Found</p>
+    <Anchor href="/">
+      <div class="group flex items-center gap-4 text-lg">
+        <ArrowLeft class="stroke-brand-2 w-8 h-8" />
+        <span class="group:text-brand-1">Back To Home</span>
+      </div>
+    </Anchor>
+  </section>
+</Layout>

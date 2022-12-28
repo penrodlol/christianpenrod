@@ -1,0 +1,113 @@
+---
+title: Tailwind CSS Responsive Design Without Breakpoints
+description:
+  Learn how to use Tailwind CSS to create responsive designs without using
+  breakpoints.
+published: 2022-09-17
+repo: tailwindcss-fluid-responsive-design
+---
+
+Let's begin by looking at a common responsive design pattern in Tailwind CSS:
+
+```html
+<div class="m-3 p-2 md:m-4 md:p-4 xl:m-6 xl:p-6">
+  <h1 class="mb-2 text-base md:mb-4 md:text-xl xl:mb-6 xl:text-2xl">Title</h1>
+  <p class="text-sm md:text-lg xl:text-2xl">Lorem ipsum dolor sit amet.</p>
+</div>
+```
+
+[Tailwind Breakpoints][tailwind-responsive-design] can be a double-edged sword.
+It's convenient to handle all our breakpoints inline; however, this results in
+_bloated_ HTML...
+
+Considering responsive design is required, how to do we solve this problem while
+still leveraging Tailwind CSS? _Fluid Responsive Design_!
+
+## Fluid Responsive Design
+
+Fluid Responsive Design is a responsive design pattern that leverages [CSS
+Clamp][css-clamp] instead of the traditional breakpoint media queries.
+
+In short, CSS Clamp is a CSS function that allows us to define a range of values
+(minimum, preferred, maximum). Based on the viewport size, the _preferred_ value
+will then scale automatically within the minimum and maximum.
+
+## Configure Fluid Typography
+
+Let's now bring CSS Clamp into our Tailwind CSS configuration. To begin, we'll
+add clamps for our font sizes:
+
+> These clamps were configured using a tool called [Utopia][utopia-fonts]. I
+> highly recommend this tool for building out your clamps!
+
+```js
+/** tailwind.config.js */
+
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  ...
+  extend: {
+    fontSize: {
+      'fluid-1': 'clamp(1.89rem, calc(1.48rem + 2.03vw), 2.93rem)',
+      'fluid-2': 'clamp(3.27rem, calc(2.31rem + 4.79vw), 5.72rem)',
+    }
+  }
+  ...
+}
+```
+
+When using these new fluid font size classes, the clamp will grow/shrink the
+font size in relation to the viewport. No need to worry about multiple
+breakpoints anymore! `text-base md:text-xl xl:text-2xl` → `text-fluid-2`
+
+## Configure Fluid Spacing
+
+Now that we have fluid font sizes, let's add clamps for our fluid spacing. By
+setting [Tailwind Spacing][tailwind-spacing], we gain fluid spacing for padding,
+margin, width, height, maxWidth, maxHeight, gap, inset, space, and translate.
+`p-2 m-3 md:p-4 md:m-4 xl:p-6 xl:m-6` → `p-fluid-1 m-fluid-2`
+
+> These are also generated from [Utopia][utopia-spacing].
+
+```js
+/** tailwind.config.js */
+
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  ...
+  extend: {
+    ...
+    spacing: {
+      'fluid-1': 'clamp(1.31rem, calc(0.65rem + 3.29vw), 3.00rem)',
+      'fluid-2': 'clamp(1.31rem, calc(0.07rem + 6.22vw), 4.50rem)',
+    }
+  }
+  ...
+}
+```
+
+## Remove Breakpoints
+
+With our fluid responsive design configured, lets jump back to our original HTML
+to remove those breakpoints:
+
+```html
+<div class="m-fluid-2 p-fluid-1">
+  <h1 class="text-fluid-2 mb-fluid-2">Title</h1>
+  <p class="text-fluid-1">Lorem ipsum dolor sit amet.</p>
+</div>
+```
+
+As you can see, the HTML becomes far less bloated. The font sizes, paddings, and
+margins only need to be defined once without having multiple breakpoints. All
+while keeping the conveniences of Tailwind CSS!
+
+Bonus! If your using Utopia, there's a tailwindcss plugin for it. Check it out
+here: [tailwindcss-utopia][tailwindcss-utopia]
+
+[tailwind-responsive-design]: https://tailwindcss.com/docs/responsive-design
+[css-clamp]: https://developer.mozilla.org/en-US/docs/Web/CSS/clamp
+[utopia-fonts]: https://utopia.fyi/type/calculator
+[utopia-spacing]: https://utopia.fyi/space/calculator
+[tailwind-spacing]: https://tailwindcss.com/docs/customizing-spacing
+[tailwindcss-utopia]: https://github.com/cwsdigital/tailwind-utopia

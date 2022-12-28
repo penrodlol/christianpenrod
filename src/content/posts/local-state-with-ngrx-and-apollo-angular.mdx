@@ -1,0 +1,357 @@
+---
+title: Local State with NgRx & Apollo Angular
+description:
+  Learn how to use NgRx and Apollo Angular to manage local state in your Angular
+  application.
+published: 2021-05-01
+repo: local-state-with-ngrx-and-apollo-angular
+---
+
+Within this article, I want to provide a helpful solution in Angular for
+managing local state when working with GraphQL. This involves 2 technologies:
+NgRx ComponentStore & Apollo Angular.
+
+> This article will cover topics that involve a basic understanding of
+> [GraphQL][graphql], [Apollo Angular][apolloangular], and [NgRx][ngrx]. If you
+> are unfamiliar with any of these technolgies, please read up on them before
+> going futher.
+
+## Setup
+
+```bash
+npm install @ngrx/component-store
+ng add apollo-angular
+```
+
+After dependencies have been installed, let's build out our data model. For this
+example, we will be working with a collection of villagers.
+
+```ts
+// src/app/villagers/villagers.ts
+
+export interface IVillager {
+  id: number;
+  name: string;
+  species: string;
+  personality: string;
+}
+export type Villagers = Array<IVillager>;
+```
+
+Now that we have our data model in place, lets create a simple component and its
+module which will inherit our future local state of villagers.
+
+```ts
+// src/app/villagers/villagers.component.ts
+
+import { CommonModule } from '@angular/common';
+import { Component, NgModule, OnInit } from '@angular/core';
+@Component({
+  selector: 'app-villagers',
+  template: ``,
+})
+export class VillagersComponent implements OnInit {
+  constructor() {}
+  ngOnInit(): void {}
+}
+@NgModule({
+  declarations: [VillagersComponent],
+  imports: [CommonModule],
+  exports: [VillagersComponent],
+})
+export class VillagersModule {}
+```
+
+## Creating GraphQL Query
+
+With the groundwork layed out, we can now begin the fun stuff! Lets start by
+building a GraphQL Query to which we'll use to fetch our collection of
+villagers. This is where Apollo Angular comes in to play. Apollo Angular gives
+us the ability to construct a GraphQL Query in the form of an Angular Service.
+This can be done like so:
+
+> Apollo Angular provides [other ways][apolloangular-queries] of performing a
+> Query.
+
+```ts
+// src/app/villagers/villagers.gql.ts
+
+import { Injectable } from '@angular/core';
+import { gql, Query } from 'apollo-angular';
+import { Villagers } from './villager';
+export interface IVillagersResponse {
+  readonly villagers: Villagers;
+}
+@Injectable({ providedIn: 'root' })
+export class VillagersGQL extends Query<IVillagersResponse> {
+  document = gql`
+    query villagers {
+      villagers {
+        id
+        name
+        species
+        personality
+      }
+    }
+  `;
+}
+```
+
+Let's break down what we just did here. We started by creating our expected
+response data: `IVillagersResponse`. Next, we setup our actual Angular Service
+which is simply extending Apollo Angular's `Query` class. By passing
+IVillagersResponse in to the class as such, we now gain Type-Saftey around the
+Query from wherever we use it.
+
+As for the logic within the Service itself, _It's just GraphQL_. This is one of
+the core principles Apollo Angular sticks to. As you can see, the query is
+syntactically identical to what a tradional Query would look like. Pretty cool,
+huh?
+
+## Add NgRx ComponentStore
+
+Now that we have a way of retrieving our data and a component to display it,
+lets begin our local state management. For this we'll use NgRx ComponentStore.
+Let's start by creating our store.
+
+```ts
+// src/app/villagers/villagers.store.ts
+
+import { Injectable } from '@angular/core';
+import { ComponentStore } from '@ngrx/component-store';
+import { Villagers } from './villager';
+export interface IVillagersState {
+  readonly villagers: Villagers;
+}
+@Injectable()
+export class VillagersStore extends ComponentStore[IVillagersState] {
+  constructor() {
+    super({ villagers: [] });
+  }
+}
+```
+
+With our basic Store now in place, let's add the logic to interact with our
+Query we just wrote.
+
+```ts
+// src/app/villagers/villagers.store.ts
+
+...
+import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { EMPTY } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { VillagersGQL } from './villagers.gql';
+export interface IVillagersState {
+  readonly villagers: Villagers;
+}
+@Injectable()
+export class VillagersStore extends ComponentStore<
+  IVillagersState,
+> {
+  constructor(private readonly villagersGQL: VillagersGQL) {
+    super({ villagers: [] });
+  }
+  readonly villagers$ = this.select(({ villagers }) => villagers);
+  readonly fetchAll = this.effect((event$) => event$.pipe(
+    switchMap(() => this.villagersGQL.fetch().pipe(
+      tapResponse(
+        (res) => this.addMany(res?.data?.villagers),
+        (error) => {
+          console.error(`Error fetching villagers: ${error}`);
+          return EMPTY;
+        },
+      )
+    )),
+  ));
+  readonly addMany = this.updater((_, villagers: Villagers) => ({
+    villagers,
+  }));
+}
+```
+
+Within our effect, we make use of Apollo Angular's fetch() method via
+`this.query.fetch()`. This will return a single Observable emmisson and hook in
+to the effect's pipeline with ease. On a successful response, we'll use the
+`this.addMany(villagers)` updater to immutably update our villagers state.
+Finally, we have a selector: `villagers$` which we'll use to async bind to our
+UI. Now let's jump back to our component and hook this all up.
+
+```ts
+// src/app/villagers/villagers.component.ts
+
+...
+import { VillagersStore } from './villagers.store';
+@Component({
+  selector: 'app-villagers',
+  template: `
+    <section>
+      <div *ngFor="let villager of villagers$ | async">
+        <h3>{{villager.name}}</h3>
+        <p>Type: {{villager.species}}</p>
+        <p>Personality: {{villager.personality}}</p>
+      </div>
+    </section>
+  `,
+  providers: [VillagersStore],
+})
+export class VillagersComponent implements OnInit {
+  readonly villagers$ = this.store.villagers$;
+  constructor(private readonly store: VillagersStore) { }
+  ngOnInit(): void { this.store.fetchAll(); }
+}
+...
+```
+
+Within our Component's initialization, we are now calling
+`this.store.fetchAll()` which is our Store's effect which in turn calls our
+`VillagersGQL` Query. With that effect, our local state should then be updated
+and will now contain a collection of villagers. We can then async bind our
+Store's `villagers$` to the DOM.
+
+## Creating GraphQL Mutation
+
+Ok, so we've come along way since we've first started; however, there's still
+one scenario I'd like to cover which is GraphQL Mutations. We are able to
+perform a simple read operation on our data but what about writes? To do so, let
+build another Angular Service but instead of implementing the Query class, we'll
+implement the Mutation class. For this example, we will create a Mutation for
+updating a villager's name:
+
+> Apollo Angular provides [other ways][apolloangular-mutations] of performing a
+> Mutation.
+
+```ts
+// src/app/villagers/villager-edit-name.gql.ts
+
+import { Injectable } from '@angular/core';
+import { gql, Mutation } from 'apollo-angular';
+import { IVillager } from './villager';
+export interface IVillagerEditNameVariables {
+  readonly id: number;
+  readonly name: string;
+}
+export interface IVillagerEditNameResponse {
+  readonly editVillagerName: IVillager;
+}
+@Injectable({ providedIn: 'root' })
+export class VillagerEditNameGQL extends Mutation<
+  IVillagerEditNameResponse,
+  IVillagerEditNameVariables
+> {
+  document = gql`
+    mutation editVillagerName($id: ID!, $name: String!) {
+      editVillagerName(id: $id, name: $name) {
+        id
+        name
+      }
+    }
+  `;
+}
+```
+
+Just like our Query class, a Mutation can enforce Type-Safety as well.
+`IVillagerEditNameResponse` for the response and `IVillagerEditNameVariables`
+for the variables. Also like the Query class logic, _It's just GraphQL_.
+
+## Update NgRx ComponentStore
+
+Let's now bring this Mutation in to our Store:
+
+```ts
+// src/app/villagers/villagers.store.ts
+
+...
+import { VillagerEditNameGQL } from './villager-edit-name.gql';
+...
+@Injectable()
+export class VillagersStore extends ComponentStore<
+  IVillagersState,
+> {
+  constructor(
+    private readonly villagersGQL: VillagersGQL,
+    private readonly editNameGQL: VillagersEditNameGQL,
+  ) {
+    super({ villagers: [] });
+  }
+  ...
+  readonly updateOne = this.updater((state, update: Partial<
+    IVillager
+  >) => ({
+    villagers: state.villagers.map(villager =>
+      villager.id === update?.id
+        ? { ...villager, ...update }
+        : villager,
+    ),
+  }));
+  readonly editName = this.effect((update$: Observable<
+    Pick<IVillager, 'id' | 'name'
+  >>) => {
+    return update$.pipe(
+      switchMap((update) => this.editNameGQL.mutate(update).pipe(
+        tapResponse(
+          (res) => this.updateOne(res?.data?.editVillagerName),
+          (error) => {
+            console.error(`Error changing villager name: ${error}`);
+            return EMPTY;
+          },
+        ),
+      )),
+    );
+  });
+}
+```
+
+Just like we did for VillagersGQL, we utilize a ComponentStore effect to invoke
+`this.editNameGQL.mutate(update)` which returns an Observable and can be hooked
+in to the pipeline. On successful response, we then call our
+`this.updateOne(res?.data?.updateVillager)` which updates our single villager
+record.
+
+Finally, lets update our component to call our effect and update the local
+state:
+
+```ts
+// src/app/villagers/villagers.component.ts
+
+...
+@Component({
+  selector: 'app-villagers',
+  template: `
+    <section>
+      <div *ngFor="let villager of villagers$ | async">
+        <h3
+          #name
+          contentEditable
+          (blur)="editName(villager.id, name.innerText?.trim())">
+          {{villager.name}}
+        </h3>
+        <p>Type: {{villager.species}}</p>
+        <p>Personality: {{villager.personality}}</p>
+      </div>
+    </section>
+  `,
+  providers: [VillagersStore],
+})
+export class VillagersComponent implements OnInit {
+  ...
+  editName(id: number, name: string): void {
+    this.store.editName({ id, name });
+  }
+}
+...
+```
+
+## Remarks
+
+Apollo Angular maintains the integrity of GraphQL syntax which allows us to
+quickly pinpoint what a particular Service's Query or Mutation is doing (ex:
+`VillagersGQL`). NgRx ComponentStore offers an intuitive api with minimal setup
+required for local state management. It also caters to the reactive approach
+which blends nicely with our Queries and Mutations.
+
+[graphql]: https://graphql.org/
+[apolloangular]: https://apollo-angular.com/docs/
+[ngrx]: https://ngrx.io/
+[apolloangular-queries]: https://apollo-angular.com/docs/data/queries
+[apolloangular-mutations]: https://apollo-angular.com/docs/data/mutations
