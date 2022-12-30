@@ -15,7 +15,7 @@ const PostViews = ({ slug }: Props) => {
   }, [slug]);
 
   return (
-    <div class="flex items-center gap-3 rounded-md bg-2 py-3 px-5">
+    <div class="flex items-center gap-3 rounded-md bg-2 py-3 px-5 shadow">
       <Eye class="h-6 w-6 stroke-brand-2" aria-hidden />
       <span class="tracking-widest" aria-label={`${views} views`}>
         {String(views ?? 0).padStart(6, '0')}

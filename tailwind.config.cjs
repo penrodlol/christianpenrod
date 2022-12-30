@@ -16,6 +16,10 @@ module.exports = {
         'fluid-6': 'clamp(2rem, calc(0.44rem + 7.8vw), 6rem)',
         'fluid-7': 'clamp(3rem, calc(0.66rem + 11.71vw), 9rem)',
       },
+      boxShadow: {
+        DEFAULT:
+          '0 3px 5px -1px rgba(0,0,0,.2), 0 5px 8px 0 rgba(0,0,0,.14), 0 1px 14px 0 rgba(0,0,0,.12)',
+      },
     },
   },
   plugins: [

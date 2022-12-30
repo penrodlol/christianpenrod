@@ -33,16 +33,16 @@ const posts = (await getCollection('posts'))
       </ul>
     </div>
     <div
-      class={`relative rounded-full ring-2 ring-brand-2 w-[250px] h-[250px]
-              lg:h-[320px] lg:w-[320px] md:block hidden before:absolute
-              before:inset-0 before:rounded-full before:bg-2`}
+      class={`relative rounded-full ring-2 ring-brand-2 ring-opacity-50
+              w-[250px] h-[250px] lg:h-[320px] lg:w-[320px] md:block hidden
+              before:absolute before:inset-0 before:rounded-full before:bg-2`}
     >
       <Picture
         src={import('@public/me.webp')}
         alt="A picture of me"
         widths={[250, 320, 640, 960, 1280, 1600, 1920, 2560, 3840]}
         sizes="(min-width: 1024px) 320px, 250px"
-        class="relative rounded-full md:block hidden"
+        class="relative rounded-full"
       />
     </div>
   </section>

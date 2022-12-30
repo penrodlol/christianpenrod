@@ -67,7 +67,7 @@ const { Content, injectedFrontmatter } = await post.render();
     }
 
     pre {
-      @apply rounded-md p-4;
+      @apply rounded-md p-4 shadow;
     }
 
     code {
@@ -83,11 +83,11 @@ const { Content, injectedFrontmatter } = await post.render();
     }
 
     blockquote {
-      @apply rounded-md border-l-8 border-l-brand-2 bg-2 p-4 font-semibold;
+      @apply rounded-md border-l-8 border-l-brand-2 bg-2 p-4 font-semibold shadow;
     }
 
     details {
-      @apply my-2 rounded-md bg-2 p-4;
+      @apply my-2 rounded-md bg-2 p-4 shadow;
 
       &[open] summary {
         @apply text-brand-1;
