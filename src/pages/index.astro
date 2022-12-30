@@ -1,4 +1,5 @@
 ---
+import { Picture } from '@astrojs/image/components';
 import Anchor from '@components/Anchor.astro';
 import GithubCard from '@components/GithubCard.astro';
 import PostCard from '@components/PostCard.astro';
@@ -17,7 +18,7 @@ const posts = (await getCollection('posts'))
     <div>
       <h1 class="text-5xl">Hi, I'm Christian</h1>
       <h2 class="text-1 text-2xl">Front-End Web Developer</h2>
-      <ul class="mt-fluid-4 flex flex-col gap-4 text-lg">
+      <ul class="mt-fluid-4 flex flex-col gap-fluid-1">
         <li class="flex flex-wrap items-center gap-x-2">
           <ArrowRight class="shrink-0" /> Web Developer
           <Anchor href={import.meta.env.JOB}>@McKesson</Anchor>
@@ -31,7 +32,19 @@ const posts = (await getCollection('posts'))
         </li>
       </ul>
     </div>
-    <!-- TODO: A pic of me -->
+    <div
+      class={`relative rounded-full ring-2 ring-brand-2 w-[250px] h-[250px]
+              lg:h-[320px] lg:w-[320px] md:block hidden before:absolute
+              before:inset-0 before:rounded-full before:bg-2`}
+    >
+      <Picture
+        src={import('@public/me.webp')}
+        alt="A picture of me"
+        widths={[250, 320, 640, 960, 1280, 1600, 1920, 2560, 3840]}
+        sizes="(min-width: 1024px) 320px, 250px"
+        class="relative rounded-full md:block hidden"
+      />
+    </div>
   </section>
   <div class="my-fluid-4 mx-auto h-1 w-10/12 rounded-md bg-2"></div>
   <section class="flex flex-col gap-fluid-2">
@@ -46,5 +59,9 @@ const posts = (await getCollection('posts'))
     <ul class="grid gap-fluid-4 lg:grid-cols-2">
       {posts.map((post) => <PostCard post={post} />)}
     </ul>
+    <a href="/blog" class="group flex items-center gap-2 self-end text-1">
+      <span class="text-sm group-hover:text-brand-2">View All Posts</span>
+      <ArrowRight aria-hidden class="stroke-brand-1 shrink-0" />
+    </a>
   </section>
 </Layout>

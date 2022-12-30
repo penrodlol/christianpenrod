@@ -11,7 +11,7 @@ const posts = (await getCollection('posts')).sort(
 <Layout title="Blog">
   <section class="mx-auto mt-fluid-3 flex max-w-screen-sm flex-col gap-fluid-2">
     <h1 class="text-4xl">Posts</h1>
-    <ul class="flex flex-col gap-fluid-2">
+    <ul class="flex flex-col gap-6">
       {posts.map((post) => <PostCard post={post} />)}
     </ul>
   </section>

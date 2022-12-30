@@ -6,6 +6,7 @@ import 'tailwindcss/tailwind.css';
 
 type Props = { title?: string; description?: string };
 
+const favicon = await import('@public/favicon.svg?raw');
 const {
   title = 'Christian Penrod | Front-End Web Developer',
   description = 'Developing for the web since 2015, based in Pittsburgh PA.',
@@ -36,8 +37,8 @@ const {
             selection:bg-brand-1 selection:bg-opacity-25`}
   >
     <header class="flex items-center gap-4 py-4 text-sm">
-      <a href="/" class="mr-auto md:mr-0">
-        <img src="/favicon.svg" alt="Logo" class="mr-8 h-10 w-10" aria-hidden />
+      <a href="/" class="mr-auto h-10 w-10 md:mr-8" aria-label="Home">
+        <Fragment set:html={favicon.default} aria-hidden />
       </a>
       <Anchor href="/blog">Blog</Anchor>
       <Anchor href="/career">Career</Anchor>
