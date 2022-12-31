@@ -7,7 +7,7 @@ import Layout from '@layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { ArrowRight } from 'lucide-preact';
 
-const projects = ['fizzbuzzopedia', 'geoguessr-clone'];
+const repos = ['fizzbuzzopedia', 'geoguessr-clone'];
 const posts = (await getCollection('posts'))
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
   .slice(0, 2);
@@ -49,15 +49,17 @@ const posts = (await getCollection('posts'))
   <div class="my-fluid-4 mx-auto h-1 w-10/12 rounded-md bg-2"></div>
   <section class="flex flex-col gap-fluid-2">
     <h3 class="text-1 text-xl">Projects</h3>
+    <!-- prettier-ignore -->
     <ul class="grid gap-fluid-4 lg:grid-cols-2">
-      {projects.map((project) => <GithubCard repo={project} />)}
+      {repos.map((repo) => <li><GithubCard repo={repo} /></li>)}
     </ul>
   </section>
   <div class="my-fluid-4 mx-auto h-1 w-10/12 rounded-md bg-2"></div>
   <section class="flex flex-col gap-fluid-2">
     <h3 class="text-1 text-xl">Recent Posts</h3>
+    <!-- prettier-ignore -->
     <ul class="grid gap-fluid-4 lg:grid-cols-2">
-      {posts.map((post) => <PostCard post={post} />)}
+      {posts.map((post) => <li><PostCard post={post} /></li>)}
     </ul>
     <a href="/blog" class="group flex items-center gap-2 self-end text-1">
       <span class="text-sm group-hover:text-brand-2">View All Posts</span>

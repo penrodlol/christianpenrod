@@ -22,7 +22,7 @@ const roles = await getCollection('roles').then(async (roles) =>
       {
         roles.map(({ role, Content }) => (
           <div class="bg-2 rounded-md p-4 shadow">
-            <h3 class="text-brand-2 text-xl">{role.company}</h3>
+            <h2 class="text-brand-2 text-xl">{role.company}</h2>
             <div class="text-1 text-base">
               <Date>{role.start}</Date> -
               {role.end ? <Date>{role.end}</Date> : 'Present'}
@@ -46,7 +46,7 @@ const roles = await getCollection('roles').then(async (roles) =>
       @apply mt-3 max-w-[60ch] font-semibold text-sm;
     }
 
-    h5 {
+    h3 {
       @apply relative mt-6 text-lg before:absolute before:top-[50%]
              before:-left-6 before:h-[0.95rem] before:w-[0.95rem] before:translate-y-[-50%]
              before:translate-x-[-0.215rem] before:rounded-full before:bg-brand-1 before:content-['']
