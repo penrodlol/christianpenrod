@@ -7,7 +7,7 @@ type Props = { repo: NonNullable<CollectionEntry<'posts'>['data']['repo']> };
 
 const octokit = new Octokit({ auth: import.meta.env.GITHUB_TOKEN });
 const repo = await octokit.repos
-  .get({ owner: import.meta.env.GITHUB_USERNAME, repo: Astro.props.repo })
+  .get({ owner: import.meta.env.USERNAME, repo: Astro.props.repo })
   .then((res) => res.data);
 ---
 
