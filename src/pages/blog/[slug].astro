@@ -74,7 +74,7 @@ const { Content, injectedFrontmatter } = await post.render();
       @apply font-sans text-sm;
 
       &:not([class]) {
-        @apply rounded-md bg-[--astro-code-color-background] p-1;
+        @apply rounded-md bg-[var(--astro-code-color-background)] box-decoration-clone p-1;
       }
     }
 
