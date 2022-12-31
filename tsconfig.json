@@ -5,7 +5,6 @@
     "paths": {
       "@components/*": ["src/components/*"],
       "@layouts/*": ["src/layouts/*"],
-      "@lib/*": ["src/lib/*"],
       "@public/*": ["public/*"]
     },
     "jsx": "react-jsx",

@@ -1,10 +1,11 @@
 ---
-import { octokit } from '@lib/octokit';
+import { Octokit } from '@octokit/rest';
 import type { CollectionEntry } from 'astro:content';
 import { Book, GitFork, Star } from 'lucide-preact';
 
 type Props = { repo: NonNullable<CollectionEntry<'posts'>['data']['repo']> };
 
+const octokit = new Octokit({ auth: import.meta.env.GITHUB_TOKEN });
 const repo = await octokit.repos
   .get({ owner: import.meta.env.GITHUB_USERNAME, repo: Astro.props.repo })
   .then((res) => res.data);

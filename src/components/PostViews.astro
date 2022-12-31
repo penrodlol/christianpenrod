@@ -1,0 +1,26 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { Eye } from 'lucide-preact';
+
+type Props = { slug: CollectionEntry<'posts'>['slug'] };
+
+const { slug } = Astro.props;
+---
+
+<div class="flex items-center gap-3 rounded-md bg-2 py-3 px-5 shadow">
+  <Eye class="h-6 w-6 stroke-brand-2" aria-hidden />
+  <span data-post-views={slug} aria-label="0 views" class="tracking-widest">
+    000000
+  </span>
+</div>
+
+<script define:vars={{ slug }}>
+  fetch('/api/view-post', { method: 'PUT', body: JSON.stringify({ slug }) })
+    .then((res) => res.json())
+    .then((_views) => {
+      const views = String(_views).padStart(6, '0');
+      const el = document.querySelector(`[data-post-views="${slug}"]`);
+      el.textContent = views;
+      el.setAttribute('aria-label', `${views} views`);
+    });
+</script>

@@ -3,7 +3,7 @@ import Anchor from '@components/Anchor.astro';
 import Date from '@components/Date.astro';
 import GithubCard from '@components/GithubCard.astro';
 import PostSubheader from '@components/PostSubheader.astro';
-import PostViews from '@components/PostViews';
+import PostViews from '@components/PostViews.astro';
 import Layout from '@layouts/Layout.astro';
 import { CollectionEntry, getCollection } from 'astro:content';
 import { ArrowLeft, ArrowRight, Calendar, Clock } from 'lucide-preact';
@@ -44,7 +44,7 @@ const { Content, injectedFrontmatter } = await post.render();
     <div class="flex flex-col gap-12">
       <Content components={{ a: Anchor, h2: PostSubheader }} />
       {post.data.repo && <GithubCard repo={post.data.repo} />}
-      <div class="self-end"><PostViews client:idle slug={post.slug} /></div>
+      <div class="self-end"><PostViews slug={post.slug} /></div>
       <div class="h-1 rounded-md bg-2"></div>
       <div class="flex justify-between gap-10">
         <a href={`/blog/${prev.slug}`} class="group flex gap-4">
