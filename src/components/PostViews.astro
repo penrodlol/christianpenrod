@@ -7,9 +7,9 @@ type Props = { slug: CollectionEntry<'posts'>['slug'] };
 const { slug } = Astro.props;
 ---
 
-<div class="flex items-center gap-2">
-  <Eye class="h-5 w-5 stroke-brand-2" />
-  <span data-post-views={slug}>0 Views</span>
+<div class="flex items-center gap-2 text-1">
+  <Eye class="h-6 w-6 stroke-brand-2" />
+  <span data-post-views={slug}>-- Views</span>
 </div>
 
 <script define:vars={{ slug }}>
