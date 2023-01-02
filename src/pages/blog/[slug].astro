@@ -3,6 +3,7 @@ import Anchor from '@components/Anchor.astro';
 import Date from '@components/Date.astro';
 import GithubCard from '@components/GithubCard.astro';
 import PostSubheader from '@components/PostSubheader.astro';
+import PostTweet from '@components/PostTweet.astro';
 import PostViews from '@components/PostViews.astro';
 import Layout from '@layouts/Layout.astro';
 import { CollectionEntry, getCollection } from 'astro:content';
@@ -30,13 +31,13 @@ const { Content, injectedFrontmatter } = await post.render();
 <Layout title={post.data.title} description={post.data.description}>
   <article class="mx-auto mt-fluid-3 max-w-screen-sm">
     <h1 class="mb-fluid-2 text-3xl">{post.data.title}</h1>
-    <div class="flex gap-8">
-      <div class="flex items-center gap-3">
-        <Calendar class="stroke-brand-2" />
+    <div class="flex gap-8 text-1">
+      <div class="flex items-center gap-2">
+        <Calendar class="w-5 h-5 stroke-brand-2" />
         <Date>{post.data.published}</Date>
       </div>
-      <div class="flex items-center gap-3">
-        <Clock class="stroke-brand-2" />
+      <div class="flex items-center gap-2">
+        <Clock class="w-5 h-5 stroke-brand-2" />
         <span>{injectedFrontmatter.readingTime} Minutes</span>
       </div>
     </div>
@@ -44,7 +45,10 @@ const { Content, injectedFrontmatter } = await post.render();
     <div class="flex flex-col gap-12">
       <Content components={{ a: Anchor, h2: PostSubheader }} />
       {post.data.repo && <GithubCard repo={post.data.repo} />}
-      <div class="self-end"><PostViews slug={post.slug} /></div>
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <PostViews slug={post.slug} />
+        <PostTweet post={post} />
+      </div>
       <div class="h-1 rounded-md bg-2"></div>
       <div class="flex justify-between gap-10">
         <a href={`/blog/${prev.slug}`} class="group flex gap-4">
