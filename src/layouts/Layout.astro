@@ -23,7 +23,7 @@ const {
     <meta name="og:type" content="website" />
     <meta name="og:title" content={title} />
     <meta name="og:description" content={description} />
-    <!-- <meta name="og:image" content={} /> -->
+    <meta name="og:image" content="public/og.webp" />
     <meta name="og:image:alt" content={Astro.url.pathname} />
     <meta name="og:site_name" content={Astro.site} />
     <meta name="og:image:width" content="1280" />
@@ -32,7 +32,7 @@ const {
     <meta name="twitter:creator" content={`@${import.meta.env.USERNAME}`} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <!-- <meta name="twitter:image" content={} /> -->
+    <meta name="twitter:image" content="public/og.webp" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link href={new URL(Astro.url.pathname, Astro.site)} rel="canonical" />
   </head>
