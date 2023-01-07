@@ -4,12 +4,13 @@ import '@fontsource/nunito/600.css';
 import '@fontsource/nunito/800.css';
 import 'tailwindcss/tailwind.css';
 
-type Props = { title?: string; description?: string };
+type Props = { title?: string; description?: string; og?: string };
 
 const favicon = await import('@public/favicon.svg?raw');
 const {
   title = 'Christian Penrod | Front-End Web Developer',
   description = 'Developing for the web since 2015, based in Pittsburgh PA.',
+  og = 'og-default.webp',
 } = Astro.props;
 ---
 
@@ -23,7 +24,7 @@ const {
     <meta name="og:type" content="website" />
     <meta name="og:title" content={title} />
     <meta name="og:description" content={description} />
-    <meta name="og:image" content={new URL('og.webp', Astro.site)} />
+    <meta name="og:image" content={new URL(og, Astro.site)} />
     <meta name="og:image:alt" content={Astro.url.pathname} />
     <meta name="og:site_name" content={Astro.site} />
     <meta name="og:image:width" content="1280" />
@@ -32,7 +33,7 @@ const {
     <meta name="twitter:creator" content={`@${import.meta.env.USERNAME}`} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={new URL('og.webp', Astro.site)} />
+    <meta name="twitter:image" content={new URL(og, Astro.site)} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link href={new URL(Astro.url.pathname, Astro.site)} rel="canonical" />
   </head>
