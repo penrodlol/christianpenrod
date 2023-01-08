@@ -27,7 +27,10 @@ export default defineConfig({
     preact(),
     sitemap(),
     image({ serviceEntryPoint: '@astrojs/image/sharp' }),
-    robotsTxt({ host: true, policy: [{ userAgent: '*', disallow: ['/404'] }] }),
+    robotsTxt({
+      host: true,
+      policy: [{ userAgent: '*', disallow: ['/api', '/404'] }],
+    }),
   ],
   experimental: { contentCollections: true },
 });

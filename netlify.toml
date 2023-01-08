@@ -1,8 +1,15 @@
 [dev]
   autoLaunch = false
+  command = "yarn preview"
 
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/og/*"
+  to = "/open-graph/src/content/posts/:splat"
   status = 200
   force = true

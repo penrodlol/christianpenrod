@@ -28,7 +28,11 @@ const { post, prev, next } = Astro.props;
 const { Content, injectedFrontmatter } = await post.render();
 ---
 
-<Layout title={post.data.title} description={post.data.description}>
+<Layout
+  title={post.data.title}
+  description={post.data.description}
+  og={`og/${post.slug}.png`}
+>
   <article class="mx-auto mt-fluid-3 max-w-screen-sm">
     <h1 class="mb-fluid-2 text-3xl">{post.data.title}</h1>
     <div class="flex gap-8 text-1">
