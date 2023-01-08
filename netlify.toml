@@ -1,6 +1,5 @@
 [dev]
   autoLaunch = false
-  command = "yarn preview"
 
 [[redirects]]
   from = "/api/*"
