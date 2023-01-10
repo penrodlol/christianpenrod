@@ -1,0 +1,64 @@
+---
+title: Astro Shiki Syntax Highlighting with CSS Variables
+description:
+  Customize an Astro project's Shiki syntax highlighting using a list of
+  available CSS Variables.
+published: 2023-01-09
+repo: astro-shiki-css-variables
+---
+
+By default, Astro uses [Shiki][shiki] for syntax highlighting markdown code
+blocks. Astro comes with an array of Shiki themes by default. However, let's
+learn how to make our own using _CSS Variables_.
+
+## Configuring Astro
+
+To begin, let's update our Astro configuration to use Shiki's `css-variables`
+theme:
+
+> Make sure to have [@astrojs/mdx][astro-mdx] installed first.
+
+```js
+// astro.config.mjs
+
+import mdx from '@astrojs/mdx';
+
+export default defineConfig({
+  markdown: { shikiConfig: { theme: 'css-variables' } },
+  integrations: [mdx()],
+});
+```
+
+## Adding CSS Variables
+
+Within Astro's [source code][astro-remark-shiki], there's a _remark-shiki
+integration_ that defines a set of CSS Variables. Taking note of these
+variables, we can now override them with our own:
+
+```astro
+{/* Layout.astro */}
+
+<style is:global>
+  :root {
+    --astro-code-color-text: azure;
+    --astro-code-color-background: black;
+    --astro-code-token-constant: plum;
+    --astro-code-token-string: orchid;
+    --astro-code-token-comment: salmon;
+    --astro-code-token-keyword: powderblue;
+    --astro-code-token-parameter: seashell;
+    --astro-code-token-function: dodgerblue;
+    --astro-code-token-string-expression: burlywood;
+    --astro-code-token-punctuation: linen;
+    --astro-code-token-link: honeydew;
+  }
+</style>
+```
+
+And that's it! All code block syntax highlighting will now use our CSS
+Variables.
+
+[shiki]: https://shiki.matsu.io/
+[astro-remark-shiki]:
+  https://github.com/withastro/astro/blob/main/packages/integrations/mdx/src/remark-shiki.ts
+[astro-mdx]: https://docs.astro.build/en/guides/integrations-guide/mdx/

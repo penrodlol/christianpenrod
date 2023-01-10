@@ -43,6 +43,13 @@ declare module 'astro:content' {
 
 	const entryMap: {
 		"posts": {
+"astro-shiki-syntax-highlighter-with-css-variables.mdx": {
+  id: "astro-shiki-syntax-highlighter-with-css-variables.mdx",
+  slug: "astro-shiki-syntax-highlighter-with-css-variables",
+  body: string,
+  collection: "posts",
+  data: InferEntrySchema<"posts">
+},
 "developing-browser-extensions-with-nextjs.mdx": {
   id: "developing-browser-extensions-with-nextjs.mdx",
   slug: "developing-browser-extensions-with-nextjs",
