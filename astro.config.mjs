@@ -9,7 +9,7 @@ import { toString } from 'mdast-util-to-string';
 import readingtime from 'reading-time';
 
 export default defineConfig({
-  site: 'https://www.christianpenrod.com',
+  site: 'https://christianpenrod.com',
   markdown: {
     extendDefaultPlugins: true,
     shikiConfig: { theme: 'css-variables' },
@@ -25,8 +25,8 @@ export default defineConfig({
     tailwind(),
     mdx(),
     preact(),
-    sitemap(),
     image({ serviceEntryPoint: '@astrojs/image/sharp' }),
+    sitemap({ changefreq: 'daily', lastmod: new Date() }),
     robotsTxt({
       host: true,
       policy: [{ userAgent: '*', disallow: ['/api', '/404'] }],
