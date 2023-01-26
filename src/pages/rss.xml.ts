@@ -6,7 +6,7 @@ export const get: APIRoute = async () => {
   const posts = await getCollection('posts');
 
   return rss({
-    title: 'Blog | Christian Penrod',
+    title: "Christian Penrod's Blog",
     description: 'A blog tailoring to Web Development.',
     site: import.meta.env.SITE,
     items: posts.map((post) => ({

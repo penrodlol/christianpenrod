@@ -25,7 +25,7 @@ type Post = CollectionEntry<'posts'>;
 type Props = { post: Post; prev: Post; next: Post };
 
 const { post, prev, next } = Astro.props;
-const { Content, injectedFrontmatter } = await post.render();
+const { Content } = await post.render();
 ---
 
 <Layout
@@ -42,7 +42,7 @@ const { Content, injectedFrontmatter } = await post.render();
       </div>
       <div class="flex items-center gap-2">
         <Clock class="w-5 h-5 stroke-brand-2" />
-        <span>{injectedFrontmatter.readingTime} Min Read</span>
+        <!-- <span>{remarkPluginFrontmatter.readingTime}</span> -->
       </div>
     </div>
     <div class="my-8 h-1 rounded-md bg-2"></div>
