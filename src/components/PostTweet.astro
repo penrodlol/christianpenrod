@@ -4,14 +4,16 @@ import { Twitter } from 'lucide-preact';
 
 type Props = { post: CollectionEntry<'posts'> };
 
-const url = new URL('https://twitter.com/intent/tweet');
-url.searchParams.append('text', Astro.props.post.data.title);
-url.searchParams.append('url', `${Astro.site}blog/${Astro.props.post.slug}`);
-url.searchParams.append('via', import.meta.env.USERNAME);
+const { slug, data } = Astro.props.post;
+const href = new URL('https://twitter.com/intent/tweet');
+
+href.searchParams.append('text', data.title);
+href.searchParams.append('url', String(new URL(`blog/${slug}`, Astro.site)));
+href.searchParams.append('via', import.meta.env.USERNAME);
 ---
 
 <a
-  href={url}
+  href={href}
   target="_blank"
   rel="nofollow noopener noreferrer"
   aria-label="Share on Twitter"
