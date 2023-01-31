@@ -38,7 +38,7 @@ const posts = (await getCollection('posts'))
               before:absolute before:inset-0 before:rounded-full before:bg-2`}
     >
       <Picture
-        src={import('@public/me.webp')}
+        src={import('@public/me.webp') as unknown as ImageMetadata}
         alt="A picture of me"
         widths={[250, 320, 2048]}
         sizes="(min-width: 1024px) 320px, 250px"
