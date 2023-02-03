@@ -4,7 +4,6 @@ import Date from '@components/Date.astro';
 import GithubCard from '@components/GithubCard.astro';
 import PostSubheader from '@components/PostSubheader.astro';
 import PostTweet from '@components/PostTweet.astro';
-import PostViews from '@components/PostViews.astro';
 import Layout from '@layouts/Layout.astro';
 import { CollectionEntry, getCollection } from 'astro:content';
 import { ArrowLeft, ArrowRight, Calendar, Clock } from 'lucide-preact';
@@ -50,7 +49,7 @@ const { Content, remarkPluginFrontmatter } = await post.render();
       <Content components={{ a: Anchor, h2: PostSubheader }} />
       {post.data.repo && <GithubCard repo={post.data.repo} />}
       <div class="flex flex-wrap items-center justify-between gap-2">
-        <PostViews slug={post.slug} />
+        <!-- <PostViews slug={post.slug} /> -->
         <PostTweet post={post} />
       </div>
       <div class="h-1 rounded-md bg-2"></div>
@@ -68,7 +67,7 @@ const { Content, remarkPluginFrontmatter } = await post.render();
   </article>
 </Layout>
 
-<style lang="scss" is:global>
+<!-- <style lang="scss" is:global>
   article {
     em {
       @apply tracking-wider;
@@ -106,4 +105,4 @@ const { Content, remarkPluginFrontmatter } = await post.render();
       }
     }
   }
-</style>
+</style> -->
