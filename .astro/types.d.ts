@@ -67,8 +67,8 @@ declare module 'astro:content' {
 
 	const entryMap: {
 		"posts": {
-"astro-shiki-syntax-highlighting-with-css-variables.md": {
-  id: "astro-shiki-syntax-highlighting-with-css-variables.md",
+"astro-shiki-syntax-highlighting-with-css-variables.mdx": {
+  id: "astro-shiki-syntax-highlighting-with-css-variables.mdx",
   slug: "astro-shiki-syntax-highlighting-with-css-variables",
   body: string,
   collection: "posts",

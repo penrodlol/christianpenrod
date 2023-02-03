@@ -23,6 +23,7 @@ export const getStaticPaths = async () => {
 type Post = CollectionEntry<'posts'>;
 type Props = { post: Post; prev: Post; next: Post };
 
+const components = { a: Anchor, h2: PostSubheader };
 const { post, prev, next } = Astro.props;
 const { Content, remarkPluginFrontmatter } = await post.render();
 ---
@@ -46,7 +47,7 @@ const { Content, remarkPluginFrontmatter } = await post.render();
     </div>
     <div class="my-8 h-1 rounded-md bg-2"></div>
     <div class="flex flex-col gap-12">
-      <Content components={{ a: Anchor, h2: PostSubheader }} />
+      <Content components={components} />
       {post.data.repo && <GithubCard repo={post.data.repo} />}
       <div class="flex flex-wrap items-center justify-between gap-2">
         <!-- <PostViews slug={post.slug} /> -->
