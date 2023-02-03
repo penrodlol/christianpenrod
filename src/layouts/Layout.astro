@@ -5,7 +5,7 @@ import '@fontsource/nunito/800.css';
 
 type Props = { title?: string; description?: string; og?: string };
 
-// const favicon = await import('@public/favicon.svg?raw');
+const favicon = await import('@public/favicon.svg?raw');
 const {
   title = 'Christian Penrod | Front-End Web Developer',
   description = 'Developing for the web since 2015, based in Pittsburgh PA.',
@@ -14,7 +14,7 @@ const {
 ---
 
 <!DOCTYPE html>
-<html lang="en" class="bg-1 font-sans font-extrabold tracking-wide text-2">
+<html lang="en">
   <head>
     <title>{title}</title>
     <meta charset="utf-8" />
@@ -38,12 +38,13 @@ const {
     <link href={new URL(Astro.url.pathname, Astro.site)} rel="canonical" />
   </head>
   <body
-    class={`mx-auto flex min-h-screen max-w-screen-lg flex-col text-base
-            px-fluid-4 selection:bg-brand-1 selection:bg-opacity-25`}
+    class={`mx-auto flex min-h-screen max-w-screen-lg flex-col bg-1 font-sans
+            font-extrabold tracking-wide text-2 text-base px-fluid-4
+            selection:bg-brand-1 selection:bg-opacity-25`}
   >
     <header class="flex items-center gap-4 py-4 text-sm">
       <a href="/" class="mr-auto h-10 w-10 md:mr-8" aria-label="Home">
-        <!-- <Fragment set:html={favicon.default} aria-hidden /> -->
+        <Fragment set:html={favicon.default} aria-hidden />
       </a>
       <Anchor href="/blog">Blog</Anchor>
       <Anchor href="/career">Career</Anchor>
