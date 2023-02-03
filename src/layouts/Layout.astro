@@ -1,11 +1,10 @@
 ---
-import Anchor from '@components/Anchor.astro';
 import '@fontsource/nunito/600.css';
 import '@fontsource/nunito/800.css';
 
 type Props = { title?: string; description?: string; og?: string };
 
-const favicon = await import('@public/favicon.svg?raw');
+// const favicon = await import('@public/favicon.svg?raw');
 const {
   title = 'Christian Penrod | Front-End Web Developer',
   description = 'Developing for the web since 2015, based in Pittsburgh PA.',
@@ -42,7 +41,7 @@ const {
             font-extrabold tracking-wide text-2 text-base px-fluid-4
             selection:bg-brand-1 selection:bg-opacity-25`}
   >
-    <header class="flex items-center gap-4 py-4 text-sm">
+    <!-- <header class="flex items-center gap-4 py-4 text-sm">
       <a href="/" class="mr-auto h-10 w-10 md:mr-8" aria-label="Home">
         <Fragment set:html={favicon.default} aria-hidden />
       </a>
@@ -50,14 +49,14 @@ const {
       <Anchor href="/career">Career</Anchor>
       <Anchor href={import.meta.env.GITHUB_PROFILE} nostyle>Github</Anchor>
       <Anchor href={`mailto:${import.meta.env.EMAIL}`}>Email</Anchor>
-    </header>
+    </header> -->
     <main class="mb-fluid-5 flex-1"><slot /></main>
-    <footer class="self-center p-2 text-center text-1 text-sm">
+    <!-- <footer class="self-center p-2 text-center text-1 text-sm">
       <p>Created by: Christian Penrod ©{new Date().getUTCFullYear()}</p>
       <p>
         Built with: <Anchor href="https://docs.astro.build">Astro</Anchor>
         on <Anchor href="https://netlify.com/docs">Netlify</Anchor>
       </p>
-    </footer>
+    </footer> -->
   </body>
 </html>
