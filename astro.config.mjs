@@ -11,7 +11,6 @@ import readingtime from 'reading-time';
 export default defineConfig({
   site: 'https://christianpenrod.com',
   markdown: {
-    extendDefaultPlugins: true,
     shikiConfig: { theme: 'css-variables' },
     rehypePlugins: [
       () =>
@@ -32,5 +31,4 @@ export default defineConfig({
       policy: [{ userAgent: '*', disallow: ['/api', '/404'] }],
     }),
   ],
-  experimental: { contentCollections: true },
 });
