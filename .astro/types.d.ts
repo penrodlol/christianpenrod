@@ -74,6 +74,34 @@ declare module 'astro:content' {
   collection: "posts",
   data: InferEntrySchema<"posts">
 },
+"developing-browser-extensions-with-nextjs.mdx": {
+  id: "developing-browser-extensions-with-nextjs.mdx",
+  slug: "developing-browser-extensions-with-nextjs",
+  body: string,
+  collection: "posts",
+  data: InferEntrySchema<"posts">
+},
+"hyper-terminal-and-its-arsenal-of-plugins.mdx": {
+  id: "hyper-terminal-and-its-arsenal-of-plugins.mdx",
+  slug: "hyper-terminal-and-its-arsenal-of-plugins",
+  body: string,
+  collection: "posts",
+  data: InferEntrySchema<"posts">
+},
+"local-state-with-ngrx-and-apollo-angular.mdx": {
+  id: "local-state-with-ngrx-and-apollo-angular.mdx",
+  slug: "local-state-with-ngrx-and-apollo-angular",
+  body: string,
+  collection: "posts",
+  data: InferEntrySchema<"posts">
+},
+"tailwindcss-responsive-design-without-breakpoints.mdx": {
+  id: "tailwindcss-responsive-design-without-breakpoints.mdx",
+  slug: "tailwindcss-responsive-design-without-breakpoints",
+  body: string,
+  collection: "posts",
+  data: InferEntrySchema<"posts">
+},
 },
 "roles": {
 "laroche.md": {

@@ -7,7 +7,7 @@ import Layout from '@layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { ArrowRight } from 'lucide-preact';
 
-const repos = ['fizzbuzzopedia', 'geoguessr-clone'];
+const repos = ['feedjoy', 'geoguessr-clone'];
 const posts = (await getCollection('posts'))
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
   .slice(0, 2);
