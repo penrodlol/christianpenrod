@@ -4,9 +4,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: { sans: ['Nunito', 'system-ui'] },
-      textColor: { 1: '#a6adc8', 2: '#cdd6f4' },
-      backgroundColor: { 1: '#181926', 2: '#232634' },
-      colors: { brand: { 1: '#7287fd', 2: '#99a8ff' } },
+      textColor: { 1: '#fafafa', 2: '#b5b4b4' },
+      backgroundColor: { 1: '#111', 2: '#222' },
+      colors: { brand: '#999eb2' },
       spacing: {
         'fluid-1': 'clamp(0.25rem, calc(-0.09rem + 1.71vw), 1.13rem)',
         'fluid-2': 'clamp(0.5rem, calc(0.11rem + 1.95vw), 1.5rem)',
@@ -29,10 +29,10 @@ module.exports = {
         // https://github.com/tobiastimm/raiju/blob/master/themes/raiju-dark-noitalic.json
         ':root': {
           '--astro-code-color-text': theme('textColor.2'),
-          '--astro-code-color-background': 'hsl(231.4, 20%, 6.9%)',
+          '--astro-code-color-background': '#040404',
           '--astro-code-token-constant': '#cbb1f3',
           '--astro-code-token-string': '#ceb3f7',
-          '--astro-code-token-comment': theme('textColor.1'),
+          '--astro-code-token-comment': theme('textColor.2'),
           '--astro-code-token-keyword': '#8d9ad1',
           '--astro-code-token-parameter': '#d7e2ff',
           '--astro-code-token-function': '#d7e2ff',

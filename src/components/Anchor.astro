@@ -6,9 +6,9 @@ type Props = HTMLAttributes<'a'> & { nostyle?: boolean };
 
 const { href, target, nostyle, ...props } = Astro.props;
 const external = String(href).startsWith('https://');
-const externalStyles = `text-brand-1 hover:after:absolute hover:after:right-0 hover:after:left-0 
+const externalStyles = `text-brand hover:after:absolute hover:after:right-0 hover:after:left-0 
                         hover:after:bottom-[2px] hover:after:rounded-md hover:after:border-t-[0.2rem] 
-                        hover:after:border-solid hover:after:border-brand-2 hover:after:content-[""]`;
+                        hover:after:border-solid hover:after:border-brand hover:after:content-[""]`;
 ---
 
 <a
@@ -17,7 +17,7 @@ const externalStyles = `text-brand-1 hover:after:absolute hover:after:right-0 ho
   target={external ? '_blank' : target}
   rel={external ? 'nofollow noopener noreferrer' : target}
   class={`cursor-pointer relative inline-flex items-center gap-1 rounded-sm no-underline
-          hover:text-brand-1 focus-visible:text-brand-2
+          hover:text-brand focus-visible:text-brand
           ${external && !nostyle ? externalStyles : ''}}`}
 >
   <span><slot /></span>
