@@ -35,13 +35,13 @@ const { Content, remarkPluginFrontmatter } = await post.render();
 >
   <article class="mx-auto mt-fluid-3 max-w-screen-sm">
     <h1 class="mb-fluid-2 text-3xl">{post.data.title}</h1>
-    <div class="flex gap-8 text-1">
+    <div class="flex gap-8 text-2">
       <div class="flex items-center gap-2">
-        <Calendar class="w-5 h-5 stroke-brand-2" />
+        <Calendar class="w-5 h-5 stroke-brand" />
         <Date>{post.data.published}</Date>
       </div>
       <div class="flex items-center gap-2">
-        <Clock class="w-5 h-5 stroke-brand-2" />
+        <Clock class="w-5 h-5 stroke-brand" />
         <span>{remarkPluginFrontmatter.readingTime} Min Read</span>
       </div>
     </div>
@@ -56,12 +56,12 @@ const { Content, remarkPluginFrontmatter } = await post.render();
       <div class="h-1 rounded-md bg-2"></div>
       <div class="flex justify-between gap-10">
         <a href={`/blog/${prev.slug}`} class="group flex gap-4">
-          <ArrowLeft class="w-8 h-8 shrink-0 stroke-brand-1" aria-hidden />
-          <span class="group-hover:text-brand-2">{prev.data.title}</span>
+          <ArrowLeft class="w-8 h-8 shrink-0 stroke-brand" aria-hidden />
+          <span class="group-hover:text-brand">{prev.data.title}</span>
         </a>
         <a href={`/blog/${next.slug}`} class="group flex gap-4 text-right">
-          <span class="group-hover:text-brand-2">{next.data.title}</span>
-          <ArrowRight class="w-8 h-8 shrink-0 stroke-brand-1" aria-hidden />
+          <span class="group-hover:text-brand">{next.data.title}</span>
+          <ArrowRight class="w-8 h-8 shrink-0 stroke-brand" aria-hidden />
         </a>
       </div>
     </div>
@@ -91,18 +91,18 @@ const { Content, remarkPluginFrontmatter } = await post.render();
     }
 
     blockquote {
-      @apply rounded-md border-l-8 border-l-brand-2 bg-2 p-4 font-semibold shadow;
+      @apply rounded-md border-l-8 border-l-brand bg-2 p-4 font-semibold shadow;
     }
 
     details {
       @apply my-2 rounded-md bg-2 p-4 shadow;
 
       &[open] summary {
-        @apply text-brand-1;
+        @apply text-brand;
       }
 
       summary {
-        @apply cursor-pointer hover:text-brand-1;
+        @apply cursor-pointer hover:text-brand;
       }
     }
   }

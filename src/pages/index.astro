@@ -17,7 +17,7 @@ const posts = (await getCollection('posts'))
   <section class="mt-fluid-5 flex justify-between gap-fluid-4">
     <div>
       <h1 class="text-5xl">Hi, I'm Christian</h1>
-      <h2 class="text-1 text-2xl">Front-End Web Developer</h2>
+      <h2 class="text-2 text-2xl">Front-End Web Developer</h2>
       <ul class="mt-fluid-4 flex flex-col gap-fluid-1">
         <li class="flex flex-wrap items-center gap-x-2">
           <ArrowRight class="shrink-0" /> Web Developer
@@ -33,7 +33,7 @@ const posts = (await getCollection('posts'))
       </ul>
     </div>
     <div
-      class={`relative rounded-full ring-2 ring-brand-2 ring-opacity-50
+      class={`relative rounded-full ring-2 ring-brand ring-opacity-50
               w-[250px] h-[250px] lg:h-[320px] lg:w-[320px] md:block hidden
               before:absolute before:inset-0 before:rounded-full before:bg-2`}
     >
@@ -48,7 +48,7 @@ const posts = (await getCollection('posts'))
   </section>
   <div class="my-fluid-4 mx-auto h-1 w-10/12 rounded-md bg-2"></div>
   <section class="flex flex-col gap-fluid-2">
-    <h3 class="text-1 text-xl">Projects</h3>
+    <h3 class="text-2 text-xl">Projects</h3>
     <!-- prettier-ignore -->
     <ul class="grid gap-fluid-4 lg:grid-cols-2">
       {repos.map((repo) => <li><GithubCard repo={repo} /></li>)}
@@ -56,14 +56,14 @@ const posts = (await getCollection('posts'))
   </section>
   <div class="my-fluid-4 mx-auto h-1 w-10/12 rounded-md bg-2"></div>
   <section class="flex flex-col gap-fluid-2">
-    <h3 class="text-1 text-xl">Recent Posts</h3>
+    <h3 class="text-2 text-xl">Recent Posts</h3>
     <!-- prettier-ignore -->
     <ul class="grid gap-fluid-4 lg:grid-cols-2">
       {posts.map((post) => <li><PostCard post={post} /></li>)}
     </ul>
-    <a href="/blog" class="group flex items-center gap-2 self-end text-1">
-      <span class="text-sm group-hover:text-brand-2">View All Posts</span>
-      <ArrowRight aria-hidden class="stroke-brand-1 shrink-0" />
+    <a href="/blog" class="group flex items-center gap-2 self-end">
+      <span class="text-sm group-hover:text-brand">View All Posts</span>
+      <ArrowRight aria-hidden class="stroke-brand shrink-0" />
     </a>
   </section>
 </Layout>

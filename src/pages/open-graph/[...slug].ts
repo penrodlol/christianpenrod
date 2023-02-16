@@ -11,19 +11,19 @@ export const { getStaticPaths, get } = OGImageRoute({
       title: post.frontmatter.title,
       description: `\n\n\n\n${published}        ${readingTime}`,
       logo: { path: './public/og-banner.webp', size: [300] },
-      bgGradient: [[24, 25, 38]],
-      border: { color: [153, 168, 255], width: 20 },
+      bgGradient: [[17, 17, 17]],
+      border: { color: [166, 173, 200], width: 20 },
       font: {
         title: {
           families: ['Nunito'],
           size: 70,
-          color: [153, 168, 255],
+          color: [166, 173, 200],
           weight: 'ExtraBold',
         },
         description: {
           families: ['Nunito'],
           size: 30,
-          color: [166, 173, 200],
+          color: [181, 180, 180],
           weight: 'SemiBold',
         },
       },
