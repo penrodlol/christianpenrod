@@ -14,7 +14,7 @@
     "@fontsource/nunito": "^4.5.12",
     "@netlify/functions": "^1.4.0",
     "@netlify/planetscale": "^1.0.0",
-    "astro": "^2.0.12"
+    "astro": "^2.0.14"
   },
   "devDependencies": {
     "@astrojs/image": "^0.15.0",
