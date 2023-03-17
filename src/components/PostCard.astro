@@ -14,9 +14,9 @@ const { post } = Astro.props;
           hover:outline-2 hover:outline hover:outline-brand
           hover:outline-offset-4`}
 >
-  <span class="text-brand text-base">{post.data.title}</span>
-  <p class="font-semibold text-sm">{post.data.description}</p>
-  <div class="mt-auto pt-4 font-semibold text-1 text-xs">
+  <span class="font-normal text-brand text-base">{post.data.title}</span>
+  <p class="text-sm">{post.data.description}</p>
+  <div class="mt-auto pt-4 text-1 text-xs">
     <Date>{post.data.published}</Date>
   </div>
 </a>

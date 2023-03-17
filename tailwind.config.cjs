@@ -3,7 +3,7 @@ module.exports = {
   content: ['./src/**/*.{astro,mdx,tsx}'],
   theme: {
     extend: {
-      fontFamily: { sans: ['Nunito', 'system-ui'] },
+      fontFamily: { sans: ['Outfit', 'system-ui'] },
       textColor: { 1: '#fafafa', 2: '#b5b4b4' },
       backgroundColor: { 1: '#111', 2: '#222' },
       colors: { brand: '#999eb2' },
