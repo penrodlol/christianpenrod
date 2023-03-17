@@ -511,10 +511,10 @@
   resolved "https://registry.yarnpkg.com/@esbuild/win32-x64/-/win32-x64-0.16.17.tgz#c5a1a4bfe1b57f0c3e61b29883525c6da3e5c091"
   integrity sha512-y+EHuSchhL7FjHgvQL/0fnnFmO4T1bhvWANX6gcnqTjtnKWbTvUMCpGnv2+t+31d7RzyEAYAd4u2fnIhHL6N/Q==
 
-"@fontsource/nunito@^4.5.12":
-  version "4.5.12"
-  resolved "https://registry.yarnpkg.com/@fontsource/nunito/-/nunito-4.5.12.tgz#3d34ede8677a57e1d25e9b30d9e57d620592ca3d"
-  integrity sha512-Li90TCJha1E+nBgP51GjcIGV6LxyQi7QisW8KZ4kpz5mpnQc1HmsJWVr9fyTMItUF/OuZUOfEazenXjaY6qRpQ==
+"@fontsource/outfit@^4.5.11":
+  version "4.5.11"
+  resolved "https://registry.yarnpkg.com/@fontsource/outfit/-/outfit-4.5.11.tgz#1831945715231ad83ef75d49fb0b7bbdb9d972dd"
+  integrity sha512-msPqJLLmSyWj/YtJknO75RjoTHIep6mDjnDO5IrZUJea31bO4s1QCuepG54LsmMXLKs+gp603nPM8/SUv5ZgSg==
 
 "@jridgewell/gen-mapping@^0.1.0":
   version "0.1.1"

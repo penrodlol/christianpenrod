@@ -15,21 +15,21 @@ export const { getStaticPaths, get } = OGImageRoute({
       border: { color: [166, 173, 200], width: 20 },
       font: {
         title: {
-          families: ['Nunito'],
+          families: ['Outfit'],
           size: 70,
           color: [166, 173, 200],
-          weight: 'ExtraBold',
+          weight: 'Normal',
         },
         description: {
-          families: ['Nunito'],
+          families: ['Outfit'],
           size: 30,
           color: [181, 180, 180],
-          weight: 'SemiBold',
+          weight: 'Light',
         },
       },
       fonts: [
-        'https://api.fontsource.org/v1/fonts/nunito/latin-800-normal.ttf',
-        'https://api.fontsource.org/v1/fonts/nunito/latin-600-normal.ttf',
+        'https://api.fontsource.org/v1/fonts/outfit/latin-400-normal.ttf',
+        'https://api.fontsource.org/v1/fonts/outfit/latin-300-normal.ttf',
       ],
     };
   },
