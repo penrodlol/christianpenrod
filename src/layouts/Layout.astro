@@ -50,7 +50,7 @@ const {
       <Anchor href={import.meta.env.GITHUB_PROFILE} nostyle>Github</Anchor>
       <Anchor href={`mailto:${import.meta.env.EMAIL}`}>Email</Anchor>
     </header>
-    <main class="mb-fluid-5 flex-1"><slot /></main>
+    <main class="mb-fluid-5 flex-1 motion-safe:animate-fade-in"><slot /></main>
     <footer class="self-center p-2 text-center text-2 text-sm">
       <p>Created by: Christian Penrod ©{new Date().getUTCFullYear()}</p>
       <p>

@@ -1,7 +1,34 @@
 declare module 'astro:content' {
+	interface Render {
+		'.mdx': Promise<{
+			Content: import('astro').MarkdownInstance<{}>['Content'];
+			headings: import('astro').MarkdownHeading[];
+			remarkPluginFrontmatter: Record<string, any>;
+		}>;
+	}
+}
+
+declare module 'astro:content' {
+	interface Render {
+		'.md': Promise<{
+			Content: import('astro').MarkdownInstance<{}>['Content'];
+			headings: import('astro').MarkdownHeading[];
+			remarkPluginFrontmatter: Record<string, any>;
+		}>;
+	}
+}
+
+declare module 'astro:content' {
 	export { z } from 'astro/zod';
 	export type CollectionEntry<C extends keyof typeof entryMap> =
-		(typeof entryMap)[C][keyof (typeof entryMap)[C]] & Render;
+		(typeof entryMap)[C][keyof (typeof entryMap)[C]];
+
+	export const image: () => import('astro/zod').ZodObject<{
+		src: import('astro/zod').ZodString;
+		width: import('astro/zod').ZodNumber;
+		height: import('astro/zod').ZodNumber;
+		format: import('astro/zod').ZodString;
+	}>;
 
 	type BaseSchemaWithoutEffects =
 		| import('astro/zod').AnyZodObject
@@ -57,14 +84,6 @@ declare module 'astro:content' {
 		Required<ContentConfig['collections'][C]>['schema']
 	>;
 
-	type Render = {
-		render(): Promise<{
-			Content: import('astro').MarkdownInstance<{}>['Content'];
-			headings: import('astro').MarkdownHeading[];
-			remarkPluginFrontmatter: Record<string, any>;
-		}>;
-	};
-
 	const entryMap: {
 		"posts": {
 "astro-shiki-syntax-highlighting-with-css-variables.mdx": {
@@ -73,35 +92,35 @@ declare module 'astro:content' {
   body: string,
   collection: "posts",
   data: InferEntrySchema<"posts">
-},
+} & { render(): Render[".mdx"] },
 "developing-browser-extensions-with-nextjs.mdx": {
   id: "developing-browser-extensions-with-nextjs.mdx",
   slug: "developing-browser-extensions-with-nextjs",
   body: string,
   collection: "posts",
   data: InferEntrySchema<"posts">
-},
+} & { render(): Render[".mdx"] },
 "hyper-terminal-and-its-arsenal-of-plugins.mdx": {
   id: "hyper-terminal-and-its-arsenal-of-plugins.mdx",
   slug: "hyper-terminal-and-its-arsenal-of-plugins",
   body: string,
   collection: "posts",
   data: InferEntrySchema<"posts">
-},
+} & { render(): Render[".mdx"] },
 "local-state-with-ngrx-and-apollo-angular.mdx": {
   id: "local-state-with-ngrx-and-apollo-angular.mdx",
   slug: "local-state-with-ngrx-and-apollo-angular",
   body: string,
   collection: "posts",
   data: InferEntrySchema<"posts">
-},
+} & { render(): Render[".mdx"] },
 "tailwindcss-responsive-design-without-breakpoints.mdx": {
   id: "tailwindcss-responsive-design-without-breakpoints.mdx",
   slug: "tailwindcss-responsive-design-without-breakpoints",
   body: string,
   collection: "posts",
   data: InferEntrySchema<"posts">
-},
+} & { render(): Render[".mdx"] },
 },
 "roles": {
 "laroche.md": {
@@ -110,14 +129,14 @@ declare module 'astro:content' {
   body: string,
   collection: "roles",
   data: InferEntrySchema<"roles">
-},
+} & { render(): Render[".md"] },
 "mckesson.md": {
   id: "mckesson.md",
   slug: "mckesson",
   body: string,
   collection: "roles",
   data: InferEntrySchema<"roles">
-},
+} & { render(): Render[".md"] },
 },
 
 	};

@@ -3,7 +3,8 @@ module.exports = {
   content: ['./src/**/*.{astro,mdx,tsx}'],
   theme: {
     extend: {
-      fontFamily: { sans: ['Outfit', 'system-ui'] },
+      // prettier-ignore
+      fontFamily: { sans: ['Outfit', ...require('tailwindcss/defaultTheme').fontFamily.sans] },
       textColor: { 1: '#fafafa', 2: '#b5b4b4' },
       backgroundColor: { 1: '#111', 2: '#222' },
       colors: { brand: '#999eb2' },
@@ -16,10 +17,10 @@ module.exports = {
         'fluid-6': 'clamp(2rem, calc(0.44rem + 7.8vw), 6rem)',
         'fluid-7': 'clamp(3rem, calc(0.66rem + 11.71vw), 9rem)',
       },
-      boxShadow: {
-        DEFAULT:
-          '0 3px 5px -1px rgba(0,0,0,.2), 0 5px 8px 0 rgba(0,0,0,.14), 0 1px 14px 0 rgba(0,0,0,.12)',
-      },
+      // prettier-ignore
+      boxShadow: { DEFAULT: '0 3px 5px -1px rgba(0,0,0,.2), 0 5px 8px 0 rgba(0,0,0,.14), 0 1px 14px 0 rgba(0,0,0,.12)' },
+      animation: { 'fade-in': 'fade-in 0.2s ease-in-out' },
+      keyframes: { 'fade-in': { from: { opacity: 0 }, to: { opacity: 1 } } },
     },
   },
   plugins: [
