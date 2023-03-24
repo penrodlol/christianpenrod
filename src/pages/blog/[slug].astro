@@ -37,11 +37,11 @@ const { Content, remarkPluginFrontmatter } = await post.render();
     <h1 class="mb-fluid-2 text-3xl">{post.data.title}</h1>
     <div class="flex gap-8 text-2">
       <div class="flex items-center gap-2">
-        <Calendar class="w-5 h-5 stroke-brand" />
+        <Calendar class="h-5 w-5 stroke-brand" />
         <Date>{post.data.published}</Date>
       </div>
       <div class="flex items-center gap-2">
-        <Clock class="w-5 h-5 stroke-brand" />
+        <Clock class="h-5 w-5 stroke-brand" />
         <span>{remarkPluginFrontmatter.readingTime} Min Read</span>
       </div>
     </div>
@@ -56,12 +56,12 @@ const { Content, remarkPluginFrontmatter } = await post.render();
       <div class="h-1 rounded-md bg-2"></div>
       <div class="flex justify-between gap-10">
         <a href={`/blog/${prev.slug}`} class="group flex gap-4">
-          <ArrowLeft class="w-8 h-8 shrink-0 stroke-brand" aria-hidden />
+          <ArrowLeft class="h-8 w-8 shrink-0 stroke-brand" aria-hidden />
           <span class="group-hover:text-brand">{prev.data.title}</span>
         </a>
         <a href={`/blog/${next.slug}`} class="group flex gap-4 text-right">
           <span class="group-hover:text-brand">{next.data.title}</span>
-          <ArrowRight class="w-8 h-8 shrink-0 stroke-brand" aria-hidden />
+          <ArrowRight class="h-8 w-8 shrink-0 stroke-brand" aria-hidden />
         </a>
       </div>
     </div>

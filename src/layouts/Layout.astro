@@ -5,7 +5,7 @@ import '@fontsource/outfit/400.css';
 
 type Props = { title?: string; description?: string; og?: string };
 
-const logo = await import('@public/logo.svg?raw');
+const favicon = await import('@public/favicon.svg?raw');
 const {
   title = 'Christian Penrod | Front-End Web Developer',
   description = 'Developing for the web since 2015, based in Pittsburgh PA.',
@@ -42,8 +42,8 @@ const {
             selection:bg-brand selection:bg-opacity-25`}
   >
     <header class="flex items-center gap-4 py-4 text-sm">
-      <a href="/" class="mr-auto h-10 w-16 md:mr-4" aria-label="Home">
-        <Fragment set:html={logo.default} aria-hidden />
+      <a href="/" class="mr-auto h-8 w-8 md:mr-4" aria-label="Home">
+        <Fragment set:html={favicon.default} aria-hidden />
       </a>
       <Anchor href="/blog">Blog</Anchor>
       <Anchor href="/career">Career</Anchor>

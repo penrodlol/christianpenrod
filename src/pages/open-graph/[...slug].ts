@@ -10,20 +10,20 @@ export const { getStaticPaths, get } = OGImageRoute({
     return {
       title: post.frontmatter.title,
       description: `\n\n\n\n${published}        ${readingTime}`,
-      logo: { path: './public/og-banner.webp', size: [300] },
+      logo: { path: './public/favicon.webp', size: [80] },
       bgGradient: [[17, 17, 17]],
-      border: { color: [166, 173, 200], width: 20 },
+      border: { color: [237, 241, 255], width: 20 },
       font: {
         title: {
           families: ['Outfit'],
           size: 70,
-          color: [166, 173, 200],
+          color: [237, 241, 255],
           weight: 'Normal',
         },
         description: {
           families: ['Outfit'],
           size: 30,
-          color: [181, 180, 180],
+          color: [151, 151, 151],
           weight: 'Light',
         },
       },

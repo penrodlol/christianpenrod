@@ -5,9 +5,9 @@ module.exports = {
     extend: {
       // prettier-ignore
       fontFamily: { sans: ['Outfit', ...require('tailwindcss/defaultTheme').fontFamily.sans] },
-      textColor: { 1: '#fafafa', 2: '#b5b4b4' },
+      textColor: { 1: '#DBDBDB', 2: '#979797' },
       backgroundColor: { 1: '#111', 2: '#222' },
-      colors: { brand: '#999eb2' },
+      colors: { brand: '#EDF1FF' },
       spacing: {
         'fluid-1': 'clamp(0.25rem, calc(-0.09rem + 1.71vw), 1.13rem)',
         'fluid-2': 'clamp(0.5rem, calc(0.11rem + 1.95vw), 1.5rem)',
