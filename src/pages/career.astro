@@ -17,13 +17,13 @@ const roles = await getCollection('roles').then(async (roles) =>
 
 <Layout title="Career | Christian Penrod">
   <section class="mx-auto mt-fluid-3 flex max-w-screen-sm flex-col gap-fluid-2">
-    <h1 class="text-4xl">Career</h1>
+    <h1 class="text-2xl">Career</h1>
     <div class="flex flex-col gap-8">
       {
         roles.map(({ role, Content }) => (
           <div class="bg-2 rounded-md p-4 shadow">
-            <h2 class="text-brand text-xl font-normal">{role.company}</h2>
-            <div class="text-2 text-base">
+            <h2 class="text-brand text-lg font-normal">{role.company}</h2>
+            <div class="text-2 text-sm">
               <Date>{role.start}</Date> -
               {role.end ? <Date>{role.end}</Date> : 'Present'}
             </div>
@@ -43,12 +43,12 @@ const roles = await getCollection('roles').then(async (roles) =>
 <style lang="scss" is:global>
   [data-role-content] {
     p {
-      @apply mt-3 max-w-[60ch] text-sm;
+      @apply mt-3 max-w-[60ch] text-xs;
     }
 
     h3 {
-      @apply relative mt-6 font-normal text-lg before:absolute before:top-[50%]
-             before:-left-6 before:h-[0.95rem] before:w-[0.95rem] before:translate-y-[-50%]
+      @apply relative mt-6 font-normal before:absolute before:top-[50%] before:-left-6
+             before:h-[0.95rem] before:w-[0.95rem] before:translate-y-[-50%]
              before:translate-x-[-0.215rem] before:rounded-full before:bg-brand before:content-['']
              last-of-type:before:border-[0.2rem] last-of-type:before:border-brand
              last-of-type:before:bg-transparent;

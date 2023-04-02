@@ -9,11 +9,11 @@ const hash = slot.toLowerCase().replace(/ /g, '-');
   <a
     href={`#${hash}`}
     aria-label={slot}
-    class={`absolute left-[-40px] top-1/2 hidden -translate-y-1/2 pr-4
+    class={`absolute left-[-30px] top-1/2 hidden -translate-y-1/2 pr-4
             opacity-0 group-hover:opacity-100 focus-visible:opacity-100
             lg:block`}
   >
-    <Link class="h-7 w-7 stroke-brand" aria-hidden />
+    <Link class="h-5 w-5 stroke-brand" aria-hidden />
   </a>
-  <span id={hash} class="text-brand text-2xl">{slot}</span>
+  <span id={hash} class="text-brand text-xl">{slot}</span>
 </h2>

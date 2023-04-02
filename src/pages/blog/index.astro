@@ -10,7 +10,7 @@ const posts = (await getCollection('posts')).sort(
 
 <Layout title="Blog | Christian Penrod">
   <section class="mx-auto mt-fluid-3 flex max-w-screen-sm flex-col gap-fluid-2">
-    <h1 class="text-4xl">Posts</h1>
+    <h1 class="text-2xl">Posts</h1>
     <!-- prettier-ignore -->
     <ul class="flex flex-col gap-6">
       {posts.map((post) => <li><PostCard post={post} /></li>)}

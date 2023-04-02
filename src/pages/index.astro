@@ -18,7 +18,7 @@ const posts = (await getCollection('posts'))
     <div>
       <h1 class="font-normal text-brand text-5xl">Hi, I'm Christian</h1>
       <h2 class="text-2 text-2xl">Front-End Web Developer</h2>
-      <ul class="mt-fluid-4 flex flex-col gap-fluid-1 font-light">
+      <ul class="mt-fluid-4 flex flex-col gap-2">
         <li class="flex flex-wrap items-center gap-x-2">
           <ArrowRight class="shrink-0" /> Web Developer
           <Anchor href={import.meta.env.JOB}>@McKesson</Anchor>
@@ -34,31 +34,31 @@ const posts = (await getCollection('posts'))
     </div>
     <div
       class={`relative rounded-full ring-2 ring-brand ring-opacity-50
-              w-[250px] h-[250px] lg:h-[320px] lg:w-[320px] md:block hidden
+              w-[210px] h-[210px] md:h-[250px] md:w-[250px] sm:block hidden
               before:absolute before:inset-0 before:rounded-full before:bg-2`}
     >
       <Picture
         src={import('@public/me.webp')}
         alt="A picture of me"
-        widths={[250, 320, 2048]}
-        sizes="(min-width: 1024px) 320px, 250px"
+        widths={[210, 250, 2048]}
+        sizes="(min-width: 768px) 250px, 210px"
         class="relative rounded-full"
       />
     </div>
   </section>
-  <div class="my-fluid-4 mx-auto h-1 w-10/12 rounded-md bg-2"></div>
-  <section class="flex flex-col gap-fluid-2">
-    <h3 class="text-2 text-xl">Projects</h3>
+  <div class="my-fluid-3 mx-auto h-1 w-10/12 rounded-md bg-2"></div>
+  <section class="flex flex-col gap-fluid-1">
+    <h3 class="text-2 text-lg">Projects</h3>
     <!-- prettier-ignore -->
-    <ul class="grid gap-fluid-4 lg:grid-cols-2">
+    <ul class="grid gap-fluid-4 sm:grid-cols-2">
       {repos.map((repo) => <li><GithubCard repo={repo} /></li>)}
     </ul>
   </section>
-  <div class="my-fluid-4 mx-auto h-1 w-10/12 rounded-md bg-2"></div>
-  <section class="flex flex-col gap-fluid-2">
-    <h3 class="text-2 text-xl">Recent Posts</h3>
+  <div class="my-fluid-3 mx-auto h-1 w-10/12 rounded-md bg-2"></div>
+  <section class="flex flex-col gap-fluid-1">
+    <h3 class="text-2 text-lg">Recent Posts</h3>
     <!-- prettier-ignore -->
-    <ul class="grid gap-fluid-4 lg:grid-cols-2">
+    <ul class="grid gap-fluid-4 sm:grid-cols-2">
       {posts.map((post) => <li><PostCard post={post} /></li>)}
     </ul>
     <a href="/blog" class="group flex items-center gap-2 self-end">
