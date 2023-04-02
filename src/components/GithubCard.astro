@@ -16,7 +16,7 @@ const repo = await octokit.repos
   target="_blank"
   rel="nofollow noopener noreferrer"
   aria-label={`Check out the github repo: ${repo.name}. ${repo.description}`}
-  class={`flex h-full gap-1 flex-col rounded-md bg-2 p-4 shadow hover:outline-2
+  class={`flex h-full gap-1 flex-col rounded-md bg-2 p-4 shadow hover:outline-1
           hover:outline hover:outline-brand hover:outline-offset-4`}
 >
   <div class="flex items-center gap-2">
@@ -24,9 +24,9 @@ const repo = await octokit.repos
     <span class="text-brand">{repo.name}</span>
   </div>
   <p class="text-xs">{repo.description}</p>
-  <div class="mt-auto flex items-center gap-6 text-xs">
+  <div class="mt-auto flex items-center gap-4 pt-2 text-2 text-xs">
     <div class="flex items-center gap-2">
-      <div class="h-3 w-3 shrink-0 rounded-full bg-brand"></div>
+      <div class="h-3 w-3 shrink-0 rounded-full bg-current"></div>
       <span>{repo.language}</span>
     </div>
     <div class="flex items-center gap-2">

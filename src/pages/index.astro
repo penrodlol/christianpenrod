@@ -14,7 +14,7 @@ const posts = (await getCollection('posts'))
 ---
 
 <Layout>
-  <section class="mt-fluid-5 flex justify-between gap-fluid-4">
+  <section class="mt-fluid-5 flex justify-between gap-fluid-6">
     <div>
       <h1 class="font-normal text-brand text-5xl">Hi, I'm Christian</h1>
       <h2 class="text-2 text-2xl">Front-End Web Developer</h2>
@@ -46,7 +46,7 @@ const posts = (await getCollection('posts'))
       />
     </div>
   </section>
-  <div class="my-fluid-3 mx-auto h-1 w-10/12 rounded-md bg-2"></div>
+  <div class="mx-auto my-fluid-3 h-1 w-10/12 rounded-md bg-2"></div>
   <section class="flex flex-col gap-fluid-1">
     <h3 class="text-2 text-lg">Projects</h3>
     <!-- prettier-ignore -->
@@ -54,7 +54,7 @@ const posts = (await getCollection('posts'))
       {repos.map((repo) => <li><GithubCard repo={repo} /></li>)}
     </ul>
   </section>
-  <div class="my-fluid-3 mx-auto h-1 w-10/12 rounded-md bg-2"></div>
+  <div class="mx-auto my-fluid-3 h-1 w-10/12 rounded-md bg-2"></div>
   <section class="flex flex-col gap-fluid-1">
     <h3 class="text-2 text-lg">Recent Posts</h3>
     <!-- prettier-ignore -->
