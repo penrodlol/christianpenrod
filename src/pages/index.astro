@@ -34,14 +34,14 @@ const posts = (await getCollection('posts'))
     </div>
     <div
       class={`relative rounded-full ring-2 ring-brand ring-opacity-50
-              w-[210px] h-[210px] md:h-[250px] md:w-[250px] sm:block hidden
+              w-[230px] h-[230px] lg:h-[270px] lg:w-[270px] md:block hidden
               before:absolute before:inset-0 before:rounded-full before:bg-2`}
     >
       <Picture
         src={import('@public/me.webp')}
         alt="A picture of me"
-        widths={[210, 250, 2048]}
-        sizes="(min-width: 768px) 250px, 210px"
+        widths={[230, 270, 2048]}
+        sizes="(min-width: 768px) 270px, 230px"
         class="relative rounded-full"
       />
     </div>
