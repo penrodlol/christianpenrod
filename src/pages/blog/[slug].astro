@@ -34,8 +34,8 @@ const { Content, remarkPluginFrontmatter } = await post.render();
   og={`og/${post.slug}.png`}
 >
   <article class="mx-auto mt-fluid-3 max-w-screen-sm">
-    <h1 class="mb-fluid-1 text-3xl">{post.data.title}</h1>
-    <div class="flex gap-8 text-2">
+    <h1 class="mb-4 text-3xl">{post.data.title}</h1>
+    <div class="flex gap-8 text-2 text-sm">
       <div class="flex items-center gap-2">
         <Calendar class="h-5 w-5 stroke-brand" />
         <Date>{post.data.published}</Date>
