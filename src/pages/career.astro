@@ -1,6 +1,6 @@
 ---
-import Date from '@components/Date.astro';
-import Layout from '@layouts/Layout.astro';
+import Date from '@components/date.astro';
+import Layout from '@layouts/layout.astro';
 import { getCollection } from 'astro:content';
 
 const roles = await getCollection('roles').then(async (roles) =>

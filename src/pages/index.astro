@@ -1,9 +1,9 @@
 ---
 import { Picture } from '@astrojs/image/components';
-import Anchor from '@components/Anchor.astro';
-import GithubCard from '@components/GithubCard.astro';
-import PostCard from '@components/PostCard.astro';
-import Layout from '@layouts/Layout.astro';
+import Anchor from '@components/anchor.astro';
+import GithubCard from '@components/github-card.astro';
+import PostCard from '@components/post-card.astro';
+import Layout from '@layouts/layout.astro';
 import { getCollection } from 'astro:content';
 import { ArrowRight, Minus } from 'lucide-preact';
 
@@ -61,6 +61,7 @@ const posts = (await getCollection('posts'))
     <ul class="grid gap-fluid-4 sm:grid-cols-2">
       {posts.map((post) => <li><PostCard post={post} /></li>)}
     </ul>
+    <span></span>
     <a href="/blog" class="group flex items-center gap-2 self-end">
       <span class="text-xs group-hover:text-brand">View All Posts</span>
       <ArrowRight aria-hidden class="h-4 w-4 shrink-0 stroke-brand" />
