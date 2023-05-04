@@ -50,6 +50,12 @@ const {
       <Anchor href={`mailto:${import.meta.env.EMAIL}`}>Email</Anchor>
     </header>
     <main class="mb-fluid-5 flex-1 motion-safe:animate-fade-in"><slot /></main>
-    <footer></footer>
+    <footer class="p-2 text-center font-1 text-2 text-xs">
+      <p>Created by: Christian Penrod ©{new Date().getUTCFullYear()}</p>
+      <p>
+        Built with: <Anchor href="https://docs.astro.build">Astro</Anchor>
+        on <Anchor href="https://netlify.com/docs">Netlify</Anchor>
+      </p>
+    </footer>
   </body>
 </html>
