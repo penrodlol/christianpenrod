@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { Calendar, Clock } from 'lucide-preact';
+import { Calendar,Clock } from 'lucide-preact';
 import Date from './Date.astro';
 
 type Props = { post: CollectionEntry<'posts'> };
@@ -12,13 +12,12 @@ const { remarkPluginFrontmatter } = await post.render();
 <a
   href={`/blog/${post.slug}`}
   aria-label={`${post.data.title}. ${post.data.description}`}
-  class={`flex h-full flex-col gap-1 rounded-md bg-2 p-4 shadow
-          hover:outline-1 hover:outline hover:outline-brand
-          hover:outline-offset-4`}
+  class={`group flex h-full flex-col gap-1 rounded-md bg-2 p-4 shadow
+          hover:bg-3 duration-200 motion-safe:transition-colors`}
 >
-  <span class="text-brand">{post.data.title}</span>
-  <p class="text-xs">{post.data.description}</p>
-  <div class="mt-auto flex items-center gap-6 pt-4 text-2 text-xs">
+  <span class="group-hover:text-brand">{post.data.title}</span>
+  <p class="font-1 text-2 text-xs">{post.data.description}</p>
+  <div class="mt-auto flex items-center gap-6 pt-4 font-1 text-2 text-xs">
     <div class="flex items-center gap-2">
       <Calendar class="h-4 w-4" aria-hidden />
       <Date>{post.data.published}</Date>

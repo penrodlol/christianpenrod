@@ -12,18 +12,18 @@ export const { getStaticPaths, get } = OGImageRoute({
       description: `\n\n\n\n${published}        ${readingTime}`,
       logo: { path: './public/favicon.webp', size: [80] },
       bgGradient: [[17, 17, 17]],
-      border: { color: [237, 241, 255], width: 20 },
+      border: { color: [212, 212, 216], width: 20 },
       font: {
         title: {
           families: ['Outfit'],
           size: 70,
-          color: [237, 241, 255],
+          color: [255, 255, 255],
           weight: 'Normal',
         },
         description: {
           families: ['Outfit'],
           size: 30,
-          color: [151, 151, 151],
+          color: [161, 161, 170],
           weight: 'Light',
         },
       },

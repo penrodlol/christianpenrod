@@ -35,33 +35,33 @@ const { Content, remarkPluginFrontmatter } = await post.render();
 >
   <article class="mx-auto mt-fluid-3 max-w-screen-sm">
     <h1 class="mb-4 text-3xl">{post.data.title}</h1>
-    <div class="flex gap-8 text-2 text-sm">
+    <div class="flex gap-8 text-2">
       <div class="flex items-center gap-2">
-        <Calendar class="h-5 w-5 stroke-brand" />
+        <Calendar class="h-5 w-5" />
         <Date>{post.data.published}</Date>
       </div>
       <div class="flex items-center gap-2">
-        <Clock class="h-5 w-5 stroke-brand" />
+        <Clock class="h-5 w-5" />
         <span>{remarkPluginFrontmatter.readingTime} Min Read</span>
       </div>
     </div>
-    <div class="mb-10 mt-8 h-1 rounded-md bg-2"></div>
-    <div class="flex flex-col gap-10 text-sm">
+    <div class="mb-10 mt-8 h-0.5 rounded-md bg-2"></div>
+    <div class="flex flex-col gap-10">
       <Content components={{ a: Anchor, h2: PostSubheader }} />
       {post.data.repo && <GithubCard repo={post.data.repo} />}
       <div class="flex flex-wrap items-center justify-between gap-2">
         <PostViews slug={post.slug} />
         <PostTweet post={post} />
       </div>
-      <div class="h-1 rounded-md bg-2"></div>
+      <div class="h-0.5 rounded-md bg-2"></div>
       <div class="flex justify-between gap-10">
         <a href={`/blog/${prev.slug}`} class="group flex gap-4">
-          <ArrowLeft class="h-8 w-8 shrink-0 stroke-brand" aria-hidden />
+          <ArrowLeft class="h-6 w-6 shrink-0 stroke-brand" aria-hidden />
           <span class="group-hover:text-brand">{prev.data.title}</span>
         </a>
         <a href={`/blog/${next.slug}`} class="group flex gap-4 text-right">
           <span class="group-hover:text-brand">{next.data.title}</span>
-          <ArrowRight class="h-8 w-8 shrink-0 stroke-brand" aria-hidden />
+          <ArrowRight class="h-6 w-6 shrink-0 stroke-brand" aria-hidden />
         </a>
       </div>
     </div>
@@ -106,7 +106,7 @@ const { Content, remarkPluginFrontmatter } = await post.render();
       }
 
       summary {
-        @apply cursor-pointer text-sm hover:text-brand;
+        @apply cursor-pointer hover:text-brand;
       }
     }
   }

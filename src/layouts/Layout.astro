@@ -1,7 +1,7 @@
 ---
 import Anchor from '@components/Anchor.astro';
+import '@fontsource/outfit';
 import '@fontsource/outfit/300.css';
-import '@fontsource/outfit/400.css';
 
 type Props = { title?: string; description?: string; og?: string };
 
@@ -37,12 +37,11 @@ const {
     <link href={new URL(Astro.url.pathname, Astro.site)} rel="canonical" />
   </head>
   <body
-    class={`mx-auto flex min-h-screen max-w-screen-lg flex-col bg-1 font-sans
-            font-light tracking-wide text-1 text-base px-fluid-4
-            selection:bg-brand selection:bg-opacity-25`}
+    class={`mx-auto flex min-h-screen max-w-screen-lg flex-col bg-1 text-sm
+            text-1 px-fluid-5 selection:bg-brand selection:bg-opacity-10`}
   >
-    <header class="flex items-center gap-4 py-4 text-sm">
-      <a href="/" class="mr-auto h-8 w-8 md:mr-4" aria-label="Home">
+    <header class="flex items-center gap-4 py-4 text-2 text-xs">
+      <a href="/" class="mr-auto h-7 w-7" aria-label="Home">
         <Fragment set:html={favicon.default} aria-hidden />
       </a>
       <Anchor href="/blog">Blog</Anchor>
@@ -51,7 +50,7 @@ const {
       <Anchor href={`mailto:${import.meta.env.EMAIL}`}>Email</Anchor>
     </header>
     <main class="mb-fluid-5 flex-1 motion-safe:animate-fade-in"><slot /></main>
-    <footer class="self-center p-2 text-center text-2 text-xs">
+    <footer class="p-2 text-center font-1 text-2 text-xs">
       <p>Created by: Christian Penrod ©{new Date().getUTCFullYear()}</p>
       <p>
         Built with: <Anchor href="https://docs.astro.build">Astro</Anchor>
