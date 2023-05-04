@@ -5,48 +5,48 @@ import GithubCard from '@components/GithubCard.astro';
 import PostCard from '@components/PostCard.astro';
 import Layout from '@layouts/Layout.astro';
 import { getCollection } from 'astro:content';
-import { ArrowRight } from 'lucide-preact';
+import { ArrowRight, Minus } from 'lucide-preact';
 
-const repos = ['feedjoy', 'geoguessr-clone'];
+const repos = ['feedjoy', 'christianpenrod'];
 const posts = (await getCollection('posts'))
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
   .slice(0, 2);
 ---
 
 <Layout>
-  <section class="mt-fluid-5 flex justify-between gap-fluid-6">
+  <section class="mt-fluid-5 flex items-center justify-between">
     <div>
-      <h1 class="font-normal text-brand text-5xl">Hi, I'm Christian</h1>
-      <h2 class="text-2 text-2xl">Front-End Web Developer</h2>
-      <ul class="mt-fluid-4 flex flex-col gap-2">
+      <h1 class="text-4xl">Hi, I'm Christian</h1>
+      <h2 class="text-2 text-xl">Front-End Web Developer</h2>
+      <ul class="mt-fluid-4 flex flex-col gap-2 font-1">
         <li class="flex flex-wrap items-center gap-x-2">
-          <ArrowRight class="shrink-0" /> Web Developer
+          <Minus class="h-4 shrink-0" /> Web Developer
           <Anchor href={import.meta.env.JOB}>@McKesson</Anchor>
         </li>
         <li class="flex flex-wrap items-center gap-x-2">
-          <ArrowRight class="shrink-0" /> CS Bachelors
+          <Minus class="h-4 shrink-0" /> CS Bachelors
           <Anchor href={import.meta.env.COLLEGE}>@LaRoche</Anchor>
         </li>
         <li class="flex flex-wrap items-center gap-x-2">
-          <ArrowRight class="shrink-0" /> Pittsburgh, PA, USA
+          <Minus class="h-4 shrink-0" /> Pittsburgh, PA, USA
         </li>
       </ul>
     </div>
     <div
-      class={`relative rounded-full ring-2 ring-brand ring-opacity-50
-              w-[230px] h-[230px] lg:h-[270px] lg:w-[270px] md:block hidden
+      class={`relative rounded-full ring-2 ring-brand ring-opacity-10
+              w-[230px] h-[230px] lg:h-[280px] lg:w-[280px] sm:block hidden
               before:absolute before:inset-0 before:rounded-full before:bg-2`}
     >
       <Picture
         src={import('@public/me.webp')}
         alt="A picture of me"
-        widths={[230, 270, 2048]}
-        sizes="(min-width: 768px) 270px, 230px"
+        widths={[230, 280, 2048]}
+        sizes="(min-width: 768px) 280px, 230px"
         class="relative rounded-full"
       />
     </div>
   </section>
-  <div class="mx-auto my-fluid-3 h-1 w-10/12 rounded-md bg-2"></div>
+  <div class="my-fluid-4 h-0.5 rounded-md bg-2"></div>
   <section class="flex flex-col gap-fluid-1">
     <h3 class="text-2 text-lg">Projects</h3>
     <!-- prettier-ignore -->
@@ -54,7 +54,7 @@ const posts = (await getCollection('posts'))
       {repos.map((repo) => <li><GithubCard repo={repo} /></li>)}
     </ul>
   </section>
-  <div class="mx-auto my-fluid-3 h-1 w-10/12 rounded-md bg-2"></div>
+  <div class="my-fluid-4 h-0.5 rounded-md bg-2"></div>
   <section class="flex flex-col gap-fluid-1">
     <h3 class="text-2 text-lg">Recent Posts</h3>
     <!-- prettier-ignore -->
@@ -62,8 +62,8 @@ const posts = (await getCollection('posts'))
       {posts.map((post) => <li><PostCard post={post} /></li>)}
     </ul>
     <a href="/blog" class="group flex items-center gap-2 self-end">
-      <span class="text-sm group-hover:text-brand">View All Posts</span>
-      <ArrowRight aria-hidden class="shrink-0 stroke-brand" />
+      <span class="text-xs group-hover:text-brand">View All Posts</span>
+      <ArrowRight aria-hidden class="h-4 w-4 shrink-0 stroke-brand" />
     </a>
   </section>
 </Layout>

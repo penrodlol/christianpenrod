@@ -5,9 +5,10 @@ module.exports = {
     extend: {
       // prettier-ignore
       fontFamily: { sans: ['Outfit', ...require('tailwindcss/defaultTheme').fontFamily.sans] },
-      textColor: { 1: '#DBDBDB', 2: '#979797' },
-      backgroundColor: { 1: '#111', 2: '#222' },
-      colors: { brand: '#EDF1FF' },
+      fontWeight: { 1: 300, 2: 400 },
+      textColor: { 1: '#d4d4d8', 2: '#a1a1aa' },
+      backgroundColor: { 1: '#111', 2: '#1b1b1b', 3: '#222' },
+      colors: { brand: '#fff' },
       spacing: {
         'fluid-1': 'clamp(0.25rem, calc(-0.09rem + 1.71vw), 1.13rem)',
         'fluid-2': 'clamp(0.5rem, calc(0.11rem + 1.95vw), 1.5rem)',
@@ -23,6 +24,7 @@ module.exports = {
       keyframes: { 'fade-in': { from: { opacity: 0 }, to: { opacity: 1 } } },
     },
   },
+  future: { hoverOnlyWhenSupported: true },
   plugins: [
     require('tailwindcss-fluid-type'),
     ({ theme, addBase }) =>
@@ -49,13 +51,11 @@ module.exports = {
             '&-thumb': { backgroundColor: theme('backgroundColor.2') },
           },
           '&:focus-visible': {
-            outline: `2px solid ${theme('colors.brand.2')}`,
-            outlineWidth: theme('outlineWidth.2'),
-            outlineOffset: theme('outlineOffset.4'),
-            borderRadius: theme('borderRadius.md'),
+            outline: `0.5px solid ${theme('colors.brand')}`,
+            borderRadius: theme('borderRadius.sm'),
+            outlineOffset: theme('outlineOffset.2'),
           },
         },
       }),
   ],
-  future: { hoverOnlyWhenSupported: true },
 };
