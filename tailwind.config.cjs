@@ -56,6 +56,7 @@ module.exports = {
             outlineOffset: theme('outlineOffset.2'),
           },
         },
+        html: { scrollbarGutter: 'stable both-edges' },
       }),
   ],
 };
