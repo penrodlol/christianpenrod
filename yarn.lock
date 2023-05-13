@@ -3597,11 +3597,6 @@ reading-time@^1.5.0:
   resolved "https://registry.yarnpkg.com/reading-time/-/reading-time-1.5.0.tgz#d2a7f1b6057cb2e169beaf87113cc3411b5bc5bb"
   integrity sha512-onYyVhBNr4CmAxFsKS7bz+uTLRakypIe4R+5A824vBSkQy/hB3fZepoVEf8OVAxzLvK+H/jm9TzpI3ETSm64Kg==
 
-readingtime@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/readingtime/-/readingtime-0.0.2.tgz#b857ca2c0bdcee0d4699af8eb6c1520c939118d7"
-  integrity sha512-9nefhs379k7lmYw0X28kubq/foe7lSgiq2u1kDsyAXC8xd/bmoHEuh8G72wEZVFfw5kdN1D+t3ugFCTSAYcVdg==
-
 rehype-parse@^8.0.0:
   version "8.0.4"
   resolved "https://registry.yarnpkg.com/rehype-parse/-/rehype-parse-8.0.4.tgz#3d17c9ff16ddfef6bbcc8e6a25a99467b482d688"
