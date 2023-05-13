@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       // prettier-ignore
-      fontFamily: { sans: ['Outfit', ...require('tailwindcss/defaultTheme').fontFamily.sans] },
+      fontFamily: { sans: ['Maitree', ...require('tailwindcss/defaultTheme').fontFamily.sans] },
       fontWeight: { 1: 300, 2: 400 },
       textColor: { 1: '#d4d4d8', 2: '#a1a1aa' },
       backgroundColor: { 1: '#111', 2: '#1b1b1b', 3: '#222' },
