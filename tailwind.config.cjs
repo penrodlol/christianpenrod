@@ -50,13 +50,12 @@ module.exports = {
             height: `${theme('spacing.2')}`,
             '&-thumb': { backgroundColor: theme('backgroundColor.2') },
           },
-          '&:focus-visible': {
+          ':is(a, button, summary, pre):focus-visible': {
             outline: `0.5px solid ${theme('colors.brand')}`,
             borderRadius: theme('borderRadius.sm'),
             outlineOffset: theme('outlineOffset.2'),
           },
         },
-        html: { scrollbarGutter: 'stable both-edges' },
       }),
   ],
 };
