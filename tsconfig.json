@@ -8,7 +8,6 @@
       "@assets/*": ["src/assets/*"]
     },
     "jsx": "react-jsx",
-    "jsxImportSource": "preact",
-    "types": ["@astrojs/image/client"]
+    "jsxImportSource": "preact"
   }
 }
