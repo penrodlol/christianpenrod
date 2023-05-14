@@ -7,11 +7,6 @@
   resolved "https://registry.yarnpkg.com/@alloc/quick-lru/-/quick-lru-5.2.0.tgz#7bf68b20c0a350f936915fcae06f58e32007ce30"
   integrity sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==
 
-"@altano/tiny-async-pool@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@altano/tiny-async-pool/-/tiny-async-pool-1.0.2.tgz#67d04251e77af001e2067311355ee3beb3e4fadf"
-  integrity sha512-qQzaI0TBUPdpjZ3qo5b2ziQY9MSNpbziH2ZrE5lvtUZL+kn9GwVuVJwoOubaoNkeDB+rqEefnpu1k+oMpOCYiw==
-
 "@ampproject/remapping@^2.2.0":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@ampproject/remapping/-/remapping-2.2.1.tgz#99e8e11851128b8702cd57c33684f1d0f260b630"
@@ -24,18 +19,6 @@
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/@astrojs/compiler/-/compiler-1.4.1.tgz#9cf6d011a1dbdc9ff81923ec02b45043c1c71924"
   integrity sha512-aXAxapNWZwGN41P+Am/ma/2kAzKOhMNaY6YuvLkUHFv+UZkmDHD6F0fE1sQA2Up0bLjgPQa1VQzoAaii5tZWaA==
-
-"@astrojs/image@^0.16.7":
-  version "0.16.8"
-  resolved "https://registry.yarnpkg.com/@astrojs/image/-/image-0.16.8.tgz#8c906866b1d847c90c342eee7726ca88ae56a027"
-  integrity sha512-ka18Y8HXllitE4TN66tmxqc1j+pgfqfq5i/D3I0QmmH2hFd7olFNVDrd15S4ZM1U5jxZORUv+PuJU0g8dZEjqQ==
-  dependencies:
-    "@altano/tiny-async-pool" "^1.0.2"
-    http-cache-semantics "^4.1.0"
-    image-size "^1.0.2"
-    kleur "^4.1.5"
-    magic-string "^0.27.0"
-    mime "^3.0.0"
 
 "@astrojs/language-server@^1.0.0":
   version "1.0.5"
@@ -75,7 +58,7 @@
     unist-util-visit "^4.1.0"
     vfile "^5.3.2"
 
-"@astrojs/mdx@^0.19.0":
+"@astrojs/mdx@^0.19.1":
   version "0.19.1"
   resolved "https://registry.yarnpkg.com/@astrojs/mdx/-/mdx-0.19.1.tgz#83ebfbcd2f57986ee6fd30dd54a904a126e2261c"
   integrity sha512-9GNNZbGT+lGvbRkQK/NaEJcnjj1T94/ne0KwPjJgNCBQrJuskX5IW1hKiE5bRSOFvkAOrBGneYKg0GXYArBOQQ==
@@ -671,7 +654,7 @@
   resolved "https://registry.yarnpkg.com/@octokit/openapi-types/-/openapi-types-17.1.2.tgz#b7bc1cc5d3581adac9dce197a21f0e5f2ceaabf1"
   integrity sha512-OaS7Ol4Y+U50PbejfzQflGWRMxO04nYWO5ZBv6JerqMKE2WS/tI9VoVDDPXHBlRMGG2fOdKwtVGlFfc7AVIstw==
 
-"@octokit/plugin-paginate-rest@^6.0.0":
+"@octokit/plugin-paginate-rest@^6.1.0":
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/@octokit/plugin-paginate-rest/-/plugin-paginate-rest-6.1.0.tgz#3522ef5c2712436332655085b197eafe4ac7afc4"
   integrity sha512-5T4iXjJdYCVA1rdWS1C+uZV9AvtZY9QgTG74kFiSFVj94dZXowyi/YK8f4SGjZaL69jZthGlBaDKRdCMCF9log==
@@ -683,7 +666,7 @@
   resolved "https://registry.yarnpkg.com/@octokit/plugin-request-log/-/plugin-request-log-1.0.4.tgz#5e50ed7083a613816b1e4a28aeec5fb7f1462e85"
   integrity sha512-mLUsMkgP7K/cnFEw07kWqXGF5LKrOkD+lhCrKvPHXWDywAwuDUeDwWBpc69XK3pNX0uKiVt8g5z96PJ6z9xCFA==
 
-"@octokit/plugin-rest-endpoint-methods@^7.0.0":
+"@octokit/plugin-rest-endpoint-methods@^7.1.0":
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/@octokit/plugin-rest-endpoint-methods/-/plugin-rest-endpoint-methods-7.1.0.tgz#7f3f4fac10bf72f8c5cd0c343252cd5f73dbf2d8"
   integrity sha512-SWwz/hc47GaKJR6BlJI4WIVRodbAFRvrR0QRPSoPMs7krb7anYPML3psg+ThEz/kcwOdSNh/oA8qThi/Wvs4Fw==
@@ -713,14 +696,14 @@
     universal-user-agent "^6.0.0"
 
 "@octokit/rest@^19.0.7":
-  version "19.0.7"
-  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-19.0.7.tgz#d2e21b4995ab96ae5bfae50b4969da7e04e0bb70"
-  integrity sha512-HRtSfjrWmWVNp2uAkEpQnuGMJsu/+dBr47dRc5QVgsCbnIc1+GFEaoKBWkYG+zjrsHpSqcAElMio+n10c0b5JA==
+  version "19.0.8"
+  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-19.0.8.tgz#db1e67cb66018859fde2c6c3a49eb5c55dc04d92"
+  integrity sha512-/PKrzqn+zDzXKwBMwLI2IKrvk8yv8cedJOdcmxrjR3gmu6UIzURhP5oQj+4qkn7+uQi1gg7QqV4SqlaQ1HYW1Q==
   dependencies:
     "@octokit/core" "^4.1.0"
-    "@octokit/plugin-paginate-rest" "^6.0.0"
+    "@octokit/plugin-paginate-rest" "^6.1.0"
     "@octokit/plugin-request-log" "^1.0.4"
-    "@octokit/plugin-rest-endpoint-methods" "^7.0.0"
+    "@octokit/plugin-rest-endpoint-methods" "^7.1.0"
 
 "@octokit/types@^9.0.0", "@octokit/types@^9.2.2":
   version "9.2.2"
@@ -2109,11 +2092,6 @@ html-void-elements@^2.0.0:
   resolved "https://registry.yarnpkg.com/html-void-elements/-/html-void-elements-2.0.1.tgz#29459b8b05c200b6c5ee98743c41b979d577549f"
   integrity sha512-0quDb7s97CfemeJAnW9wC0hw78MtW7NU3hqtCD75g2vFlDLt36llsYD7uB7SUzojLMP24N5IatXf7ylGXiGG9A==
 
-http-cache-semantics@^4.1.0:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/http-cache-semantics/-/http-cache-semantics-4.1.1.tgz#abe02fcb2985460bf0323be664436ec3476a6d5a"
-  integrity sha512-er295DKPVsV82j5kw1Gjt+ADA/XYHsajl82cGNQG2eyoPkvgUhX+nDIyelzhIWbbsXP39EHcI6l5tYs2FYqYXQ==
-
 human-signals@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-2.1.0.tgz#dc91fcba42e4d06e4abaed33b3e7a3c02f514ea0"
@@ -2134,13 +2112,6 @@ ieee754@^1.1.13, ieee754@^1.2.1:
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.2.1.tgz#8eb7a10a63fff25d15a57b001586d177d1b0d352"
   integrity sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==
 
-image-size@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/image-size/-/image-size-1.0.2.tgz#d778b6d0ab75b2737c1556dd631652eb963bc486"
-  integrity sha512-xfOoWjceHntRb3qFCrh5ZFORYH8XCdYpASltMhZ/Q0KZiOwjdE/Yl2QCiWdwD+lygV5bMCvauzgu5PxBX/Yerg==
-  dependencies:
-    queue "6.0.2"
-
 immutable@^4.0.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-4.3.0.tgz#eb1738f14ffb39fd068b1dbe1296117484dd34be"
@@ -2159,7 +2130,7 @@ inflight@^1.0.4:
     once "^1.3.0"
     wrappy "1"
 
-inherits@2, inherits@^2.0.3, inherits@^2.0.4, inherits@~2.0.3:
+inherits@2, inherits@^2.0.3, inherits@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
@@ -2818,9 +2789,9 @@ micromark-extension-mdx-md@^1.0.0:
     micromark-util-types "^1.0.0"
 
 micromark-extension-mdxjs-esm@^1.0.0:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/micromark-extension-mdxjs-esm/-/micromark-extension-mdxjs-esm-1.0.3.tgz#630d9dc9db2c2fd470cac8c1e7a824851267404d"
-  integrity sha512-2N13ol4KMoxb85rdDwTAC6uzs8lMX0zeqpcyx7FhS7PxXomOnLactu8WI8iBNXW8AVyea3KIJd/1CKnUmwrK9A==
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/micromark-extension-mdxjs-esm/-/micromark-extension-mdxjs-esm-1.0.4.tgz#72a91e89fab028086bfb6e0eee76a14ce68c577b"
+  integrity sha512-mmyCf6baCbLf+OHTCZdj+f8lDY8GBae4qhbffrJDqM1KltghsZz2k3nbvRfEwm301G62nhrlom9M9OheQwrssg==
   dependencies:
     micromark-core-commonmark "^1.0.0"
     micromark-util-character "^1.0.0"
@@ -2832,9 +2803,9 @@ micromark-extension-mdxjs-esm@^1.0.0:
     vfile-message "^3.0.0"
 
 micromark-extension-mdxjs@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/micromark-extension-mdxjs/-/micromark-extension-mdxjs-1.0.0.tgz#772644e12fc8299a33e50f59c5aa15727f6689dd"
-  integrity sha512-TZZRZgeHvtgm+IhtgC2+uDMR7h8eTKF0QUX9YsgoL9+bADBpBY6SiLvWqnBlLbCEevITmTqmEuY3FoxMKVs1rQ==
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/micromark-extension-mdxjs/-/micromark-extension-mdxjs-1.0.1.tgz#f78d4671678d16395efeda85170c520ee795ded8"
+  integrity sha512-7YA7hF6i5eKOfFUzZ+0z6avRG52GpWR8DL+kN47y3f2KhxbBZMhmxe7auOeaTBrW2DenbbZTf1ea9tA2hDpC2Q==
   dependencies:
     acorn "^8.0.0"
     acorn-jsx "^5.0.0"
@@ -2962,9 +2933,9 @@ micromark-util-encode@^1.0.0:
   integrity sha512-U2s5YdnAYexjKDel31SVMPbfi+eF8y1U4pfiRW/Y8EFVCy/vgxk/2wWTxzcqE71LHtCuCzlBDRU2a5CQ5j+mQA==
 
 micromark-util-events-to-acorn@^1.0.0:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/micromark-util-events-to-acorn/-/micromark-util-events-to-acorn-1.2.2.tgz#481bfca64ed9a8643b77e6cefdfa60bb44bf3c6f"
-  integrity sha512-/6lwvzFWviKVd7/YuEdBMEjVd26FaPiG2DCExWBNhGd8Ce0KgebUx2fyZ/16Ie84Fu3w4k5Mxb21v1B9QFhVig==
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/micromark-util-events-to-acorn/-/micromark-util-events-to-acorn-1.2.3.tgz#a4ab157f57a380e646670e49ddee97a72b58b557"
+  integrity sha512-ij4X7Wuc4fED6UoLWkmo0xJQhsktfNh1J0m8g4PbIMPlx+ek/4YdW5mvbye8z/aZvAPUoxgXHrwVlXAPKMRp1w==
   dependencies:
     "@types/acorn" "^4.0.0"
     "@types/estree" "^1.0.0"
@@ -3464,9 +3435,9 @@ preact-render-to-string@^5.2.4:
     pretty-format "^3.8.0"
 
 preact@^10.13.2:
-  version "10.13.2"
-  resolved "https://registry.yarnpkg.com/preact/-/preact-10.13.2.tgz#2c40c73d57248b57234c4ae6cd9ab9d8186ebc0a"
-  integrity sha512-q44QFLhOhty2Bd0Y46fnYW0gD/cbVM9dUVtNTDKPcdXSMA7jfY+Jpd6rk3GB0lcQss0z5s/6CmVP0Z/hV+g6pw==
+  version "10.14.0"
+  resolved "https://registry.yarnpkg.com/preact/-/preact-10.14.0.tgz#7353812c33ae79c1fa91bfd792db030a90565da3"
+  integrity sha512-4oh2sf208mKAdL5AQtzXxE387iSGNWMX/YjwMjH6m/XROILKAmx5Pbs2FsXrW7ixoVGGjpfYSBB833vOwYxNxw==
 
 prebuild-install@^7.1.1:
   version "7.1.1"
@@ -3551,13 +3522,6 @@ queue-microtask@^1.2.2:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
-
-queue@6.0.2:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/queue/-/queue-6.0.2.tgz#b91525283e2315c7553d2efa18d83e76432fed65"
-  integrity sha512-iHZWu+q3IdFZFX36ro/lKBkSvfkztY5Y7HMiPlOUjhupPcG2JMfst2KKEpu5XndviX/3UhFbRngUPNKtgvtZiA==
-  dependencies:
-    inherits "~2.0.3"
 
 rc@^1.2.7:
   version "1.2.8"

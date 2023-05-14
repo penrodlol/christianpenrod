@@ -1,9 +1,10 @@
 ---
-import { Picture } from '@astrojs/image/components';
+import src from '@assets/me.webp';
 import Anchor from '@components/anchor.astro';
 import GithubCard from '@components/github-card.astro';
 import PostCard from '@components/post-card.astro';
 import Layout from '@layouts/layout.astro';
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import { ArrowRight, Minus } from 'lucide-preact';
 
@@ -37,11 +38,13 @@ const posts = (await getCollection('posts'))
               w-[230px] h-[230px] lg:h-[280px] lg:w-[280px] sm:block hidden
               before:absolute before:inset-0 before:rounded-full before:bg-2`}
     >
-      <Picture
-        src={import('@public/me.webp')}
+      <Image
+        src={src}
         alt="A picture of me"
-        widths={[230, 280, 2048]}
-        sizes="(min-width: 768px) 280px, 230px"
+        quality={100}
+        width={2048}
+        height={2048}
+        loading="eager"
         class="relative rounded-full"
       />
     </div>

@@ -10,7 +10,7 @@ export const { getStaticPaths, get } = OGImageRoute({
     return {
       title: post.frontmatter.title,
       description: `\n\n\n\n${published}        ${readingTime}`,
-      logo: { path: './public/favicon.webp', size: [80] },
+      logo: { path: './src/assets/favicon.webp', size: [80] },
       bgGradient: [[17, 17, 17]],
       border: { color: [212, 212, 216], width: 20 },
       font: {
