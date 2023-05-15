@@ -2,7 +2,7 @@
   "redirects": [
     {
       "source": "/og",
-      "destination": "/open-graph/src/content/posts/:path"
+      "destination": "/open-graph/src/content/posts/:path(.png)"
     }
   ]
 }
