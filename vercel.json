@@ -2,7 +2,7 @@
   "redirects": [
     {
       "source": "/open-graph/src/content/posts/:path*",
-      "destination": "/og"
+      "destination": "/og/:path*"
     }
   ]
 }
