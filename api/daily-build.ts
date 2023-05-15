@@ -1,5 +1,6 @@
-export const config = { runtime: 'edge' };
 import { z } from 'zod';
+
+export const config = { runtime: 'edge' };
 
 export default async function handler(): Promise<Response> {
   const token = z.string().safeParse(process.env.VERCEL_DEPLOY_WEBHOOK_TOKEN);
