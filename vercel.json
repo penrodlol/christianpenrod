@@ -1,8 +1,8 @@
 {
   "redirects": [
     {
-      "source": "/og",
-      "destination": "/open-graph/src/content/posts/:path(.png)"
+      "source": "/open-graph/src/content/posts/:path*",
+      "destination": "/og"
     }
   ]
 }
