@@ -10,10 +10,10 @@ const db = connect({
 });
 
 export default async function handler(req: Request): Promise<Response> {
-  if (req.method !== 'PUT') return new Response(null, { status: 405 });
+  if (req.method !== 'PUT') return new Response('Not Allowed', { status: 405 });
 
   const payload = z.object({ slug: z.string() }).safeParse(await req.json());
-  if (!payload.success) return new Response(null, { status: 400 });
+  if (!payload.success) return new Response('Bad Request', { status: 400 });
 
   const slug = payload.data.slug;
   const rs = await db.transaction(async (t) => {
