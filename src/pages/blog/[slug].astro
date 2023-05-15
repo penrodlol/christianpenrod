@@ -31,7 +31,7 @@ const { Content, remarkPluginFrontmatter } = await post.render();
 <Layout
   title={post.data.title}
   description={post.data.description}
-  og={`og/${post.slug}.png`}
+  og={`open-graph/src/content/posts/${post.slug}.png`}
 >
   <article class="mx-auto mt-fluid-3 max-w-screen-sm">
     <h1 class="mb-4 text-3xl">{post.data.title}</h1>
