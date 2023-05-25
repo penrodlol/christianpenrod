@@ -1,0 +1,92 @@
+---
+title: Summarize Blog Posts with OpenAI GPT
+description:
+  Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam ipsum
+  unde, veniam accusamus recusandae quibusdam nesciunt.
+published: 2023-05-24
+---
+
+Blog posts are a key component in learning new technologies accross the web.
+With [OpenAI's GPT][openai-gpt], we can take this a step further by instantly
+summarizing blog posts into a few sentences. Allowing quicker consumption while
+retaining the key concepts and takeaways.
+
+In this article, we will learn how to _scrape_ blog post content and _summarize_
+it using OpenAI's GPT.
+
+## Setup
+
+Before getting started, please ensure you have an OpenAI account. If not, you
+can signup on their website [here][openai-signup]. Once signed up, take note of
+your **API Key** as we will need it later.
+
+> This project will be using [Node.js][nodejs-download]. Please ensure you have
+> it installed and a basic understanding of its purpose before continuing.
+
+Let's begin by initializing our project and installing the dependencies:
+
+```bash
+# Create the project directory and navigating into it
+mkdir summarize-blog-posts-with-openai-gpt && cd $_
+# Initialize project
+npm init -y
+# Install dependencies
+npm i openai gpt-3-encoder cheerio user-agents dotenv
+
+# If your using TypeScript, create a tsconfig and install dependencies
+npx tsc --init
+npm i typescript @types/node @types/user-agents
+```
+
+Now that we have our project setup with dependencies, let's create an `.env`
+file where we can put our secret OpenAI API Key we took note of earlier.
+
+```bash
+# .env
+
+OPENAI_API_KEY='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+```
+
+Next, create an `index.ts` file at the root of our project. Within this file, we
+can load our `.env` file and initialize the OpenAI API client.
+
+```ts
+// index.ts
+
+import dotenv from 'dotenv';
+import { Configuration, OpenAIApi } from 'openai';
+
+dotenv.config();
+
+const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAIApi(configuration);
+```
+
+## Web Scraping Content
+
+Before attempting to summarize a blog post, we must first capture its contents.
+Start by using the [Fetch API][fetch-api] to get all HTML content from the blog
+post.
+
+> Fetch API is baked into Node.js 18.x by default. Please ensure your local
+> Node.js version is 18.x or higher.
+
+```ts {1-10}
+// index.ts
+
+import dotenv from 'dotenv';
+import { Configuration, OpenAIApi } from 'openai';
+
+dotenv.config();
+
+const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAIApi(configuration);
+
+const url = 'https://openai.com/blog/introducing-chatgpt-and-whisper-apis';
+const html = await fetch(url).then((res) => res.text());
+```
+
+[openai-gpt]: https://openai.com/product/gpt-4
+[openai-signup]: https://platform.openai.com/signup
+[nodejs-download]: https://nodejs.org/en/download
+[fetch-api]: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API

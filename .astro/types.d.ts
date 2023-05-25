@@ -227,6 +227,13 @@ declare module 'astro:content' {
   collection: "posts";
   data: InferEntrySchema<"posts">
 } & { render(): Render[".mdx"] };
+"summarize-blog-posts-with-openai-gpt.mdx": {
+	id: "summarize-blog-posts-with-openai-gpt.mdx";
+  slug: "summarize-blog-posts-with-openai-gpt";
+  body: string;
+  collection: "posts";
+  data: InferEntrySchema<"posts">
+} & { render(): Render[".mdx"] };
 "tailwindcss-responsive-design-without-breakpoints.mdx": {
 	id: "tailwindcss-responsive-design-without-breakpoints.mdx";
   slug: "tailwindcss-responsive-design-without-breakpoints";
