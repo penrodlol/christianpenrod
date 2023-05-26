@@ -40,13 +40,13 @@ const roles = await getCollection('roles').then(async (roles) =>
   </section>
 </Layout>
 
-<style lang="scss" is:global>
+<style lang="scss">
   [data-role-content] {
-    p {
+    :global(p) {
       @apply mt-3 max-w-[60ch] font-1 text-2;
     }
 
-    h3 {
+    :global(h3) {
       @apply relative mt-6 before:absolute before:-left-6 before:top-[50%]
              before:h-[0.95rem] before:w-[0.95rem] before:translate-x-[-0.215rem]
              before:translate-y-[-50%] before:rounded-full before:bg-brand before:content-['']

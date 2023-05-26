@@ -38,18 +38,14 @@ npm i openai gpt-3-encoder cheerio user-agents dotenv typescript @types/node @ty
 Now that we have our project setup, let's create an `.env` file and place our
 secret OpenAI API Key into there.
 
-```bash
-# .env
-
+```bash title=".env"
 OPENAI_API_KEY='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 ```
 
 Next, create an `index.ts` file at the root of our project. Within this file, we
 can load our `.env` file and initialize the OpenAI API client.
 
-```ts
-// index.ts
-
+```ts title="index.ts"
 import dotenv from 'dotenv';
 import { Configuration, OpenAIApi } from 'openai';
 
@@ -72,9 +68,7 @@ block requests that do not have this. We can generate one via the
 > Node.js version is 18.x or higher. You can check this by running `node -v` in
 > your terminal.
 
-```ts
-// index.ts
-
+```ts title="index.ts"
 // ...
 import UserAgent from 'user-agents';
 
@@ -91,9 +85,7 @@ not the entire page.
 > Web scraping can be tricky as each website is built different. You may need to
 > adjust the selectors below to fit your needs.
 
-```ts
-// index.ts
-
+```ts title="index.ts"
 // ...
 import { load } from 'cheerio';
 
@@ -115,9 +107,7 @@ amount, we can use the [gpt-3-encoder][gpt-3-encoder] library.
 > The max token count will vary based on the GPT model your using. I recommend
 > using [GPT-4][gpt4-model] as it has a much higher limit.
 
-```ts
-// index.ts
-
+```ts title="index.ts"
 // ...
 import { decode, encode } from 'gpt-3-encoder';
 
@@ -128,9 +118,7 @@ const safeContent = decode(encode(content.text()).slice(0, 8000));
 Finally, we can pass our content to OpenAI's GPT and receive a summary of the
 blog post. Keep in mind, the request may take a few seconds to complete.
 
-```ts
-// index.ts
-
+```ts title="index.ts"
 // ...
 const chatCompletion = await openai.createChatCompletion({
   model: 'gpt-4', // or gpt-3.5-turbo

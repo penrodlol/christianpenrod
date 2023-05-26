@@ -68,46 +68,34 @@ const { Content, remarkPluginFrontmatter } = await post.render();
   </article>
 </Layout>
 
-<style lang="scss" is:global>
-  article {
-    p {
-      @apply leading-8;
-    }
+<style lang="sass">
+  article :global(p)
+    @apply leading-8
 
-    em {
-      @apply tracking-wider;
-    }
+  article :global(ol)
+    @apply list-inside list-decimal text-xs
 
-    pre {
-      @apply rounded-md p-4 shadow;
-    }
+  article :global(blockquote)
+    @apply rounded border-l-8 border-l-brand bg-2 p-4 text-2 shadow
 
-    code {
-      @apply font-sans text-xs;
+  article :global(details)
+    @apply my-2 rounded bg-2 p-4 shadow
 
-      &:not([class]) {
-        @apply rounded-md bg-[var(--astro-code-color-background)] box-decoration-clone p-1;
-      }
-    }
+    &[open] :global(summary)
+      @apply text-brand
 
-    ol {
-      @apply list-inside list-decimal text-xs;
-    }
+    :global(summary)
+      @apply cursor-pointer hover:text-brand
 
-    blockquote {
-      @apply rounded-md border-l-8 border-l-brand bg-2 p-4 text-2 shadow;
-    }
+  article :global([data-rehype-pretty-code-fragment])
+    @apply overflow-x-auto rounded bg-[var(--shiki-color-background)] shadow text-xs
 
-    details {
-      @apply my-2 rounded-md bg-2 p-4 shadow;
+    :global([data-rehype-pretty-code-title])
+      @apply bg-3 px-4 py-0.5 text-right text-2 shadow
 
-      &[open] summary {
-        @apply text-brand;
-      }
+    :global(pre)
+      @apply p-4
 
-      summary {
-        @apply cursor-pointer hover:text-brand;
-      }
-    }
-  }
+    :global(code)
+      @apply font-sans
 </style>

@@ -6,19 +6,20 @@ import robotsTxt from 'astro-robots-txt';
 import { defineConfig, sharpImageService } from 'astro/config';
 import { toString } from 'mdast-util-to-string';
 import readingtime from 'reading-time';
+import rehypePrettyCode from 'rehype-pretty-code';
 
 export default defineConfig({
   site: 'https://christianpenrod.com',
   image: { service: sharpImageService() },
   experimental: { assets: true },
   markdown: {
-    shikiConfig: { theme: 'css-variables' },
+    syntaxHighlight: false,
     rehypePlugins: [
-      () =>
-        (tree, { data }) => {
-          const payload = Math.round(readingtime(toString(tree)).minutes);
-          data.astro.frontmatter.readingTime = payload;
-        },
+      [rehypePrettyCode, { theme: 'css-variables' }],
+      () => (tree, vfile) => {
+        const payload = Math.round(readingtime(toString(tree)).minutes);
+        vfile.data.astro.frontmatter.readingTime = payload;
+      },
     ],
   },
   integrations: [
