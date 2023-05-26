@@ -87,6 +87,9 @@ const { Content, remarkPluginFrontmatter } = await post.render();
     :global(summary)
       @apply cursor-pointer hover:text-brand
 
+  article :global(code)
+    @apply bg-[var(--shiki-color-background)] text-xs p-1 rounded
+
   article :global([data-rehype-pretty-code-fragment])
     @apply overflow-x-auto rounded bg-[var(--shiki-color-background)] shadow text-xs
 
@@ -97,5 +100,5 @@ const { Content, remarkPluginFrontmatter } = await post.render();
       @apply p-4
 
     :global(code)
-      @apply font-sans
+      @apply font-sans p-0
 </style>

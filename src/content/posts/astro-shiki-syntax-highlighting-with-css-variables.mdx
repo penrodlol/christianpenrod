@@ -18,9 +18,7 @@ theme:
 
 > Make sure to have [@astrojs/mdx][astro-mdx] installed first.
 
-```js
-// astro.config.mjs
-
+```js title="astro.config.mjs"
 import mdx from '@astrojs/mdx';
 
 export default defineConfig({
@@ -35,9 +33,7 @@ Within Astro's [source code][astro-remark-shiki], there's a _remark-shiki
 integration_ that defines a set of CSS Variables. Taking note of these
 variables, we can now override them with our own:
 
-```astro
-{/* Layout.astro */}
-
+```astro title="Layout.astro"
 <style is:global>
   :root {
     --astro-code-color-text: azure;

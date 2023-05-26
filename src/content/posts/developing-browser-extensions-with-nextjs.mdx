@@ -41,9 +41,7 @@ icon within the browser's toolbar.
 > pixels. [Chromium Source][chromium-dimensions] | [Firefox
 > Source][firefox-dimensions]
 
-```scss
-// styles/globals.scss
-
+```scss title="styles/globals.scss"
 body {
   width: 500px;
   min-height: 600px;
@@ -57,9 +55,7 @@ application. For the following example, we will keep it simple but do note; we
 could make a much more complex application with the help of a framework like
 Next.js.
 
-```tsx
-// pages/index.tsx
-
+```tsx title="pages/index.tsx"
 import type { NextPage } from 'next';
 
 const Home: NextPage = () => {
@@ -86,9 +82,7 @@ file to our Next.js app's `/public` directory:
 <div>
   <details>
     <summary>Chrome</summary>
-    ```json
-    {/* public/manifest.json */}
-    
+    ```json title="public/manifest.json"    
     {
       "name": "Next.js Browser Extension Demo",
       "version": "1.0.0",
@@ -102,9 +96,7 @@ file to our Next.js app's `/public` directory:
   </details>
   <details>
     <summary>Firefox/Edge/Opera/Brave</summary>
-    ```json
-    {/* public/manifest.json */}
-    
+    ```json title="public/manifest.json"    
     {
       "name": "Next.js Browser Extension Demo",
       "version": "1.0.0",
