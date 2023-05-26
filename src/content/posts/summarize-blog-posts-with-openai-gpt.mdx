@@ -20,8 +20,9 @@ Before getting started, please ensure you have an OpenAI account. If not, you
 can signup on their website [here][openai-signup]. Once signed up, take note of
 your **API Key** as we will need it later.
 
-> This project will be using [Node.js][nodejs-download]. Please ensure you have
-> it installed and a basic understanding of its purpose before continuing.
+> This project will be using [Node.js][nodejs-download] and
+> [TypeScript][typescript]. Ensure you have Node.js installed and a basic
+> understanding of each technology.
 
 Let's begin by initializing our project and installing the dependencies:
 
@@ -31,15 +32,11 @@ mkdir summarize-blog-posts-with-openai-gpt && cd $_
 # Initialize project
 npm init -y
 # Install dependencies
-npm i openai gpt-3-encoder cheerio user-agents dotenv
-
-# If your using TypeScript, create a tsconfig and install dependencies
-npx tsc --init
-npm i typescript @types/node @types/user-agents
+npm i openai gpt-3-encoder cheerio user-agents dotenv typescript @types/node @types/user-agents
 ```
 
-Now that we have our project setup with dependencies, let's create an `.env`
-file where we can put our secret OpenAI API Key we took note of earlier.
+Now that we have our project setup, let's create an `.env` file and place our
+secret OpenAI API Key into there.
 
 ```bash
 # .env
@@ -64,29 +61,97 @@ const openai = new OpenAIApi(configuration);
 
 ## Web Scraping Content
 
-Before attempting to summarize a blog post, we must first capture its contents.
-Start by using the [Fetch API][fetch-api] to get all HTML content from the blog
-post.
+In order to summarize a blog post, we must first capture its contents. Start by
+using the [Fetch API][fetch-api] to get all HTML content from the blog post.
+
+We must also pass a `User-Agent` header to the request. Certain websites will
+block requests that do not have this. We can generate one via the
+[user-agents][user-agents] library.
 
 > Fetch API is baked into Node.js 18.x by default. Please ensure your local
-> Node.js version is 18.x or higher.
+> Node.js version is 18.x or higher. You can check this by running `node -v` in
+> your terminal.
 
-```ts {1-10}
+```ts
 // index.ts
 
-import dotenv from 'dotenv';
-import { Configuration, OpenAIApi } from 'openai';
+// ...
+import UserAgent from 'user-agents';
 
-dotenv.config();
-
-const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY });
-const openai = new OpenAIApi(configuration);
-
+// ...
+const headers = { 'User-Agent': new UserAgent(/Chrome/).toString() };
 const url = 'https://openai.com/blog/introducing-chatgpt-and-whisper-apis';
-const html = await fetch(url).then((res) => res.text());
+const html = await fetch(url, { headers }).then((res) => res.text());
 ```
+
+Using [Cheerio][cheerio], we can parse and extract blog post content from the
+HTML. This is essential as we only want to summarize the blog post content and
+not the entire page.
+
+> Web scraping can be tricky as each website is built different. You may need to
+> adjust the selectors below to fit your needs.
+
+```ts
+// index.ts
+
+// ...
+import { load } from 'cheerio';
+
+// ...
+const $ = load(html);
+$('header, footer, aside, noscript').remove();
+const content = $('main').length > 0 ? $('main p') : $('body p');
+```
+
+## Summarizing Content
+
+There is one more **required** step before plugging our blog post content into
+OpenAI's GPT. The API has a max number of [tokens][openai-tokens] that can be
+passed to it. This means we must truncate our content to fit within this limit.
+
+Tokens are comprised of more than just words. To ensure we have the correct
+amount, we can use the [gpt-3-encoder][gpt-3-encoder] library.
+
+> The max token count will vary based on the GPT model your using. I recommend
+> using [GPT-4][gpt4-model] as it has a much higher limit.
+
+```ts
+// index.ts
+
+// ...
+import { decode, encode } from 'gpt-3-encoder';
+
+// ...
+const safeContent = decode(encode(content.text()).slice(0, 8000));
+```
+
+Finally, we can pass our content to OpenAI's GPT and receive a summary of the
+blog post. Keep in mind, the request may take a few seconds to complete.
+
+```ts
+// index.ts
+
+// ...
+const chatCompletion = await openai.createChatCompletion({
+  model: 'gpt-4', // or gpt-3.5-turbo
+  messages: [
+    { role: 'user', content: `Summarize in 1 paragraph: ${safeContent}` },
+  ],
+});
+
+const summary = chatCompletion.data.choices[0].message?.content;
+```
+
+## Remarks
 
 [openai-gpt]: https://openai.com/product/gpt-4
 [openai-signup]: https://platform.openai.com/signup
+[openai-tokens]:
+  https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them
 [nodejs-download]: https://nodejs.org/en/download
+[typescript]: https://typescriptlang.org
 [fetch-api]: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+[cheerio]: https://cheerio.js.org/docs/intro
+[user-agents]: https://github.com/intoli/user-agents
+[gpt-3-encoder]: https://github.com/latitudegames/GPT-3-Encoder
+[gpt4-model]: https://platform.openai.com/docs/models/gpt-4
