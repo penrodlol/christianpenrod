@@ -1,18 +1,18 @@
 ---
-title: Summarize Blog Posts with OpenAI GPT
+title: Summarize Blog Posts with TypeScript and OpenAI's GPT
 description:
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam ipsum
-  unde, veniam accusamus recusandae quibusdam nesciunt.
-published: 2023-05-24
+  Implement basic web scraping and leverage OpenAI's GPT to summarize blog posts
+  via TypeScript.
+published: 2023-05-27
 ---
 
 Blog posts are a key component in learning new technologies accross the web.
-With [OpenAI's GPT][openai-gpt], we can take this a step further by instantly
+With [OpenAI's GPT][openai-gpt], we can take this a step further by easily
 summarizing blog posts into a few sentences. Allowing quicker consumption while
-retaining the key concepts and takeaways.
+retaining key concepts and takeaways.
 
-In this article, we will learn how to _scrape_ blog post content and _summarize_
-it using OpenAI's GPT.
+In this article, we will learn how to _scrape_ blog post content and later
+_summarize_ it using OpenAI's GPT.
 
 ## Setup
 
@@ -78,9 +78,9 @@ const url = 'https://openai.com/blog/introducing-chatgpt-and-whisper-apis';
 const html = await fetch(url, { headers }).then((res) => res.text());
 ```
 
-Using [Cheerio][cheerio], we can parse and extract blog post content from the
-HTML. This is essential as we only want to summarize the blog post content and
-not the entire page.
+Using [Cheerio][cheerio], we must now parse and extract blog post content from
+the HTML. This is essential as we only want to summarize the blog post content
+and not the entire page.
 
 > Web scraping can be tricky as each website is built different. You may need to
 > adjust the selectors below to fit your needs.
@@ -101,11 +101,13 @@ There is one more **required** step before plugging our blog post content into
 OpenAI's GPT. The API has a max number of [tokens][openai-tokens] that can be
 passed to it. This means we must truncate our content to fit within this limit.
 
-Tokens are comprised of more than just words. To ensure we have the correct
-amount, we can use the [gpt-3-encoder][gpt-3-encoder] library.
+Tokens are a bit complicated as they're comprised of more than just words.
+Thankfully, we can leverage the [gpt-3-encoder][gpt-3-encoder] library to
+catpure X amount of tokens from our content.
 
-> The max token count will vary based on the GPT model your using. I recommend
-> using [GPT-4][gpt4-model] as it has a much higher limit.
+> For this example, we will be capturing the first 8000 tokens. The max token
+> count will vary based on the GPT model your using. I recommend using
+> [GPT-4][gpt4-model] as it has a much higher limit.
 
 ```ts title="index.ts"
 // ...
@@ -130,7 +132,31 @@ const chatCompletion = await openai.createChatCompletion({
 const summary = chatCompletion.data.choices[0].message?.content;
 ```
 
+Here's an example of what the summary may look like:
+
+```txt
+---
+  "OpenAI now offers developers access to ChatGPT and Whisper models through its
+  API, enabling the integration of cutting-edge language and speech-to-text
+  capabilities into their apps and products. Over time, OpenAI has achieved a 90%
+  cost reduction for ChatGPT and will pass on these savings to API users. The
+  Whisper large-v2 model is also available through the API for faster and
+  cost-effective results. Users can expect continuous model improvements and
+  access to dedicated capacity for deeper control over the models. Clients like
+  Snap Inc., Quizlet, Instacart, Shopify, and Speak are already taking advantage
+  of these APIs to create AI-powered solutions. OpenAI has also made changes to
+  its API terms of service in response to developer feedback."
+---
+```
+
 ## Remarks
+
+In very few lines of code, we were able to pull all content from a blog post and
+present a detailed summary of that content. As mentioned earlier, this allows
+for quick consumption while still highlighting the key points and takeaways.
+
+You can see this in action on my personal project [feedjoy][feedjoy]. Under each
+blog post exists a summary of its content.
 
 [openai-gpt]: https://openai.com/product/gpt-4
 [openai-signup]: https://platform.openai.com/signup
@@ -143,3 +169,4 @@ const summary = chatCompletion.data.choices[0].message?.content;
 [user-agents]: https://github.com/intoli/user-agents
 [gpt-3-encoder]: https://github.com/latitudegames/GPT-3-Encoder
 [gpt4-model]: https://platform.openai.com/docs/models/gpt-4
+[feedjoy]: https://feedjoy.fyi

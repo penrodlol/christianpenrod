@@ -227,9 +227,9 @@ declare module 'astro:content' {
   collection: "posts";
   data: InferEntrySchema<"posts">
 } & { render(): Render[".mdx"] };
-"summarize-blog-posts-with-openai-gpt.mdx": {
-	id: "summarize-blog-posts-with-openai-gpt.mdx";
-  slug: "summarize-blog-posts-with-openai-gpt";
+"summarize-blog-posts-with-typescript-and-openais-gpt.mdx": {
+	id: "summarize-blog-posts-with-typescript-and-openais-gpt.mdx";
+  slug: "summarize-blog-posts-with-typescript-and-openais-gpt";
   body: string;
   collection: "posts";
   data: InferEntrySchema<"posts">
