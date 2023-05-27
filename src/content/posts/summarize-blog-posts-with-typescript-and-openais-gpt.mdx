@@ -4,6 +4,7 @@ description:
   Implement basic web scraping and leverage OpenAI's GPT to summarize blog posts
   via TypeScript.
 published: 2023-05-27
+repo: summarize-blog-posts-with-typescript-and-openais-gpt
 ---
 
 Blog posts are a key component in learning new technologies accross the web.
@@ -18,17 +19,18 @@ _summarize_ it using OpenAI's GPT.
 
 Before getting started, please ensure you have an OpenAI account. If not, you
 can signup on their website [here][openai-signup]. Once signed up, take note of
-your **API Key** as we will need it later.
+your **API Key** as we'll need it later.
 
 > This project will be using [Node.js][nodejs-download] and
-> [TypeScript][typescript]. Ensure you have Node.js installed and a basic
-> understanding of each technology.
+> [TypeScript][typescript]. Ensure you have Node.js 18.x installed and a basic
+> understanding of each technology. You can check your Node.js version by
+> running `node -v` within the terminal.
 
-Let's begin by initializing our project and installing the dependencies:
+Let's begin by initializing our project and installing dependencies:
 
 ```bash
 # Create the project directory and navigating into it
-mkdir summarize-blog-posts-with-openai-gpt && cd $_
+mkdir summarize-blog-posts-with-typescript-and-openais-gpt && cd $_
 # Initialize project
 npm init -y
 # Install dependencies
@@ -42,8 +44,33 @@ secret OpenAI API Key into there.
 OPENAI_API_KEY='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 ```
 
-Next, create an `index.ts` file at the root of our project. Within this file, we
-can load our `.env` file and initialize the OpenAI API client.
+Next, create a `tsconfig.json` file at the root of our project. This will allow
+us to leverage TypeScript within our project.
+
+> You can read about each of these options in more detail
+> [here][tsconfig-options].
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "es2022",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "noEmit": true,
+    "allowImportingTsExtensions": true
+  },
+  "ts-node": { "esm": true },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
+}
+```
+
+Lastly, create an `index.ts` file at the root of our project. Within this file,
+we can load our `.env` file and initialize the OpenAI API client.
 
 ```ts title="index.ts"
 import dotenv from 'dotenv';
@@ -64,10 +91,6 @@ We must also pass a `User-Agent` header to the request. Certain websites will
 block requests that do not have this. We can generate one via the
 [user-agents][user-agents] library.
 
-> Fetch API is baked into Node.js 18.x by default. Please ensure your local
-> Node.js version is 18.x or higher. You can check this by running `node -v` in
-> your terminal.
-
 ```ts title="index.ts"
 // ...
 import UserAgent from 'user-agents';
@@ -78,9 +101,9 @@ const url = 'https://openai.com/blog/introducing-chatgpt-and-whisper-apis';
 const html = await fetch(url, { headers }).then((res) => res.text());
 ```
 
-Using [Cheerio][cheerio], we must now parse and extract blog post content from
-the HTML. This is essential as we only want to summarize the blog post content
-and not the entire page.
+Using [Cheerio][cheerio], the blog post content must be extracted from the the
+HTML. This is essential as we only want to summarize the blog post content and
+not the entire page.
 
 > Web scraping can be tricky as each website is built different. You may need to
 > adjust the selectors below to fit your needs.
@@ -102,8 +125,8 @@ OpenAI's GPT. The API has a max number of [tokens][openai-tokens] that can be
 passed to it. This means we must truncate our content to fit within this limit.
 
 Tokens are a bit complicated as they're comprised of more than just words.
-Thankfully, we can leverage the [gpt-3-encoder][gpt-3-encoder] library to
-catpure X amount of tokens from our content.
+Thankfully, we can leverage [gpt-3-encoder][gpt-3-encoder] to do all the heavy
+lifting.
 
 > For this example, we will be capturing the first 8000 tokens. The max token
 > count will vary based on the GPT model your using. I recommend using
@@ -164,6 +187,8 @@ blog post exists a summary of its content.
   https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them
 [nodejs-download]: https://nodejs.org/en/download
 [typescript]: https://typescriptlang.org
+[tsconfig-options]:
+  https://www.typescriptlang.org/docs/handbook/tsconfig-json.html
 [fetch-api]: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
 [cheerio]: https://cheerio.js.org/docs/intro
 [user-agents]: https://github.com/intoli/user-agents
