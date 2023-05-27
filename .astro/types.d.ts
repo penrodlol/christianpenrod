@@ -204,42 +204,42 @@ declare module 'astro:content' {
   slug: "astro-shiki-syntax-highlighting-with-css-variables";
   body: string;
   collection: "posts";
-  data: any
+  data: InferEntrySchema<"posts">
 } & { render(): Render[".mdx"] };
 "developing-browser-extensions-with-nextjs.mdx": {
 	id: "developing-browser-extensions-with-nextjs.mdx";
   slug: "developing-browser-extensions-with-nextjs";
   body: string;
   collection: "posts";
-  data: any
+  data: InferEntrySchema<"posts">
 } & { render(): Render[".mdx"] };
 "hyper-terminal-and-its-arsenal-of-plugins.mdx": {
 	id: "hyper-terminal-and-its-arsenal-of-plugins.mdx";
   slug: "hyper-terminal-and-its-arsenal-of-plugins";
   body: string;
   collection: "posts";
-  data: any
+  data: InferEntrySchema<"posts">
 } & { render(): Render[".mdx"] };
 "local-state-with-ngrx-and-apollo-angular.mdx": {
 	id: "local-state-with-ngrx-and-apollo-angular.mdx";
   slug: "local-state-with-ngrx-and-apollo-angular";
   body: string;
   collection: "posts";
-  data: any
+  data: InferEntrySchema<"posts">
 } & { render(): Render[".mdx"] };
 "summarize-blog-posts-with-typescript-and-openais-gpt.mdx": {
 	id: "summarize-blog-posts-with-typescript-and-openais-gpt.mdx";
   slug: "summarize-blog-posts-with-typescript-and-openais-gpt";
   body: string;
   collection: "posts";
-  data: any
+  data: InferEntrySchema<"posts">
 } & { render(): Render[".mdx"] };
 "tailwindcss-responsive-design-without-breakpoints.mdx": {
 	id: "tailwindcss-responsive-design-without-breakpoints.mdx";
   slug: "tailwindcss-responsive-design-without-breakpoints";
   body: string;
   collection: "posts";
-  data: any
+  data: InferEntrySchema<"posts">
 } & { render(): Render[".mdx"] };
 };
 "roles": {
@@ -248,14 +248,14 @@ declare module 'astro:content' {
   slug: "laroche";
   body: string;
   collection: "roles";
-  data: any
+  data: InferEntrySchema<"roles">
 } & { render(): Render[".md"] };
 "mckesson.md": {
 	id: "mckesson.md";
   slug: "mckesson";
   body: string;
   collection: "roles";
-  data: any
+  data: InferEntrySchema<"roles">
 } & { render(): Render[".md"] };
 };
 
@@ -267,5 +267,5 @@ declare module 'astro:content' {
 
 	type AnyEntryMap = ContentEntryMap & DataEntryMap;
 
-	type ContentConfig = never;
+	type ContentConfig = typeof import("../src/content/config");
 }

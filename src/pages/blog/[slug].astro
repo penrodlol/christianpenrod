@@ -91,13 +91,13 @@ const { Content, remarkPluginFrontmatter } = await post.render();
     @apply bg-[var(--shiki-color-background)] text-xs p-1 rounded
 
   article :global([data-rehype-pretty-code-fragment])
-    @apply overflow-x-auto rounded bg-[var(--shiki-color-background)] shadow text-xs
+    @apply rounded bg-[var(--shiki-color-background)] shadow text-xs
 
     :global([data-rehype-pretty-code-title])
       @apply bg-3 px-4 py-0.5 text-right text-2 shadow
 
     :global(pre)
-      @apply p-4
+      @apply p-4 overflow-x-auto
 
     :global(code)
       @apply font-sans p-0
