@@ -1,0 +1,240 @@
+---
+title: Summarize Blog Posts with TypeScript and OpenAI's GPT
+description:
+  Implement basic web scraping and leverage OpenAI's GPT to summarize blog posts
+  via TypeScript.
+published: 2023-05-27
+repo: summarize-blog-posts-with-typescript-and-openais-gpt
+---
+
+Blog posts are a key component in learning new technologies accross the web.
+With [OpenAI's GPT][openai-gpt], we can take this a step further by summarizing
+blog posts into a few sentences. Allowing quicker consumption while retaining
+key concepts.
+
+In this article, we will learn how to _scrape_ blog post content and _summarize_
+it using OpenAI's GPT via TypeScript.
+
+## Setup
+
+Before getting started, please ensure you have an OpenAI account. If not, you
+can signup on their website [here][openai-signup]. Once signed up, take note of
+your **API Key** as we'll need it later.
+
+> This project will be using [Node.js][nodejs-download] 18.x. You can check your
+> Node.js version by running `node -v` within the terminal.
+
+Let's begin by initializing our project and installing dependencies:
+
+```bash
+# Create the project directory and navigating into it
+mkdir summarize-blog-posts-with-typescript-and-openais-gpt && cd $_
+# Initialize project
+npm init -y && npm pkg set type=module
+# Install dependencies
+npm i openai gpt-3-encoder cheerio user-agents dotenv typescript @types/node @types/user-agents
+```
+
+Now that we have our project setup, let's create an `.env` file and place our
+secret OpenAI API Key in there.
+
+```bash title=".env"
+OPENAI_API_KEY='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+```
+
+Next, create a `tsconfig.json` file at the root of our project. This will allow
+us to leverage TypeScript within our project.
+
+> You can read about each of these options in more detail
+> [here][tsconfig-options].
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "es2022",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "noEmit": true,
+    "allowImportingTsExtensions": true
+  },
+  "ts-node": { "esm": true },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
+}
+```
+
+Lastly, create an `index.ts` file at the root of our project. Within this file,
+we can load our `.env` file and initialize the OpenAI API client.
+
+```ts title="index.ts"
+import dotenv from 'dotenv';
+import { Configuration, OpenAIApi } from 'openai';
+
+dotenv.config();
+
+const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAIApi(configuration);
+```
+
+## Web Scraping Content
+
+In order to summarize a blog post, we must first capture its contents. Start by
+using the [Fetch API][fetch-api] to get all HTML content from the blog post's
+webpage.
+
+We must also pass a `User-Agent` header to the request. Certain websites will
+block requests that do not have this. We can generate one via the
+[user-agents][user-agents] library.
+
+```ts title="index.ts" {1-2, 5-8}
+import dotenv from 'dotenv';
+import { Configuration, OpenAIApi } from 'openai';
+import UserAgent from 'user-agents';
+
+dotenv.config();
+
+const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAIApi(configuration);
+
+const headers = { 'User-Agent': new UserAgent(/Chrome/).toString() };
+const url = 'https://openai.com/blog/introducing-chatgpt-and-whisper-apis';
+const html = await fetch(url, { headers }).then((res) => res.text());
+```
+
+Using [Cheerio][cheerio], the blog post content must be extracted from the the
+HTML. This is essential as we only want to summarize the blog post content and
+not the entire page.
+
+> Web scraping can be tricky as each website is built different. You may need to
+> adjust the selectors below to fit your needs.
+
+```ts title="index.ts" {2-13}
+import { load } from 'cheerio';
+import dotenv from 'dotenv';
+import { Configuration, OpenAIApi } from 'openai';
+import UserAgent from 'user-agents';
+
+dotenv.config();
+
+const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAIApi(configuration);
+
+const headers = { 'User-Agent': new UserAgent(/Chrome/).toString() };
+const url = 'https://openai.com/blog/introducing-chatgpt-and-whisper-apis';
+const html = await fetch(url, { headers }).then((res) => res.text());
+
+const $ = load(html);
+$('header, footer, aside, noscript').remove();
+const content = $('main').length > 0 ? $('main p') : $('body p');
+```
+
+## Summarizing Content
+
+OpenAI's GPT has a max number of [tokens][openai-tokens] that can be passed into
+it. This means we must truncate our content to fit within this limit.
+Thankfully, we can leverage [gpt-3-encoder][gpt-3-encoder] to do all the heavy
+lifting.
+
+> For this example, we will be capturing the first 8000 tokens. The max token
+> count will vary based on the GPT model your using. I recommend using
+> [GPT-4][gpt4-model] as it has a much higher limit.
+
+```ts title="index.ts" {1-2,4-18}
+import { load } from 'cheerio';
+import dotenv from 'dotenv';
+import { decode, encode } from 'gpt-3-encoder';
+import { Configuration, OpenAIApi } from 'openai';
+import UserAgent from 'user-agents';
+
+dotenv.config();
+
+const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAIApi(configuration);
+
+const headers = { 'User-Agent': new UserAgent(/Chrome/).toString() };
+const url = 'https://openai.com/blog/introducing-chatgpt-and-whisper-apis';
+const html = await fetch(url, { headers }).then((res) => res.text());
+
+const $ = load(html);
+$('header, footer, aside, noscript').remove();
+const content = $('main').length > 0 ? $('main p') : $('body p');
+const safeContent = decode(encode(content.text()).slice(0, 8000));
+```
+
+Finally, we can pass our content to OpenAI's GPT and receive a summary of the
+blog post. Keep in mind, the request may take a few seconds to complete.
+
+```ts title="index.ts" {1-19}
+import { load } from 'cheerio';
+import dotenv from 'dotenv';
+import { decode, encode } from 'gpt-3-encoder';
+import { Configuration, OpenAIApi } from 'openai';
+import UserAgent from 'user-agents';
+
+dotenv.config();
+
+const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAIApi(configuration);
+
+const headers = { 'User-Agent': new UserAgent(/Chrome/).toString() };
+const url = 'https://openai.com/blog/introducing-chatgpt-and-whisper-apis';
+const html = await fetch(url, { headers }).then((res) => res.text());
+
+const $ = load(html);
+$('header, footer, aside, noscript').remove();
+const content = $('main').length > 0 ? $('main p') : $('body p');
+const safeContent = decode(encode(content.text()).slice(0, 8000));
+
+const chatCompletion = await openai.createChatCompletion({
+  model: 'gpt-4', // or gpt-3.5-turbo
+  messages: [
+    { role: 'user', content: `Summarize in 1 paragraph: ${safeContent}` },
+  ],
+});
+
+const summary = chatCompletion.data.choices[0].message?.content;
+```
+
+Here's an example of what the summary may look like:
+
+```txt
+---
+  "OpenAI now offers developers access to ChatGPT and Whisper models through its
+  API, enabling the integration of cutting-edge language and speech-to-text
+  capabilities into their apps and products. Over time, OpenAI has achieved a 90%
+  cost reduction for ChatGPT and will pass on these savings to API users. The
+  Whisper large-v2 model is also available through the API for faster and
+  cost-effective results. Users can expect continuous model improvements and
+  access to dedicated capacity for deeper control over the models. Clients like
+  Snap Inc., Quizlet, Instacart, Shopify, and Speak are already taking advantage
+  of these APIs to create AI-powered solutions. OpenAI has also made changes to
+  its API terms of service in response to developer feedback."
+---
+```
+
+## Remarks
+
+In very few lines of code, we were able to pull all content from a blog post and
+present a detailed summary of that content. As mentioned earlier, this allows
+quick consumption while retaining key concepts.
+
+You can see this in action on my personal project [feedjoy][feedjoy]. Under each
+blog post exists a summary of its content.
+
+[openai-gpt]: https://openai.com/product/gpt-4
+[openai-signup]: https://platform.openai.com/signup
+[openai-tokens]:
+  https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them
+[nodejs-download]: https://nodejs.org/en/download
+[tsconfig-options]:
+  https://www.typescriptlang.org/docs/handbook/tsconfig-json.html
+[fetch-api]: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+[cheerio]: https://cheerio.js.org/docs/intro
+[user-agents]: https://github.com/intoli/user-agents
+[gpt-3-encoder]: https://github.com/latitudegames/GPT-3-Encoder
+[gpt4-model]: https://platform.openai.com/docs/models/gpt-4
+[feedjoy]: https://feedjoy.fyi

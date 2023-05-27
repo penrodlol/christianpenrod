@@ -25,26 +25,24 @@ ng add apollo-angular
 After dependencies have been installed, let's build out our data model. For this
 example, we will be working with a collection of villagers.
 
-```ts
-// src/app/villagers/villagers.ts
-
+```ts title="src/app/villagers/villagers.ts"
 export interface IVillager {
   id: number;
   name: string;
   species: string;
   personality: string;
 }
+
 export type Villagers = Array<IVillager>;
 ```
 
 Now that we have our data model in place, lets create a simple component and its
 module which will inherit our future local state of villagers.
 
-```ts
-// src/app/villagers/villagers.component.ts
-
+```ts title="src/app/villagers/villagers.component.ts"
 import { CommonModule } from '@angular/common';
 import { Component, NgModule, OnInit } from '@angular/core';
+
 @Component({
   selector: 'app-villagers',
   template: ``,
@@ -53,6 +51,7 @@ export class VillagersComponent implements OnInit {
   constructor() {}
   ngOnInit(): void {}
 }
+
 @NgModule({
   declarations: [VillagersComponent],
   imports: [CommonModule],
@@ -72,15 +71,15 @@ This can be done like so:
 > Apollo Angular provides [other ways][apolloangular-queries] of performing a
 > Query.
 
-```ts
-// src/app/villagers/villagers.gql.ts
-
+```ts title="src/app/villagers/villagers.gql.ts"
 import { Injectable } from '@angular/core';
 import { gql, Query } from 'apollo-angular';
 import { Villagers } from './villager';
+
 export interface IVillagersResponse {
   readonly villagers: Villagers;
 }
+
 @Injectable({ providedIn: 'root' })
 export class VillagersGQL extends Query<IVillagersResponse> {
   document = gql`
@@ -113,15 +112,15 @@ Now that we have a way of retrieving our data and a component to display it,
 lets begin our local state management. For this we'll use NgRx ComponentStore.
 Let's start by creating our store.
 
-```ts
-// src/app/villagers/villagers.store.ts
-
+```ts title="src/app/villagers/villagers.store.ts"
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { Villagers } from './villager';
+
 export interface IVillagersState {
   readonly villagers: Villagers;
 }
+
 @Injectable()
 export class VillagersStore extends ComponentStore[IVillagersState] {
   constructor() {
@@ -133,25 +132,25 @@ export class VillagersStore extends ComponentStore[IVillagersState] {
 With our basic Store now in place, let's add the logic to interact with our
 Query we just wrote.
 
-```ts
-// src/app/villagers/villagers.store.ts
-
+```ts title="src/app/villagers/villagers.store.ts"
 ...
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { EMPTY } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { VillagersGQL } from './villagers.gql';
+
 export interface IVillagersState {
   readonly villagers: Villagers;
 }
+
 @Injectable()
-export class VillagersStore extends ComponentStore<
-  IVillagersState,
-> {
+export class VillagersStore extends ComponentStore<IVillagersState> {
   constructor(private readonly villagersGQL: VillagersGQL) {
     super({ villagers: [] });
   }
+
   readonly villagers$ = this.select(({ villagers }) => villagers);
+
   readonly fetchAll = this.effect((event$) => event$.pipe(
     switchMap(() => this.villagersGQL.fetch().pipe(
       tapResponse(
@@ -163,6 +162,7 @@ export class VillagersStore extends ComponentStore<
       )
     )),
   ));
+
   readonly addMany = this.updater((_, villagers: Villagers) => ({
     villagers,
   }));
@@ -176,11 +176,10 @@ to the effect's pipeline with ease. On a successful response, we'll use the
 Finally, we have a selector: `villagers$` which we'll use to async bind to our
 UI. Now let's jump back to our component and hook this all up.
 
-```ts
-// src/app/villagers/villagers.component.ts
-
+```ts title="src/app/villagers/villagers.component.ts"
 ...
 import { VillagersStore } from './villagers.store';
+
 @Component({
   selector: 'app-villagers',
   template: `
@@ -220,19 +219,20 @@ updating a villager's name:
 > Apollo Angular provides [other ways][apolloangular-mutations] of performing a
 > Mutation.
 
-```ts
-// src/app/villagers/villager-edit-name.gql.ts
-
+```ts title="src/app/villagers/villager-edit-name.gql.ts"
 import { Injectable } from '@angular/core';
 import { gql, Mutation } from 'apollo-angular';
 import { IVillager } from './villager';
+
 export interface IVillagerEditNameVariables {
   readonly id: number;
   readonly name: string;
 }
+
 export interface IVillagerEditNameResponse {
   readonly editVillagerName: IVillager;
 }
+
 @Injectable({ providedIn: 'root' })
 export class VillagerEditNameGQL extends Mutation<
   IVillagerEditNameResponse,
@@ -257,12 +257,11 @@ for the variables. Also like the Query class logic, _It's just GraphQL_.
 
 Let's now bring this Mutation in to our Store:
 
-```ts
-// src/app/villagers/villagers.store.ts
-
+```ts title="src/app/villagers/villagers.store.ts"
 ...
 import { VillagerEditNameGQL } from './villager-edit-name.gql';
 ...
+
 @Injectable()
 export class VillagersStore extends ComponentStore<
   IVillagersState,
@@ -283,6 +282,7 @@ export class VillagersStore extends ComponentStore<
         : villager,
     ),
   }));
+
   readonly editName = this.effect((update$: Observable<
     Pick<IVillager, 'id' | 'name'
   >>) => {
@@ -310,9 +310,7 @@ record.
 Finally, lets update our component to call our effect and update the local
 state:
 
-```ts
-// src/app/villagers/villagers.component.ts
-
+```ts title="src/app/villagers/villagers.component.ts"
 ...
 @Component({
   selector: 'app-villagers',
