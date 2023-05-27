@@ -91,11 +91,16 @@ We must also pass a `User-Agent` header to the request. Certain websites will
 block requests that do not have this. We can generate one via the
 [user-agents][user-agents] library.
 
-```ts title="index.ts"
-// ...
+```ts title="index.ts" {1-2, 5-8}
+import dotenv from 'dotenv';
+import { Configuration, OpenAIApi } from 'openai';
 import UserAgent from 'user-agents';
 
-// ...
+dotenv.config();
+
+const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAIApi(configuration);
+
 const headers = { 'User-Agent': new UserAgent(/Chrome/).toString() };
 const url = 'https://openai.com/blog/introducing-chatgpt-and-whisper-apis';
 const html = await fetch(url, { headers }).then((res) => res.text());
@@ -108,11 +113,21 @@ not the entire page.
 > Web scraping can be tricky as each website is built different. You may need to
 > adjust the selectors below to fit your needs.
 
-```ts title="index.ts"
-// ...
+```ts title="index.ts" {2-13}
 import { load } from 'cheerio';
+import dotenv from 'dotenv';
+import { Configuration, OpenAIApi } from 'openai';
+import UserAgent from 'user-agents';
 
-// ...
+dotenv.config();
+
+const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAIApi(configuration);
+
+const headers = { 'User-Agent': new UserAgent(/Chrome/).toString() };
+const url = 'https://openai.com/blog/introducing-chatgpt-and-whisper-apis';
+const html = await fetch(url, { headers }).then((res) => res.text());
+
 const $ = load(html);
 $('header, footer, aside, noscript').remove();
 const content = $('main').length > 0 ? $('main p') : $('body p');
@@ -132,19 +147,52 @@ lifting.
 > count will vary based on the GPT model your using. I recommend using
 > [GPT-4][gpt4-model] as it has a much higher limit.
 
-```ts title="index.ts"
-// ...
+```ts title="index.ts" {1-2,4-18}
+import { load } from 'cheerio';
+import dotenv from 'dotenv';
 import { decode, encode } from 'gpt-3-encoder';
+import { Configuration, OpenAIApi } from 'openai';
+import UserAgent from 'user-agents';
 
-// ...
+dotenv.config();
+
+const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAIApi(configuration);
+
+const headers = { 'User-Agent': new UserAgent(/Chrome/).toString() };
+const url = 'https://openai.com/blog/introducing-chatgpt-and-whisper-apis';
+const html = await fetch(url, { headers }).then((res) => res.text());
+
+const $ = load(html);
+$('header, footer, aside, noscript').remove();
+const content = $('main').length > 0 ? $('main p') : $('body p');
 const safeContent = decode(encode(content.text()).slice(0, 8000));
 ```
 
 Finally, we can pass our content to OpenAI's GPT and receive a summary of the
 blog post. Keep in mind, the request may take a few seconds to complete.
 
-```ts title="index.ts"
-// ...
+```ts title="index.ts" {1-19}
+import { load } from 'cheerio';
+import dotenv from 'dotenv';
+import { decode, encode } from 'gpt-3-encoder';
+import { Configuration, OpenAIApi } from 'openai';
+import UserAgent from 'user-agents';
+
+dotenv.config();
+
+const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAIApi(configuration);
+
+const headers = { 'User-Agent': new UserAgent(/Chrome/).toString() };
+const url = 'https://openai.com/blog/introducing-chatgpt-and-whisper-apis';
+const html = await fetch(url, { headers }).then((res) => res.text());
+
+const $ = load(html);
+$('header, footer, aside, noscript').remove();
+const content = $('main').length > 0 ? $('main p') : $('body p');
+const safeContent = decode(encode(content.text()).slice(0, 8000));
+
 const chatCompletion = await openai.createChatCompletion({
   model: 'gpt-4', // or gpt-3.5-turbo
   messages: [
