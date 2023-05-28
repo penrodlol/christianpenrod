@@ -15,21 +15,21 @@ export const { getStaticPaths, get } = OGImageRoute({
       border: { color: [212, 212, 216], width: 20 },
       font: {
         title: {
-          families: ['Maitree'],
+          families: ['Golos UI'],
           size: 70,
           color: [255, 255, 255],
-          weight: 'Normal',
+          weight: 'SemiBold',
         },
         description: {
-          families: ['Maitree'],
+          families: ['Golos UI'],
           size: 30,
           color: [161, 161, 170],
-          weight: 'Light',
+          weight: 'Normal',
         },
       },
       fonts: [
-        'https://api.fontsource.org/v1/fonts/maitree/latin-400-normal.ttf',
-        'https://api.fontsource.org/v1/fonts/maitree/latin-300-normal.ttf',
+        'https://api.fontsource.org/v1/fonts/golos-ui/latin-ext-600-normal.ttf',
+        'https://api.fontsource.org/v1/fonts/golos-ui/latin-ext-400-normal.ttf',
       ],
     };
   },
