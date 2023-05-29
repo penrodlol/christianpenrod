@@ -9,7 +9,7 @@ import readingtime from 'reading-time';
 import rehypePrettyCode from 'rehype-pretty-code';
 
 export default defineConfig({
-  site: 'https://www.christianpenrod.com',
+  site: 'https://christianpenrod.com',
   image: { service: sharpImageService() },
   experimental: { assets: true },
   markdown: {
