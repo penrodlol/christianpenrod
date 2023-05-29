@@ -3,6 +3,7 @@ import src from '@/assets/me.webp';
 import Anchor from '@/components/anchor.astro';
 import GithubCard from '@/components/github-card.astro';
 import PostCard from '@/components/post-card.astro';
+import Socials from '@/components/socials.astro';
 import Layout from '@/layouts/layout.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
@@ -19,7 +20,7 @@ const posts = (await getCollection('posts'))
     <div>
       <h1 class="text-4xl">Hi, I'm Christian</h1>
       <h2 class="text-2 text-xl">Front-End Web Developer</h2>
-      <ul class="mt-fluid-4 flex flex-col gap-2 font-1">
+      <ul class="my-fluid-4 flex flex-col gap-2 font-1">
         <li class="flex flex-wrap items-center gap-x-2">
           <Minus class="h-4 shrink-0" /> Web Developer
           <Anchor href={import.meta.env.JOB}>@McKesson</Anchor>
@@ -32,6 +33,7 @@ const posts = (await getCollection('posts'))
           <Minus class="h-4 shrink-0" /> Pittsburgh, PA, USA
         </li>
       </ul>
+      <Socials />
     </div>
     <div
       class={`relative rounded-full ring-2 ring-brand ring-opacity-10

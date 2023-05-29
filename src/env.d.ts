@@ -2,12 +2,14 @@
 /// <reference types="astro/client-image" />
 
 interface ImportMetaEnv {
-  readonly EMAIL: string;
+  readonly GITHUB_TOKEN: string;
+  readonly USERNAME: string;
   readonly JOB: string;
   readonly COLLEGE: string;
-  readonly USERNAME: string;
-  readonly GITHUB_PROFILE: string;
-  readonly GITHUB_TOKEN: string;
+  readonly GITHUB: string;
+  readonly TWITTER: string;
+  readonly LINKEDIN: string;
+  readonly EMAIL: string;
 }
 
 interface ImportMeta {

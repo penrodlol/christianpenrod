@@ -2,6 +2,7 @@
 import favicon from '@/assets/favicon.svg';
 import ogDefault from '@/assets/og.webp';
 import Anchor from '@/components/anchor.astro';
+import Socials from '@/components/socials.astro';
 import '@fontsource/maitree';
 import '@fontsource/maitree/300.css';
 import { Image } from 'astro:assets';
@@ -43,7 +44,7 @@ const {
     class={`mx-auto flex min-h-screen max-w-screen-lg flex-col bg-1 text-sm
             text-1 px-fluid-5 selection:bg-brand selection:bg-opacity-10`}
   >
-    <header class="flex items-center gap-4 py-4 text-2 text-xs">
+    <header class="flex items-center gap-4 py-4">
       <a href="/" class="mr-auto h-7 w-7" aria-label="Home">
         <Image
           src={favicon.src}
@@ -53,18 +54,20 @@ const {
           aria-hidden
         />
       </a>
-      <Anchor href="/blog">Blog</Anchor>
-      <Anchor href="/career">Career</Anchor>
-      <Anchor href={import.meta.env.GITHUB_PROFILE} nostyle>Github</Anchor>
-      <Anchor href={`mailto:${import.meta.env.EMAIL}`}>Email</Anchor>
+      <nav>
+        <ul class="flex items-center gap-4 text-2 text-xs">
+          <li><Anchor href="/blog">Blog</Anchor></li>
+          <li><Anchor href="/career">Career</Anchor></li>
+          <li><Anchor href={import.meta.env.GITHUB} nostyle>Github</Anchor></li>
+          <li><Anchor href={import.meta.env.EMAIL} nostyle>Email</Anchor></li>
+        </ul>
+      </nav>
     </header>
     <main class="mb-fluid-5 flex-1 motion-safe:animate-fade-in"><slot /></main>
-    <footer class="p-2 text-center font-1 text-2 text-xs">
-      <p>Created by: Christian Penrod ©{new Date().getUTCFullYear()}</p>
-      <p>
-        Built with: <Anchor href="https://docs.astro.build">Astro</Anchor>
-        on <Anchor href="https://vercel.com/docs">Vercel</Anchor>
-      </p>
+    <footer class="mx-auto flex flex-col items-center p-2 text-center text-xs">
+      <Socials />
+      <p class="mt-1 font-1">Powered by Astro on Vercel</p>
+      <p class="font-1">© 2023 Christian Penrod</p>
     </footer>
   </body>
 </html>
