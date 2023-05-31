@@ -36,9 +36,6 @@ export default defineConfig({
     mdx(),
     preact(),
     sitemap({ changefreq: 'daily', lastmod: new Date() }),
-    robotsTxt({
-      host: true,
-      policy: [{ userAgent: '*', disallow: ['/404'] }],
-    }),
+    robotsTxt({ host: true, policy: [{ userAgent: '*', disallow: ['/404'] }] }),
   ],
 });
