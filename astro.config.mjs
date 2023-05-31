@@ -36,7 +36,7 @@ export default defineConfig({
     sitemap({ changefreq: 'daily', lastmod: new Date() }),
     robotsTxt({
       host: true,
-      policy: [{ userAgent: '*', disallow: ['/api', '/404'] }],
+      policy: [{ userAgent: '*', disallow: ['/404'] }],
     }),
   ],
 });
