@@ -1,11 +1,10 @@
 ---
-import favicon from '@/assets/favicon.svg';
+import favicon from '@/assets/favicon.webp';
 import ogDefault from '@/assets/og.webp';
 import Anchor from '@/components/anchor.astro';
 import Socials from '@/components/socials.astro';
 import '@fontsource/maitree';
 import '@fontsource/maitree/300.css';
-import { Image } from 'astro:assets';
 
 type Props = { title?: string; description?: string; og?: string };
 
@@ -46,7 +45,7 @@ const {
   >
     <header class="flex items-center gap-4 py-4">
       <a href="/" class="mr-auto h-7 w-7" aria-label="Home">
-        <Image
+        <img
           src={favicon.src}
           width={favicon.width}
           height={favicon.height}
