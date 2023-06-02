@@ -7,7 +7,6 @@ type Props = HTMLAttributes<'a'> & { nostyle?: boolean };
 
 const { href, target, class: className, nostyle, ...props } = Astro.props;
 const external = String(href).startsWith('https://');
-const externalStyles = 'text-brand hover:opacity-90';
 ---
 
 <a
@@ -18,7 +17,7 @@ const externalStyles = 'text-brand hover:opacity-90';
   class={twMerge(
     'cursor-pointer relative inline-flex items-center gap-1 rounded-sm no-underline',
     'hover:text-brand focus-visible:text-brand motion-safe:transition-colors',
-    external && !nostyle && externalStyles,
+    external && !nostyle && 'text-brand hover:opacity-90',
     className,
   )}
 >
