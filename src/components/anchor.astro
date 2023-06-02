@@ -1,6 +1,7 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
 import { ArrowUpRight } from 'lucide-preact';
+import { twMerge } from 'tailwind-merge';
 
 type Props = HTMLAttributes<'a'> & { nostyle?: boolean };
 
@@ -14,9 +15,12 @@ const externalStyles = 'text-brand hover:opacity-90';
   href={href}
   target={external ? '_blank' : target}
   rel={external ? 'nofollow noopener noreferrer' : target}
-  class={`cursor-pointer relative inline-flex items-center gap-1 rounded-sm no-underline
-          hover:text-brand focus-visible:text-brand motion-safe:transition-colors
-          ${external && !nostyle ? externalStyles : ''} ${className ?? ''}`}
+  class={twMerge(
+    'cursor-pointer relative inline-flex items-center gap-1 rounded-sm no-underline',
+    'hover:text-brand focus-visible:text-brand motion-safe:transition-colors',
+    external && !nostyle && externalStyles,
+    className,
+  )}
 >
   <span><slot /></span>
   {external && !nostyle && <ArrowUpRight class="h-4 w-4 -translate-y-[1px]" />}

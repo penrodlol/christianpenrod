@@ -8,6 +8,7 @@ import Layout from '@/layouts/layout.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import { ArrowRight, Minus } from 'lucide-preact';
+import { twJoin } from 'tailwind-merge';
 
 const repos = ['feedjoy', 'christianpenrod'];
 const posts = (await getCollection('posts'))
@@ -36,9 +37,11 @@ const posts = (await getCollection('posts'))
       <Socials />
     </div>
     <div
-      class={`relative rounded-full ring-2 ring-brand ring-opacity-10
-              w-[230px] h-[230px] lg:h-[280px] lg:w-[280px] sm:block hidden
-              before:absolute before:inset-0 before:rounded-full before:bg-2`}
+      class={twJoin(
+        'relative rounded-full ring-2 ring-brand ring-opacity-10',
+        'w-[230px] h-[230px] lg:h-[280px] lg:w-[280px] sm:block hidden',
+        'before:absolute before:inset-0 before:rounded-full before:bg-2',
+      )}
     >
       <Image
         src={src}

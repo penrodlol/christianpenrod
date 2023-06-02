@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { Twitter } from 'lucide-preact';
+import { twJoin } from 'tailwind-merge';
 
 type Props = { post: CollectionEntry<'posts'> };
 
@@ -17,8 +18,10 @@ href.searchParams.append('via', import.meta.env.USERNAME);
   target="_blank"
   rel="nofollow noopener noreferrer"
   aria-label="Share on Twitter"
-  class={`flex items-center gap-2 rounded-md bg-2 py-2 px-4 shadow
-          hover:bg-3 duration-200 motion-safe:transition-colors`}
+  class={twJoin(
+    'flex items-center gap-2 rounded-md bg-2 py-2 px-4 shadow',
+    'hover:bg-3 duration-200 motion-safe:transition-colors',
+  )}
 >
   <Twitter class="h-5 w-5 stroke-brand" />
   <span class="text-brand text-xs">Share</span>

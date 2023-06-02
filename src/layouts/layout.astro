@@ -5,6 +5,7 @@ import Anchor from '@/components/anchor.astro';
 import Socials from '@/components/socials.astro';
 import '@fontsource/maitree';
 import '@fontsource/maitree/300.css';
+import { twJoin } from 'tailwind-merge';
 
 type Props = { title?: string; description?: string; og?: string };
 
@@ -40,8 +41,10 @@ const {
     <link href={new URL(Astro.url.pathname, Astro.site)} rel="canonical" />
   </head>
   <body
-    class={`mx-auto flex min-h-screen max-w-screen-lg flex-col bg-1 text-sm
-            text-1 px-fluid-5 selection:bg-brand selection:bg-opacity-10`}
+    class={twJoin(
+      'mx-auto flex min-h-screen max-w-screen-lg flex-col bg-1 text-sm',
+      'text-1 px-fluid-5 selection:bg-brand selection:bg-opacity-10',
+    )}
   >
     <header class="flex items-center gap-4 py-4">
       <a href="/" class="mr-auto h-7 w-7" aria-label="Home">

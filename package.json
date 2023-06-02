@@ -35,6 +35,7 @@
     "rehype-pretty-code": "^0.9.6",
     "sass": "^1.62.1",
     "sharp": "^0.32.1",
+    "tailwind-merge": "^1.13.0",
     "tailwindcss": "^3.3.2",
     "tailwindcss-fluid-type": "^2.0.3"
   }
