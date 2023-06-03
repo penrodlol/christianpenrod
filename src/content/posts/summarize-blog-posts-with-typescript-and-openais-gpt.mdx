@@ -112,38 +112,16 @@ not the entire page.
 > Web scraping can be tricky as each website is built different. You may need to
 > adjust the selectors below to fit your needs.
 
-```ts title="index.ts" {2-14}
-import { load } from 'cheerio';
-import dotenv from 'dotenv';
-import { Configuration, OpenAIApi } from 'openai';
-import UserAgent from 'user-agents';
-
-dotenv.config();
-
-const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY });
-const openai = new OpenAIApi(configuration);
-
-const headers = { 'User-Agent': new UserAgent(/Chrome/).toString() };
-const url = 'https://openai.com/blog/introducing-chatgpt-and-whisper-apis';
-const html = await fetch(url, { headers }).then((res) => res.text());
-
-const $ = load(html);
-$('header, footer, aside, noscript').remove();
-const content = $('main').length > 0 ? $('main p') : $('body p');
-```
-
-## Summarizing Content
-
-OpenAI's GPT has a max number of [tokens][openai-tokens] that can be passed into
-it. This means we must truncate our content to fit within this limit.
-Thankfully, we can leverage [gpt-3-encoder][gpt-3-encoder] to do all the heavy
-lifting.
+Also, OpenAI's GPT has a max number of [tokens][openai-tokens] that can be
+passed into it. This means we must truncate our content to fit within this
+limit. Thankfully, we can leverage [gpt-3-encoder][gpt-3-encoder] to do all the
+heavy lifting.
 
 > For this example, we will be capturing the first 8000 tokens. The max token
 > count will vary based on the GPT model your using. I recommend using
 > [GPT-4][gpt4-model] as it has a much higher limit.
 
-```ts title="index.ts" {1-2,4-18}
+```ts title="index.ts" {2,4-14}
 import { load } from 'cheerio';
 import dotenv from 'dotenv';
 import { decode, encode } from 'gpt-3-encoder';
@@ -164,6 +142,8 @@ $('header, footer, aside, noscript').remove();
 const content = $('main').length > 0 ? $('main p') : $('body p');
 const safeContent = decode(encode(content.text()).slice(0, 8000));
 ```
+
+## Summarizing Content
 
 Finally, we can pass our content to OpenAI's GPT and receive a summary of the
 blog post. Keep in mind, the request may take a few seconds to complete.
