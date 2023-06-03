@@ -69,6 +69,19 @@ const { Content, remarkPluginFrontmatter } = await post.render();
 </Layout>
 
 <style lang="scss" is:global>
+  :root {
+    --shiki-color-text: theme('textColor.2');
+    --shiki-color-background: #040404;
+    --shiki-token-constant: #777e96;
+    --shiki-token-string: #d3d5de;
+    --shiki-token-comment: #7c7c7c;
+    --shiki-token-keyword: #737c9a;
+    --shiki-token-parameter: #e2e4ed;
+    --shiki-token-function: #868690;
+    --shiki-token-string-expression: #a5a5e1;
+    --shiki-token-punctuation: #575861;
+  }
+
   article p {
     @apply leading-8;
   }
@@ -119,9 +132,8 @@ const { Content, remarkPluginFrontmatter } = await post.render();
       @apply overflow-x-auto px-2 py-4;
     }
 
-    .visited {
-      @apply select-none opacity-30 grayscale-[0.7];
-      content-visibility: hidden;
+    .visited span {
+      @apply text-2 opacity-40 #{!important};
     }
   }
 </style>

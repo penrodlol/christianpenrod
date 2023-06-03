@@ -29,19 +29,6 @@ module.exports = {
     require('tailwindcss-fluid-type'),
     ({ theme, addBase }) =>
       addBase({
-        // https://github.com/tobiastimm/raiju/blob/master/themes/raiju-dark-noitalic.json
-        ':root': {
-          '--shiki-color-text': theme('textColor.2'),
-          '--shiki-color-background': '#040404',
-          '--shiki-token-constant': '#cbb1f3',
-          '--shiki-token-string': '#ceb3f7',
-          '--shiki-token-comment': theme('textColor.2'),
-          '--shiki-token-keyword': '#8d9ad1',
-          '--shiki-token-parameter': '#d7e2ff',
-          '--shiki-token-function': '#d7e2ff',
-          '--shiki-token-string-expression': '#a5a5e1',
-          '--shiki-token-punctuation': '#8892aa',
-        },
         '*': {
           scrollbarColor: `${theme('backgroundColor.2')} transparent`,
           scrollbarWidth: 'thin',
