@@ -17,7 +17,14 @@ export default defineConfig({
   markdown: {
     syntaxHighlight: false,
     rehypePlugins: [
-      [rehypePrettyCode, { theme: 'css-variables' }],
+      [
+        rehypePrettyCode,
+        {
+          theme: 'css-variables',
+          onVisitHighlightedLine: (node) =>
+            node.properties.className.push('visited'),
+        },
+      ],
       () => (tree, vfile) => {
         const payload = Math.round(readingtime(toString(tree)).minutes);
         vfile.data.astro.frontmatter.readingTime = payload;

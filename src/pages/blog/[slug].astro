@@ -68,37 +68,60 @@ const { Content, remarkPluginFrontmatter } = await post.render();
   </article>
 </Layout>
 
-<style lang="sass">
-  article :global(p)
-    @apply leading-8
+<style lang="scss" is:global>
+  article p {
+    @apply leading-8;
+  }
 
-  article :global(ol)
-    @apply list-inside list-decimal text-xs
+  article ol {
+    @apply list-inside list-decimal text-xs;
+  }
 
-  article :global(blockquote)
-    @apply rounded border-l-8 border-l-brand bg-2 p-4 text-2 shadow
+  article blockquote {
+    @apply rounded border-l-8 border-l-brand bg-2 p-4 italic text-2 shadow;
+  }
 
-  article :global(details)
-    @apply my-2 rounded bg-2 p-4 shadow
+  article details {
+    @apply my-2 rounded bg-2 p-4 shadow;
 
-    &[open] :global(summary)
-      @apply text-brand
+    summary {
+      @apply cursor-pointer hover:text-brand;
+    }
+  }
 
-    :global(summary)
-      @apply cursor-pointer hover:text-brand
+  article code {
+    @apply rounded bg-[--shiki-color-background] px-1 font-sans text-xs;
+    counter-reset: line;
 
-  article :global(code)
-    @apply bg-[var(--shiki-color-background)] text-xs p-1 rounded
+    &[data-line-numbers-max-digits='2'] > .line::before {
+      @apply w-8;
+    }
 
-  article :global([data-rehype-pretty-code-fragment])
-    @apply rounded bg-[var(--shiki-color-background)] shadow text-xs
+    &[data-language] {
+      @apply p-0;
+    }
 
-    :global([data-rehype-pretty-code-title])
-      @apply bg-3 px-4 py-0.5 text-right text-2 shadow rounded-t
+    > .line::before {
+      @apply mr-3 inline-block w-5 text-right text-2 opacity-40;
+      counter-increment: line;
+      content: counter(line);
+    }
+  }
 
-    :global(pre)
-      @apply p-4 overflow-x-auto
+  [data-rehype-pretty-code-fragment] {
+    @apply rounded bg-[--shiki-color-background] shadow text-xs;
 
-    :global(code)
-      @apply font-sans p-0
+    [data-rehype-pretty-code-title] {
+      @apply rounded-t bg-3 px-4 py-0.5 text-right text-2 shadow;
+    }
+
+    pre {
+      @apply overflow-x-auto px-2 py-4;
+    }
+
+    .visited {
+      @apply select-none opacity-30 grayscale-[0.7];
+      content-visibility: hidden;
+    }
+  }
 </style>
