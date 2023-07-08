@@ -2,7 +2,6 @@ import mdx from '@astrojs/mdx';
 import preact from '@astrojs/preact';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
-import vercel from '@astrojs/vercel/static';
 import robotsTxt from 'astro-robots-txt';
 import { defineConfig, sharpImageService } from 'astro/config';
 import { toString } from 'mdast-util-to-string';
@@ -13,7 +12,6 @@ export default defineConfig({
   site: 'https://christianpenrod.com',
   image: { service: sharpImageService() },
   experimental: { assets: true },
-  adapters: [vercel({ analytics: true })],
   markdown: {
     syntaxHighlight: false,
     rehypePlugins: [
