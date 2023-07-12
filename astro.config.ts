@@ -6,7 +6,7 @@ import vercel from '@astrojs/vercel/static';
 import robotsTxt from 'astro-robots-txt';
 import { defineConfig, sharpImageService } from 'astro/config';
 import { toString } from 'mdast-util-to-string';
-import readingtime from 'reading-time';
+import readingTime from 'reading-time';
 import rehypePrettyCode from 'rehype-pretty-code';
 
 export default defineConfig({
@@ -19,8 +19,9 @@ export default defineConfig({
     rehypePlugins: [
       [rehypePrettyCode, { theme: 'css-variables' }],
       () => (tree, vfile) => {
-        const payload = Math.round(readingtime(toString(tree)).minutes);
-        vfile.data.astro.frontmatter.readingTime = payload;
+        const data = vfile.data as { astro: { frontmatter: Record<string, unknown> } };
+        const payload = Math.round(readingTime(toString(tree)).minutes);
+        data.astro.frontmatter.readingTime = payload;
       },
     ],
   },
