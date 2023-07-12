@@ -106,7 +106,7 @@ const { Content, remarkPluginFrontmatter } = await post.render();
     @apply rounded bg-[--shiki-color-background] px-1 font-sans text-xs;
     counter-reset: line;
 
-    &[data-line-numbers-max-digits='2'] > .line::before {
+    &[data-line-numbers-max-digits='2'] > [data-line]::before {
       @apply w-8;
     }
 
@@ -114,7 +114,7 @@ const { Content, remarkPluginFrontmatter } = await post.render();
       @apply p-0;
     }
 
-    > .line::before {
+    > [data-line]::before {
       @apply mr-3 inline-block w-5 text-right text-2 opacity-40;
       counter-increment: line;
       content: counter(line);
@@ -132,7 +132,7 @@ const { Content, remarkPluginFrontmatter } = await post.render();
       @apply overflow-x-auto px-2 py-4;
     }
 
-    .visited span {
+    [data-highlighted-line] span {
       @apply text-2 opacity-40 #{!important};
     }
   }

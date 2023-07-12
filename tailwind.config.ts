@@ -1,10 +1,13 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import type { Config } from 'tailwindcss';
+import theme from 'tailwindcss/defaultTheme';
+import plugin from 'tailwindcss/plugin';
+
+export default {
   content: ['./src/**/*.{astro,mdx,tsx}'],
   theme: {
     extend: {
-      fontFamily: { sans: ['Maitree', ...require('tailwindcss/defaultTheme').fontFamily.sans] },
-      fontWeight: { 1: 300, 2: 400 },
+      fontFamily: { sans: ['Maitree', ...theme.fontFamily.sans] },
+      fontWeight: { 1: '300', 2: '400' },
       textColor: { 1: '#d4d4d8', 2: '#a1a1aa' },
       backgroundColor: { 1: '#111', 2: '#1b1b1b', 3: '#222' },
       colors: { brand: '#fff' },
@@ -20,13 +23,13 @@ module.exports = {
       // prettier-ignore
       boxShadow: { DEFAULT: '0 3px 5px -1px rgba(0,0,0,.2), 0 5px 8px 0 rgba(0,0,0,.14), 0 1px 14px 0 rgba(0,0,0,.12)' },
       animation: { 'fade-in': 'fade-in 0.2s ease-in-out' },
-      keyframes: { 'fade-in': { from: { opacity: 0 }, to: { opacity: 1 } } },
+      keyframes: { 'fade-in': { from: { opacity: '0' }, to: { opacity: '1' } } },
     },
   },
   future: { hoverOnlyWhenSupported: true },
   plugins: [
     require('tailwindcss-fluid-type'),
-    ({ theme, addBase }) =>
+    plugin(({ theme, addBase }) => {
       addBase({
         '*': {
           scrollbarColor: `${theme('backgroundColor.2')} transparent`,
@@ -42,6 +45,7 @@ module.exports = {
           borderRadius: theme('borderRadius.sm'),
           outlineOffset: theme('outlineOffset.2'),
         },
-      }),
+      });
+    }),
   ],
-};
+} satisfies Config;
