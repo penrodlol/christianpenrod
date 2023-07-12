@@ -3,7 +3,6 @@ module.exports = {
   content: ['./src/**/*.{astro,mdx,tsx}'],
   theme: {
     extend: {
-      // prettier-ignore
       fontFamily: { sans: ['Maitree', ...require('tailwindcss/defaultTheme').fontFamily.sans] },
       fontWeight: { 1: 300, 2: 400 },
       textColor: { 1: '#d4d4d8', 2: '#a1a1aa' },

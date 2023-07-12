@@ -21,8 +21,7 @@ export default defineConfig({
         rehypePrettyCode,
         {
           theme: 'css-variables',
-          onVisitHighlightedLine: (node) =>
-            node.properties.className.push('visited'),
+          onVisitHighlightedLine: (node) => node.properties.className.push('visited'),
         },
       ],
       () => (tree, vfile) => {
