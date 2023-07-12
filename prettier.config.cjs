@@ -1,11 +1,9 @@
+/** @type {import("prettier").Options} */
 module.exports = {
   singleQuote: true,
   semi: true,
   trailingComma: 'all',
   proseWrap: 'always',
   printWidth: 100,
-  plugins: [
-    require('prettier-plugin-astro'),
-    require('prettier-plugin-tailwindcss'),
-  ],
+  plugins: ['prettier-plugin-astro', 'prettier-plugin-tailwindcss'],
 };
