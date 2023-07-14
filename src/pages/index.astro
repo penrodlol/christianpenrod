@@ -38,9 +38,9 @@ const posts = (await getCollection('posts'))
     </div>
     <div
       class={twJoin(
-        'relative rounded-full ring-2 ring-brand ring-opacity-10',
-        'w-[230px] h-[230px] lg:h-[280px] lg:w-[280px] sm:block hidden',
-        'before:absolute before:inset-0 before:rounded-full before:bg-2',
+        'relative rounded ring-2 ring-brand ring-opacity-10',
+        'hidden h-[230px] w-[230px] sm:block lg:h-[280px] lg:w-[280px]',
+        'before:absolute before:inset-0 before:rounded before:bg-2',
       )}
     >
       <Image
@@ -50,7 +50,7 @@ const posts = (await getCollection('posts'))
         width={2048}
         height={2048}
         loading="eager"
-        class="relative rounded-full"
+        class="relative rounded"
       />
     </div>
   </section>
