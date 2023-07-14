@@ -9,7 +9,7 @@ export default {
       fontFamily: { sans: ['Maitree', ...theme.fontFamily.sans] },
       fontWeight: { 1: '300', 2: '400' },
       textColor: { 1: '#d4d4d8', 2: '#a1a1aa' },
-      backgroundColor: { 1: '#0d0d0d', 2: '#191919', 3: '#222' },
+      backgroundColor: { 1: '#111', 2: '#1b1b1b', 3: '#222' },
       colors: { brand: '#fff' },
       spacing: {
         'fluid-1': 'clamp(0.25rem, calc(-0.09rem + 1.71vw), 1.13rem)',
