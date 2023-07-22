@@ -18,9 +18,9 @@ const { remarkPluginFrontmatter } = await post.render();
     'hover:bg-3 motion-safe:transition-colors',
   )}
 >
-  <span class="group-hover:text-brand">{post.data.title}</span>
-  <p class="font-1 text-2 text-xs">{post.data.description}</p>
-  <div class="mt-auto flex items-center gap-6 pt-4 font-1 text-2 text-xs">
+  <span class="group-hover:text-brand motion-safe:transition-colors">{post.data.title}</span>
+  <p class="text-xs font-1 text-2">{post.data.description}</p>
+  <div class="mt-auto flex items-center gap-6 pt-4 text-xs font-1 text-2">
     <div class="flex items-center gap-2">
       <Calendar class="h-4 w-4" aria-hidden />
       <Date>{post.data.published}</Date>

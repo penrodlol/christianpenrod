@@ -19,15 +19,15 @@ const repo = await octokit.repos
   aria-label={`Check out the github repo: ${repo.name}. ${repo.description}`}
   class={twJoin(
     'group flex h-full flex-col gap-1 rounded-md bg-2 p-4 shadow',
-    'hover:bg-3 duration-200 motion-safe:transition-colors',
+    'duration-200 hover:bg-3 motion-safe:transition-colors',
   )}
 >
   <div class="flex items-center gap-2 text-2">
     <Book class="h-4 w-4 shrink-0" />
-    <span class="text-1 group-hover:text-brand">{repo.name}</span>
+    <span class="text-1 group-hover:text-brand motion-safe:transition-colors">{repo.name}</span>
   </div>
-  <p class="font-1 text-2 text-xs">{repo.description}</p>
-  <div class="mt-auto flex items-center gap-4 pt-2 font-1 text-2 text-xs">
+  <p class="text-xs font-1 text-2">{repo.description}</p>
+  <div class="mt-auto flex items-center gap-4 pt-2 text-xs font-1 text-2">
     <div class="flex items-center gap-2">
       <div class="h-3 w-3 shrink-0 rounded-full bg-current"></div>
       <span>{repo.language}</span>
