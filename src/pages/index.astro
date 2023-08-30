@@ -1,9 +1,17 @@
 ---
 import Me from '@/assets/me.webp';
-import Socials from '@/components/socials.astro';
+import PostCard from '@/components/post-card.astro';
+import Link from '@/components/ui/link.astro';
 import Separator from '@/components/ui/separator.astro';
 import Layout from '@/layouts/layout.astro';
 import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import { Github, Linkedin, Mail, Rss, Twitter } from 'lucide-preact';
+
+const rssURL = new URL('rss.xml', import.meta.env.SITE);
+const posts = (await getCollection('posts'))
+  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
+  .slice(0, 3);
 ---
 
 <Layout>
@@ -17,17 +25,16 @@ import { Image } from 'astro:assets';
           corrupti velit nesciunt, officiis nisi ducimus voluptatem ratione minus temporibus
           voluptatibus odio quos sit. Totam hic accusantium esse culpa?
         </p>
-        <Socials />
+        <ul class="flex text-2 [&_li_[data-external-icon]]:hidden [&_li_a]:px-2 [&_svg]:w-4">
+          <li><Link href={import.meta.env.GITHUB}><Github aria-label="Github" /></Link></li>
+          <li><Link href={import.meta.env.TWITTER}><Twitter aria-label="Twitter" /></Link></li>
+          <li><Link href={import.meta.env.LINKEDIN}><Linkedin aria-label="LinkedIn" /></Link></li>
+          <li><Link href={import.meta.env.EMAIL}><Mail aria-label="EMAIL" /></Link></li>
+          <li><Link href={rssURL}><Rss aria-label="RSS" /></Link></li>
+        </ul>
       </div>
       <div class="h-[280px] w-[280px] rounded border-2 [&_img]:rounded">
-        <Image
-          src={Me}
-          alt="Profile Picture"
-          loading="eager"
-          quality={100}
-          width={2048}
-          height={2048}
-        />
+        <Image src={Me} alt="Me" loading="eager" quality={100} width={2048} height={2048} />
       </div>
     </section>
     <Separator />
@@ -35,8 +42,12 @@ import { Image } from 'astro:assets';
       <h3 class="font-bold leading-none tracking-wider text-2">PROJECTS</h3>
     </section>
     <Separator />
-    <section>
+    <section class="flex flex-col gap-6">
       <h3 class="font-bold leading-none tracking-wider text-2">RECENT POSTS</h3>
+      <!-- prettier-ignore -->
+      <ul class="gap-10 grid grid-cols-3">
+        {posts.map((post) => (<li><PostCard {post} /></li>))}
+      </ul>
     </section>
   </div>
 </Layout>
