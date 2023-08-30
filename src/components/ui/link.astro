@@ -1,0 +1,25 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { ArrowUpRightIcon } from 'lucide-preact';
+import { twMerge } from 'tailwind-merge';
+
+type Props = HTMLAttributes<'a'>;
+
+const { class: className, href, target, rel, ...props } = Astro.props;
+const external = href?.toString().startsWith('https://');
+---
+
+<a
+  {...props}
+  href={href}
+  target={external ? '_blank' : target}
+  rel={external ? 'nofollow noopener noreferrer' : rel}
+  class={twMerge(
+    'inline-flex items-center gap-1 rounded motion-safe:transition-colors',
+    'hover:text-emphasis',
+    className,
+  )}
+>
+  <slot />
+  {external && <ArrowUpRightIcon size={12} data-external-icon aria-hidden />}
+</a>
