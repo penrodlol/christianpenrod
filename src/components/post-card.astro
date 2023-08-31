@@ -15,17 +15,17 @@ const { remarkPluginFrontmatter } = await post.render();
   aria-label={`${post.data.title}. ${post.data.description}`}
   class="group flex h-full flex-col rounded border"
 >
-  <div class="h-32 rounded-t border-b bg-2"></div>
-  <div class="flex flex-col gap-2 p-4">
+  <div class="h-28 rounded-t border-b opacity-20 grayscale group-hover:opacity-50"></div>
+  <div class="z-20 flex flex-col gap-2 bg-1 p-4">
     <span class="group-hover:text-emphasis motion-safe:transition-colors">{post.data.title}</span>
     <p class="text-xs text-2">{post.data.description}</p>
     <Separator class="my-1.5" />
-    <div class="flex justify-between gap-4">
-      <div class="flex items-center gap-2 text-xxs text-2">
+    <div class="flex justify-between gap-4 text-xxs text-2">
+      <div class="flex items-center gap-2">
         <CalendarIcon size={14} />
         <Time>{post.data.published}</Time>
       </div>
-      <div class="flex items-center gap-2 text-xxs text-2">
+      <div class="flex items-center gap-2">
         <Clock4Icon size={14} />
         <span>{remarkPluginFrontmatter.readingTime} min read</span>
       </div>
