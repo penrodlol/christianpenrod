@@ -6,7 +6,7 @@ import Separator from '@/components/ui/separator.astro';
 import Layout from '@/layouts/layout.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import { Github, Linkedin, Mail, Rss, Twitter } from 'lucide-preact';
+import { ArrowRightIcon, Github, Linkedin, Mail, Rss, Twitter } from 'lucide-preact';
 
 const rssURL = new URL('rss.xml', import.meta.env.SITE);
 const posts = (await getCollection('posts'))
@@ -48,6 +48,9 @@ const posts = (await getCollection('posts'))
       <ul class="gap-10 grid grid-cols-3">
         {posts.map((post) => (<li><PostCard {post} /></li>))}
       </ul>
+      <Link href="/blog" class="mt-2 self-end text-xs text-2">
+        View All Posts <ArrowRightIcon size={14} aria-hidden />
+      </Link>
     </section>
   </div>
 </Layout>

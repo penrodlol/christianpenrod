@@ -179,29 +179,29 @@ declare module 'astro:content' {
 
 	type ContentEntryMap = {
 		"posts": {
-"astro-shiki-syntax-highlighting-with-css-variables.mdx": {
-	id: "astro-shiki-syntax-highlighting-with-css-variables.mdx";
+"astro-shiki-syntax-highlighting-with-css-variables/index.mdx": {
+	id: "astro-shiki-syntax-highlighting-with-css-variables/index.mdx";
   slug: "astro-shiki-syntax-highlighting-with-css-variables";
   body: string;
   collection: "posts";
   data: InferEntrySchema<"posts">
 } & { render(): Render[".mdx"] };
-"developing-browser-extensions-with-nextjs.mdx": {
-	id: "developing-browser-extensions-with-nextjs.mdx";
+"developing-browser-extensions-with-nextjs/index.mdx": {
+	id: "developing-browser-extensions-with-nextjs/index.mdx";
   slug: "developing-browser-extensions-with-nextjs";
   body: string;
   collection: "posts";
   data: InferEntrySchema<"posts">
 } & { render(): Render[".mdx"] };
-"hyper-terminal-and-its-arsenal-of-plugins.mdx": {
-	id: "hyper-terminal-and-its-arsenal-of-plugins.mdx";
+"hyper-terminal-and-its-arsenal-of-plugins/index.mdx": {
+	id: "hyper-terminal-and-its-arsenal-of-plugins/index.mdx";
   slug: "hyper-terminal-and-its-arsenal-of-plugins";
   body: string;
   collection: "posts";
   data: InferEntrySchema<"posts">
 } & { render(): Render[".mdx"] };
-"local-state-with-ngrx-and-apollo-angular.mdx": {
-	id: "local-state-with-ngrx-and-apollo-angular.mdx";
+"local-state-with-ngrx-and-apollo-angular/index.mdx": {
+	id: "local-state-with-ngrx-and-apollo-angular/index.mdx";
   slug: "local-state-with-ngrx-and-apollo-angular";
   body: string;
   collection: "posts";
@@ -214,8 +214,8 @@ declare module 'astro:content' {
   collection: "posts";
   data: InferEntrySchema<"posts">
 } & { render(): Render[".mdx"] };
-"tailwindcss-responsive-design-without-breakpoints.mdx": {
-	id: "tailwindcss-responsive-design-without-breakpoints.mdx";
+"tailwindcss-responsive-design-without-breakpoints/index.mdx": {
+	id: "tailwindcss-responsive-design-without-breakpoints/index.mdx";
   slug: "tailwindcss-responsive-design-without-breakpoints";
   body: string;
   collection: "posts";
