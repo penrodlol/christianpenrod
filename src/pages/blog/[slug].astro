@@ -1,0 +1,52 @@
+---
+import PostBlockquote from '@/components/post-blockquote.astro';
+import PostSubheader from '@/components/post-subheader.astro';
+import Link from '@/components/ui/link.astro';
+import Separator from '@/components/ui/separator.astro';
+import Time from '@/components/ui/time.astro';
+import Layout from '@/layouts/layout.astro';
+import type { GetStaticPaths } from 'astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { CalendarIcon, Clock4Icon } from 'lucide-preact';
+
+export const getStaticPaths: GetStaticPaths = async () =>
+  getCollection('posts').then((posts) =>
+    posts
+      .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
+      .map((post, index, _posts) => {
+        const prev = _posts[index + 1] ?? _posts[0];
+        const next = _posts[index - 1] ?? _posts[_posts.length - 1];
+        return { params: { slug: post.slug }, props: { post, prev, next } };
+      }),
+  );
+
+type Post = CollectionEntry<'posts'>;
+type Props = { post: Post; prev: Post; next: Post };
+
+const { post } = Astro.props;
+const { remarkPluginFrontmatter, Content } = await post.render();
+---
+
+<Layout title={post.data.title} description={post.data.description}>
+  <div class="mx-auto mt-14 grid max-w-screen-lg grid-cols-[1fr,14rem] gap-10">
+    <article class="mx-auto max-w-prose">
+      <div class="flex flex-col gap-2">
+        <h1 class="text-lg font-bold uppercase tracking-widest">{post.data.title}</h1>
+        <div class="flex gap-10 text-xs text-2">
+          <div class="flex items-center gap-2">
+            <CalendarIcon size={14} />
+            <Time>{post.data.published}</Time>
+          </div>
+          <div class="flex items-center gap-2">
+            <Clock4Icon size={14} />
+            <span>{remarkPluginFrontmatter.readingTime} min read</span>
+          </div>
+        </div>
+      </div>
+      <Separator class="mb-10 mt-4" />
+      <div class="flex flex-col gap-8 text-xs !leading-relaxed [&_a]:text-1 [&_p]:text-2">
+        <Content components={{ a: Link, h2: PostSubheader, blockquote: PostBlockquote }} />
+      </div>
+    </article>
+  </div>
+</Layout>
