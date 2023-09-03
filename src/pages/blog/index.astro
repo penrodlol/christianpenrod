@@ -1,0 +1,28 @@
+---
+import PostCard from '@/components/post-card.astro';
+import Separator from '@/components/ui/separator.astro';
+import Layout from '@/layouts/layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('posts').then((posts) =>
+  posts.sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf()),
+);
+---
+
+<Layout title="Blog | Christian Penrod">
+  <div class="mx-auto mt-fluid-4 max-w-screen-lg">
+    <section>
+      <h1 class="text-3xl font-bold tracking-widest">BLOG POSTS</h1>
+      <p class="max-w-prose text-xs text-2">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      </p>
+    </section>
+    <Separator class="mb-10 mt-4" />
+    <section>
+      <!-- prettier-ignore -->
+      <ul class="gap-10 grid grid-cols-3">
+        {posts.map((post) => (<li><PostCard {post} /></li>))}
+      </ul>
+    </section>
+  </div>
+</Layout>
