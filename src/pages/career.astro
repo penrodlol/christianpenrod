@@ -1,0 +1,65 @@
+---
+import Link from '@/components/ui/link.astro';
+import Separator from '@/components/ui/separator.astro';
+import Time from '@/components/ui/time.astro';
+import Layout from '@/layouts/layout.astro';
+import { getCollection } from 'astro:content';
+import { twJoin } from 'tailwind-merge';
+
+const roles = await getCollection('roles').then(async (roles) =>
+  Promise.all(
+    roles
+      .sort((a, b) => b.data.start.valueOf() - a.data.start.valueOf())
+      .map(async (entry) => {
+        const { Content } = await entry.render();
+        return { Content, role: entry.data };
+      }),
+  ),
+);
+---
+
+<Layout title="Career | Christian Penrod">
+  <div class="mx-auto mt-fluid-4 max-w-screen-lg">
+    <section>
+      <h1 class="text-3xl font-bold tracking-widest">CAREER</h1>
+      <p class="max-w-prose text-xs text-2">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      </p>
+    </section>
+    <Separator class="mb-10 mt-4" />
+    <section class="flex max-w-prose flex-col gap-10">
+      {
+        roles.map(({ role, Content }) => (
+          <div class="rounded border">
+            <div class="flex items-center justify-between border-b bg-2 px-4 py-2">
+              <Link href={role.link} class="uppercase tracking-wider">
+                {role.company}
+              </Link>
+              <div class="text-xxs text-2">
+                <Time>{role.start}</Time> - {role.end ? <Time>{role.end}</Time> : 'Present'}
+              </div>
+            </div>
+            <div class="flex gap-4 p-6 !leading-relaxed">
+              <div role="none" class="w-2 shrink-0 rounded bg-3" />
+              <div
+                class={twJoin(
+                  // paragraphs
+                  '[&_p]:text-xs [&_p]:text-2',
+                  // headings
+                  '[&_h3:not(:first-of-type)]:mt-10 [&_h3]:relative [&_h3]:mb-2 [&_h3]:mt-6 [&_h3]:tracking-wider',
+                  // dots
+                  '[&_h3]:before:absolute [&_h3]:before:h-3 [&_h3]:before:w-3 [&_h3]:before:content-[""]',
+                  '[&_h3]:before:top-1/2 [&_h3]:before:rounded-full [&_h3]:before:bg-emphasis/60',
+                  '[&_h3:last-of-type]:before:bg-transparent [&_h3]:before:-left-[1.6rem] [&_h3]:before:-translate-y-1/2',
+                  '[&_h3:last-of-type]:before:border-2 [&_h3:last-of-type]:before:border-emphasis/60',
+                )}
+              >
+                <Content />
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </section>
+  </div>
+</Layout>

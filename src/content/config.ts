@@ -14,6 +14,7 @@ const posts = defineCollection({
 const roles = defineCollection({
   schema: z.object({
     company: z.string(),
+    link: z.string().url(),
     start: z.date(),
     end: z.date().optional(),
   }),

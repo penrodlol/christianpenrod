@@ -1,6 +1,7 @@
 ---
 import { LinkIcon } from 'lucide-preact';
 import Separator from './ui/separator.astro';
+
 const slot = await Astro.slots.render('default');
 const hash = slot.toLowerCase().replace(/ /g, '-');
 ---
