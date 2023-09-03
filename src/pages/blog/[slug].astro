@@ -1,5 +1,6 @@
 ---
 import PostBlockquote from '@/components/post-blockquote.astro';
+import PostCode from '@/components/post-code.astro';
 import PostSubheader from '@/components/post-subheader.astro';
 import Link from '@/components/ui/link.astro';
 import Separator from '@/components/ui/separator.astro';
@@ -45,7 +46,14 @@ const { remarkPluginFrontmatter, Content } = await post.render();
       </div>
       <Separator class="mb-10 mt-4" />
       <div class="flex flex-col gap-8 text-xs !leading-relaxed [&_a]:text-1 [&_p]:text-2">
-        <Content components={{ a: Link, h2: PostSubheader, blockquote: PostBlockquote }} />
+        <Content
+          components={{
+            a: Link,
+            h2: PostSubheader,
+            blockquote: PostBlockquote,
+            figure: PostCode,
+          }}
+        />
       </div>
     </article>
   </div>

@@ -8,6 +8,7 @@ import { defineConfig } from 'astro/config';
 import { toString } from 'mdast-util-to-string';
 import readingTime from 'reading-time';
 import rehypePrettyCode from 'rehype-pretty-code';
+import { visit } from 'unist-util-visit';
 
 export default defineConfig({
   site: 'https://christianpenrod.com',
@@ -20,6 +21,15 @@ export default defineConfig({
         const data = vfile.data as { astro: { frontmatter: Record<string, unknown> } };
         const payload = Math.round(readingTime(toString(tree)).minutes);
         data.astro.frontmatter.readingTime = payload;
+
+        visit(tree, 'element', (node) => {
+          if (node.properties?.['data-rehype-pretty-code-fragment'] !== '') return;
+          node.tagName = 'figure';
+          visit(node, 'element', (child) => {
+            if (child.properties?.['data-rehype-pretty-code-title'] === '')
+              child.properties.slot = 'title';
+          });
+        });
       },
     ],
   },

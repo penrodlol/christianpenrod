@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss';
 import colors from 'tailwindcss/colors';
 import theme from 'tailwindcss/defaultTheme';
+import plugin from 'tailwindcss/plugin';
 
 export default {
   content: ['./src/**/*.{astro,mdx,tsx}'],
@@ -27,5 +28,22 @@ export default {
     },
   },
   future: { hoverOnlyWhenSupported: true },
-  plugins: [require('tailwindcss-fluid-type')],
+  plugins: [
+    require('tailwindcss-fluid-type'),
+    plugin(({ addBase }) => {
+      addBase({
+        ':root': {
+          '--shiki-color-text': '#e2e4ed',
+          '--shiki-token-constant': '#969696',
+          '--shiki-token-string': '#b3b3b3',
+          '--shiki-token-comment': '#4e4e4e',
+          '--shiki-token-keyword': '#969696',
+          '--shiki-token-parameter': '#ffffff',
+          '--shiki-token-function': '#ffffff',
+          '--shiki-token-string-expression': '#b3b3b3',
+          '--shiki-token-punctuation': '#ffffff',
+        },
+      });
+    }),
+  ],
 } satisfies Config;
