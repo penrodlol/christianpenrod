@@ -39,17 +39,17 @@ const {
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link href={new URL(Astro.url.pathname, Astro.site)} rel="canonical" />
   </head>
-  <body class="bg-2 bg-grid text-sm text-1">
+  <body class="bg-2 bg-grid p-4 text-sm text-1">
     <div
       class={twJoin(
-        'mx-auto my-4 flex min-h-[calc(100vh-2.125rem)] max-w-screen-xl',
-        'flex-col rounded border bg-1 px-9 py-4',
+        'mx-auto flex min-h-[calc(100vh-2.125rem)] max-w-screen-xl',
+        'flex-col rounded border bg-1 px-fluid-4 py-4',
       )}
     >
-      <header class="flex justify-between text-xs">
+      <header class="flex justify-between text-xxs">
         <span></span>
         <nav>
-          <ul class="flex gap-6">
+          <ul class="flex gap-4">
             <li><Link href="/blog">Blog</Link></li>
             <li><Link href="/career">Career</Link></li>
           </ul>
