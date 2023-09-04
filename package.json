@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@planetscale/database": "^1.11.0",
-    "astro": "^3.0.7"
+    "astro": "^3.0.8"
   },
   "devDependencies": {
     "@astrojs/mdx": "^1.0.0",

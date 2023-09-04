@@ -3,6 +3,7 @@ import PostBlockquote from '@/components/post-blockquote.astro';
 import PostCard from '@/components/post-card.astro';
 import PostCode from '@/components/post-code.astro';
 import PostSubheader from '@/components/post-subheader.astro';
+import PostViews from '@/components/post-views.astro';
 import GithubCard from '@/components/ui/github-card.astro';
 import Link from '@/components/ui/link.astro';
 import Separator from '@/components/ui/separator.astro';
@@ -27,11 +28,11 @@ type Post = CollectionEntry<'posts'>;
 type Props = { post: Post; prev: Post; next: Post };
 
 const { post, prev, next } = Astro.props;
-const { remarkPluginFrontmatter, Content } = await post.render();
+const { remarkPluginFrontmatter, headings, Content } = await post.render();
 ---
 
 <Layout title={post.data.title} description={post.data.description}>
-  <div class="mx-auto mt-14 grid max-w-screen-lg grid-cols-[1fr,16rem] gap-10">
+  <div class="mx-auto mt-fluid-4 grid max-w-screen-lg grid-cols-[1fr,16rem] gap-10">
     <article class="mx-auto max-w-prose">
       <div class="flex flex-col gap-2">
         <h1 class="text-lg font-bold uppercase tracking-widest">{post.data.title}</h1>
@@ -62,5 +63,18 @@ const { remarkPluginFrontmatter, Content } = await post.render();
         </div>
       </div>
     </article>
+    <aside class="sticky top-10 flex h-max flex-col gap-4 rounded border">
+      <div class="flex flex-col gap-3 px-4 pt-4">
+        <h2 class="text-xs tracking-wider">TABLE OF CONTENTS</h2>
+        <!-- prettier-ignore -->
+        <ol class="flex flex-col gap-1 text-xxs text-2">
+          <li><Link href="#introduction">Introduction</Link></li>
+          {headings.map((heading) => (<li><Link href={`#${heading.slug}`}>{heading.text}</Link></li>))}
+        </ol>
+      </div>
+      <div class="flex justify-center border-t bg-2 px-3 py-1.5 text-xxs">
+        <PostViews slug={post.slug} />
+      </div>
+    </aside>
   </div>
 </Layout>
