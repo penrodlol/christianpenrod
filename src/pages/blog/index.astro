@@ -20,7 +20,7 @@ const posts = await getCollection('posts').then((posts) =>
     <Separator class="mb-10 mt-4" />
     <section>
       <!-- prettier-ignore -->
-      <ul class="gap-10 grid grid-cols-3">
+      <ul class="sm:gap-10 gap-6 grid lg:grid-cols-3 sm:grid-cols-2">
         {posts.map((post) => (<li><PostCard {post} /></li>))}
       </ul>
     </section>
