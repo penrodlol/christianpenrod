@@ -34,6 +34,7 @@ export default {
       addBase({
         ':root': {
           '--shiki-color-text': '#e2e4ed',
+          '--shiki-color-background': '#000000',
           '--shiki-token-constant': '#969696',
           '--shiki-token-string': '#b3b3b3',
           '--shiki-token-comment': '#4e4e4e',
