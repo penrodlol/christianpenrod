@@ -1,5 +1,6 @@
 ---
 import PostBlockquote from '@/components/post-blockquote.astro';
+import PostCard from '@/components/post-card.astro';
 import PostCode from '@/components/post-code.astro';
 import PostSubheader from '@/components/post-subheader.astro';
 import Link from '@/components/ui/link.astro';
@@ -24,16 +25,16 @@ export const getStaticPaths: GetStaticPaths = async () =>
 type Post = CollectionEntry<'posts'>;
 type Props = { post: Post; prev: Post; next: Post };
 
-const { post } = Astro.props;
+const { post, prev, next } = Astro.props;
 const { remarkPluginFrontmatter, Content } = await post.render();
 ---
 
 <Layout title={post.data.title} description={post.data.description}>
-  <div class="mx-auto mt-14 grid max-w-screen-lg grid-cols-[1fr,14rem] gap-10">
+  <div class="mx-auto mt-14 grid max-w-screen-lg grid-cols-[1fr,16rem] gap-10">
     <article class="mx-auto max-w-prose">
       <div class="flex flex-col gap-2">
         <h1 class="text-lg font-bold uppercase tracking-widest">{post.data.title}</h1>
-        <div class="flex gap-10 text-xs text-2">
+        <div class="flex gap-8 text-xs text-2">
           <div class="flex items-center gap-2">
             <CalendarIcon size={14} />
             <Time>{post.data.published}</Time>
@@ -47,13 +48,16 @@ const { remarkPluginFrontmatter, Content } = await post.render();
       <Separator class="mb-10 mt-4" />
       <div class="flex flex-col gap-8 text-xs !leading-relaxed [&_a]:text-1 [&_p]:text-2">
         <Content
-          components={{
-            a: Link,
-            h2: PostSubheader,
-            blockquote: PostBlockquote,
-            figure: PostCode,
-          }}
+          components={{ a: Link, h2: PostSubheader, blockquote: PostBlockquote, figure: PostCode }}
         />
+      </div>
+      <Separator class="mb-20 mt-10" />
+      <div class="flex flex-col gap-4">
+        <h3 class="font-bold tracking-widest">MORE POSTS</h3>
+        <div class="grid grid-cols-2 gap-10">
+          <PostCard post={prev} />
+          <PostCard post={next} />
+        </div>
       </div>
     </article>
   </div>
