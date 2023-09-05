@@ -1,5 +1,4 @@
 ---
-import PostBlockquote from '@/components/post-blockquote.astro';
 import PostCard from '@/components/post-card.astro';
 import PostCode from '@/components/post-code.astro';
 import PostSubheader from '@/components/post-subheader.astro';
@@ -48,10 +47,8 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
         </div>
       </div>
       <Separator class="mb-10 mt-4" />
-      <div class="flex flex-col gap-8 text-xs !leading-relaxed [&_a]:text-1 [&_p]:text-2">
-        <Content
-          components={{ a: Link, h2: PostSubheader, blockquote: PostBlockquote, figure: PostCode }}
-        />
+      <div data-content class="flex flex-col gap-8 text-xs !leading-relaxed">
+        <Content components={{ a: Link, h2: PostSubheader, figure: PostCode }} />
         {post.data.repo && <GithubCard repo={post.data.repo} />}
       </div>
       <Separator class="mb-16 mt-10" />
@@ -78,3 +75,26 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
     </aside>
   </div>
 </Layout>
+
+<style is:global lang="sass">
+  [data-content] a
+    @apply text-1
+
+  [data-content] p
+    @apply text-2
+
+  [data-content] blockquote
+    @apply rounded border bg-2 italic pr-4 pl-6 py-2 relative
+  [data-content] blockquote::before
+    @apply bg-3 content-[""] rounded-l absolute w-3 border-r inset-y-0 left-0
+
+  [data-content] ol
+    @apply list-decimal list-inside
+
+  [data-content] details
+    @apply bg-2 rounded border [&:not(:last-of-type)]:mb-3 px-4 py-1 text-xs
+  [data-content] details[open]
+    @apply [&_summary]:mb-4 pb-4
+  [data-content] summary
+    @apply cursor-pointer select-none hover:text-emphasis motion-safe:transition-colors
+</style>
