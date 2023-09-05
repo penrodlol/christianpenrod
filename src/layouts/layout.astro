@@ -4,6 +4,7 @@ import ogDefault from '@/assets/og.webp';
 import Link from '@/components/ui/link.astro';
 import Separator from '@/components/ui/separator.astro';
 import '@fontsource/inter';
+import { HomeIcon } from 'lucide-preact';
 import { twJoin } from 'tailwind-merge';
 
 type Props = { title?: string; description?: string; og?: string };
@@ -46,8 +47,10 @@ const {
         'flex-col rounded border bg-1 px-fluid-4 py-4',
       )}
     >
-      <header class="flex justify-between text-xxs">
-        <span></span>
+      <header class="flex items-center justify-between text-xxs">
+        <Link href="/" aria-label="Home" class="rounded border bg-2 p-1 text-2">
+          <HomeIcon size={14} aria-hidden />
+        </Link>
         <nav>
           <ul class="flex gap-4">
             <li><Link href="/blog">Blog</Link></li>
@@ -60,16 +63,13 @@ const {
         <Separator />
         <div class="flex justify-between px-2 pt-4 text-xxs text-2">
           <p>©{new Date().getFullYear()} Christian Penrod - All Rights Reserved</p>
-          <div class="flex items-center justify-between gap-5">
-            <nav>
-              <ul class="flex gap-4">
-                <li><Link href="/">Home</Link></li>
-                <li><Link href="/blog">Blog</Link></li>
-                <li><Link href="/career">Career</Link></li>
-              </ul>
-            </nav>
-            <Separator orientation="vertical" class="h-5" />
-          </div>
+          <nav>
+            <ul class="flex gap-4">
+              <li><Link href="/">Home</Link></li>
+              <li><Link href="/blog">Blog</Link></li>
+              <li><Link href="/career">Career</Link></li>
+            </ul>
+          </nav>
         </div>
       </footer>
     </div>
