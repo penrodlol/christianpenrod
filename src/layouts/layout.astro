@@ -15,7 +15,7 @@ const {
 } = Astro.props;
 ---
 
-<html lang="en" class="ml-[calc(100vw-100%)] scroll-pt-10">
+<html lang="en" class="ml-[calc(100vw-100%)] scroll-pt-10 bg-2 bg-grid text-1 selection:bg-3">
   <head>
     <title>{title}</title>
     <meta charset="utf-8" />
@@ -39,7 +39,7 @@ const {
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link href={new URL(Astro.url.pathname, Astro.site)} rel="canonical" />
   </head>
-  <body class="bg-2 bg-grid p-4 text-sm text-1">
+  <body class="p-4 text-sm">
     <div
       class={twJoin(
         'mx-auto flex min-h-[calc(100vh-2.125rem)] max-w-screen-xl',

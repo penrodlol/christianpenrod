@@ -30,7 +30,7 @@ export default {
   future: { hoverOnlyWhenSupported: true },
   plugins: [
     require('tailwindcss-fluid-type'),
-    plugin(({ addBase }) => {
+    plugin(({ theme, addBase }) => {
       addBase({
         ':root': {
           '--shiki-color-text': '#e2e4ed',
@@ -43,6 +43,15 @@ export default {
           '--shiki-token-function': '#ffffff',
           '--shiki-token-string-expression': '#b3b3b3',
           '--shiki-token-punctuation': '#ffffff',
+        },
+        '*': {
+          scrollbarColor: `${theme('backgroundColor.3')} transparent`,
+          scrollbarWidth: 'thin',
+          '::-webkit-scrollbar': {
+            width: `${theme('spacing.2')}`,
+            height: `${theme('spacing.2')}`,
+            '&-thumb': { backgroundColor: theme('backgroundColor.3') },
+          },
         },
       });
     }),
