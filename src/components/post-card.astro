@@ -25,11 +25,11 @@ const { remarkPluginFrontmatter } = await post.render();
     <Separator class="my-1.5" />
     <div class="flex justify-between gap-4 text-xxs text-2">
       <div class="flex items-center gap-2">
-        <CalendarIcon size={14} />
+        <CalendarIcon class="shrink-0" size={14} aria-hidden />
         <Time>{post.data.published}</Time>
       </div>
       <div class="flex items-center gap-2">
-        <Clock4Icon size={14} />
+        <Clock4Icon class="shrink-0" size={14} aria-hidden />
         <span>{remarkPluginFrontmatter.readingTime} min read</span>
       </div>
     </div>
