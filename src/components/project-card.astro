@@ -1,0 +1,46 @@
+---
+import octokit from '@/libs/octokit';
+import { BookIcon, EyeIcon, GitForkIcon, StarIcon } from 'lucide-preact';
+import Link from './ui/link.astro';
+import Separator from './ui/separator.astro';
+
+type Props = { project: string };
+
+const repo = await octokit.repos
+  .get({ owner: import.meta.env.USERNAME, repo: Astro.props.project })
+  .then((res) => res.data);
+---
+
+<div class="rounded border">
+  <div class="flex items-center gap-2 rounded-t border-b bg-2 px-2 py-1">
+    <BookIcon class="shrink-0 text-2" size={12} aria-hidden />
+    <span>{repo.name}</span>
+  </div>
+  <div class="flex flex-col gap-3 p-3 text-2">
+    <p class="text-xs text-2">
+      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Asperiores aliquam vitae, ipsa esse
+      neque eius nulla eaque error fugiat numquam sit quis, dolorem labore eos dicta, iste.
+    </p>
+    <Separator />
+    <div class="flex items-center justify-between gap-2 text-xxs">
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-1">
+          <StarIcon class="shrink-0" size={14} aria-hidden />
+          {repo.stargazers_count}
+        </div>
+        <div class="flex items-center gap-1">
+          <GitForkIcon class="shrink-0" size={14} aria-hidden />
+          {repo.forks_count}
+        </div>
+        <div class="flex items-center gap-1">
+          <EyeIcon class="shrink-0" size={14} aria-hidden />
+          {repo.watchers_count}
+        </div>
+      </div>
+      <div class="flex gap-4">
+        <Link href={repo.html_url}>Github</Link>
+        <Link href={repo.homepage}>Site</Link>
+      </div>
+    </div>
+  </div>
+</div>

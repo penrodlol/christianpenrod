@@ -1,6 +1,7 @@
 ---
 import Me from '@/assets/me.webp';
 import PostCard from '@/components/post-card.astro';
+import ProjectCard from '@/components/project-card.astro';
 import Link from '@/components/ui/link.astro';
 import Separator from '@/components/ui/separator.astro';
 import Layout from '@/layouts/layout.astro';
@@ -9,13 +10,14 @@ import { getCollection } from 'astro:content';
 import { ArrowRightIcon, Github, Linkedin, Mail, Rss, Twitter } from 'lucide-preact';
 
 const rssURL = new URL('rss.xml', import.meta.env.SITE);
+const projects = ['feedjoy', 'christianpenrod'];
 const posts = (await getCollection('posts'))
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
   .slice(0, 3);
 ---
 
 <Layout>
-  <div class="mx-auto mt-fluid-4 flex max-w-screen-lg flex-col gap-fluid-4">
+  <div class="mx-auto mt-fluid-5 flex max-w-lg flex-col gap-10 lg:max-w-screen-lg">
     <section class="flex justify-between">
       <div>
         <h1 class="text-3xl font-bold tracking-widest">CHRISTIAN PENROD</h1>
@@ -33,19 +35,23 @@ const posts = (await getCollection('posts'))
           <li><Link href={rssURL}><Rss aria-label="RSS" /></Link></li>
         </ul>
       </div>
-      <div class="h-[280px] w-[280px] rounded border-2 [&_img]:rounded">
+      <div class="hidden h-[280px] w-[280px] rounded border-2 lg:block [&_img]:rounded">
         <Image src={Me} alt="Me" loading="eager" quality={100} width={2048} height={2048} />
       </div>
     </section>
     <Separator />
-    <section>
-      <h3 class="font-bold leading-none tracking-wider text-2">PROJECTS</h3>
+    <section class="flex flex-col gap-6">
+      <h2 class="font-bold leading-none tracking-wider text-2">PROJECTS</h2>
+      <!-- prettier-ignore -->
+      <ul class="grid lg:grid-cols-2 gap-x-10 gap-y-6">
+        {projects.map((project) => (<li><ProjectCard {project} /></li>))}
+      </ul>
     </section>
     <Separator />
     <section class="flex flex-col gap-6">
-      <h3 class="font-bold leading-none tracking-wider text-2">RECENT POSTS</h3>
+      <h2 class="font-bold leading-none tracking-wider text-2">RECENT POSTS</h2>
       <!-- prettier-ignore -->
-      <ul class="gap-10 grid grid-cols-3">
+      <ul class="gap-10 grid lg:grid-cols-3">
         {posts.map((post) => (<li><PostCard {post} /></li>))}
       </ul>
       <Link href="/blog" class="mt-2 self-end text-xs text-2">
