@@ -22,10 +22,11 @@ const posts = (await getCollection('posts'))
       <div>
         <h1 class="text-3xl font-bold tracking-widest">CHRISTIAN PENROD</h1>
         <p class="text-xl tracking-wider text-2">Front-End Web Developer</p>
-        <p class="mb-fluid-4 mt-fluid-2 max-w-prose text-xs text-2">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae incidunt, corporis,
-          corrupti velit nesciunt, officiis nisi ducimus voluptatem ratione minus temporibus
-          voluptatibus odio quos sit. Totam hic accusantium esse culpa?
+        <p class="mb-fluid-5 mt-fluid-2 max-w-prose text-xs text-2 [&_a]:text-1">
+          Building software for the web since 2018. Currently working as a <em>Full-Stack</em>
+           Web Developer at <Link href={import.meta.env.JOB}>McKesson</Link>. Graduated from
+          <Link href={import.meta.env.COLLEGE}>LaRoche University</Link> with a Bachelors in
+          Computer Science. Located in Pittsburgh, PA, USA.
         </p>
         <ul class="flex text-2 [&_li_[data-external-icon]]:hidden [&_li_a]:px-2 [&_svg]:w-4">
           <li><Link href={import.meta.env.GITHUB}><Github aria-label="Github" /></Link></li>
