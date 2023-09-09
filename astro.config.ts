@@ -2,7 +2,7 @@ import mdx from '@astrojs/mdx';
 import preact from '@astrojs/preact';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
-import vercel from '@astrojs/vercel/static';
+import vercel from '@astrojs/vercel/serverless';
 import robotsTxt from 'astro-robots-txt';
 import { defineConfig } from 'astro/config';
 import { toString } from 'mdast-util-to-string';
@@ -12,6 +12,7 @@ import { visit } from 'unist-util-visit';
 
 export default defineConfig({
   site: 'https://christianpenrod.com',
+  output: 'hybrid',
   adapter: vercel({ analytics: true, imageService: true }),
   markdown: {
     syntaxHighlight: false,
