@@ -1,5 +1,5 @@
 ---
-import { LinkIcon } from 'lucide-preact';
+import { Link } from 'lucide-astro';
 import Separator from './ui/separator.astro';
 
 const slot = await Astro.slots.render('default');
@@ -14,7 +14,7 @@ const hash = slot.toLowerCase().replace(/ /g, '-');
   >
     <h2 class="flex items-center gap-1 uppercase tracking-wider">
       {slot}
-      <LinkIcon
+      <Link
         size={14}
         aria-hidden
         class="opacity-0 group-hover:opacity-100 motion-safe:transition-opacity"

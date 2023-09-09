@@ -4,7 +4,7 @@ import ogDefault from '@/assets/og.webp';
 import Link from '@/components/ui/link.astro';
 import Separator from '@/components/ui/separator.astro';
 import '@fontsource/inter';
-import { HomeIcon } from 'lucide-preact';
+import { Home } from 'lucide-astro';
 import { twJoin } from 'tailwind-merge';
 
 type Props = { title?: string; description?: string; og?: string };
@@ -49,7 +49,7 @@ const {
     >
       <header class="flex items-center justify-between text-xxs">
         <Link href="/" aria-label="Home" class="rounded border bg-2 p-1 text-2">
-          <HomeIcon size={14} aria-hidden />
+          <Home size={14} aria-hidden />
         </Link>
         <nav>
           <ul class="flex gap-4">

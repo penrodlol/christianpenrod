@@ -10,7 +10,7 @@ import Time from '@/components/ui/time.astro';
 import Layout from '@/layouts/layout.astro';
 import type { GetStaticPaths } from 'astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
-import { CalendarIcon, Clock4Icon } from 'lucide-preact';
+import { Calendar, Clock4 } from 'lucide-astro';
 
 export const getStaticPaths: GetStaticPaths = async () =>
   getCollection('posts').then((posts) =>
@@ -37,11 +37,11 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
         <h1 class="text-lg font-bold uppercase tracking-widest">{post.data.title}</h1>
         <div class="flex gap-8 text-xs text-2">
           <div class="flex items-center gap-2">
-            <CalendarIcon size={14} />
+            <Calendar size={14} />
             <Time>{post.data.published}</Time>
           </div>
           <div class="flex items-center gap-2">
-            <Clock4Icon size={14} />
+            <Clock4 size={14} />
             <span>{remarkPluginFrontmatter.readingTime} min read</span>
           </div>
         </div>
@@ -60,6 +60,7 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
         </div>
       </div>
     </article>
+    <h2 id="introduction" class="sr-only"></h2>
     <aside class="sticky top-10 hidden h-max flex-col gap-4 rounded border lg:flex">
       <div class="flex flex-col gap-3 px-4 pt-4">
         <h2 class="text-xs tracking-wider">TABLE OF CONTENTS</h2>

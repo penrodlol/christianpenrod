@@ -7,7 +7,7 @@ import Separator from '@/components/ui/separator.astro';
 import Layout from '@/layouts/layout.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import { ArrowRightIcon, Github, Linkedin, Mail, Rss, Twitter } from 'lucide-preact';
+import { ArrowRight, Github, Linkedin, Mail, Rss, Twitter } from 'lucide-astro';
 
 const rssURL = new URL('rss.xml', import.meta.env.SITE);
 const projects = ['feedjoy', 'christianpenrod'];
@@ -56,7 +56,7 @@ const posts = (await getCollection('posts'))
         {posts.map((post) => (<li><PostCard {post} /></li>))}
       </ul>
       <Link href="/blog" class="mt-2 self-end text-xs text-2">
-        View All Posts <ArrowRightIcon size={14} aria-hidden />
+        View All Posts <ArrowRight size={14} aria-hidden />
       </Link>
     </section>
   </div>

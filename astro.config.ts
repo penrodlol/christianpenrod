@@ -1,5 +1,4 @@
 import mdx from '@astrojs/mdx';
-import preact from '@astrojs/preact';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import vercel from '@astrojs/vercel/serverless';
@@ -37,7 +36,6 @@ export default defineConfig({
   integrations: [
     tailwind(),
     mdx(),
-    preact(),
     sitemap({ changefreq: 'daily', lastmod: new Date() }),
     robotsTxt({ host: true, policy: [{ userAgent: '*', disallow: ['/404'] }] }),
   ],

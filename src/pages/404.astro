@@ -1,7 +1,7 @@
 ---
 import Link from '@/components/ui/link.astro';
 import Layout from '@/layouts/layout.astro';
-import { ArrowLeftIcon } from 'lucide-preact';
+import { ArrowLeft } from 'lucide-astro';
 ---
 
 <Layout>
@@ -9,7 +9,7 @@ import { ArrowLeftIcon } from 'lucide-preact';
     <h1 class="text-fancy text-9xl tracking-widest">404</h1>
     <p class="text-xl text-2">Page Not Found</p>
     <Link href="/" class="mt-fluid-4 gap-3">
-      <ArrowLeftIcon size={16} aria-hidden /> Go Back home
+      <ArrowLeft size={16} aria-hidden /> Go Back home
     </Link>
   </div>
 </Layout>

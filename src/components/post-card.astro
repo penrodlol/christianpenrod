@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
-import { CalendarIcon, Clock4Icon } from 'lucide-preact';
+import { Calendar, Clock4 } from 'lucide-astro';
 import Separator from './ui/separator.astro';
 import Time from './ui/time.astro';
 
@@ -25,11 +25,11 @@ const { remarkPluginFrontmatter } = await post.render();
     <Separator class="my-1.5" />
     <div class="flex justify-between gap-4 text-xxs text-2">
       <div class="flex items-center gap-2">
-        <CalendarIcon class="shrink-0" size={14} aria-hidden />
+        <Calendar class="shrink-0" size={14} aria-hidden />
         <Time>{post.data.published}</Time>
       </div>
       <div class="flex items-center gap-2">
-        <Clock4Icon class="shrink-0" size={14} aria-hidden />
+        <Clock4 class="shrink-0" size={14} aria-hidden />
         <span>{remarkPluginFrontmatter.readingTime} min read</span>
       </div>
     </div>
