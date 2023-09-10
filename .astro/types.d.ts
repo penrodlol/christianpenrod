@@ -20,26 +20,9 @@ declare module 'astro:content' {
 
 declare module 'astro:content' {
 	export { z } from 'astro/zod';
-	export type CollectionEntry<C extends keyof AnyEntryMap> = AnyEntryMap[C][keyof AnyEntryMap[C]];
 
-	// TODO: Remove this when having this fallback is no longer relevant. 2.3? 3.0? - erika, 2023-04-04
-	/**
-	 * @deprecated
-	 * `astro:content` no longer provide `image()`.
-	 *
-	 * Please use it through `schema`, like such:
-	 * ```ts
-	 * import { defineCollection, z } from "astro:content";
-	 *
-	 * defineCollection({
-	 *   schema: ({ image }) =>
-	 *     z.object({
-	 *       image: image(),
-	 *     }),
-	 * });
-	 * ```
-	 */
-	export const image: never;
+	type Flatten<T> = T extends { [K: string]: infer U } ? U : never;
+	export type CollectionEntry<C extends keyof AnyEntryMap> = Flatten<AnyEntryMap[C]>;
 
 	// This needs to be in sync with ImageMetadata
 	export type ImageFunction = () => import('astro/zod').ZodObject<{
@@ -54,19 +37,16 @@ declare module 'astro:content' {
 				import('astro/zod').ZodLiteral<'tiff'>,
 				import('astro/zod').ZodLiteral<'webp'>,
 				import('astro/zod').ZodLiteral<'gif'>,
-				import('astro/zod').ZodLiteral<'svg'>
+				import('astro/zod').ZodLiteral<'svg'>,
 			]
 		>;
 	}>;
 
 	type BaseSchemaWithoutEffects =
 		| import('astro/zod').AnyZodObject
-		| import('astro/zod').ZodUnion<import('astro/zod').AnyZodObject[]>
+		| import('astro/zod').ZodUnion<[BaseSchemaWithoutEffects, ...BaseSchemaWithoutEffects[]]>
 		| import('astro/zod').ZodDiscriminatedUnion<string, import('astro/zod').AnyZodObject[]>
-		| import('astro/zod').ZodIntersection<
-				import('astro/zod').AnyZodObject,
-				import('astro/zod').AnyZodObject
-		  >;
+		| import('astro/zod').ZodIntersection<BaseSchemaWithoutEffects, BaseSchemaWithoutEffects>;
 
 	type BaseSchema =
 		| BaseSchemaWithoutEffects
@@ -97,7 +77,7 @@ declare module 'astro:content' {
 
 	export function getEntryBySlug<
 		C extends keyof ContentEntryMap,
-		E extends ValidContentEntrySlug<C> | (string & {})
+		E extends ValidContentEntrySlug<C> | (string & {}),
 	>(
 		collection: C,
 		// Note that this has to accept a regular string too, for SSR
@@ -122,7 +102,7 @@ declare module 'astro:content' {
 
 	export function getEntry<
 		C extends keyof ContentEntryMap,
-		E extends ValidContentEntrySlug<C> | (string & {})
+		E extends ValidContentEntrySlug<C> | (string & {}),
 	>(entry: {
 		collection: C;
 		slug: E;
@@ -131,7 +111,7 @@ declare module 'astro:content' {
 		: Promise<CollectionEntry<C> | undefined>;
 	export function getEntry<
 		C extends keyof DataEntryMap,
-		E extends keyof DataEntryMap[C] | (string & {})
+		E extends keyof DataEntryMap[C] | (string & {}),
 	>(entry: {
 		collection: C;
 		id: E;
@@ -140,7 +120,7 @@ declare module 'astro:content' {
 		: Promise<CollectionEntry<C> | undefined>;
 	export function getEntry<
 		C extends keyof ContentEntryMap,
-		E extends ValidContentEntrySlug<C> | (string & {})
+		E extends ValidContentEntrySlug<C> | (string & {}),
 	>(
 		collection: C,
 		slug: E
@@ -149,7 +129,7 @@ declare module 'astro:content' {
 		: Promise<CollectionEntry<C> | undefined>;
 	export function getEntry<
 		C extends keyof DataEntryMap,
-		E extends keyof DataEntryMap[C] | (string & {})
+		E extends keyof DataEntryMap[C] | (string & {}),
 	>(
 		collection: C,
 		id: E
@@ -199,43 +179,43 @@ declare module 'astro:content' {
 
 	type ContentEntryMap = {
 		"posts": {
-"astro-shiki-syntax-highlighting-with-css-variables.mdx": {
-	id: "astro-shiki-syntax-highlighting-with-css-variables.mdx";
+"astro-shiki-syntax-highlighting-with-css-variables/index.mdx": {
+	id: "astro-shiki-syntax-highlighting-with-css-variables/index.mdx";
   slug: "astro-shiki-syntax-highlighting-with-css-variables";
   body: string;
   collection: "posts";
   data: InferEntrySchema<"posts">
 } & { render(): Render[".mdx"] };
-"developing-browser-extensions-with-nextjs.mdx": {
-	id: "developing-browser-extensions-with-nextjs.mdx";
+"developing-browser-extensions-with-nextjs/index.mdx": {
+	id: "developing-browser-extensions-with-nextjs/index.mdx";
   slug: "developing-browser-extensions-with-nextjs";
   body: string;
   collection: "posts";
   data: InferEntrySchema<"posts">
 } & { render(): Render[".mdx"] };
-"hyper-terminal-and-its-arsenal-of-plugins.mdx": {
-	id: "hyper-terminal-and-its-arsenal-of-plugins.mdx";
+"hyper-terminal-and-its-arsenal-of-plugins/index.mdx": {
+	id: "hyper-terminal-and-its-arsenal-of-plugins/index.mdx";
   slug: "hyper-terminal-and-its-arsenal-of-plugins";
   body: string;
   collection: "posts";
   data: InferEntrySchema<"posts">
 } & { render(): Render[".mdx"] };
-"local-state-with-ngrx-and-apollo-angular.mdx": {
-	id: "local-state-with-ngrx-and-apollo-angular.mdx";
+"local-state-with-ngrx-and-apollo-angular/index.mdx": {
+	id: "local-state-with-ngrx-and-apollo-angular/index.mdx";
   slug: "local-state-with-ngrx-and-apollo-angular";
   body: string;
   collection: "posts";
   data: InferEntrySchema<"posts">
 } & { render(): Render[".mdx"] };
-"summarize-blog-posts-with-typescript-and-openais-gpt.mdx": {
-	id: "summarize-blog-posts-with-typescript-and-openais-gpt.mdx";
+"summarize-blog-posts-with-typescript-and-openais-gpt/index.mdx": {
+	id: "summarize-blog-posts-with-typescript-and-openais-gpt/index.mdx";
   slug: "summarize-blog-posts-with-typescript-and-openais-gpt";
   body: string;
   collection: "posts";
   data: InferEntrySchema<"posts">
 } & { render(): Render[".mdx"] };
-"tailwindcss-responsive-design-without-breakpoints.mdx": {
-	id: "tailwindcss-responsive-design-without-breakpoints.mdx";
+"tailwindcss-responsive-design-without-breakpoints/index.mdx": {
+	id: "tailwindcss-responsive-design-without-breakpoints/index.mdx";
   slug: "tailwindcss-responsive-design-without-breakpoints";
   body: string;
   collection: "posts";

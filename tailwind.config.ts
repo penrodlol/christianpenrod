@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+import colors from 'tailwindcss/colors';
 import theme from 'tailwindcss/defaultTheme';
 import plugin from 'tailwindcss/plugin';
 
@@ -6,11 +7,12 @@ export default {
   content: ['./src/**/*.{astro,mdx,tsx}'],
   theme: {
     extend: {
-      fontFamily: { sans: ['Maitree', ...theme.fontFamily.sans] },
-      fontWeight: { 1: '300', 2: '400' },
-      textColor: { 1: '#d4d4d8', 2: '#a1a1aa' },
-      backgroundColor: { 1: '#111', 2: '#1b1b1b', 3: '#222' },
-      colors: { brand: '#fff' },
+      fontFamily: { sans: ['Inter', ...theme.fontFamily.sans] },
+      fontSize: { xxs: '12px' },
+      backgroundColor: { 1: colors.black, 2: colors.neutral[950], 3: colors.neutral[900] },
+      textColor: { 1: colors.neutral[400], 2: colors.neutral[500] },
+      colors: { emphasis: colors.neutral[200] },
+      borderColor: { DEFAULT: colors.neutral[800] },
       spacing: {
         'fluid-1': 'clamp(0.25rem, calc(-0.09rem + 1.71vw), 1.13rem)',
         'fluid-2': 'clamp(0.5rem, calc(0.11rem + 1.95vw), 1.5rem)',
@@ -20,10 +22,9 @@ export default {
         'fluid-6': 'clamp(2rem, calc(0.44rem + 7.8vw), 6rem)',
         'fluid-7': 'clamp(3rem, calc(0.66rem + 11.71vw), 9rem)',
       },
-      // prettier-ignore
-      boxShadow: { DEFAULT: '0 3px 5px -1px rgba(0,0,0,.2), 0 5px 8px 0 rgba(0,0,0,.14), 0 1px 14px 0 rgba(0,0,0,.12)' },
-      animation: { 'fade-in': 'fade-in 0.2s ease-in-out' },
-      keyframes: { 'fade-in': { from: { opacity: '0' }, to: { opacity: '1' } } },
+      backgroundImage: {
+        grid: 'url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuZGV2L3N2Z2pzIiB2aWV3Qm94PSIwIDAgNzAwIDcwMCIgd2lkdGg9IjcwMCIgaGVpZ2h0PSI3MDAiPjxkZWZzPjxmaWx0ZXIgaWQ9Im5ubm9pc2UtZmlsdGVyIiB4PSItMjAlIiB5PSItMjAlIiB3aWR0aD0iMTQwJSIgaGVpZ2h0PSIxNDAlIiBmaWx0ZXJVbml0cz0ib2JqZWN0Qm91bmRpbmdCb3giIHByaW1pdGl2ZVVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgY29sb3ItaW50ZXJwb2xhdGlvbi1maWx0ZXJzPSJsaW5lYXJSR0IiPgoJPGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuMTAyIiBudW1PY3RhdmVzPSI0IiBzZWVkPSIxNSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgeD0iMCUiIHk9IjAlIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiByZXN1bHQ9InR1cmJ1bGVuY2UiPjwvZmVUdXJidWxlbmNlPgoJPGZlU3BlY3VsYXJMaWdodGluZyBzdXJmYWNlU2NhbGU9IjE1IiBzcGVjdWxhckNvbnN0YW50PSIwLjc1IiBzcGVjdWxhckV4cG9uZW50PSIyMCIgbGlnaHRpbmctY29sb3I9IiMyYzJjMmMiIHg9IjAlIiB5PSIwJSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgaW49InR1cmJ1bGVuY2UiIHJlc3VsdD0ic3BlY3VsYXJMaWdodGluZyI+CiAgICAJCTxmZURpc3RhbnRMaWdodCBhemltdXRoPSIzIiBlbGV2YXRpb249IjEwMCI+PC9mZURpc3RhbnRMaWdodD4KICAJPC9mZVNwZWN1bGFyTGlnaHRpbmc+CiAgCjwvZmlsdGVyPjwvZGVmcz48cmVjdCB3aWR0aD0iNzAwIiBoZWlnaHQ9IjcwMCIgZmlsbD0idHJhbnNwYXJlbnQiPjwvcmVjdD48cmVjdCB3aWR0aD0iNzAwIiBoZWlnaHQ9IjcwMCIgZmlsbD0iIzJjMmMyYyIgZmlsdGVyPSJ1cmwoI25ubm9pc2UtZmlsdGVyKSI+PC9yZWN0Pjwvc3ZnPg==")',
+      },
     },
   },
   future: { hoverOnlyWhenSupported: true },
@@ -31,19 +32,26 @@ export default {
     require('tailwindcss-fluid-type'),
     plugin(({ theme, addBase }) => {
       addBase({
+        ':root': {
+          '--shiki-color-text': '#e2e4ed',
+          '--shiki-color-background': '#000000',
+          '--shiki-token-constant': '#969696',
+          '--shiki-token-string': '#b3b3b3',
+          '--shiki-token-comment': '#4e4e4e',
+          '--shiki-token-keyword': '#969696',
+          '--shiki-token-parameter': '#ffffff',
+          '--shiki-token-function': '#ffffff',
+          '--shiki-token-string-expression': '#b3b3b3',
+          '--shiki-token-punctuation': '#ffffff',
+        },
         '*': {
-          scrollbarColor: `${theme('backgroundColor.2')} transparent`,
+          scrollbarColor: `${theme('backgroundColor.3')} transparent`,
           scrollbarWidth: 'thin',
           '::-webkit-scrollbar': {
             width: `${theme('spacing.2')}`,
             height: `${theme('spacing.2')}`,
-            '&-thumb': { backgroundColor: theme('backgroundColor.2') },
+            '&-thumb': { backgroundColor: theme('backgroundColor.3') },
           },
-        },
-        ':is(a, button, summary, pre):focus-visible': {
-          outline: `0.5px solid ${theme('colors.brand')}`,
-          borderRadius: theme('borderRadius.sm'),
-          outlineOffset: theme('outlineOffset.2'),
         },
       });
     }),

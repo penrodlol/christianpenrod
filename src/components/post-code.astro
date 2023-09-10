@@ -1,0 +1,54 @@
+---
+import { Check, Clipboard } from 'lucide-astro';
+import { twJoin } from 'tailwind-merge';
+---
+
+<figure {...Astro.props} class="rounded border">
+  <figcaption class="flex items-center rounded-t border-b bg-2 pl-4 text-xxs text-2">
+    <slot name="title" />
+    <button
+      aria-label="Copy to Clipboard"
+      data-copied="false"
+      class="group ml-auto px-4 py-1.5 hover:text-emphasis motion-safe:transition-colors"
+    >
+      <Clipboard size={14} aria-hidden class="hidden group-data-[copied=false]:block" />
+      <Check size={14} aria-hidden class="block stroke-emphasis group-data-[copied=false]:hidden" />
+    </button>
+  </figcaption>
+  <div
+    class={twJoin(
+      // base
+      'overflow-auto bg-[--shiki-color-background] p-4 font-sans text-xxs',
+      // code
+      '[&_code]:[counter-reset:line]',
+      // line hightlighting
+      '[&_[data-highlighted-line]_span]:opacity-30',
+      // line numbers
+      '[&_[data-line]::before]:[content:counter(line)]',
+      '[&_[data-line]::before]:[counter-increment:line]',
+      '[&_[data-line]::before]:mr-4',
+      '[&_[data-line]::before]:w-5',
+      '[&_[data-line]::before]:opacity-40',
+    )}
+  >
+    <slot />
+  </div>
+</figure>
+
+<script>
+  document.querySelectorAll('button[aria-label="Copy to Clipboard"]')?.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      const code = btn.closest('figure')?.querySelector('code');
+      if (!code) return;
+
+      navigator.clipboard.writeText(code.innerText.trim());
+
+      btn.setAttribute('data-copied', 'true');
+      btn.setAttribute('disabled', 'true');
+      setTimeout(() => {
+        btn.removeAttribute('disabled');
+        btn.setAttribute('data-copied', 'false');
+      }, 1500);
+    }),
+  );
+</script>

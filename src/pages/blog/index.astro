@@ -1,19 +1,26 @@
 ---
 import PostCard from '@/components/post-card.astro';
+import Separator from '@/components/ui/separator.astro';
 import Layout from '@/layouts/layout.astro';
 import { getCollection } from 'astro:content';
 
-const posts = (await getCollection('posts')).sort(
-  (a, b) => b.data.published.valueOf() - a.data.published.valueOf(),
+const posts = await getCollection('posts').then((posts) =>
+  posts.sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf()),
 );
 ---
 
 <Layout title="Blog | Christian Penrod">
-  <section class="mx-auto mt-fluid-3 flex max-w-screen-sm flex-col gap-fluid-2">
-    <h1 class="text-2xl">Posts</h1>
-    <!-- prettier-ignore -->
-    <ul class="flex flex-col gap-6">
-      {posts.map((post) => <li><PostCard post={post} /></li>)}
-    </ul>
-  </section>
+  <div class="mx-auto mt-fluid-5 max-w-screen-lg">
+    <section>
+      <h1 class="text-3xl font-bold tracking-widest">BLOG POSTS</h1>
+      <p class="max-w-prose text-xs text-2">Explore various sofware-related posts.</p>
+    </section>
+    <Separator class="mb-10 mt-4" />
+    <section>
+      <!-- prettier-ignore -->
+      <ul class="sm:gap-10 gap-6 grid lg:grid-cols-3 sm:grid-cols-2">
+        {posts.map((post) => (<li><PostCard {post} /></li>))}
+      </ul>
+    </section>
+  </div>
 </Layout>

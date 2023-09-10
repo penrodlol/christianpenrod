@@ -1,0 +1,38 @@
+---
+import octokit from '@/libs/octokit';
+import { Book, GitFork, Star } from 'lucide-astro';
+
+type Props = { repo: string };
+
+const repo = await octokit.repos
+  .get({ owner: import.meta.env.USERNAME, repo: Astro.props.repo })
+  .then((res) => res.data);
+---
+
+<a
+  href={repo.html_url}
+  target="_blank"
+  rel="nofollow noopener noreferrer"
+  aria-label={`Check out the github repo: ${repo.name}. ${repo.description}`}
+  class="group flex flex-col gap-1 rounded border p-4"
+>
+  <div class="flex items-center gap-2 text-xs font-bold">
+    <Book class="shrink-0" size={12} aria-hidden />
+    <span class="group-hover:text-emphasis motion-safe:transition-colors">{repo.name}</span>
+  </div>
+  <p class="text-xxs text-2">{repo.description}</p>
+  <div class="mt-2 flex items-center gap-3 text-xxs">
+    <div class="mr-2 flex items-center gap-1">
+      <div class="h-3 w-3 shrink-0 rounded-full bg-emphasis/50"></div>
+      {repo.language}
+    </div>
+    <div class="flex items-center gap-1">
+      <Star class="shrink-0" size={14} aria-hidden />
+      {repo.stargazers_count}
+    </div>
+    <div class="flex items-center gap-1">
+      <GitFork class="shrink-0" size={14} aria-hidden />
+      {repo.forks_count}
+    </div>
+  </div>
+</a>

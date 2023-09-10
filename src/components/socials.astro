@@ -1,32 +1,14 @@
 ---
-import { Github, Linkedin, Mail, Rss, Twitter } from 'lucide-preact';
-import Anchor from './anchor.astro';
+import { Github, Linkedin, Mail, Rss, Twitter } from 'lucide-astro';
+import Link from './ui/link.astro';
+
+const rssURL = new URL('rss.xml', import.meta.env.SITE);
 ---
 
-<ul class="flex items-center text-2">
-  <li>
-    <Anchor href={import.meta.env.GITHUB} nostyle class="p-2">
-      <Github class="h-4 w-4" aria-label="Github" />
-    </Anchor>
-  </li>
-  <li>
-    <Anchor href={import.meta.env.TWITTER} nostyle class="p-2">
-      <Twitter class="h-4 w-4" aria-label="Twitter" />
-    </Anchor>
-  </li>
-  <li>
-    <Anchor href={import.meta.env.LINKEDIN} nostyle class="p-2">
-      <Linkedin class="h-4 w-4" strokeWidth={1.5} aria-label="LinkedIn" />
-    </Anchor>
-  </li>
-  <li>
-    <Anchor href={import.meta.env.EMAIL} nostyle class="p-2">
-      <Mail class="h-4 w-4" aria-label="Email" />
-    </Anchor>
-  </li>
-  <li>
-    <Anchor href={new URL('rss.xml', import.meta.env.SITE)} nostyle class="p-2">
-      <Rss class="h-4 w-4" aria-label="RSS" />
-    </Anchor>
-  </li>
+<ul class="flex text-2 [&_li_[data-external-icon]]:hidden [&_li_a]:pr-4 [&_svg]:w-4">
+  <li><Link href={import.meta.env.GITHUB}><Github aria-label="Github" /></Link></li>
+  <li><Link href={import.meta.env.TWITTER}><Twitter aria-label="Twitter" /></Link></li>
+  <li><Link href={import.meta.env.LINKEDIN}><Linkedin aria-label="LinkedIn" /></Link></li>
+  <li><Link href={import.meta.env.EMAIL}><Mail aria-label="EMAIL" /></Link></li>
+  <li><Link href={rssURL}><Rss aria-label="RSS" /></Link></li>
 </ul>

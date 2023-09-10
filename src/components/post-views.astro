@@ -1,24 +1,22 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { Eye } from 'lucide-preact';
+import { Eye } from 'lucide-astro';
 
 type Props = { slug: CollectionEntry<'posts'>['slug'] };
 
 const { slug } = Astro.props;
 ---
 
-<div class="flex items-center gap-2 text-2">
-  <Eye class="h-5 w-5 stroke-brand" />
-  <span data-post-views={slug}>-- Views</span>
+<div class="flex items-center gap-2 rounded border bg-2 px-2">
+  <Eye class="shrink-0" size={14} aria-hidden />
+  <p><span data-post-views={slug}></span> Views</p>
 </div>
 
 <script define:vars={{ slug }}>
-  fetch('/api/view-post', { method: 'PUT', body: JSON.stringify({ slug }) })
-    .then((res) => res.json())
-    .then((_views) => {
-      const formatter = new Intl.NumberFormat('en', { notation: 'compact' });
-      const views = formatter.format(_views);
-      const el = document.querySelector(`[data-post-views="${slug}"]`);
-      el.textContent = `${views} Views`;
-    });
+fetch(`/blog/api`, { method: 'PUT', body: JSON.stringify({ slug }) })
+  .then((res) => res.json())
+  .then((views) => {
+    const el = document.querySelector(`[data-post-views="${slug}"]`);
+    el.textContent = new Intl.NumberFormat('en-US').format(views);
+  });
 </script>

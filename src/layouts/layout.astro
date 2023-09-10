@@ -1,10 +1,12 @@
 ---
 import favicon from '@/assets/favicon.webp';
 import ogDefault from '@/assets/og.webp';
-import Anchor from '@/components/anchor.astro';
-import Socials from '@/components/socials.astro';
-import '@fontsource/maitree';
-import '@fontsource/maitree/300.css';
+import Link from '@/components/ui/link.astro';
+import Separator from '@/components/ui/separator.astro';
+import '@fontsource/inter';
+import { fade } from 'astro/transitions';
+import { ViewTransitions } from 'astro:transitions';
+import { Home } from 'lucide-astro';
 import { twJoin } from 'tailwind-merge';
 
 type Props = { title?: string; description?: string; og?: string };
@@ -16,7 +18,7 @@ const {
 } = Astro.props;
 ---
 
-<html lang="en" class="ml-[calc(100vw-100%)]">
+<html lang="en" class="ml-[calc(100vw-100%)] scroll-pt-10 bg-2 bg-grid text-1 selection:bg-3">
   <head>
     <title>{title}</title>
     <meta charset="utf-8" />
@@ -39,37 +41,40 @@ const {
     <link rel="icon" type="image/svg+xml" href={favicon.src} />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link href={new URL(Astro.url.pathname, Astro.site)} rel="canonical" />
+    <ViewTransitions transition:animate={fade({ duration: '0.15s' })} />
   </head>
-  <body
-    class={twJoin(
-      'mx-auto flex min-h-screen max-w-screen-lg flex-col bg-1 text-sm',
-      'text-1 px-fluid-5 selection:bg-brand selection:bg-opacity-10',
-    )}
-  >
-    <header class="flex items-center gap-4 py-4">
-      <a href="/" class="mr-auto h-7 w-7" aria-label="Home">
-        <img
-          src={favicon.src}
-          width={favicon.width}
-          height={favicon.height}
-          alt="Home"
-          aria-hidden
-        />
-      </a>
-      <nav>
-        <ul class="flex items-center gap-4 text-2 text-xs">
-          <li><Anchor href="/blog">Blog</Anchor></li>
-          <li><Anchor href="/career">Career</Anchor></li>
-          <li><Anchor href={import.meta.env.GITHUB} nostyle>Github</Anchor></li>
-          <li><Anchor href={import.meta.env.EMAIL} nostyle>Email</Anchor></li>
-        </ul>
-      </nav>
-    </header>
-    <main class="mb-fluid-5 flex-1 motion-safe:animate-fade-in"><slot /></main>
-    <footer class="mx-auto flex flex-col items-center p-2 text-center text-xs">
-      <Socials />
-      <p class="mt-1 font-1">Powered by Astro on Vercel</p>
-      <p class="font-1">© {new Date().getFullYear()} Christian Penrod</p>
-    </footer>
+  <body class="p-4 text-sm">
+    <div
+      class={twJoin(
+        'mx-auto flex min-h-[calc(100vh-2.125rem)] max-w-screen-xl',
+        'flex-col rounded border bg-1 px-fluid-4 py-4',
+      )}
+    >
+      <header class="flex items-center justify-between text-xxs">
+        <Link href="/" aria-label="Home" class="rounded border bg-2 p-1 text-2">
+          <Home size={14} aria-hidden />
+        </Link>
+        <nav>
+          <ul class="flex gap-4">
+            <li><Link href="/blog">Blog</Link></li>
+            <li><Link href="/career">Career</Link></li>
+          </ul>
+        </nav>
+      </header>
+      <main class="mb-fluid-6 flex-1"><slot /></main>
+      <footer class="mx-auto w-full max-w-screen-lg">
+        <Separator />
+        <div class="flex justify-between px-2 pt-4 text-xxs text-2">
+          <p>©{new Date().getFullYear()} Christian Penrod - All Rights Reserved</p>
+          <nav>
+            <ul class="flex gap-4">
+              <li><Link href="/">Home</Link></li>
+              <li><Link href="/blog">Blog</Link></li>
+              <li><Link href="/career">Career</Link></li>
+            </ul>
+          </nav>
+        </div>
+      </footer>
+    </div>
   </body>
 </html>

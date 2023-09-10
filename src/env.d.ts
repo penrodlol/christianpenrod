@@ -1,5 +1,5 @@
 /// <reference path="../.astro/types.d.ts" />
-/// <reference types="astro/client-image" />
+/// <reference types="astro/client" />
 
 interface ImportMetaEnv {
   readonly GITHUB_TOKEN: string;
@@ -10,6 +10,9 @@ interface ImportMetaEnv {
   readonly TWITTER: string;
   readonly LINKEDIN: string;
   readonly EMAIL: string;
+  readonly PLANETSCALE_DB_HOST: string;
+  readonly PLANETSCALE_DB_USERNAME: string;
+  readonly PLANETSCALE_DB_PASSWORD: string;
 }
 
 interface ImportMeta {

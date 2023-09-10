@@ -1,16 +1,22 @@
 ---
-import Anchor from '@/components/anchor.astro';
-import Date from '@/components/date.astro';
-import GithubCard from '@/components/github-card.astro';
+import Favicon from '@/assets/favicon.webp';
+import PostCard from '@/components/post-card.astro';
+import PostCode from '@/components/post-code.astro';
 import PostSubheader from '@/components/post-subheader.astro';
-import PostTweet from '@/components/post-tweet.astro';
 import PostViews from '@/components/post-views.astro';
+import Socials from '@/components/socials.astro';
+import GithubCard from '@/components/ui/github-card.astro';
+import Link from '@/components/ui/link.astro';
+import Separator from '@/components/ui/separator.astro';
+import Time from '@/components/ui/time.astro';
 import Layout from '@/layouts/layout.astro';
-import { CollectionEntry, getCollection } from 'astro:content';
-import { ArrowLeft, ArrowRight, Calendar, Clock } from 'lucide-preact';
+import type { GetStaticPaths } from 'astro';
+import { Image } from 'astro:assets';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { Calendar, Clock4 } from 'lucide-astro';
 
-export const getStaticPaths = async () => {
-  return getCollection('posts').then((posts) =>
+export const getStaticPaths: GetStaticPaths = async () =>
+  getCollection('posts').then((posts) =>
     posts
       .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
       .map((post, index, _posts) => {
@@ -19,121 +25,102 @@ export const getStaticPaths = async () => {
         return { params: { slug: post.slug }, props: { post, prev, next } };
       }),
   );
-};
 
 type Post = CollectionEntry<'posts'>;
 type Props = { post: Post; prev: Post; next: Post };
 
 const { post, prev, next } = Astro.props;
-const { Content, remarkPluginFrontmatter } = await post.render();
+const { remarkPluginFrontmatter, headings, Content } = await post.render();
 ---
 
-<Layout
-  title={post.data.title}
-  description={post.data.description}
-  og={`open-graph/src/content/posts/${post.slug}.png`}
->
-  <article class="mx-auto mt-fluid-3 max-w-screen-sm">
-    <h1 class="mb-4 text-3xl">{post.data.title}</h1>
-    <div class="flex gap-8 text-2">
-      <div class="flex items-center gap-2">
-        <Calendar class="h-5 w-5" />
-        <Date>{post.data.published}</Date>
+<Layout title={post.data.title} description={post.data.description}>
+  <div class="mx-auto mt-fluid-5 max-w-screen-lg xl:grid xl:grid-cols-[1fr,17rem] xl:gap-16">
+    <article class="mx-auto max-w-prose">
+      <div class="flex flex-col gap-3">
+        <h1 class="text-lg font-bold uppercase tracking-widest">{post.data.title}</h1>
+        <div class="flex flex-wrap items-center gap-4 text-xxs text-2">
+          <div class="flex items-center gap-2 rounded border bg-2 px-2">
+            <Calendar class="shrink-0" size={14} aria-hidden />
+            <Time>{post.data.published}</Time>
+          </div>
+          <div class="flex items-center gap-2 rounded border bg-2 px-2">
+            <Clock4 class="shrink-0" size={14} aria-hidden />
+            <span>{remarkPluginFrontmatter.readingTime} Min Read</span>
+          </div>
+          <PostViews slug={post.slug} />
+        </div>
       </div>
-      <div class="flex items-center gap-2">
-        <Clock class="h-5 w-5" />
-        <span>{remarkPluginFrontmatter.readingTime} Min Read</span>
+      <Separator class="mb-4 mt-6 xl:mb-10" />
+      <div class="block xl:hidden">
+        <details>
+          <summary class="text-xxs tracking-wider">TABLE OF CONTENTS</summary>
+          <!-- prettier-ignore -->
+          <ol class="flex pt-2 flex-col gap-1 text-xxs text-2">
+            <li><Link href="#introduction">Introduction</Link></li>
+            {headings.map((heading) => (<li><Link href={`#${heading.slug}`}>{heading.text}</Link></li>))}
+          </ol>
+        </details>
+        <Separator class="mb-10 mt-4" />
       </div>
-    </div>
-    <div class="mb-10 mt-8 h-0.5 rounded-md bg-2"></div>
-    <div class="flex flex-col gap-10">
-      <Content components={{ a: Anchor, h2: PostSubheader }} />
-      {post.data.repo && <GithubCard repo={post.data.repo} />}
-      <div class="flex flex-wrap items-center justify-between gap-2">
-        <PostViews slug={post.slug} />
-        <PostTweet post={post} />
+      <div data-content class="flex flex-col gap-8 text-xs !leading-relaxed">
+        <Content components={{ a: Link, h2: PostSubheader, figure: PostCode }} />
+        {post.data.repo && <GithubCard repo={post.data.repo} />}
       </div>
-      <div class="h-0.5 rounded-md bg-2"></div>
-      <div class="flex justify-between gap-10">
-        <a href={`/blog/${prev.slug}`} class="group flex gap-4">
-          <ArrowLeft class="h-6 w-6 shrink-0 stroke-brand" aria-hidden />
-          <span class="group-hover:text-brand">{prev.data.title}</span>
-        </a>
-        <a href={`/blog/${next.slug}`} class="group flex gap-4 text-right">
-          <span class="group-hover:text-brand">{next.data.title}</span>
-          <ArrowRight class="h-6 w-6 shrink-0 stroke-brand" aria-hidden />
-        </a>
+      <Separator class="mb-16 mt-10" />
+      <div class="flex flex-col gap-4">
+        <h3 class="font-bold tracking-widest">MORE POSTS</h3>
+        <div class="grid gap-x-10 gap-y-6 md:grid-cols-2">
+          <PostCard post={prev} />
+          <PostCard post={next} />
+        </div>
       </div>
-    </div>
-  </article>
+    </article>
+    <h2 id="introduction" class="sr-only"></h2>
+    <aside class="sticky top-10 hidden h-max rounded border xl:block">
+      <div class="flex flex-col gap-4 border-b p-4">
+        <h2 class="text-xs tracking-wider">TABLE OF CONTENTS</h2>
+        <!-- prettier-ignore -->
+        <ol class="flex flex-col gap-1 text-xxs text-2">
+          <li><Link href="#introduction">Introduction</Link></li>
+          {headings.map((heading) => (<li><Link href={`#${heading.slug}`}>{heading.text}</Link></li>))}
+        </ol>
+      </div>
+      <div class="flex items-start gap-4 p-4">
+        <div class="h-[70px] w-[70px]">
+          <Image class="shrink-0" src={Favicon} alt="Me" width={2048} height={2048} />
+        </div>
+        <div class="text-xxs">
+          <p class="font-bold tracking-wider">CHRISTIAN PENROD</p>
+          <p class="text-2">Front-End Web Developer</p>
+          <div class="mt-1 [&_a]:!pr-2 [&_svg]:!w-3"><Socials /></div>
+        </div>
+      </div>
+    </aside>
+  </div>
 </Layout>
 
-<style lang="scss" is:global>
-  :root {
-    --shiki-color-text: #e2e4ed;
-    --shiki-color-background: #000000;
-    --shiki-token-constant: #969696;
-    --shiki-token-string: #b3b3b3;
-    --shiki-token-comment: #4e4e4e;
-    --shiki-token-keyword: #969696;
-    --shiki-token-parameter: #ffffff;
-    --shiki-token-function: #5f8787;
-    --shiki-token-string-expression: #b3b3b3;
-    --shiki-token-punctuation: #fff;
-  }
+<style is:global lang="sass">
+  [data-content] a
+    @apply text-1
 
-  article p {
-    @apply leading-8;
-  }
+  [data-content] p
+    @apply text-2
 
-  article ol {
-    @apply list-inside list-decimal text-xs;
-  }
+  [data-content] blockquote
+    @apply rounded border bg-2 italic pr-4 pl-6 py-2 relative
+  [data-content] blockquote::before
+    @apply bg-3 content-[""] rounded-l absolute w-3 border-r inset-y-0 left-0
 
-  article blockquote {
-    @apply rounded border-l-8 border-l-brand bg-2 p-4 italic text-2 shadow;
-  }
+  [data-content] ol
+    @apply list-decimal list-inside
 
-  article details {
-    @apply my-2 rounded bg-2 p-4 shadow;
+  [data-content] code:not([data-language])
+    @apply text-1 font-sans text-xxs border rounded px-1.5 py-0.5
 
-    summary {
-      @apply cursor-pointer hover:text-brand;
-    }
-  }
-
-  article code {
-    @apply rounded bg-[--shiki-color-background] px-1 font-sans text-xs;
-    counter-reset: line;
-
-    &[data-line-numbers-max-digits='2'] > [data-line]::before {
-      @apply w-8;
-    }
-
-    &[data-language] {
-      @apply p-0;
-    }
-
-    > [data-line]::before {
-      @apply mr-3 inline-block w-5 text-right text-2 opacity-40;
-      counter-increment: line;
-      content: counter(line);
-    }
-  }
-
-  [data-rehype-pretty-code-fragment] {
-    @apply rounded bg-[--shiki-color-background] shadow text-xs;
-
-    [data-rehype-pretty-code-title] {
-      @apply rounded-t bg-3 px-4 py-0.5 text-right text-2 shadow;
-    }
-
-    pre {
-      @apply overflow-x-auto px-2 py-4;
-    }
-
-    [data-highlighted-line] span {
-      @apply text-2 opacity-40 #{!important};
-    }
-  }
+  [data-content] details
+    @apply bg-2 rounded border [&:not(:last-of-type)]:mb-3 px-4 py-1 text-xs
+  [data-content] details[open]
+    @apply [&_summary]:mb-4 pb-4
+  [data-content] summary
+    @apply cursor-pointer select-none hover:text-emphasis motion-safe:transition-colors
 </style>

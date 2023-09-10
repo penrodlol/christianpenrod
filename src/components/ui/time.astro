@@ -1,4 +1,8 @@
 ---
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = Omit<HTMLAttributes<'time'>, 'datetime'>;
+
 const props = Astro.props;
 const datetime = new Date(await Astro.slots.render('default'));
 const formatter = new Intl.DateTimeFormat('en-US', {
@@ -9,6 +13,6 @@ const formatter = new Intl.DateTimeFormat('en-US', {
 });
 ---
 
-<time class={props.class} datetime={datetime.toISOString()}>
+<time {...props} datetime={datetime.toISOString()}>
   {formatter.format(datetime)}
 </time>

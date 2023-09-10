@@ -1,78 +1,57 @@
 ---
-import src from '@/assets/me.webp';
-import Anchor from '@/components/anchor.astro';
-import GithubCard from '@/components/github-card.astro';
+import Me from '@/assets/me.webp';
 import PostCard from '@/components/post-card.astro';
+import ProjectCard from '@/components/project-card.astro';
 import Socials from '@/components/socials.astro';
+import Link from '@/components/ui/link.astro';
+import Separator from '@/components/ui/separator.astro';
 import Layout from '@/layouts/layout.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import { ArrowRight, Minus } from 'lucide-preact';
-import { twJoin } from 'tailwind-merge';
+import { ArrowRight } from 'lucide-astro';
 
-const repos = ['feedjoy', 'christianpenrod'];
+const projects = ['feedjoy', 'christianpenrod'];
 const posts = (await getCollection('posts'))
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
-  .slice(0, 2);
+  .slice(0, 3);
 ---
 
 <Layout>
-  <section class="mt-fluid-5 flex items-center justify-between">
-    <div>
-      <h1 class="text-4xl">Hi, I'm Christian</h1>
-      <h2 class="text-2 text-xl">Front-End Web Developer</h2>
-      <ul class="my-fluid-4 flex flex-col gap-2 font-1">
-        <li class="flex flex-wrap items-center gap-x-2">
-          <Minus class="h-4 shrink-0" /> Web Developer
-          <Anchor href={import.meta.env.JOB}>@McKesson</Anchor>
-        </li>
-        <li class="flex flex-wrap items-center gap-x-2">
-          <Minus class="h-4 shrink-0" /> CS Bachelors
-          <Anchor href={import.meta.env.COLLEGE}>@LaRoche</Anchor>
-        </li>
-        <li class="flex flex-wrap items-center gap-x-2">
-          <Minus class="h-4 shrink-0" /> Pittsburgh, PA, USA
-        </li>
+  <div class="mx-auto mt-fluid-5 flex max-w-lg flex-col gap-10 lg:max-w-screen-lg">
+    <section class="flex justify-between">
+      <div>
+        <h1 class="text-3xl font-bold tracking-widest">CHRISTIAN PENROD</h1>
+        <p class="text-xl tracking-wider text-2">Front-End Web Developer</p>
+        <p class="mb-fluid-5 mt-fluid-2 max-w-prose text-xs text-2 [&_a]:text-1">
+          Building software for the web since 2018. Currently working as a <em>Full-Stack</em>
+           Web Developer at <Link href={import.meta.env.JOB}>McKesson</Link>. Graduated from
+          <Link href={import.meta.env.COLLEGE}>LaRoche University</Link> with a Bachelors in
+          Computer Science. Located in Pittsburgh, PA, USA.
+        </p>
+        <Socials />
+      </div>
+      <div class="hidden h-[280px] w-[280px] rounded border-2 lg:block [&_img]:rounded">
+        <Image src={Me} alt="Me" loading="eager" quality={100} width={2048} height={2048} />
+      </div>
+    </section>
+    <Separator />
+    <section class="flex flex-col gap-6">
+      <h2 class="font-bold leading-none tracking-wider text-2">PROJECTS</h2>
+      <!-- prettier-ignore -->
+      <ul class="grid lg:grid-cols-2 gap-x-10 gap-y-6">
+        {projects.map((project) => (<li><ProjectCard {project} /></li>))}
       </ul>
-      <Socials />
-    </div>
-    <div
-      class={twJoin(
-        'relative rounded ring-2 ring-brand ring-opacity-10',
-        'hidden h-[230px] w-[230px] sm:block lg:h-[280px] lg:w-[280px]',
-        'before:absolute before:inset-0 before:rounded before:bg-2',
-      )}
-    >
-      <Image
-        src={src}
-        alt="A picture of me"
-        quality={100}
-        width={2048}
-        height={2048}
-        loading="eager"
-        class="relative rounded"
-      />
-    </div>
-  </section>
-  <div class="my-fluid-4 h-0.5 rounded-md bg-2"></div>
-  <section class="flex flex-col gap-fluid-1">
-    <h3 class="text-2 text-lg">Projects</h3>
-    <!-- prettier-ignore -->
-    <ul class="grid gap-fluid-4 sm:grid-cols-2">
-      {repos.map((repo) => <li><GithubCard repo={repo} /></li>)}
-    </ul>
-  </section>
-  <div class="my-fluid-4 h-0.5 rounded-md bg-2"></div>
-  <section class="flex flex-col gap-fluid-1">
-    <h3 class="text-2 text-lg">Recent Posts</h3>
-    <!-- prettier-ignore -->
-    <ul class="grid gap-fluid-4 sm:grid-cols-2">
-      {posts.map((post) => <li><PostCard post={post} /></li>)}
-    </ul>
-    <span></span>
-    <a href="/blog" class="group flex items-center gap-2 self-end">
-      <span class="text-xs group-hover:text-brand">View All Posts</span>
-      <ArrowRight aria-hidden class="h-4 w-4 shrink-0 stroke-brand" />
-    </a>
-  </section>
+    </section>
+    <Separator />
+    <section class="flex flex-col gap-6">
+      <h2 class="font-bold leading-none tracking-wider text-2">RECENT POSTS</h2>
+      <!-- prettier-ignore -->
+      <ul class="gap-10 grid lg:grid-cols-3">
+        {posts.map((post) => (<li><PostCard {post} /></li>))}
+      </ul>
+      <Link href="/blog" class="mt-2 self-end text-xs text-2">
+        View All Posts <ArrowRight size={14} aria-hidden />
+      </Link>
+    </section>
+  </div>
 </Layout>

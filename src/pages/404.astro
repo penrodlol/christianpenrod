@@ -1,18 +1,15 @@
 ---
-import Anchor from '@/components/anchor.astro';
+import Link from '@/components/ui/link.astro';
 import Layout from '@/layouts/layout.astro';
-import { ArrowLeft } from 'lucide-preact';
+import { ArrowLeft } from 'lucide-astro';
 ---
 
 <Layout>
-  <section class="mt-fluid-7 flex flex-col items-center">
-    <h1 class="text-brand text-9xl">404</h1>
-    <p class="mb-fluid-5 text-4xl">Page Not Found</p>
-    <Anchor href="/">
-      <div class="group flex items-center gap-4 text-lg">
-        <ArrowLeft class="h-8 w-8 stroke-brand" />
-        <span class="group-hover:text-brand">Back To Home</span>
-      </div>
-    </Anchor>
-  </section>
+  <div class="mt-fluid-6 text-center">
+    <h1 class="text-fancy text-9xl tracking-widest">404</h1>
+    <p class="text-xl text-2">Page Not Found</p>
+    <Link href="/" class="mt-fluid-4 gap-3">
+      <ArrowLeft size={16} aria-hidden /> Go Back home
+    </Link>
+  </div>
 </Layout>

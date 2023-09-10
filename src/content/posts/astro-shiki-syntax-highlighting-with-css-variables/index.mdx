@@ -1,20 +1,18 @@
 ---
 title: Astro Shiki Syntax Highlighting with CSS Variables
 description:
-  Customize an Astro project's Shiki syntax highlighting using a list of
-  available CSS Variables.
+  Customize an Astro project's Shiki syntax highlighting using a list of available CSS Variables.
 published: 2023-01-09
 repo: astro-shiki-css-variables
+cover: ./cover.webp
 ---
 
-By default, Astro uses [Shiki][shiki] for syntax highlighting markdown code
-blocks. Astro comes with an array of Shiki themes by default. However, let's
-learn how to make our own using _CSS Variables_.
+By default, Astro uses [Shiki][shiki] for syntax highlighting markdown code blocks. Astro comes with
+an array of Shiki themes by default. However, let's learn how to make our own using _CSS Variables_.
 
 ## Configuring Astro
 
-To begin, let's update our Astro configuration to use Shiki's `css-variables`
-theme:
+To begin, let's update our Astro configuration to use Shiki's `css-variables` theme:
 
 > Make sure to have [@astrojs/mdx][astro-mdx] installed first.
 
@@ -29,9 +27,8 @@ export default defineConfig({
 
 ## Adding CSS Variables
 
-Within Astro's [source code][astro-remark-shiki], there's a _remark-shiki
-integration_ that defines a set of CSS Variables. Taking note of these
-variables, we can now override them with our own:
+Within Astro's [source code][astro-remark-shiki], there's a _remark-shiki integration_ that defines
+a set of CSS Variables. Taking note of these variables, we can now override them with our own:
 
 ```astro title="Layout.astro"
 <style is:global>
@@ -51,8 +48,7 @@ variables, we can now override them with our own:
 </style>
 ```
 
-And that's it! All code block syntax highlighting will now use our CSS
-Variables.
+And that's it! All code block syntax highlighting will now use our CSS Variables.
 
 [shiki]: https://shiki.matsu.io/
 [astro-remark-shiki]:
