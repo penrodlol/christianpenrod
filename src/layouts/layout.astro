@@ -4,6 +4,8 @@ import ogDefault from '@/assets/og.webp';
 import Link from '@/components/ui/link.astro';
 import Separator from '@/components/ui/separator.astro';
 import '@fontsource/inter';
+import { fade } from 'astro/transitions';
+import { ViewTransitions } from 'astro:transitions';
 import { Home } from 'lucide-astro';
 import { twJoin } from 'tailwind-merge';
 
@@ -39,6 +41,7 @@ const {
     <link rel="icon" type="image/svg+xml" href={favicon.src} />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link href={new URL(Astro.url.pathname, Astro.site)} rel="canonical" />
+    <ViewTransitions transition:animate={fade({ duration: '0.15s' })} />
   </head>
   <body class="p-4 text-sm">
     <div
