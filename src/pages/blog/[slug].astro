@@ -1,14 +1,17 @@
 ---
+import Favicon from '@/assets/favicon.webp';
 import PostCard from '@/components/post-card.astro';
 import PostCode from '@/components/post-code.astro';
 import PostSubheader from '@/components/post-subheader.astro';
 import PostViews from '@/components/post-views.astro';
+import Socials from '@/components/socials.astro';
 import GithubCard from '@/components/ui/github-card.astro';
 import Link from '@/components/ui/link.astro';
 import Separator from '@/components/ui/separator.astro';
 import Time from '@/components/ui/time.astro';
 import Layout from '@/layouts/layout.astro';
 import type { GetStaticPaths } from 'astro';
+import { Image } from 'astro:assets';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { Calendar, Clock4 } from 'lucide-astro';
 
@@ -31,22 +34,34 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
 ---
 
 <Layout title={post.data.title} description={post.data.description}>
-  <div class="mx-auto mt-fluid-5 max-w-screen-lg lg:grid lg:grid-cols-[1fr,16rem] lg:gap-10">
+  <div class="mx-auto mt-fluid-5 max-w-screen-lg xl:grid xl:grid-cols-[1fr,17rem] xl:gap-16">
     <article class="mx-auto max-w-prose">
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col gap-3">
         <h1 class="text-lg font-bold uppercase tracking-widest">{post.data.title}</h1>
-        <div class="flex gap-8 text-xs text-2">
-          <div class="flex items-center gap-2">
-            <Calendar size={14} />
+        <div class="flex flex-wrap items-center gap-4 text-xxs text-2">
+          <div class="flex items-center gap-2 rounded border bg-2 px-2">
+            <Calendar class="shrink-0" size={14} aria-hidden />
             <Time>{post.data.published}</Time>
           </div>
-          <div class="flex items-center gap-2">
-            <Clock4 size={14} />
-            <span>{remarkPluginFrontmatter.readingTime} min read</span>
+          <div class="flex items-center gap-2 rounded border bg-2 px-2">
+            <Clock4 class="shrink-0" size={14} aria-hidden />
+            <span>{remarkPluginFrontmatter.readingTime} Min Read</span>
           </div>
+          <PostViews slug={post.slug} />
         </div>
       </div>
-      <Separator class="mb-10 mt-4" />
+      <Separator class="mb-4 mt-6 xl:mb-10" />
+      <div class="block xl:hidden">
+        <details>
+          <summary class="text-xxs tracking-wider">TABLE OF CONTENTS</summary>
+          <!-- prettier-ignore -->
+          <ol class="flex pt-2 flex-col gap-1 text-xxs text-2">
+            <li><Link href="#introduction">Introduction</Link></li>
+            {headings.map((heading) => (<li><Link href={`#${heading.slug}`}>{heading.text}</Link></li>))}
+          </ol>
+        </details>
+        <Separator class="mb-10 mt-4" />
+      </div>
       <div data-content class="flex flex-col gap-8 text-xs !leading-relaxed">
         <Content components={{ a: Link, h2: PostSubheader, figure: PostCode }} />
         {post.data.repo && <GithubCard repo={post.data.repo} />}
@@ -61,8 +76,8 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
       </div>
     </article>
     <h2 id="introduction" class="sr-only"></h2>
-    <aside class="sticky top-10 hidden h-max flex-col gap-4 rounded border lg:flex">
-      <div class="flex flex-col gap-3 px-4 pt-4">
+    <aside class="sticky top-10 hidden h-max rounded border xl:block">
+      <div class="flex flex-col gap-4 border-b p-4">
         <h2 class="text-xs tracking-wider">TABLE OF CONTENTS</h2>
         <!-- prettier-ignore -->
         <ol class="flex flex-col gap-1 text-xxs text-2">
@@ -70,8 +85,13 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
           {headings.map((heading) => (<li><Link href={`#${heading.slug}`}>{heading.text}</Link></li>))}
         </ol>
       </div>
-      <div class="flex justify-center border-t bg-2 px-3 py-1.5 text-xxs">
-        <PostViews slug={post.slug} />
+      <div class="flex items-start gap-4 p-4">
+        <Image class="shrink-0" src={Favicon} alt="Me" width={70} height={70} />
+        <div class="text-xxs">
+          <p class="font-bold tracking-wider">CHRISTIAN PENROD</p>
+          <p class="text-2">Front-End Web Developer</p>
+          <div class="mt-1 [&_a]:!pr-2 [&_svg]:w-3"><Socials /></div>
+        </div>
       </div>
     </aside>
   </div>
