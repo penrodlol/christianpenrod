@@ -53,9 +53,9 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
       <Separator class="mb-4 mt-6 xl:mb-10" />
       <div class="block xl:hidden">
         <details>
-          <summary class="text-xxs tracking-wider">TABLE OF CONTENTS</summary>
+          <summary class="text-xs tracking-wider">TABLE OF CONTENTS</summary>
           <!-- prettier-ignore -->
-          <ol class="flex pt-2 flex-col gap-1 text-xxs text-2">
+          <ol class="flex pt-2 flex-col gap-1 text-xs text-2">
             <li><Link href="#introduction">Introduction</Link></li>
             {headings.map((heading) => (<li><Link href={`#${heading.slug}`}>{heading.text}</Link></li>))}
           </ol>
