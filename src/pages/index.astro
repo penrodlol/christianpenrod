@@ -8,7 +8,7 @@ import Separator from '@/components/ui/separator.astro';
 import Layout from '@/layouts/layout.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import { ArrowRight } from 'lucide-astro';
+import { ArrowRight, Minus } from 'lucide-astro';
 
 const projects = ['feedjoy', 'christianpenrod'];
 const posts = (await getCollection('posts'))
@@ -22,12 +22,20 @@ const posts = (await getCollection('posts'))
       <div>
         <h1 class="text-3xl font-bold tracking-widest">CHRISTIAN PENROD</h1>
         <p class="text-xl tracking-wider text-2">Front-End Web Developer</p>
-        <p class="mb-fluid-5 mt-fluid-2 max-w-prose text-xs text-2 [&_a]:text-1">
-          Building software for the web since 2018. Currently working as a <em>Full-Stack</em>
-           Web Developer at <Link href={import.meta.env.JOB}>McKesson</Link>. Graduated from
-          <Link href={import.meta.env.COLLEGE}>LaRoche University</Link> with a Bachelors in
-          Computer Science. Located in Pittsburgh, PA, USA.
-        </p>
+        <ul class="mb-10 mt-8 flex flex-col gap-1 text-2 [&_a]:text-1">
+          <li class="flex items-center gap-2">
+            <Minus class="shrink-0" size={14} aria-hidden />
+             Web Developer <Link href={import.meta.env.JOB}>@McKesson</Link>
+          </li>
+          <li class="flex items-center gap-2">
+            <Minus class="shrink-0" size={14} aria-hidden />
+             Computer Science <Link href={import.meta.env.COLLEGE}>@LaRoche</Link>
+          </li>
+          <li class="flex items-center gap-2">
+            <Minus class="shrink-0" size={14} aria-hidden />
+             Pittsburgh, PA, USA
+          </li>
+        </ul>
         <Socials />
       </div>
       <div class="hidden h-[280px] w-[280px] rounded border-2 lg:block [&_img]:rounded">

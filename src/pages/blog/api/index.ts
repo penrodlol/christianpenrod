@@ -2,11 +2,9 @@ import planetscale from '@/libs/planetscale';
 import type { APIRoute } from 'astro';
 import { getEntry, z } from 'astro:content';
 
-const slugSchema = z
-  .string()
-  .trim()
-  .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
-  .refine(async (slug) => !!getEntry('posts', slug));
+export const prerender = false;
+
+const slugSchema = z.string().refine(async (slug) => !!getEntry('posts', slug.trim()));
 
 export const PUT: APIRoute = async ({ request }) => {
   const payload = await z.object({ slug: slugSchema }).safeParseAsync(await request.json());

@@ -7,16 +7,16 @@ type Props = { slug: CollectionEntry<'posts'>['slug'] };
 const { slug } = Astro.props;
 ---
 
-<div class="flex items-center gap-2 rounded border bg-2 px-2">
+<div class="flex items-center gap-2 rounded border bg-2 px-2 tracking-wider">
   <Eye class="shrink-0" size={14} aria-hidden />
-  <p><span data-post-views={slug}></span> Views</p>
+  <span data-post-views={slug}>000000</span>
 </div>
 
 <script define:vars={{ slug }}>
-fetch(`/blog/api`, { method: 'PUT', body: JSON.stringify({ slug }) })
-  .then((res) => res.json())
-  .then((views) => {
-    const el = document.querySelector(`[data-post-views="${slug}"]`);
-    el.textContent = new Intl.NumberFormat('en-US').format(views);
-  });
+  fetch('/blog/api', { method: 'PUT', body: JSON.stringify({ slug }) })
+    .then((res) => res.json())
+    .then((views) => {
+      const el = document.querySelector(`[data-post-views="${slug}"]`);
+      el.textContent = views.toString().padStart(6, '0');
+    });
 </script>
