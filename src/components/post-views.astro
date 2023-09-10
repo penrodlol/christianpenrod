@@ -13,10 +13,10 @@ const { slug } = Astro.props;
 </div>
 
 <script define:vars={{ slug }}>
-fetch(`/blog/api`, { method: 'PUT', body: JSON.stringify({ slug }) })
-  .then((res) => res.json())
-  .then((views) => {
-    const el = document.querySelector(`[data-post-views="${slug}"]`);
-    el.textContent = new Intl.NumberFormat('en-US').format(views);
-  });
+  fetch(`/api/view-post`, { method: 'PUT', body: JSON.stringify({ slug }) })
+    .then((res) => res.json())
+    .then((views) => {
+      const el = document.querySelector(`[data-post-views="${slug}"]`);
+      el.textContent = new Intl.NumberFormat('en-US').format(views);
+    });
 </script>
