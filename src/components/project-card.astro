@@ -11,16 +11,13 @@ const repo = await octokit.repos
   .then((res) => res.data);
 ---
 
-<div class="rounded border">
+<div class="h-full rounded border">
   <div class="flex items-center gap-2 rounded-t border-b bg-2 px-2 py-1">
     <Book class="shrink-0 text-2" size={12} aria-hidden />
     <span>{repo.name}</span>
   </div>
   <div class="flex flex-col gap-3 p-3 text-2">
-    <p class="text-xs text-2">
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Asperiores aliquam vitae, ipsa esse
-      neque eius nulla eaque error fugiat numquam sit quis, dolorem labore eos dicta, iste.
-    </p>
+    <p class="text-xs text-2">{repo.description}</p>
     <Separator />
     <div class="flex items-center justify-between gap-2 text-xxs">
       <div class="flex items-center gap-3">
