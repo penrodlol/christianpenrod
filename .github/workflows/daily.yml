@@ -12,4 +12,4 @@ jobs:
       - uses: actions/checkout@v3
       - name: Request Deployment to Vercel
         run: |
-          curl  -X GET https://api.vercel.com/v1/integrations/deploy/${{ secrets.VERCEL_DEPLOY_WEBHOOK_TOKEN }}
+          curl -s -X GET https://api.vercel.com/v1/integrations/deploy/${{ secrets.VERCEL_DEPLOY_WEBHOOK_TOKEN }}
