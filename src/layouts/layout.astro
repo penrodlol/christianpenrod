@@ -16,7 +16,7 @@ const {
 } = Astro.props;
 ---
 
-<html lang="en" class="ml-[calc(100vw-100%)] scroll-pt-10 bg-2 bg-grid text-1 selection:bg-3">
+<html lang="en" class="bg-noise ml-[calc(100vw-100%)] scroll-pt-10 bg-2 text-1 selection:bg-3">
   <head>
     <title>{title}</title>
     <meta charset="utf-8" />
@@ -58,7 +58,7 @@ const {
           </ul>
         </nav>
       </header>
-      <main class="motion-safe:animate-fade-in mb-fluid-6 flex-1"><slot /></main>
+      <main class="mb-fluid-6 flex-1 motion-safe:animate-fade-in"><slot /></main>
       <footer class="mx-auto w-full max-w-screen-lg">
         <Separator />
         <div class="flex justify-between px-2 pt-4 text-xxs text-2">
