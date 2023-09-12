@@ -1,7 +1,7 @@
 ---
 import Link from '@/components/ui/link.astro';
+import Moment from '@/components/ui/moment.astro';
 import Separator from '@/components/ui/separator.astro';
-import Time from '@/components/ui/time.astro';
 import Layout from '@/layouts/layout.astro';
 import { getCollection } from 'astro:content';
 import { twJoin } from 'tailwind-merge';
@@ -34,7 +34,7 @@ const roles = await getCollection('roles').then(async (roles) =>
                 {role.company}
               </Link>
               <div class="text-xxs text-2">
-                <Time>{role.start}</Time> - {role.end ? <Time>{role.end}</Time> : 'Present'}
+                <Moment>{role.start}</Moment> - {role.end ? <Moment>{role.end}</Moment> : 'Present'}
               </div>
             </div>
             <div class="flex gap-4 p-6 !leading-relaxed">

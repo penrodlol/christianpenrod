@@ -2,8 +2,8 @@
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { Calendar, Clock4 } from 'lucide-astro';
+import Moment from './ui/moment.astro';
 import Separator from './ui/separator.astro';
-import Time from './ui/time.astro';
 
 type Props = { post: CollectionEntry<'posts'> };
 
@@ -26,7 +26,7 @@ const { remarkPluginFrontmatter } = await post.render();
     <div class="flex justify-between gap-4 text-xxs text-2">
       <div class="flex items-center gap-2">
         <Calendar class="shrink-0" size={14} aria-hidden />
-        <Time>{post.data.published}</Time>
+        <Moment>{post.data.published}</Moment>
       </div>
       <div class="flex items-center gap-2">
         <Clock4 class="shrink-0" size={14} aria-hidden />

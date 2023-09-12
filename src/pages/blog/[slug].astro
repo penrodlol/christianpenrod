@@ -2,13 +2,13 @@
 import Favicon from '@/assets/favicon.webp';
 import PostCard from '@/components/post-card.astro';
 import PostCode from '@/components/post-code.astro';
+import PostGithub from '@/components/post-github.astro';
 import PostSubheader from '@/components/post-subheader.astro';
 import PostViews from '@/components/post-views.astro';
 import Socials from '@/components/socials.astro';
-import GithubCard from '@/components/ui/github-card.astro';
 import Link from '@/components/ui/link.astro';
+import Moment from '@/components/ui/moment.astro';
 import Separator from '@/components/ui/separator.astro';
-import Time from '@/components/ui/time.astro';
 import Layout from '@/layouts/layout.astro';
 import type { GetStaticPaths } from 'astro';
 import { Image } from 'astro:assets';
@@ -45,7 +45,7 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
         <div class="flex flex-wrap items-center gap-4 text-xxs text-2">
           <div class="flex items-center gap-2 rounded border bg-2 px-2">
             <Calendar class="shrink-0" size={14} aria-hidden />
-            <Time>{post.data.published}</Time>
+            <Moment>{post.data.published}</Moment>
           </div>
           <div class="flex items-center gap-2 rounded border bg-2 px-2">
             <Clock4 class="shrink-0" size={14} aria-hidden />
@@ -68,7 +68,7 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
       </div>
       <div data-content class="flex flex-col gap-8 text-xs !leading-relaxed">
         <Content components={{ a: Link, h2: PostSubheader, figure: PostCode }} />
-        {post.data.repo && <GithubCard repo={post.data.repo} />}
+        {post.data.repo && <PostGithub repo={post.data.repo} />}
       </div>
       <Separator class="mb-16 mt-10" />
       <div class="flex flex-col gap-4">
