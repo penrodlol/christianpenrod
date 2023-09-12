@@ -9,7 +9,10 @@ import { twJoin } from 'tailwind-merge';
     <button
       aria-label="Copy to Clipboard"
       data-copied="false"
-      class="group ml-auto px-4 py-1.5 hover:text-emphasis motion-safe:transition-colors"
+      class={twJoin(
+        'group ml-auto rounded px-4 py-1.5 hover:text-emphasis motion-safe:transition-colors',
+        'focus-visible:outline-none focus-visible:ring-2',
+      )}
     >
       <Clipboard size={14} aria-hidden class="hidden group-data-[copied=false]:block" />
       <Check size={14} aria-hidden class="block stroke-emphasis group-data-[copied=false]:hidden" />
@@ -19,6 +22,8 @@ import { twJoin } from 'tailwind-merge';
     class={twJoin(
       // base
       'overflow-auto bg-[--shiki-color-background] p-4 font-sans text-xxs',
+      // pre
+      '[&_pre]:rounded [&_pre]:focus-within:outline-none [&_pre]:focus-within:ring-2',
       // code
       '[&_code]:[counter-reset:line]',
       // line hightlighting

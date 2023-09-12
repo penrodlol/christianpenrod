@@ -14,9 +14,9 @@ const repo = await octokit.repos
   target="_blank"
   rel="nofollow noopener noreferrer"
   aria-label={`Check out the github repo: ${repo.name}. ${repo.description}`}
-  class="group flex flex-col gap-1 rounded border p-4"
+  class="group flex flex-col gap-1 rounded border p-4 focus-visible:outline-none focus-visible:ring-2"
 >
-  <div class="flex items-center gap-2 text-xs font-bold">
+  <div class="flex items-center gap-2 text-xs">
     <Book class="shrink-0" size={12} aria-hidden />
     <span class="group-hover:text-emphasis motion-safe:transition-colors">{repo.name}</span>
   </div>

@@ -13,6 +13,7 @@ export default {
       textColor: { 1: colors.neutral[400], 2: colors.neutral[500] },
       colors: { emphasis: colors.neutral[200] },
       borderColor: { DEFAULT: colors.neutral[800] },
+      ringColor: { DEFAULT: colors.neutral[500] },
       spacing: {
         'fluid-1': 'clamp(0.25rem, calc(-0.09rem + 1.71vw), 1.13rem)',
         'fluid-2': 'clamp(0.5rem, calc(0.11rem + 1.95vw), 1.5rem)',
