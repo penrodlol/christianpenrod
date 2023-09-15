@@ -23,8 +23,6 @@ export default {
         'fluid-6': 'clamp(2rem, calc(0.44rem + 7.8vw), 6rem)',
         'fluid-7': 'clamp(3rem, calc(0.66rem + 11.71vw), 9rem)',
       },
-      animation: { 'fade-in': 'fade-in 0.1s ease-in-out' },
-      keyframes: { 'fade-in': { from: { opacity: '0' }, to: { opacity: '1' } } },
       backgroundImage: {
         noise:
           'url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3MDAiIGhlaWdodD0iNzAwIj48ZGVmcz48ZmlsdGVyIGlkPSJhIiB4PSItMjAlIiB5PSItMjAlIiB3aWR0aD0iMTQwJSIgaGVpZ2h0PSIxNDAlIiBmaWx0ZXJVbml0cz0ib2JqZWN0Qm91bmRpbmdCb3giIHByaW1pdGl2ZVVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgY29sb3ItaW50ZXJwb2xhdGlvbi1maWx0ZXJzPSJzUkdCIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjEwMiIgbnVtT2N0YXZlcz0iNCIgc2VlZD0iMTUiIHN0aXRjaFRpbGVzPSJzdGl0Y2giIHg9IjAlIiB5PSIwJSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgcmVzdWx0PSJ0dXJidWxlbmNlIi8+PGZlU3BlY3VsYXJMaWdodGluZyBzdXJmYWNlU2NhbGU9IjE1IiBzcGVjdWxhckNvbnN0YW50PSIuNzUiIHNwZWN1bGFyRXhwb25lbnQ9IjIwIiBsaWdodGluZy1jb2xvcj0iIzIyMiIgeD0iMCUiIHk9IjAlIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBpbj0idHVyYnVsZW5jZSIgcmVzdWx0PSJzcGVjdWxhckxpZ2h0aW5nIj48ZmVEaXN0YW50TGlnaHQgYXppbXV0aD0iMyIgZWxldmF0aW9uPSIxMDAiLz48L2ZlU3BlY3VsYXJMaWdodGluZz48L2ZpbHRlcj48L2RlZnM+PHBhdGggZmlsbD0idHJhbnNwYXJlbnQiIGQ9Ik0wIDBoNzAwdjcwMEgweiIvPjxwYXRoIGZpbGw9IiMyMjIiIGZpbHRlcj0idXJsKCNhKSIgZD0iTTAgMGg3MDB2NzAwSDB6Ii8+PC9zdmc+")',

@@ -4,6 +4,7 @@ import ogDefault from '@/assets/og.webp';
 import Link from '@/components/ui/link.astro';
 import Separator from '@/components/ui/separator.astro';
 import '@fontsource/inter';
+import { ViewTransitions } from 'astro:transitions';
 import { Home } from 'lucide-astro';
 import { twJoin } from 'tailwind-merge';
 
@@ -16,7 +17,7 @@ const {
 } = Astro.props;
 ---
 
-<html lang="en" class="bg-noise ml-[calc(100vw-100%)] scroll-pt-10 bg-2 text-1 selection:bg-3">
+<html lang="en" class="ml-[calc(100vw-100%)] scroll-pt-10 bg-2 bg-noise text-1 selection:bg-3">
   <head>
     <title>{title}</title>
     <meta charset="utf-8" />
@@ -39,6 +40,7 @@ const {
     <link rel="icon" type="image/svg+xml" href={favicon.src} />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link href={new URL(Astro.url.pathname, Astro.site)} rel="canonical" />
+    <ViewTransitions />
   </head>
   <body class="p-4 text-sm">
     <div
@@ -58,7 +60,7 @@ const {
           </ul>
         </nav>
       </header>
-      <main class="mb-fluid-6 flex-1 motion-safe:animate-fade-in"><slot /></main>
+      <main class="mb-fluid-6 flex-1"><slot /></main>
       <footer class="mx-auto w-full max-w-screen-lg">
         <Separator />
         <div class="flex justify-between px-2 pt-4 text-xxs text-2">
