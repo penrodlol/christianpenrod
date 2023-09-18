@@ -1,10 +1,11 @@
 ---
 import favicon from '@/assets/favicon.webp';
 import ogDefault from '@/assets/og.webp';
+import Contact from '@/components/contact.astro';
 import Link from '@/components/ui/link.astro';
 import Separator from '@/components/ui/separator.astro';
 import '@fontsource/inter';
-import { ViewTransitions } from 'astro:transitions';
+import { ViewTransitions, fade } from 'astro:transitions';
 import { Home } from 'lucide-astro';
 import { twJoin } from 'tailwind-merge';
 
@@ -17,7 +18,11 @@ const {
 } = Astro.props;
 ---
 
-<html lang="en" class="ml-[calc(100vw-100%)] scroll-pt-10 bg-2 bg-noise text-1 selection:bg-3">
+<html
+  lang="en"
+  transition:animate={fade({ duration: 150 })}
+  class="ml-[calc(100vw-100%)] scroll-pt-10 bg-2 bg-noise text-1 selection:bg-3"
+>
   <head>
     <title>{title}</title>
     <meta charset="utf-8" />
@@ -49,16 +54,17 @@ const {
         'flex-col rounded border bg-1 px-fluid-4 py-4',
       )}
     >
-      <header class="flex items-center justify-between text-xxs">
+      <header class="flex items-center gap-4 text-xxs">
         <Link href="/" aria-label="Home" class="rounded border bg-2 p-1 text-2">
           <Home size={14} aria-hidden />
         </Link>
-        <nav>
+        <nav class="ml-auto">
           <ul class="flex gap-4">
             <li><Link href="/blog">Blog</Link></li>
             <li><Link href="/career">Career</Link></li>
           </ul>
         </nav>
+        <Contact />
       </header>
       <main class="mb-fluid-6 flex-1"><slot /></main>
       <footer class="mx-auto w-full max-w-screen-lg">

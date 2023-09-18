@@ -1,24 +1,15 @@
 ---
-import { Check, Clipboard } from 'lucide-astro';
 import { twJoin } from 'tailwind-merge';
+import Clipboard from './ui/clipboard.astro';
 ---
 
-<figure {...Astro.props} class="rounded border">
+<figure {...Astro.props} data-clipboard-wrapper class="rounded border">
   <figcaption class="flex items-center rounded-t border-b bg-2 pl-4 text-xxs text-2">
     <slot name="title" />
-    <button
-      aria-label="Copy to Clipboard"
-      data-copied="false"
-      class={twJoin(
-        'group ml-auto rounded px-4 py-1.5 hover:text-emphasis motion-safe:transition-colors',
-        'focus-visible:outline-none focus-visible:ring-2',
-      )}
-    >
-      <Clipboard size={14} aria-hidden class="hidden group-data-[copied=false]:block" />
-      <Check size={14} aria-hidden class="block stroke-emphasis group-data-[copied=false]:hidden" />
-    </button>
+    <Clipboard class="ml-auto px-4 py-1.5" />
   </figcaption>
   <div
+    data-clipboard-content
     class={twJoin(
       // base
       'overflow-auto bg-[--shiki-color-background] p-4 font-sans text-xxs',
@@ -39,21 +30,3 @@ import { twJoin } from 'tailwind-merge';
     <slot />
   </div>
 </figure>
-
-<script>
-  document.querySelectorAll('button[aria-label="Copy to Clipboard"]')?.forEach((btn) =>
-    btn.addEventListener('click', () => {
-      const code = btn.closest('figure')?.querySelector('code');
-      if (!code) return;
-
-      navigator.clipboard.writeText(code.innerText.trim());
-
-      btn.setAttribute('data-copied', 'true');
-      btn.setAttribute('disabled', 'true');
-      setTimeout(() => {
-        btn.removeAttribute('disabled');
-        btn.setAttribute('data-copied', 'false');
-      }, 1500);
-    }),
-  );
-</script>
