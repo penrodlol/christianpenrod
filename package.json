@@ -24,7 +24,7 @@
     "@octokit/rest": "^20.0.1",
     "astro-og-canvas": "^0.2.1",
     "astro-robots-txt": "^1.0.0",
-    "lucide-astro": "^0.277.0",
+    "lucide-astro": "^0.279.0",
     "mdast-util-to-string": "^4.0.0",
     "prettier": "3.0.3",
     "prettier-plugin-astro": "0.12.0",

@@ -5,7 +5,7 @@ import Clipboard from './ui/clipboard.astro';
 import Link from './ui/link.astro';
 ---
 
-<details class="group relative">
+<details data-socials class="group relative">
   <summary
     class={twJoin(
       'group peer flex cursor-pointer select-none list-none items-center gap-1 rounded',
@@ -13,7 +13,7 @@ import Link from './ui/link.astro';
       'motion-safe:transition-colors',
     )}
   >
-    Contact
+    Socials
     <ChevronDown size={14} class="group-open:rotate-180 motion-safe:transition-transform" />
   </summary>
   <div
@@ -38,3 +38,8 @@ import Link from './ui/link.astro';
     </ul>
   </div>
 </details>
+
+<script>
+  const el = document.querySelector('[data-socials]') as HTMLDetailsElement;
+  document.addEventListener('click', (e) => !el.contains(e.target as Node) && (el.open = false));
+</script>

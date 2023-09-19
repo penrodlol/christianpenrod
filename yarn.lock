@@ -2386,10 +2386,10 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
-lucide-astro@^0.277.0:
-  version "0.277.0"
-  resolved "https://registry.yarnpkg.com/lucide-astro/-/lucide-astro-0.277.0.tgz#16ba5c1493875dd6f3d04231508f27a8dc13d502"
-  integrity sha512-V3GzM9UBrkJ5DbwL02drQignHJi3+7z23BSWf+ETdgaXLD0XV33scePwfwKIPVQqYBSHk42MhK29D9NMyXy9OQ==
+lucide-astro@^0.279.0:
+  version "0.279.0"
+  resolved "https://registry.yarnpkg.com/lucide-astro/-/lucide-astro-0.279.0.tgz#74460e58eee0a951ef0112a16066c0230dd976d1"
+  integrity sha512-iZAlGlE26UYuFYOFKdS8hmVvTjFI0DsiLKuStpQx/XqtOrIOqVirgokkmWeaWw4w/VrII3+wnzMYvh1NEweWvg==
 
 magic-string@^0.30.3:
   version "0.30.3"
