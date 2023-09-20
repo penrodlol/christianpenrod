@@ -1,7 +1,6 @@
 ---
 import favicon from '@/assets/favicon.webp';
 import ogDefault from '@/assets/og.webp';
-import Contact from '@/components/contact.astro';
 import Link from '@/components/ui/link.astro';
 import Separator from '@/components/ui/separator.astro';
 import '@fontsource/inter';
@@ -20,7 +19,7 @@ const {
 
 <html
   lang="en"
-  transition:animate={fade({ duration: 150 })}
+  transition:animate="none"
   class="ml-[calc(100vw-100%)] scroll-pt-10 bg-2 bg-noise text-1 selection:bg-3"
 >
   <head>
@@ -66,7 +65,7 @@ const {
         </nav>
         <Contact />
       </header>
-      <main class="mb-fluid-6 flex-1"><slot /></main>
+      <main transition:animate={fade({ duration: 150 })} class="mb-fluid-6 flex-1"><slot /></main>
       <footer class="mx-auto w-full max-w-screen-lg">
         <Separator />
         <div class="flex justify-between px-2 pt-4 text-xxs text-2">
