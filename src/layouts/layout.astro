@@ -1,7 +1,7 @@
 ---
 import favicon from '@/assets/favicon.webp';
 import ogDefault from '@/assets/og.webp';
-import Contact from '@/components/contact.astro';
+import Socials from '@/components/socials.astro';
 import Link from '@/components/ui/link.astro';
 import Separator from '@/components/ui/separator.astro';
 import '@fontsource/inter';
@@ -64,7 +64,7 @@ const {
             <li><Link href="/career">Career</Link></li>
           </ul>
         </nav>
-        <Contact />
+        <Socials />
       </header>
       <main transition:animate={fade({ duration: 150 })} class="mb-fluid-6 flex-1"><slot /></main>
       <footer class="mx-auto w-full max-w-screen-lg">

@@ -5,7 +5,6 @@ import PostCode from '@/components/post-code.astro';
 import PostGithub from '@/components/post-github.astro';
 import PostSubheader from '@/components/post-subheader.astro';
 import PostViews from '@/components/post-views.astro';
-import Socials from '@/components/socials.astro';
 import Link from '@/components/ui/link.astro';
 import Moment from '@/components/ui/moment.astro';
 import Separator from '@/components/ui/separator.astro';
@@ -13,7 +12,7 @@ import Layout from '@/layouts/layout.astro';
 import type { GetStaticPaths } from 'astro';
 import { Image } from 'astro:assets';
 import { getCollection, type CollectionEntry } from 'astro:content';
-import { Calendar, Clock4 } from 'lucide-astro';
+import { Calendar, Clock4, Github, Linkedin, Mail, Rss, Twitter } from 'lucide-astro';
 
 export const getStaticPaths: GetStaticPaths = async () =>
   getCollection('posts').then((posts) =>
@@ -89,14 +88,21 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
           {headings.map((heading) => (<li><Link href={`#${heading.slug}`}>{heading.text}</Link></li>))}
         </ol>
       </div>
-      <div class="flex items-start gap-4 p-4">
+      <div class="flex gap-4 p-4">
         <div class="h-[70px] w-[70px]">
           <Image class="shrink-0" src={Favicon} alt="Me" width={2048} height={2048} />
         </div>
         <div class="text-xxs">
           <p class="font-bold tracking-wider">CHRISTIAN PENROD</p>
-          <p class="text-2">Front-End Web Developer</p>
-          <div class="mt-1 [&_a]:!pr-2 [&_svg]:!w-3"><Socials /></div>
+          <p class="mb-2 text-2">Front-End Web Developer</p>
+          <!-- prettier-ignore -->
+          <ul class="flex text-2 [&_[data-external-icon]]:hidden [&_a]:!pr-2 [&_svg]:!w-3">
+            <li><Link href={import.meta.env.GITHUB}><Github size={12} aria-label="Github" /></Link></li>
+            <li><Link href={import.meta.env.TWITTER}><Twitter size={12} aria-label="Twitter/X" /></Link></li>
+            <li><Link href={import.meta.env.LINKEDIN}><Linkedin size={12} aria-label="LinkedIn" /></Link></li>
+            <li><Link href={`mailto:${import.meta.env.EMAIL}`}><Mail size={12} aria-label="Email" /></Link></li>
+            <li><Link href={new URL('rss.xml', import.meta.env.SITE)}><Rss size={12} aria-label="RSS" /></Link></li>
+          </ul>
         </div>
       </div>
     </aside>

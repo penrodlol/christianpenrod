@@ -2,13 +2,12 @@
 import Me from '@/assets/me.webp';
 import PostCard from '@/components/post-card.astro';
 import ProjectCard from '@/components/project-card.astro';
-import Socials from '@/components/socials.astro';
 import Link from '@/components/ui/link.astro';
 import Separator from '@/components/ui/separator.astro';
 import Layout from '@/layouts/layout.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import { ArrowRight, Minus } from 'lucide-astro';
+import { ArrowRight } from 'lucide-astro';
 
 const projects = ['feedjoy', 'christianpenrod'];
 const posts = (await getCollection('posts'))
@@ -18,28 +17,34 @@ const posts = (await getCollection('posts'))
 
 <Layout>
   <div class="mx-auto mt-fluid-5 flex max-w-lg flex-col gap-10 lg:max-w-screen-lg">
-    <section class="flex justify-between">
+    <section class="flex items-center gap-24">
+      <div class="hidden h-[280px] w-[280px] shrink-0 rounded border-2 lg:block [&_img]:rounded">
+        <Image src={Me} alt="Me" loading="eager" quality={100} width={2048} height={2048} />
+      </div>
       <div>
         <h1 class="text-3xl font-bold tracking-widest">CHRISTIAN PENROD</h1>
         <p class="text-xl tracking-wider text-2">Front-End Web Developer</p>
-        <ul class="mb-10 mt-8 flex flex-col gap-1 text-2 [&_a]:text-1">
-          <li class="flex items-center gap-2">
-            <Minus class="shrink-0" size={14} aria-hidden />
-             Web Developer <Link href={import.meta.env.JOB}>@McKesson</Link>
+        <Separator class="my-3" />
+        <p class="mb-8 max-w-prose text-xs text-2">
+          Working on the web since 2018. I enjoy developing efficient web experiences through code
+          and design. I'm equally driven to sharing knowledge with others as well.
+        </p>
+        <ul class="flex flex-col gap-2 text-xxs">
+          <li class="flex items-center justify-between gap-2 px-2">
+            <span class="text-2">Location:</span><span>Pittsburgh, PA, USA</span>
           </li>
-          <li class="flex items-center gap-2">
-            <Minus class="shrink-0" size={14} aria-hidden />
-             Computer Science <Link href={import.meta.env.COLLEGE}>@LaRoche</Link>
+          <Separator />
+          <li class="flex items-center justify-between gap-2 px-2">
+            <span class="text-2">Occupation:</span>
+            <Link href={import.meta.env.JOB}>@McKesson Corporation</Link>
           </li>
-          <li class="flex items-center gap-2">
-            <Minus class="shrink-0" size={14} aria-hidden />
-             Pittsburgh, PA, USA
+          <Separator />
+          <li class="flex items-center justify-between gap-2 px-2">
+            <span class="text-2">Education:</span>
+            <Link href={import.meta.env.COLLEGE}>@LaRoche University</Link>
           </li>
+          <Separator class="hidden lg:block" />
         </ul>
-        <Socials />
-      </div>
-      <div class="hidden h-[280px] w-[280px] rounded border-2 lg:block [&_img]:rounded">
-        <Image src={Me} alt="Me" loading="eager" quality={100} width={2048} height={2048} />
       </div>
     </section>
     <Separator />
