@@ -12,14 +12,14 @@
   },
   "dependencies": {
     "@planetscale/database": "^1.11.0",
-    "astro": "^3.1.0"
+    "astro": "^3.1.2"
   },
   "devDependencies": {
     "@astrojs/mdx": "^1.1.0",
     "@astrojs/rss": "^3.0.0",
     "@astrojs/sitemap": "^3.0.0",
     "@astrojs/tailwind": "^5.0.0",
-    "@astrojs/vercel": "^5.0.0",
+    "@astrojs/vercel": "^5.0.1",
     "@fontsource/inter": "^5.0.8",
     "@octokit/rest": "^20.0.1",
     "astro-og-canvas": "^0.2.1",
@@ -31,7 +31,7 @@
     "prettier-plugin-tailwindcss": "^0.5.4",
     "reading-time": "^1.5.0",
     "rehype-pretty-code": "^0.10.1",
-    "sass": "^1.67.0",
+    "sass": "^1.68.0",
     "tailwind-merge": "^1.14.0",
     "tailwindcss": "^3.3.3",
     "tailwindcss-fluid-type": "^2.0.3",

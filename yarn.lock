@@ -103,10 +103,10 @@
     postcss "^8.4.28"
     postcss-load-config "^4.0.1"
 
-"@astrojs/telemetry@3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@astrojs/telemetry/-/telemetry-3.0.1.tgz#4baee14a7c4271f461e4e080dffa26f09c39afa6"
-  integrity sha512-7zJMuikRDQ0LLLivteu0+y4pqdgznrChFiRrY3qmKlOEkLWD1T3u1a5M970lvpErP7Vgh4P298JBPjv8LTj+sw==
+"@astrojs/telemetry@3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@astrojs/telemetry/-/telemetry-3.0.2.tgz#f0b3a6abae33e9b362924124ea9735c90c155847"
+  integrity sha512-ef+jqCkqopCzjGfsMsr+8p56Nj6F9ZzouWcWZt+dKsqbRccI3c8K3jfkLcdq4AyfFZtKBDB6N4ZuI68g33oiOg==
   dependencies:
     ci-info "^3.8.0"
     debug "^4.3.4"
@@ -117,10 +117,10 @@
     undici "^5.23.0"
     which-pm-runs "^1.1.0"
 
-"@astrojs/vercel@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@astrojs/vercel/-/vercel-5.0.0.tgz#06e0cc966517b6235776e4da635aa9d88af44740"
-  integrity sha512-EN3g6lRL08Sthrd2HNNi5815XJlmI7ExG7O+rChG3NL+18LzHsMKUrQU70BQLrI1RB6EDuEUb5DofWXqRaWTNg==
+"@astrojs/vercel@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@astrojs/vercel/-/vercel-5.0.1.tgz#21535814ddddec55b3b0b32b9930a91661d72948"
+  integrity sha512-qDXTBSRSzTRourx90QcB/uARUcABDRLfrDggNtyiyyh6WoJPK7BuhKDYh0Bd372Mrt2mm15ZSGaxHJLmbpv2wg==
   dependencies:
     "@astrojs/internal-helpers" "0.2.0"
     "@vercel/analytics" "^1.0.2"
@@ -1051,15 +1051,15 @@ astro-robots-txt@^1.0.0:
     valid-filename "^4.0.0"
     zod "^3.22.2"
 
-astro@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/astro/-/astro-3.1.0.tgz#c3f1f28bde28402958dce057e9d4ba0b557819d3"
-  integrity sha512-hVPZg9uDafqJbDwOwtcujwhJ6Qp3BCaIj1cvablTYI0jdYrZSvcybhIMTf8NhzK5smvZy2Bv9eEDYXLpiLDrRQ==
+astro@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/astro/-/astro-3.1.2.tgz#d619773ecfa3b688228ef69ed2adf8b74c8fdfa1"
+  integrity sha512-9rlKyk6Qmw50Pc188+ey7JAEYBsJGh5an46AXGPMHIdEkH6YOc4b2z9Rr+TNF8QmM/U+C2ZQFRVQyCKU4i8/pg==
   dependencies:
     "@astrojs/compiler" "^2.1.0"
     "@astrojs/internal-helpers" "0.2.0"
     "@astrojs/markdown-remark" "3.2.0"
-    "@astrojs/telemetry" "3.0.1"
+    "@astrojs/telemetry" "3.0.2"
     "@babel/core" "^7.22.10"
     "@babel/generator" "^7.22.10"
     "@babel/parser" "^7.22.10"
@@ -3767,10 +3767,10 @@ sass-formatter@^0.7.6:
   dependencies:
     suf-log "^2.5.3"
 
-sass@^1.67.0:
-  version "1.67.0"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.67.0.tgz#fed84d74b9cd708db603b1380d6dc1f71bb24f6f"
-  integrity sha512-SVrO9ZeX/QQyEGtuZYCVxoeAL5vGlYjJ9p4i4HFuekWl8y/LtJ7tJc10Z+ck1c8xOuoBm2MYzcLfTAffD0pl/A==
+sass@^1.68.0:
+  version "1.68.0"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.68.0.tgz#0034b0cc9a50248b7d1702ac166fd25990023669"
+  integrity sha512-Lmj9lM/fef0nQswm1J2HJcEsBUba4wgNx2fea6yJHODREoMFnwRpZydBnX/RjyXw2REIwdkbqE4hrTo4qfDBUA==
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
     immutable "^4.0.0"

@@ -25,18 +25,21 @@ const { class: className, 'aria-label': ariaLabel, content, ...props } = Astro.p
 </button>
 
 <script>
-  const targets: NodeListOf<HTMLButtonElement> = document.querySelectorAll('button[data-copied]');
-  targets.forEach((target) => {
-    target.addEventListener('click', () => {
-      target.dataset.copied = 'true';
-      setTimeout(() => (target.dataset.copied = 'false'), 1000);
+  document.addEventListener('astro:page-load', () => {
+    const targets: NodeListOf<HTMLButtonElement> = document.querySelectorAll('button[data-copied]');
 
-      if (target.dataset.content) navigator.clipboard.writeText(target.dataset.content);
-      else {
-        const wrapper = target.closest('[data-clipboard-wrapper]');
-        const content = wrapper?.querySelector('[data-clipboard-content]')?.textContent?.trim();
-        if (content) navigator.clipboard.writeText(content);
-      }
+    targets.forEach((target) => {
+      target.addEventListener('click', () => {
+        target.dataset.copied = 'true';
+        setTimeout(() => (target.dataset.copied = 'false'), 1000);
+
+        if (target.dataset.content) navigator.clipboard.writeText(target.dataset.content);
+        else {
+          const wrapper = target.closest('[data-clipboard-wrapper]');
+          const content = wrapper?.querySelector('[data-clipboard-content]')?.textContent?.trim();
+          if (content) navigator.clipboard.writeText(content);
+        }
+      });
     });
   });
 </script>

@@ -1,6 +1,6 @@
 ---
 import { ChevronDown, Github, Linkedin, Twitter } from 'lucide-astro';
-import { twJoin, twMerge } from 'tailwind-merge';
+import { twJoin } from 'tailwind-merge';
 import Clipboard from './ui/clipboard.astro';
 import Link from './ui/link.astro';
 ---
@@ -17,7 +17,7 @@ import Link from './ui/link.astro';
     <ChevronDown size={14} class="group-open:rotate-180 motion-safe:transition-transform" />
   </summary>
   <div
-    class={twMerge(
+    class={twJoin(
       'absolute right-0 z-50 mt-2 min-w-[10rem] rounded border bg-2 opacity-0',
       'overflow-hidden group-open:opacity-100 motion-safe:transition-opacity',
     )}
@@ -40,6 +40,8 @@ import Link from './ui/link.astro';
 </details>
 
 <script>
-  const el = document.querySelector('[data-socials]') as HTMLDetailsElement;
-  document.addEventListener('click', (e) => !el.contains(e.target as Node) && (el.open = false));
+  document.addEventListener('astro:page-load', () => {
+    const el = document.querySelector('[data-socials]') as HTMLDetailsElement;
+    document.addEventListener('click', (e) => !el.contains(e.target as Node) && (el.open = false));
+  });
 </script>
