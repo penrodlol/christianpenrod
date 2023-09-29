@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@planetscale/database": "^1.11.0",
-    "astro": "^3.1.2"
+    "astro": "^3.2.0"
   },
   "devDependencies": {
     "@astrojs/mdx": "^1.1.0",
@@ -21,7 +21,7 @@
     "@astrojs/tailwind": "^5.0.0",
     "@astrojs/vercel": "^5.0.1",
     "@fontsource/inter": "^5.0.8",
-    "@octokit/rest": "^20.0.1",
+    "@octokit/rest": "^20.0.2",
     "astro-og-canvas": "^0.2.1",
     "astro-robots-txt": "^1.0.0",
     "lucide-astro": "^0.279.0",

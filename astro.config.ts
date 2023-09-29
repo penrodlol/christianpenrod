@@ -12,7 +12,7 @@ import { visit } from 'unist-util-visit';
 export default defineConfig({
   site: 'https://christianpenrod.com',
   output: 'hybrid',
-  adapter: vercel({ analytics: true }),
+  adapter: vercel({ webAnalytics: { enabled: true }, speedInsights: { enabled: true } }),
   markdown: {
     syntaxHighlight: false,
     rehypePlugins: [
