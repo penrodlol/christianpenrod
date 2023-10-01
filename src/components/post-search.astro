@@ -1,0 +1,52 @@
+---
+import { Search, X } from 'lucide-astro';
+import { twJoin } from 'tailwind-merge';
+
+type Props = { defaultValue: string | null };
+---
+
+<form id="post-search" class="relative flex justify-between rounded border bg-2 text-xs">
+  <div class="absolute left-2 top-1/2 z-10 shrink-0 -translate-y-1/2 text-2/50">
+    <Search size={12} aria-hidden />
+  </div>
+  <input
+    name="query"
+    type="text"
+    spellcheck="false"
+    autocomplete="off"
+    placeholder="Search Posts"
+    value={Astro.props.defaultValue ?? ''}
+    class={twJoin(
+      'relative z-20 flex-1 shrink-0 rounded bg-transparent py-1 pl-7 pr-3',
+      'placeholder:text-2/50 focus-visible:outline-none focus-visible:ring-2',
+    )}
+  />
+  <button
+    type="reset"
+    class={twJoin(
+      'shrink-0 rounded border-l bg-3/50 px-2 hover:bg-3 hover:text-emphasis',
+      'focus-visible:outline-none focus-visible:ring-2 motion-safe:transition-colors',
+    )}
+  >
+    <X size={14} aria-hidden />
+  </button>
+</form>
+
+<script>
+  import { navigate } from 'astro:transitions/client';
+
+  document.addEventListener('astro:page-load', () => {
+    const form = document.getElementById('post-search') as HTMLFormElement;
+    // const input = form.querySelector('input') as HTMLInputElement;
+    // const button = form.querySelector('button') as HTMLButtonElement;
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target as HTMLFormElement);
+      const query = formData.get('query')?.toString().trim();
+      navigate(`/blog?q=${query}`);
+    });
+
+    form.addEventListener('reset', () => navigate('/blog'));
+  });
+</script>
