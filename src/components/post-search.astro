@@ -19,6 +19,7 @@ type Props = { defaultValue: string | null };
     class={twJoin(
       'relative z-20 flex-1 shrink-0 rounded bg-transparent py-1 pl-7 pr-3',
       'placeholder:text-2/50 focus-visible:outline-none focus-visible:ring-2',
+      'disabled:pointer-events-none disabled:opacity-50',
     )}
   />
   <button
@@ -26,6 +27,7 @@ type Props = { defaultValue: string | null };
     class={twJoin(
       'shrink-0 rounded border-l bg-3/50 px-2 hover:bg-3 hover:text-emphasis',
       'focus-visible:outline-none focus-visible:ring-2 motion-safe:transition-colors',
+      'disabled:pointer-events-none disabled:opacity-50',
     )}
   >
     <X size={14} aria-hidden />
@@ -37,16 +39,21 @@ type Props = { defaultValue: string | null };
 
   document.addEventListener('astro:page-load', () => {
     const form = document.getElementById('post-search') as HTMLFormElement;
-    // const input = form.querySelector('input') as HTMLInputElement;
-    // const button = form.querySelector('button') as HTMLButtonElement;
+    const disableForm = () => {
+      (form.querySelector('input') as HTMLInputElement).disabled = true;
+      (form.querySelector('button') as HTMLButtonElement).disabled = true;
+    };
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
+
       const formData = new FormData(e.target as HTMLFormElement);
       const query = formData.get('query')?.toString().trim();
+
+      disableForm();
       navigate(`/blog?q=${query}`);
     });
 
-    form.addEventListener('reset', () => navigate('/blog'));
+    form.addEventListener('reset', () => (disableForm(), navigate('/blog')));
   });
 </script>
