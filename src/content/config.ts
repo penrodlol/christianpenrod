@@ -11,13 +11,4 @@ const posts = defineCollection({
     }),
 });
 
-const roles = defineCollection({
-  schema: z.object({
-    company: z.string(),
-    link: z.string().url(),
-    start: z.date(),
-    end: z.date().optional(),
-  }),
-});
-
-export const collections = { posts, roles };
+export const collections = { posts };
