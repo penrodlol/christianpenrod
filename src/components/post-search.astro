@@ -1,59 +1,45 @@
 ---
-import { Search, X } from 'lucide-astro';
-import { twJoin } from 'tailwind-merge';
-
-type Props = { defaultValue: string | null };
+import { Search } from 'lucide-astro';
+import Dialog from './ui/dialog.astro';
+import Textfield from './ui/textfield.astro';
+import Button from './ui/button.astro';
 ---
 
-<form id="post-search" class="relative flex justify-between rounded border bg-2 text-xs">
-  <div class="absolute left-2 top-1/2 z-10 shrink-0 -translate-y-1/2 text-2/50">
+<Dialog class="flex h-[30rem] flex-col gap-6 text-xs">
+  <Button slot="trigger" class="w-full text-2">
     <Search size={12} aria-hidden />
-  </div>
-  <input
-    name="query"
-    type="text"
-    spellcheck="false"
-    autocomplete="off"
-    placeholder="Search Posts"
-    value={Astro.props.defaultValue ?? ''}
-    class={twJoin(
-      'relative z-20 flex-1 shrink-0 rounded bg-transparent py-1 pl-7 pr-3',
-      'placeholder:text-2/50 focus-visible:outline-none focus-visible:ring-2',
-      'disabled:pointer-events-none disabled:opacity-50',
-    )}
-  />
-  <button
-    type="reset"
-    class={twJoin(
-      'shrink-0 rounded border-l bg-3/50 px-2 hover:bg-3 hover:text-emphasis',
-      'focus-visible:outline-none focus-visible:ring-2 motion-safe:transition-colors',
-      'disabled:pointer-events-none disabled:opacity-50',
-    )}
-  >
-    <X size={14} aria-hidden />
-  </button>
-</form>
+    <span class="mr-auto text-xs">Search Posts</span>
+    <kbd class="rounded border bg-2 p-0.5 font-sans text-xxs !leading-none">⌘K</kbd>
+  </Button>
+  <Textfield as="input" data-post-search-input placeholder="Search Posts">
+    <Search slot="icon" size={12} aria-hidden />
+  </Textfield>
+  <ul data-post-search-results class="flex flex-col gap-4"></ul>
+</Dialog>
 
 <script>
-  import { navigate } from 'astro:transitions/client';
+  import type { CollectionEntry } from 'astro:content';
 
-  document.addEventListener('astro:page-load', () => {
-    const form = document.getElementById('post-search') as HTMLFormElement;
-    const disableForm = () => {
-      (form.querySelector('input') as HTMLInputElement).disabled = true;
-      (form.querySelector('button') as HTMLButtonElement).disabled = true;
-    };
+  type Meta = Pick<CollectionEntry<'posts'>['data'], 'title' | 'description'>;
+  type Search = { results: Array<{ data: () => Promise<{ meta: Meta }> }> };
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
+  document.addEventListener('astro:page-load', async () => {
+    const pagefind = await import('.vercel/output/static/blog/pagefind/pagefind');
+    pagefind.init();
 
-      const formData = new FormData(e.target as HTMLFormElement);
-      const query = formData.get('query')?.toString().trim();
+    const results = document.querySelector('[data-post-search-results]') as HTMLUListElement;
+    const result = (meta: Meta) => `
+      <li>
+        <span class="text-xs">${meta.title}</span>
+        <p class="text-xxs text-2">${meta.description}</p>
+      </li>
+    `;
 
-      disableForm();
-      navigate(`/blog?q=${query}`);
+    document.querySelector('[data-post-search-input]')?.addEventListener('input', async (e) => {
+      const search: Search = await pagefind.search((e.target as HTMLInputElement).value.trim());
+      const payload = await Promise.all(search.results.map(async (r) => (await r.data()).meta));
+      results.innerHTML = '';
+      payload.forEach((meta) => (results.innerHTML += result(meta)));
     });
-
-    form.addEventListener('reset', () => (disableForm(), navigate('/blog')));
   });
 </script>

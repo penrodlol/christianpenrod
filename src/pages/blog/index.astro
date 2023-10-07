@@ -5,12 +5,8 @@ import Separator from '@/components/ui/separator.astro';
 import Layout from '@/layouts/layout.astro';
 import { getCollection } from 'astro:content';
 
-export const prerender = false;
-
-const query = new URL(Astro.request.url).searchParams.get('q');
-const posts = await getCollection('posts').then((posts) =>
-  posts.sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf()),
-);
+const _posts = await getCollection('posts');
+const posts = _posts.sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 ---
 
 <Layout title="Blog | Christian Penrod">
@@ -20,7 +16,7 @@ const posts = await getCollection('posts').then((posts) =>
       <p class="max-w-prose text-xs text-2">Explore various sofware-related posts.</p>
     </section>
     <Separator class="mb-8 mt-4" />
-    <PostSearch defaultValue={query} />
+    <PostSearch />
     <section class="mt-8">
       <!-- prettier-ignore -->
       <ul class="sm:gap-10 gap-6 grid lg:grid-cols-3 sm:grid-cols-2">

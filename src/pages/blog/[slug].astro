@@ -38,7 +38,11 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
   og={`open-graph/src/content/posts/${post.slug}.png`}
 >
   <div class="mx-auto mt-fluid-5 max-w-screen-lg xl:grid xl:grid-cols-[1fr,17rem] xl:gap-16">
-    <article class="mx-auto max-w-prose">
+    <article
+      data-pagefind-body
+      data-pagefind-meta={`description:${post.data.description}`}
+      class="mx-auto max-w-prose"
+    >
       <div class="flex flex-col gap-3">
         <h1 class="text-lg font-bold uppercase tracking-widest">{post.data.title}</h1>
         <div class="flex flex-wrap items-center gap-4 text-xxs text-2">
@@ -54,7 +58,7 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
         </div>
       </div>
       <Separator class="mb-4 mt-6 xl:mb-10" />
-      <div class="block xl:hidden">
+      <div data-pagefind-ignore class="block xl:hidden">
         <details>
           <summary class="text-xs tracking-wider">TABLE OF CONTENTS</summary>
           <!-- prettier-ignore -->
@@ -70,7 +74,7 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
         {post.data.repo && <PostGithub repo={post.data.repo} />}
       </div>
       <Separator class="mb-16 mt-10" />
-      <div class="flex flex-col gap-4">
+      <div data-pagefind-ignore class="flex flex-col gap-4">
         <h3 class="font-bold tracking-widest">MORE POSTS</h3>
         <div class="grid gap-x-10 gap-y-6 md:grid-cols-2">
           <PostCard post={prev} />
