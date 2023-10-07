@@ -1,0 +1,25 @@
+---
+import type { HTMLTag, Polymorphic } from 'astro/types';
+import { twJoin, twMerge } from 'tailwind-merge';
+
+type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }>;
+
+const { as: Tag, class: className, type, spellcheck, autocomplete, ...props } = Astro.props;
+---
+
+<div class={twMerge('relative flex justify-between rounded border', className)}>
+  <div class="peer absolute left-2 top-1/2 z-10 shrink-0 -translate-y-1/2 text-2/50">
+    <slot name="icon" />
+  </div>
+  <input
+    {...props}
+    type={type ?? 'text'}
+    spellcheck={spellcheck ?? false}
+    autocomplete={autocomplete ?? 'off'}
+    class={twJoin(
+      'relative z-20 flex-1 shrink-0 rounded bg-transparent px-3 py-1 peer-[&:has(svg)]:pl-7',
+      'placeholder:text-2/50 focus-visible:outline-none focus-visible:ring-2',
+      'disabled:pointer-events-none disabled:opacity-50',
+    )}
+  />
+</div>
