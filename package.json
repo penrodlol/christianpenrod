@@ -6,13 +6,14 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "astro build && pagefind --site .vercel/output/static/blog",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
     "@planetscale/database": "^1.11.0",
-    "astro": "^3.2.0"
+    "astro": "^3.2.0",
+    "pagefind": "^1.0.3"
   },
   "devDependencies": {
     "@astrojs/mdx": "^1.1.0",
