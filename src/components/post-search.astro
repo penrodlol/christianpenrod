@@ -16,7 +16,8 @@ import Textfield from './ui/textfield.astro';
 
   document.addEventListener('astro:page-load', async () => {
     const pagefind = await import('.vercel/output/static/pagefind/pagefind');
-    const results = document.querySelector('[data-searched-posts]') as HTMLUListElement;
+    const searchedPosts = document.querySelector('[data-searched-posts]') as HTMLUListElement;
+    const staticPosts = searchedPosts.nextElementSibling as HTMLUListElement;
 
     pagefind.init();
 
@@ -25,13 +26,13 @@ import Textfield from './ui/textfield.astro';
       const search: Search = await pagefind.search(query);
       const payload = await Promise.all(search.results.map(async (r) => r.data()));
 
-      results.previousElementSibling?.classList.toggle('hidden', query.length > 0);
-      results.classList.toggle('hidden', query.length === 0);
+      staticPosts.classList.toggle('hidden', query.length > 0);
+      searchedPosts.classList.toggle('hidden', query.length === 0);
 
-      results.innerHTML = '';
+      searchedPosts.innerHTML = '';
       payload.forEach(({ raw_url, meta }) => {
         const post = encodeURIComponent(JSON.stringify({ ...meta, url: raw_url }));
-        results.innerHTML += `<post-card data-post="${post}" />`;
+        searchedPosts.innerHTML += `<post-card data-post="${post}" />`;
       });
     });
   });
