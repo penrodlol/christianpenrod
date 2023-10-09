@@ -15,7 +15,8 @@ import Textfield from './ui/textfield.astro';
   type Search = { results: Array<{ data: () => Promise<Data> }> };
 
   document.addEventListener('astro:page-load', async () => {
-    const pagefind = await import('.vercel/output/static/pagefind/pagefind');
+    // @ts-ignore
+    const pagefind = await import('pagefind/pagefind.js');
     const searchedPosts = document.querySelector('[data-searched-posts]') as HTMLUListElement;
     const staticPosts = searchedPosts.nextElementSibling as HTMLUListElement;
 
