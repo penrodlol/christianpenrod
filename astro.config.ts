@@ -40,6 +40,6 @@ export default defineConfig({
     robotsTxt({ host: true, policy: [{ userAgent: '*', disallow: ['/404'] }] }),
   ],
   vite: {
-    build: { rollupOptions: { external: ['.vercel/output/static/blog/pagefind/pagefind'] } },
+    build: { rollupOptions: { external: ['.vercel/output/static/pagefind/pagefind'] } },
   },
 });

@@ -1,45 +1,69 @@
 ---
-import { Search } from 'lucide-astro';
+import { Command, Search } from 'lucide-astro';
 import Dialog from './ui/dialog.astro';
 import Textfield from './ui/textfield.astro';
 import Button from './ui/button.astro';
 ---
 
-<Dialog class="flex h-[30rem] flex-col gap-6 text-xs">
+<Dialog data-post-search class="flex h-[30rem] max-h-[90vh] flex-col text-xs">
   <Button slot="trigger" class="w-full text-2">
     <Search size={12} aria-hidden />
     <span class="mr-auto text-xs">Search Posts</span>
-    <kbd class="rounded border bg-2 p-0.5 font-sans text-xxs !leading-none">⌘K</kbd>
+    <kbd class="flex items-center rounded border bg-2 p-0.5 font-sans text-xxs !leading-none">
+      <Command size={10} aria-hidden />K
+    </kbd>
   </Button>
-  <Textfield as="input" data-post-search-input placeholder="Search Posts">
-    <Search slot="icon" size={12} aria-hidden />
-  </Textfield>
-  <ul data-post-search-results class="flex flex-col gap-4"></ul>
+  <div class="bg-inherit p-6">
+    <Textfield as="input" data-post-search-input placeholder="Search Posts">
+      <Search slot="icon" size={12} aria-hidden />
+    </Textfield>
+  </div>
+  <div class="flex flex-1 flex-col gap-2 overflow-auto px-8">
+    <p data-post-search-results-msg class="break-all text-xxs text-2"></p>
+    <ul data-post-search-results></ul>
+  </div>
 </Dialog>
 
 <script>
-  import type { CollectionEntry } from 'astro:content';
-
-  type Meta = Pick<CollectionEntry<'posts'>['data'], 'title' | 'description'>;
-  type Search = { results: Array<{ data: () => Promise<{ meta: Meta }> }> };
+  type Data = { raw_url: string; meta: Record<string, string>; excerpt: string };
+  type Search = { results: Array<{ data: () => Promise<Data> }> };
 
   document.addEventListener('astro:page-load', async () => {
-    const pagefind = await import('.vercel/output/static/blog/pagefind/pagefind');
+    const pagefind = await import('.vercel/output/static/pagefind/pagefind');
+    const results = document.querySelector('[data-post-search-results]') as HTMLElement;
+    const resultsMsg = document.querySelector('[data-post-search-results-msg]') as HTMLElement;
+
     pagefind.init();
 
-    const results = document.querySelector('[data-post-search-results]') as HTMLUListElement;
-    const result = (meta: Meta) => `
-      <li>
-        <span class="text-xs">${meta.title}</span>
-        <p class="text-xxs text-2">${meta.description}</p>
-      </li>
-    `;
-
     document.querySelector('[data-post-search-input]')?.addEventListener('input', async (e) => {
-      const search: Search = await pagefind.search((e.target as HTMLInputElement).value.trim());
-      const payload = await Promise.all(search.results.map(async (r) => (await r.data()).meta));
+      const query = (e.target as HTMLInputElement).value.trim();
+      const search: Search = await pagefind.search(query);
+      const payload = await Promise.all(search.results.map(async (r) => r.data()));
+
       results.innerHTML = '';
-      payload.forEach((meta) => (results.innerHTML += result(meta)));
+      resultsMsg.innerHTML = query.length
+        ? `Found ${payload.length} results(s) for <strong>${query}</strong>`
+        : '';
+      payload.forEach(({ raw_url, meta, excerpt }) => {
+        results.innerHTML += `
+          <li class="border-b py-4 first:pt-0 last:border-b-0">
+            <a
+              href=${raw_url}
+              aria-label="${meta.title}. ${meta.description}"
+              class="${
+                'flex flex-col select-none rounded p-2 ' +
+                'hover:text-emphasis motion-safe:transition-colors ' +
+                'focus-visible:outline-none focus-visible:ring-2 ' +
+                '[&_mark]:text-1 [&_mark]:bg-transparent [&_mark]:border ' +
+                '[&_mark]:rounded [&_mark]:px-1.5 [&_mark]:py-px'
+              }"
+            >
+              <span class="text-xs">${meta.title}</span>
+              <p class="mt-3 text-xxs text-2">${excerpt}...</p>
+            </a>
+          </li>
+        `;
+      });
     });
   });
 </script>
