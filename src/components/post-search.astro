@@ -16,7 +16,7 @@ import Textfield from './ui/textfield.astro';
 
   document.addEventListener('astro:page-load', async () => {
     // @ts-ignore
-    const pagefind = await import('pagefind/pagefind.js');
+    const pagefind = await import('pagefind/pagefind');
     const searchedPosts = document.querySelector('[data-searched-posts]') as HTMLUListElement;
     const staticPosts = searchedPosts.nextElementSibling as HTMLUListElement;
 
