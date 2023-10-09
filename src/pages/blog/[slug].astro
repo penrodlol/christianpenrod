@@ -29,7 +29,7 @@ type Post = CollectionEntry<'posts'>;
 type Props = { post: Post; prev: Post; next: Post };
 
 const { post, prev, next } = Astro.props;
-const { remarkPluginFrontmatter, headings, Content } = await post.render();
+const { remarkPluginFrontmatter: extras, headings, Content } = await post.render();
 ---
 
 <Layout
@@ -39,16 +39,16 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
 >
   <div class="mx-auto mt-fluid-5 max-w-screen-lg xl:grid xl:grid-cols-[1fr,17rem] xl:gap-16">
     <article data-pagefind-body class="mx-auto max-w-prose">
-      <div class="flex flex-col gap-3">
+      <div class="flex flex-col gap-3" data-pagefind-meta={`description:${post.data.description}`}>
         <h1 class="text-lg font-bold uppercase tracking-widest">{post.data.title}</h1>
         <div class="flex flex-wrap items-center gap-4 text-xxs text-2">
           <div class="flex items-center gap-2 rounded border bg-2 px-2">
             <Calendar class="shrink-0" size={14} aria-hidden />
-            <Moment>{post.data.published}</Moment>
+            <Moment data-pagefind-meta="published">{post.data.published}</Moment>
           </div>
           <div class="flex items-center gap-2 rounded border bg-2 px-2">
             <Clock4 class="shrink-0" size={14} aria-hidden />
-            <span>{remarkPluginFrontmatter.readingTime} Min Read</span>
+            <span data-pagefind-meta="readingTime">{extras.readingTime} Min Read</span>
           </div>
           <PostViews slug={post.slug} />
         </div>

@@ -18,8 +18,9 @@ const posts = _posts.sort((a, b) => b.data.published.valueOf() - a.data.publishe
     <Separator class="mb-8 mt-4" />
     <PostSearch />
     <section class="mt-8">
+      <ul data-searched-posts class="grid gap-6 sm:grid-cols-2 sm:gap-10 lg:grid-cols-3"></ul>
       <!-- prettier-ignore -->
-      <ul class="sm:gap-10 gap-6 grid lg:grid-cols-3 sm:grid-cols-2">
+      <ul class="grid gap-6 sm:grid-cols-2 sm:gap-10 lg:grid-cols-3">
         {posts.map((post) => (<li><PostCard {post} /></li>))}
       </ul>
     </section>
