@@ -1,11 +1,28 @@
 ---
 import { Search } from 'lucide-astro';
-import Textfield from './ui/textfield.astro';
+import { twJoin } from 'tailwind-merge';
 ---
 
-<Textfield data-post-search-input placeholder="Search Posts" class="text-xs">
-  <Search slot="icon" size={12} aria-hidden />
-</Textfield>
+<div class="relative flex items-center justify-between rounded border text-xs" }>
+  <div class="peer absolute left-2 top-1/2 z-10 shrink-0 -translate-y-1/2 text-2/50">
+    <Search slot="prefix" size={12} aria-hidden />
+  </div>
+  <input
+    data-post-search-input
+    type="text"
+    spellcheck="false"
+    autocomplete="off"
+    placeholder="Search Posts"
+    class={twJoin(
+      'relative z-20 flex-1 shrink-0 rounded bg-transparent px-3 py-1 peer-[&:has(svg)]:pl-7',
+      'placeholder:text-2/50 focus-visible:outline-none focus-visible:ring-1',
+      'disabled:pointer-events-none disabled:opacity-50',
+    )}
+  />
+  <div class="absolute right-2 top-1/2 z-10 shrink-0 -translate-y-1/2 text-2/50">
+    <kbd class="rounded-sm border bg-2 px-2 py-0.5 font-sans !text-xxs leading-none text-1">/</kbd>
+  </div>
+</div>
 
 <script>
   import type { CollectionEntry } from 'astro:content';
@@ -15,14 +32,18 @@ import Textfield from './ui/textfield.astro';
   type Search = { results: Array<{ data: () => Promise<Data> }> };
 
   document.addEventListener('astro:page-load', async () => {
-    // @ts-ignore
-    const pagefind = await import('pagefind/pagefind');
+    const pagefind = await import('.vercel/output/static/pagefind/pagefind');
+    const searchInput = document.querySelector('[data-post-search-input]') as HTMLInputElement;
     const searchedPosts = document.querySelector('[data-searched-posts]') as HTMLUListElement;
     const staticPosts = searchedPosts.nextElementSibling as HTMLUListElement;
 
     pagefind.init();
 
-    document.querySelector('[data-post-search-input]')?.addEventListener('input', async (e) => {
+    document.addEventListener('keydown', (event) => {
+      if (event.key === '/') event.preventDefault(), searchInput.focus();
+    });
+
+    searchInput.addEventListener('input', async (e) => {
       const query = (e.target as HTMLInputElement).value.trim();
       const search: Search = await pagefind.search(query);
       const payload = await Promise.all(search.results.map(async (r) => r.data()));
