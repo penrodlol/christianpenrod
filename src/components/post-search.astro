@@ -4,7 +4,7 @@ import { twJoin } from 'tailwind-merge';
 ---
 
 <div class="relative flex items-center justify-between rounded border text-xs" }>
-  <div class="peer absolute left-2 top-1/2 z-10 shrink-0 -translate-y-1/2 text-2/50">
+  <div class="absolute left-2 top-1/2 z-10 shrink-0 -translate-y-1/2 text-2/50">
     <Search slot="prefix" size={12} aria-hidden />
   </div>
   <input
@@ -14,7 +14,7 @@ import { twJoin } from 'tailwind-merge';
     autocomplete="off"
     placeholder="Search Posts"
     class={twJoin(
-      'relative z-20 flex-1 shrink-0 rounded bg-transparent px-3 py-1 peer-[&:has(svg)]:pl-7',
+      'relative z-20 flex-1 shrink-0 rounded bg-transparent py-1 pl-7 pr-10',
       'placeholder:text-2/50 focus-visible:outline-none focus-visible:ring-1',
       'disabled:pointer-events-none disabled:opacity-50',
     )}
