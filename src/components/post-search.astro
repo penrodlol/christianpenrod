@@ -25,37 +25,32 @@ import { twJoin } from 'tailwind-merge';
 </div>
 
 <script>
+  // @ts-ignore
+  import { Input, Instance, ResultList } from '@pagefind/modular-ui';
   import type { CollectionEntry } from 'astro:content';
 
-  type Meta = CollectionEntry<'posts'>['data'] & { readingTime: string };
-  type Data = { raw_url: string; meta: Meta; excerpt: string };
-  type Search = { results: Array<{ data: () => Promise<Data> }> };
+  type Data = { raw_url: string; meta: CollectionEntry<'posts'>['data'] & { readingTime: string } };
 
   document.addEventListener('astro:page-load', async () => {
-    const pagefind = await import('.vercel/output/static/pagefind/pagefind');
+    const pagefind = new Instance({ bundlePath: '/pagefind/' });
     const searchInput = document.querySelector('[data-post-search-input]') as HTMLInputElement;
-    const searchedPosts = document.querySelector('[data-searched-posts]') as HTMLUListElement;
-    const staticPosts = searchedPosts.nextElementSibling as HTMLUListElement;
+    const staticPosts = document.querySelector('[data-static-posts]') as HTMLUListElement;
 
-    pagefind.init();
-
-    document.addEventListener('keydown', (event) => {
-      if (event.key === '/') event.preventDefault(), searchInput.focus();
+    document.addEventListener('keydown', (e) => {
+      e.key === '/' && (e.preventDefault(), searchInput.focus());
     });
 
-    searchInput.addEventListener('input', async (e) => {
-      const query = (e.target as HTMLInputElement).value.trim();
-      const search: Search = await pagefind.search(query);
-      const payload = await Promise.all(search.results.map(async (r) => r.data()));
-
-      staticPosts.classList.toggle('hidden', query.length > 0);
-      searchedPosts.classList.toggle('hidden', query.length === 0);
-
-      searchedPosts.innerHTML = '';
-      payload.forEach(({ raw_url, meta }) => {
-        const post = encodeURIComponent(JSON.stringify({ ...meta, url: raw_url }));
-        searchedPosts.innerHTML += `<post-card data-post="${post}" />`;
-      });
-    });
+    pagefind.on('search', (term: string) => staticPosts.classList.toggle('hidden', !!term.length));
+    pagefind.add(new Input({ inputElement: '[data-post-search-input]', debounceTimeoutMs: 0 }));
+    pagefind.add(
+      new ResultList({
+        containerElement: '[data-searched-posts]',
+        placeholderTemplate: () => '<li></li>',
+        resultTemplate: ({ raw_url, meta }: Data) => {
+          const post = encodeURIComponent(JSON.stringify({ ...meta, url: raw_url }));
+          return `<li><post-card data-post="${post}" /></li>`;
+        },
+      }),
+    );
   });
 </script>
