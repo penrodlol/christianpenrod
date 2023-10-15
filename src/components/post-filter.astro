@@ -1,0 +1,43 @@
+---
+import { Search } from 'lucide-astro';
+import Command from './ui/command.astro';
+import Textfield from './ui/textfield.astro';
+---
+
+<div class="flex gap-4 text-xs">
+  <Textfield data-post-filter-search placeholder="Search Posts" class="flex-1">
+    <Search slot="prefix" size={12} aria-hidden />
+    <Command slot="suffix" key="/" selector="input[name='search']" />
+  </Textfield>
+</div>
+
+<script>
+  import type { CollectionEntry } from 'astro:content';
+
+  type Search = { results: Array<{ data: () => Promise<Data> }> };
+  type Data = { raw_url: string; meta: CollectionEntry<'posts'>['data'] };
+
+  document.addEventListener('astro:page-load', async () => {
+    const staticPosts = document.querySelector('[data-static-posts]') as HTMLUListElement;
+    const searchedPosts = document.querySelector('[data-searched-posts]') as HTMLUListElement;
+    const trigger = document.querySelector('[data-post-filter-search]') as HTMLInputElement;
+    if (!staticPosts || !searchedPosts || !trigger) return;
+
+    const pagefind = await import('.vercel/output/static/pagefind/pagefind');
+    const search = async (...props: Parameters<typeof pagefind.search>) => {
+      const { results } = (await pagefind.search(...props)) as Search;
+
+      staticPosts.classList.toggle('hidden', !!results.length);
+      searchedPosts.classList.toggle('hidden', !results.length);
+      searchedPosts.innerHTML = '';
+
+      for (const result of results) {
+        const { raw_url, meta } = await result.data();
+        const post = encodeURIComponent(JSON.stringify({ ...meta, url: raw_url }));
+        searchedPosts.innerHTML += `<li><post-card data-post="${post}"/></li>`;
+      }
+    };
+
+    trigger.addEventListener('input', (e) => search((e.target as HTMLInputElement).value.trim()));
+  });
+</script>

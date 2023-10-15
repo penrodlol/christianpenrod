@@ -39,4 +39,5 @@ export default defineConfig({
     sitemap({ changefreq: 'daily', lastmod: new Date() }),
     robotsTxt({ host: true, policy: [{ userAgent: '*', disallow: ['/404'] }] }),
   ],
+  vite: { build: { rollupOptions: { external: ['.vercel/output/static/pagefind/pagefind'] } } },
 });

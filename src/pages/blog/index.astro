@@ -1,6 +1,6 @@
 ---
 import PostCard from '@/components/post-card.astro';
-import PostSearch from '@/components/post-search.astro';
+import PostFilter from '@/components/post-filter.astro';
 import Separator from '@/components/ui/separator.astro';
 import Layout from '@/layouts/layout.astro';
 import { getCollection } from 'astro:content';
@@ -16,7 +16,7 @@ const posts = _posts.sort((a, b) => b.data.published.valueOf() - a.data.publishe
       <p class="max-w-prose text-xs text-2">Explore various sofware-related posts.</p>
     </section>
     <Separator class="mb-8 mt-4" />
-    <PostSearch />
+    <PostFilter />
     <section class="mt-8">
       <ul data-searched-posts class="grid gap-6 sm:grid-cols-2 sm:gap-10 lg:grid-cols-3"></ul>
       <!-- prettier-ignore -->
