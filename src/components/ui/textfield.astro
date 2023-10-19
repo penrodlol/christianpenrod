@@ -7,7 +7,7 @@ type Props = HTMLAttributes<'input'>;
 const { class: className, type, spellcheck, autocomplete, ...props } = Astro.props;
 ---
 
-<div class={twMerge('group relative flex items-center justify-between rounded border', className)}>
+<div class={twMerge('relative flex items-center justify-between rounded border bg-1', className)}>
   <div class="absolute left-2 top-1/2 z-10 shrink-0 -translate-y-1/2 text-2/50">
     <slot name="prefix" />
   </div>

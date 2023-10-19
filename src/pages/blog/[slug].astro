@@ -79,6 +79,9 @@ const { remarkPluginFrontmatter: extras, headings, Content } = await post.render
       </div>
     </article>
     <h2 id="introduction" class="sr-only"></h2>
+    <ul class="hidden">
+      {post.data.topics.map((topic) => <ul data-pagefind-filter="topics">{topic}</ul>)}
+    </ul>
     <aside class="sticky top-10 hidden h-max rounded border xl:block">
       <div class="flex flex-col gap-4 border-b p-4">
         <h2 class="text-xs tracking-wider">TABLE OF CONTENTS</h2>

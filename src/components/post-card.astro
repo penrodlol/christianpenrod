@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { Calendar, Clock4 } from 'lucide-astro';
+import { twJoin } from 'tailwind-merge';
 import Moment from './ui/moment.astro';
 import Separator from './ui/separator.astro';
 
@@ -9,76 +10,34 @@ type Props = { post: CollectionEntry<'posts'> };
 
 const { post } = Astro.props;
 const { remarkPluginFrontmatter } = await post.render();
-const slots = {
-  base: 'group flex h-full select-none flex-col overflow-hidden rounded border focus-visible:outline-none focus-visible:ring-2',
-  cover: 'h-20 rounded-t opacity-40 group-hover:opacity-60 motion-safe:transition-opacity',
-  content: 'z-20 flex flex-1 flex-col gap-2 border-t bg-1 p-4',
-  title: 'group-hover:text-emphasis motion-safe:transition-colors',
-  description: 'flex-1 text-xs text-2',
-  footer: 'flex justify-between gap-4 text-2 [&_:is(time,span)]:text-xxs',
-  footerItem: 'flex items-center gap-2',
-};
 ---
 
 <a
   href={`/blog/${post.slug}`}
   aria-label={`${post.data.title}. ${post.data.description}`}
-  class={slots.base}
+  class={twJoin(
+    'group flex h-full select-none flex-col overflow-hidden rounded border',
+    'focus-visible:outline-none focus-visible:ring-2',
+  )}
 >
-  <div class={slots.cover}>
+  <div class="h-14 rounded-t opacity-40 group-hover:opacity-60 motion-safe:transition-opacity">
     <Image src={post.data.cover} alt="Post Cover" class="rounded-t" width={2048} height={2048} />
   </div>
-  <div class={slots.content}>
-    <span class={slots.title}>{post.data.title}</span>
-    <p class={slots.description}>{post.data.description}</p>
+  <div class="z-20 flex flex-1 flex-col gap-2 border-t bg-1 p-4">
+    <span class="text-xs group-hover:text-emphasis motion-safe:transition-colors">
+      {post.data.title}
+    </span>
+    <p class="flex-1 text-xxs text-2">{post.data.description}</p>
     <Separator class="my-1.5" />
-    <div class={slots.footer}>
-      <div class={slots.footerItem}>
+    <div class="flex justify-between gap-4 text-xxs text-2">
+      <div class="flex items-center gap-2">
         <Calendar class="shrink-0" size={14} aria-hidden />
         <Moment>{post.data.published}</Moment>
       </div>
-      <div class={slots.footerItem}>
+      <div class="flex items-center gap-2">
         <Clock4 class="shrink-0" size={14} aria-hidden />
         <span>{remarkPluginFrontmatter.readingTime} Min Read</span>
       </div>
     </div>
   </div>
 </a>
-
-<script define:vars={{ slots }}>
-if (!customElements.get('post-card'))
-  customElements.define(
-    'post-card',
-    class extends HTMLElement {
-      constructor() {
-        super();
-
-        const post = JSON.parse(decodeURIComponent(this.dataset.post));
-        const { url, image, image_alt, title, description, published, readingTime } = post;
-
-        this.innerHTML = `
-          <a href=${url} class="${slots.base}">
-            <div class="${slots.cover}">
-              <img src="${image}" alt="${image_alt}" class="rounded-t" width="2048" height="2048" />
-            </div>
-            <div class="${slots.content}">
-              <span class="${slots.title}">${title}</span>
-              <p class="${slots.description}">${description}</p>
-              <div role="none" class="h-px bg-3 rounded my-1.5"></div>
-              <div class="${slots.footer}">
-                <div class="${slots.footerItem}">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0" aria-hidden><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-                  <time datetime="${new Date(published).toISOString()}">${published}</time>
-                </div>
-                <div class="${slots.footerItem}">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0" aria-hidden><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                  <span>${readingTime}</span>
-                </div>
-              </div>
-            </div>
-          </a>
-        `;
-      }
-    },
-  );
-</script>

@@ -1,12 +1,15 @@
 ---
 import PostCard from '@/components/post-card.astro';
 import PostFilter from '@/components/post-filter.astro';
+import PostLine from '@/components/post-line.astro';
 import Separator from '@/components/ui/separator.astro';
 import Layout from '@/layouts/layout.astro';
 import { getCollection } from 'astro:content';
+import { Dot } from 'lucide-astro';
 
 const _posts = await getCollection('posts');
 const posts = _posts.sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+const topics = [...new Set(_posts.flatMap((post) => post.data.topics))].sort();
 ---
 
 <Layout title="Blog | Christian Penrod">
@@ -15,14 +18,64 @@ const posts = _posts.sort((a, b) => b.data.published.valueOf() - a.data.publishe
       <h1 class="text-3xl font-bold tracking-widest">BLOG POSTS</h1>
       <p class="max-w-prose text-xs text-2">Explore various sofware-related posts.</p>
     </section>
-    <Separator class="mb-8 mt-4" />
-    <PostFilter />
-    <section class="mt-8">
-      <ul data-searched-posts class="grid gap-6 sm:grid-cols-2 sm:gap-10 lg:grid-cols-3"></ul>
-      <!-- prettier-ignore -->
-      <ul data-static-posts class="grid gap-6 sm:grid-cols-2 sm:gap-10 lg:grid-cols-3">
-        {posts.map((post) => (<li><PostCard {post} /></li>))}
-      </ul>
-    </section>
+    <Separator class="mb-12 mt-4" />
+    <div class="grid grid-cols-[1fr_30%] gap-20">
+      <section class="flex flex-col gap-6">
+        <div class="flex items-center gap-4">
+          <h2 class="font-bold leading-none tracking-wider text-2">ALL POSTS</h2>
+          <Separator class="flex-1" />
+          <div class="flex items-center text-xxs text-2">
+            <span>{_posts.length} Posts</span>
+            <Dot class="shrink-0" size={14} aria-hidden />
+            <span>9.9K Views</span>
+          </div>
+        </div>
+        <PostFilter {topics} />
+        <div class="mt-2">
+          <ul data-searched-posts class="flex flex-col"></ul>
+          <!-- prettier-ignore -->
+          <ul data-static-posts class="flex flex-col">
+            {posts.map((post) => <li><PostLine {post} /></li>)}
+          </ul>
+        </div>
+      </section>
+      <section class="flex flex-col gap-6">
+        <h2 class="font-bold leading-none tracking-wider text-2">RECENT POSTS</h2>
+        <div class="flex flex-col gap-6">
+          {posts.slice(0, 3).map((post) => <PostCard {post} />)}
+        </div>
+      </section>
+    </div>
   </div>
 </Layout>
+
+<script>
+  import type { CollectionEntry } from 'astro:content';
+
+  type Data = { raw_url: string; meta: CollectionEntry<'posts'>['data'] & { readingTime: string } };
+  type Search = { results: Array<{ data: () => Promise<Data> }> };
+  type FilterEvent = CustomEvent<{ search: string; topics: Array<string> }>;
+
+  document.addEventListener('astro:page-load', async () => {
+    const staticPosts = document.querySelector('[data-static-posts]') as HTMLUListElement;
+    const searchedPosts = document.querySelector('[data-searched-posts]') as HTMLUListElement;
+    if (!staticPosts || !searchedPosts) return;
+
+    const pagefind = await import('.vercel/output/static/pagefind/pagefind');
+
+    document.addEventListener('post-filter', async (e) => {
+      const { search, topics } = (e as FilterEvent).detail;
+      const { results } = (await pagefind.search(search, { filters: { topics } })) as Search;
+
+      staticPosts.classList.toggle('hidden', !!results.length);
+      searchedPosts.classList.toggle('hidden', !results.length);
+      searchedPosts.innerHTML = '';
+
+      for (const result of results) {
+        const { raw_url, meta } = await result.data();
+        const post = encodeURIComponent(JSON.stringify({ ...meta, url: raw_url }));
+        searchedPosts.innerHTML += `<li><post-line data-post="${post}"/></li>`;
+      }
+    });
+  });
+</script>

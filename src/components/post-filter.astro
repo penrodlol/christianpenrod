@@ -2,42 +2,48 @@
 import { Search } from 'lucide-astro';
 import Command from './ui/command.astro';
 import Textfield from './ui/textfield.astro';
+import Chip from './ui/chip.astro';
+
+type Props = { topics: Array<string> };
+
+const { topics } = Astro.props;
 ---
 
-<div class="flex gap-4 text-xs">
-  <Textfield data-post-filter-search placeholder="Search Posts" class="flex-1">
+<div data-post-filter class="flex flex-col gap-4 rounded border bg-2/30 p-4">
+  <Textfield data-post-filter-search placeholder="Search Posts" class="text-xs">
     <Search slot="prefix" size={12} aria-hidden />
-    <Command slot="suffix" key="/" selector="input[name='search']" />
+    <Command slot="suffix" key="/" selector="[data-post-filter-search]" />
   </Textfield>
+  <!-- prettier-ignore -->
+  <ul data-post-filter-topic class="flex flex-wrap gap-2">
+    {topics.map((value) => (<Chip aria-label={`${value} Filter`} {value}>{value}</Chip>))}
+  </ul>
 </div>
 
 <script>
-  import type { CollectionEntry } from 'astro:content';
-
-  type Search = { results: Array<{ data: () => Promise<Data> }> };
-  type Data = { raw_url: string; meta: CollectionEntry<'posts'>['data'] };
+  type State = { search: string | null; topics: Set<string> };
 
   document.addEventListener('astro:page-load', async () => {
-    const staticPosts = document.querySelector('[data-static-posts]') as HTMLUListElement;
-    const searchedPosts = document.querySelector('[data-searched-posts]') as HTMLUListElement;
-    const trigger = document.querySelector('[data-post-filter-search]') as HTMLInputElement;
-    if (!staticPosts || !searchedPosts || !trigger) return;
+    const state: State = { search: null, topics: new Set<string>() };
 
-    const pagefind = await import('.vercel/output/static/pagefind/pagefind');
-    const search = async (...props: Parameters<typeof pagefind.search>) => {
-      const { results } = (await pagefind.search(...props)) as Search;
-
-      staticPosts.classList.toggle('hidden', !!results.length);
-      searchedPosts.classList.toggle('hidden', !results.length);
-      searchedPosts.innerHTML = '';
-
-      for (const result of results) {
-        const { raw_url, meta } = await result.data();
-        const post = encodeURIComponent(JSON.stringify({ ...meta, url: raw_url }));
-        searchedPosts.innerHTML += `<li><post-card data-post="${post}"/></li>`;
-      }
+    const dispatch = () => {
+      const detail = { search: state.search, topics: Array.from(state.topics) };
+      document.dispatchEvent(new CustomEvent('post-filter', { detail }));
     };
 
-    trigger.addEventListener('input', (e) => search((e.target as HTMLInputElement).value.trim()));
+    document.querySelector('[data-post-filter-search]')?.addEventListener('input', (e) => {
+      const { value } = e.target as HTMLInputElement;
+      state.search = value.trim().length ? value.trim() : null;
+      dispatch();
+    });
+
+    document.querySelectorAll('[data-post-filter-topic] input').forEach((checkbox) => {
+      checkbox.addEventListener('change', (e) => {
+        const { value, checked } = e.target as HTMLInputElement;
+        if (checked) state.topics.add(value);
+        else state.topics.delete(value);
+        dispatch();
+      });
+    });
   });
 </script>
