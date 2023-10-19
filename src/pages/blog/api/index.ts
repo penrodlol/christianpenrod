@@ -4,6 +4,7 @@ import { getEntry, z } from 'astro:content';
 
 export const prerender = false;
 
+const viewsFormatter = Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 });
 const slugSchema = z.string().refine(async (slug) => !!getEntry('posts', slug.trim()));
 
 export const PUT: APIRoute = async ({ request }) => {
@@ -17,4 +18,11 @@ export const PUT: APIRoute = async ({ request }) => {
   const row = z.object({ views: z.coerce.string().trim() }).safeParse(rs.rows[0]);
 
   return new Response(row.success ? row.data.views : null, { status: 200 });
+};
+
+export const GET: APIRoute = async () => {
+  const rs = await planetscale.execute('select sum(views) as views from PostView');
+  const row = z.object({ views: z.coerce.number() }).safeParse(rs.rows[0]);
+
+  return new Response(row.success ? viewsFormatter.format(row.data.views) : null, { status: 200 });
 };

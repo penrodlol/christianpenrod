@@ -25,9 +25,9 @@ const topics = [...new Set(_posts.flatMap((post) => post.data.topics))].sort();
           <h2 class="font-bold leading-none tracking-wider text-2">ALL POSTS</h2>
           <Separator class="flex-1" />
           <div class="flex items-center text-xxs text-2">
-            <span>{_posts.length} Posts</span>
+            <span><span data-total-post-views></span> Views</span>
             <Dot class="shrink-0" size={14} aria-hidden />
-            <span>9.9K Views</span>
+            <span>{posts.length} Posts</span>
           </div>
         </div>
         <PostFilter {topics} />
@@ -59,7 +59,10 @@ const topics = [...new Set(_posts.flatMap((post) => post.data.topics))].sort();
   document.addEventListener('astro:page-load', async () => {
     const staticPosts = document.querySelector('[data-static-posts]') as HTMLUListElement;
     const searchedPosts = document.querySelector('[data-searched-posts]') as HTMLUListElement;
-    if (!staticPosts || !searchedPosts) return;
+    const totalPostViews = document.querySelector('[data-total-post-views]') as HTMLSpanElement;
+    if (!staticPosts || !searchedPosts || !totalPostViews) return;
+
+    fetch('/blog/api').then(async (res) => (totalPostViews.innerText = await res.text()));
 
     const pagefind = await import('.vercel/output/static/pagefind/pagefind');
 
