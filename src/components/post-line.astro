@@ -44,13 +44,13 @@ const { remarkPluginFrontmatter } = await post.render();
           class="group flex flex-col rounded py-2 text-xs sm:flex-row sm:items-center sm:justify-between sm:gap-2 focus-visible:outline-none focus-visible:ring-1"
         >
           <span class="group-hover:text-emphasis motion-safe:transition-colors">${post.title}</span>
-          <div class="flex-1 h-px bg-3 rounded"></div>
+          <div role="none" class="flex-1 h-px bg-3 rounded"></div>
           <div class="flex items-center text-xxs text-2">
             <time datetime="${new Date(post.published).toISOString()}">${post.published}</time>
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12.1" cy="12.1" r="1"/></svg>
             <span>${post.readingTime}</span>
           </div>
-          <div class="mt-4 h-px bg-3 rounded sm:hidden"></div>
+          <div role="none" class="mt-4 h-px bg-3 rounded sm:hidden"></div>
         </a>
       `;
       }
