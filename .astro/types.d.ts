@@ -185,43 +185,36 @@ declare module 'astro:content' {
 
 	type ContentEntryMap = {
 		"posts": {
-"astro-shiki-syntax-highlighting-with-css-variables/index.mdx": {
-	id: "astro-shiki-syntax-highlighting-with-css-variables/index.mdx";
+"astro-shiki-syntax-highlighting-with-css-variables.mdx": {
+	id: "astro-shiki-syntax-highlighting-with-css-variables.mdx";
   slug: "astro-shiki-syntax-highlighting-with-css-variables";
   body: string;
   collection: "posts";
   data: InferEntrySchema<"posts">
 } & { render(): Render[".mdx"] };
-"developing-browser-extensions-with-nextjs/index.mdx": {
-	id: "developing-browser-extensions-with-nextjs/index.mdx";
+"developing-browser-extensions-with-nextjs.mdx": {
+	id: "developing-browser-extensions-with-nextjs.mdx";
   slug: "developing-browser-extensions-with-nextjs";
   body: string;
   collection: "posts";
   data: InferEntrySchema<"posts">
 } & { render(): Render[".mdx"] };
-"hyper-terminal-and-its-arsenal-of-plugins/index.mdx": {
-	id: "hyper-terminal-and-its-arsenal-of-plugins/index.mdx";
-  slug: "hyper-terminal-and-its-arsenal-of-plugins";
-  body: string;
-  collection: "posts";
-  data: InferEntrySchema<"posts">
-} & { render(): Render[".mdx"] };
-"local-state-with-ngrx-and-apollo-angular/index.mdx": {
-	id: "local-state-with-ngrx-and-apollo-angular/index.mdx";
+"local-state-with-ngrx-and-apollo-angular.mdx": {
+	id: "local-state-with-ngrx-and-apollo-angular.mdx";
   slug: "local-state-with-ngrx-and-apollo-angular";
   body: string;
   collection: "posts";
   data: InferEntrySchema<"posts">
 } & { render(): Render[".mdx"] };
-"summarize-blog-posts-with-typescript-and-gpt/index.mdx": {
-	id: "summarize-blog-posts-with-typescript-and-gpt/index.mdx";
+"summarize-blog-posts-with-typescript-and-gpt.mdx": {
+	id: "summarize-blog-posts-with-typescript-and-gpt.mdx";
   slug: "summarize-blog-posts-with-typescript-and-gpt";
   body: string;
   collection: "posts";
   data: InferEntrySchema<"posts">
 } & { render(): Render[".mdx"] };
-"tailwindcss-responsive-design-without-breakpoints/index.mdx": {
-	id: "tailwindcss-responsive-design-without-breakpoints/index.mdx";
+"tailwindcss-responsive-design-without-breakpoints.mdx": {
+	id: "tailwindcss-responsive-design-without-breakpoints.mdx";
   slug: "tailwindcss-responsive-design-without-breakpoints";
   body: string;
   collection: "posts";
