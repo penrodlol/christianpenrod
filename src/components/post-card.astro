@@ -20,12 +20,14 @@ const { remarkPluginFrontmatter } = await post.render();
     'focus-visible:outline-none focus-visible:ring-2',
   )}
 >
-  <div class="h-20 rounded-t opacity-40 group-hover:opacity-60 motion-safe:transition-opacity">
+  <div class="h-14 rounded-t opacity-40 group-hover:opacity-60 motion-safe:transition-opacity">
     <Image src={post.data.cover} alt="Post Cover" class="rounded-t" width={2048} height={2048} />
   </div>
   <div class="z-20 flex flex-1 flex-col gap-2 border-t bg-1 p-4">
-    <span class="group-hover:text-emphasis motion-safe:transition-colors">{post.data.title}</span>
-    <p class="flex-1 text-xs text-2">{post.data.description}</p>
+    <span class="text-xs group-hover:text-emphasis motion-safe:transition-colors">
+      {post.data.title}
+    </span>
+    <p class="flex-1 text-xxs text-2">{post.data.description}</p>
     <Separator class="my-1.5" />
     <div class="flex justify-between gap-4 text-xxs text-2">
       <div class="flex items-center gap-2">
@@ -34,7 +36,7 @@ const { remarkPluginFrontmatter } = await post.render();
       </div>
       <div class="flex items-center gap-2">
         <Clock4 class="shrink-0" size={14} aria-hidden />
-        <span>{remarkPluginFrontmatter.readingTime} min read</span>
+        <span>{remarkPluginFrontmatter.readingTime} Min Read</span>
       </div>
     </div>
   </div>

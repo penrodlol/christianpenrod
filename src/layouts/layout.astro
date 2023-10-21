@@ -5,7 +5,7 @@ import Socials from '@/components/socials.astro';
 import Link from '@/components/ui/link.astro';
 import Separator from '@/components/ui/separator.astro';
 import '@fontsource/inter';
-import { ViewTransitions, fade } from 'astro:transitions';
+import { ViewTransitions } from 'astro:transitions';
 import { Home } from 'lucide-astro';
 import { twJoin } from 'tailwind-merge';
 
@@ -18,11 +18,7 @@ const {
 } = Astro.props;
 ---
 
-<html
-  lang="en"
-  transition:animate="none"
-  class="ml-[calc(100vw-100%)] scroll-pt-10 bg-2 bg-noise text-1 selection:bg-3"
->
+<html lang="en" class="ml-[calc(100vw-100%)] scroll-pt-10 bg-2 bg-noise text-1 selection:bg-3">
   <head>
     <title>{title}</title>
     <meta charset="utf-8" />
@@ -65,7 +61,7 @@ const {
         </nav>
         <Socials />
       </header>
-      <main transition:animate={fade({ duration: 150 })} class="mb-fluid-6 flex-1"><slot /></main>
+      <main class="mb-fluid-6 flex-1"><slot /></main>
       <footer class="mx-auto w-full max-w-screen-lg">
         <Separator />
         <div class="flex justify-between px-2 pt-4 text-xxs text-2">

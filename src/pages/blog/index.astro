@@ -1,26 +1,91 @@
 ---
 import PostCard from '@/components/post-card.astro';
+import PostFilter from '@/components/post-filter.astro';
+import PostLine from '@/components/post-line.astro';
 import Separator from '@/components/ui/separator.astro';
 import Layout from '@/layouts/layout.astro';
 import { getCollection } from 'astro:content';
+import { Dot } from 'lucide-astro';
 
-const posts = await getCollection('posts').then((posts) =>
-  posts.sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf()),
-);
+const _posts = await getCollection('posts');
+const posts = _posts.sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+const topics = [...new Set(_posts.flatMap((post) => post.data.topics))].sort();
+const pagefindURL = import.meta.env.PAGEFIND_URL;
 ---
 
 <Layout title="Blog | Christian Penrod">
-  <div class="mx-auto mt-fluid-5 max-w-screen-lg">
+  <div class="mx-auto mt-fluid-5 max-w-xl lg:max-w-screen-lg">
     <section>
       <h1 class="text-3xl font-bold tracking-widest">BLOG POSTS</h1>
       <p class="max-w-prose text-xs text-2">Explore various sofware-related posts.</p>
     </section>
-    <Separator class="mb-10 mt-4" />
-    <section>
-      <!-- prettier-ignore -->
-      <ul class="sm:gap-10 gap-6 grid lg:grid-cols-3 sm:grid-cols-2">
-        {posts.map((post) => (<li><PostCard {post} /></li>))}
-      </ul>
-    </section>
+    <Separator class="mb-8 mt-4 lg:mb-12" />
+    <div class="grid gap-20 lg:grid-cols-[1fr_30%]">
+      <section class="flex flex-col gap-6">
+        <div class="flex items-center gap-4">
+          <h2 class="font-bold leading-none tracking-wider text-2">ALL POSTS</h2>
+          <Separator class="flex-1" />
+          <div class="flex items-center text-xxs text-2">
+            <span><span data-total-post-views></span> Views</span>
+            <Dot class="shrink-0" size={14} aria-hidden />
+            <span>{posts.length} Posts</span>
+          </div>
+        </div>
+        <PostFilter {topics} />
+        <div>
+          <ul data-searched-posts class="flex flex-col"></ul>
+          <!-- prettier-ignore -->
+          <ul data-static-posts class="flex flex-col">
+            {posts.map((post) => <li><PostLine {post} /></li>)}
+          </ul>
+          <div data-no-posts-found class="mt-6 hidden text-center">
+            <h2 class="text-base font-bold tracking-wider">No Posts Found</h2>
+            <p class="text-xs text-2">No posts matched the search criteria.</p>
+          </div>
+        </div>
+      </section>
+      <section class="hidden flex-col gap-6 lg:flex">
+        <h2 class="font-bold leading-none tracking-wider text-2">RECENT POSTS</h2>
+        <div class="flex flex-col gap-6">
+          {posts.slice(0, 3).map((post) => <PostCard {post} />)}
+        </div>
+      </section>
+    </div>
   </div>
 </Layout>
+
+<script define:vars={{ pagefindURL }}>
+document.addEventListener('astro:page-load', async () => {
+  const staticPosts = document.querySelector('[data-static-posts]');
+  const searchedPosts = document.querySelector('[data-searched-posts]');
+  const noPostsFound = document.querySelector('[data-no-posts-found]');
+  const totalPostViews = document.querySelector('[data-total-post-views]');
+  if (!staticPosts || !searchedPosts || !noPostsFound || !totalPostViews) return;
+
+  fetch('/blog/api').then(async (res) => (totalPostViews.innerText = await res.text()));
+
+  const pagefind = await import(pagefindURL);
+
+  document.addEventListener('post-filter', async ({ detail: { search, topics } }) => {
+    const { results } = await pagefind.search(search, { filters: { topics: { any: topics } } });
+
+    searchedPosts.innerHTML = '';
+
+    if (results.length) {
+      staticPosts.classList.add('hidden');
+      searchedPosts.classList.remove('hidden');
+      noPostsFound.classList.add('hidden');
+    } else {
+      searchedPosts.classList.add('hidden');
+      if (search.length || topics.length) noPostsFound.classList.remove('hidden');
+      else staticPosts.classList.remove('hidden');
+    }
+
+    for (const result of results) {
+      const { raw_url, meta } = await result.data();
+      const post = encodeURIComponent(JSON.stringify({ ...meta, url: raw_url }));
+      searchedPosts.innerHTML += `<li><post-line data-post="${post}"/></li>`;
+    }
+  });
+});
+</script>
