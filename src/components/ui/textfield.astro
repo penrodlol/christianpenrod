@@ -17,7 +17,7 @@ const { class: className, type, spellcheck, autocomplete, ...props } = Astro.pro
     spellcheck={spellcheck ?? false}
     autocomplete={autocomplete ?? 'off'}
     class={twJoin(
-      'relative z-20 flex-1 shrink-0 rounded bg-transparent px-3 py-1',
+      'relative z-20 w-full flex-1 shrink-0 rounded bg-transparent px-3 py-1',
       'placeholder:text-2/50 focus-visible:outline-none focus-visible:ring-1',
       'disabled:pointer-events-none disabled:opacity-50',
       Astro.slots.has('prefix') && 'pl-7',

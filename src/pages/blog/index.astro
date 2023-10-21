@@ -13,13 +13,13 @@ const topics = [...new Set(_posts.flatMap((post) => post.data.topics))].sort();
 ---
 
 <Layout title="Blog | Christian Penrod">
-  <div class="mx-auto mt-fluid-5 max-w-screen-lg">
+  <div class="mx-auto mt-fluid-5 max-w-xl lg:max-w-screen-lg">
     <section>
       <h1 class="text-3xl font-bold tracking-widest">BLOG POSTS</h1>
       <p class="max-w-prose text-xs text-2">Explore various sofware-related posts.</p>
     </section>
-    <Separator class="mb-12 mt-4" />
-    <div class="grid grid-cols-[1fr_30%] gap-20">
+    <Separator class="mb-8 mt-4 lg:mb-12" />
+    <div class="grid gap-20 lg:grid-cols-[1fr_30%]">
       <section class="flex flex-col gap-6">
         <div class="flex items-center gap-4">
           <h2 class="font-bold leading-none tracking-wider text-2">ALL POSTS</h2>
@@ -31,7 +31,7 @@ const topics = [...new Set(_posts.flatMap((post) => post.data.topics))].sort();
           </div>
         </div>
         <PostFilter {topics} />
-        <div class="mt-2">
+        <div>
           <ul data-searched-posts class="flex flex-col"></ul>
           <!-- prettier-ignore -->
           <ul data-static-posts class="flex flex-col">
@@ -43,7 +43,7 @@ const topics = [...new Set(_posts.flatMap((post) => post.data.topics))].sort();
           </div>
         </div>
       </section>
-      <section class="flex flex-col gap-6">
+      <section class="hidden flex-col gap-6 lg:flex">
         <h2 class="font-bold leading-none tracking-wider text-2">RECENT POSTS</h2>
         <div class="flex flex-col gap-6">
           {posts.slice(0, 3).map((post) => <PostCard {post} />)}
