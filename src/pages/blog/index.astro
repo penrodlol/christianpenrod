@@ -46,9 +46,10 @@ const pagefindURL = import.meta.env.PAGEFIND_URL;
       </section>
       <section class="hidden flex-col gap-6 lg:flex">
         <h2 class="font-bold leading-none tracking-wider text-2">RECENT POSTS</h2>
-        <div class="flex flex-col gap-6">
-          {posts.slice(0, 3).map((post) => <PostCard {post} />)}
-        </div>
+        <!-- prettier-ignore -->
+        <ul class="flex flex-col gap-6">
+          {posts.slice(0, 3).map((post) => <li><PostCard {post} /></li>)}
+        </ul>
       </section>
     </div>
   </div>

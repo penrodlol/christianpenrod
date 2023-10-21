@@ -199,6 +199,13 @@ declare module 'astro:content' {
   collection: "posts";
   data: InferEntrySchema<"posts">
 } & { render(): Render[".mdx"] };
+"hyper-terminal-and-its-arsenal-of-plugins.mdx": {
+	id: "hyper-terminal-and-its-arsenal-of-plugins.mdx";
+  slug: "hyper-terminal-and-its-arsenal-of-plugins";
+  body: string;
+  collection: "posts";
+  data: InferEntrySchema<"posts">
+} & { render(): Render[".mdx"] };
 "local-state-with-ngrx-and-apollo-angular.mdx": {
 	id: "local-state-with-ngrx-and-apollo-angular.mdx";
   slug: "local-state-with-ngrx-and-apollo-angular";

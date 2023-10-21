@@ -16,7 +16,7 @@ const { topics } = Astro.props;
   </Textfield>
   <!-- prettier-ignore -->
   <ul data-post-filter-topic class="flex flex-wrap gap-2">
-    {topics.map((value) => (<Chip aria-label={`${value} Filter`} {value}>{value}</Chip>))}
+    {topics.map((value) => <li><Chip aria-label={`${value} Filter`} {value}>{value}</Chip></li>)}
   </ul>
 </div>
 

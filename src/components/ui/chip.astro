@@ -7,7 +7,7 @@ type Props = Omit<HTMLAttributes<'input'>, 'type'>;
 const { class: className, ...props } = Astro.props;
 ---
 
-<label class={twMerge('relative rounded border bg-3 px-2 text-2', className)}>
+<label class={twMerge('relative flex rounded border bg-3 px-2 text-2', className)}>
   <input
     {...props}
     type="checkbox"
