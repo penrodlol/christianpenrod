@@ -783,11 +783,6 @@
   resolved "https://registry.yarnpkg.com/@pagefind/linux-x64/-/linux-x64-1.0.3.tgz#4f658bac9ce5e9fb22e0a4350ff933e621c6b916"
   integrity sha512-o+VCKaqImL42scSH1n5gUfppYSNyu3BuGTvtKKgWHmycbL+A3fkFH+ZOFbaLeN7LVTvJqJIOYbk4j2yaq9784Q==
 
-"@pagefind/modular-ui@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@pagefind/modular-ui/-/modular-ui-1.0.3.tgz#19980c0b77b19f3ea85bf02c30df07670953684d"
-  integrity sha512-n93m8my4+pURQlwIZqiRI5E0Cms1DOOdeF4GHtM2qg+ggbeH9AFD/cIfJUPOJFUqomr+jzeVFcjkeYjYoRRGjA==
-
 "@pagefind/windows-x64@1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@pagefind/windows-x64/-/windows-x64-1.0.3.tgz#686c46cb274e087362d0a8d6ff03e89a10ee508e"

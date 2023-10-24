@@ -82,12 +82,12 @@ const totalViews = await getTotalViews(Astro).then((res) => res.text());
     if (!searchFilter || !topicsFilter || !staticPosts || !searchedPosts || !noPostsFound) return;
 
     searchFilter.oninput = async () => requestSearch();
-    topicsFilter.querySelectorAll('input').forEach((topic) =>
-      topic.addEventListener('change', async () => {
+    topicsFilter.querySelectorAll('input').forEach((topic) => {
+      topic.onchange = async () => {
         topic.checked ? activeTopics.add(topic.value) : activeTopics.delete(topic.value);
         await requestSearch();
-      }),
-    );
+      };
+    });
 
     const requestSearch = async () => {
       const payload = await executeSearch(searchFilter.value, Array.from(activeTopics));
