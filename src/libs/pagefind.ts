@@ -10,9 +10,9 @@ type SearchData = { raw_url: string; meta: Record<string, string> };
 type SearchResponse = { results: Array<{ data: () => Promise<SearchData> }> };
 type Search = (search: string | null, opts?: SearchOpts) => Promise<SearchResponse>;
 
-export const prepareSearch = async () => {
+export const prepareSearch = async (url = import.meta.env.PUBLIC_PAGEFIND_URL) => {
   if (window.pagefind) return;
-  window.pagefind = await import(/* @vite-ignore */ import.meta.env.PUBLIC_PAGEFIND_URL);
+  window.pagefind = await import(/* @vite-ignore */ url);
   await window.pagefind.init();
 };
 
