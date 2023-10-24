@@ -10,10 +10,10 @@ interface ImportMetaEnv {
   readonly TWITTER: string;
   readonly LINKEDIN: string;
   readonly EMAIL: string;
-  readonly PAGEFIND_URL: string;
   readonly PLANETSCALE_DB_HOST: string;
   readonly PLANETSCALE_DB_USERNAME: string;
   readonly PLANETSCALE_DB_PASSWORD: string;
+  readonly PUBLIC_PAGEFIND_URL: string;
 }
 
 interface ImportMeta {

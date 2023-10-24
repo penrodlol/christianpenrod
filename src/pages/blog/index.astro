@@ -1,16 +1,20 @@
 ---
 import PostCard from '@/components/post-card.astro';
-import PostFilter from '@/components/post-filter.astro';
 import PostLine from '@/components/post-line.astro';
+import Chip from '@/components/ui/chip.astro';
+import Command from '@/components/ui/command.astro';
 import Separator from '@/components/ui/separator.astro';
+import Textfield from '@/components/ui/textfield.astro';
 import Layout from '@/layouts/layout.astro';
 import { getCollection } from 'astro:content';
-import { Dot } from 'lucide-astro';
+import { Dot, Search } from 'lucide-astro';
+import { GET as getTotalViews } from './api';
 
 const _posts = await getCollection('posts');
 const posts = _posts.sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 const topics = [...new Set(_posts.flatMap((post) => post.data.topics))].sort();
-const pagefindURL = import.meta.env.PAGEFIND_URL;
+// @ts-ignore
+const totalViews = await getTotalViews(Astro).then((res) => res.text());
 ---
 
 <Layout title="Blog | Christian Penrod">
@@ -26,12 +30,21 @@ const pagefindURL = import.meta.env.PAGEFIND_URL;
           <h2 class="font-bold leading-none tracking-wider text-2">ALL POSTS</h2>
           <Separator class="flex-1" />
           <div class="flex items-center text-xxs text-2">
-            <span><span data-total-post-views></span> Views</span>
+            <span>{totalViews} Views</span>
             <Dot class="shrink-0" size={14} aria-hidden />
             <span>{posts.length} Posts</span>
           </div>
         </div>
-        <PostFilter {topics} />
+        <div class="flex flex-col gap-4 rounded border bg-2/30 p-4">
+          <Textfield data-post-filter-search placeholder="Search Posts" class="text-xs">
+            <Search slot="prefix" size={12} aria-hidden />
+            <Command slot="suffix" key="/" selector="[data-post-filter-search]" />
+          </Textfield>
+          <!-- prettier-ignore -->
+          <ul data-post-filter-topics class="flex flex-wrap gap-2">
+            {topics.map((value) => <li><Chip aria-label={`${value} Filter`} {value}>{value}</Chip></li>)}
+          </ul>
+        </div>
         <div>
           <ul data-searched-posts class="flex flex-col"></ul>
           <!-- prettier-ignore -->
@@ -55,38 +68,45 @@ const pagefindURL = import.meta.env.PAGEFIND_URL;
   </div>
 </Layout>
 
-<script define:vars={{ pagefindURL }}>
-document.addEventListener('astro:page-load', async () => {
-  const staticPosts = document.querySelector('[data-static-posts]');
-  const searchedPosts = document.querySelector('[data-searched-posts]');
-  const noPostsFound = document.querySelector('[data-no-posts-found]');
-  const totalPostViews = document.querySelector('[data-total-post-views]');
-  if (!staticPosts || !searchedPosts || !noPostsFound || !totalPostViews) return;
+<script>
+  import { executeSearch, prepareSearch } from '@/libs/pagefind';
 
-  fetch('/blog/api').then(async (res) => (totalPostViews.innerText = await res.text()));
+  document.addEventListener('astro:page-load', () => prepareSearch(), { once: true });
+  document.addEventListener('astro:page-load', () => {
+    const activeTopics = new Set<string>();
+    const searchFilter = document.querySelector('[data-post-filter-search]') as HTMLInputElement;
+    const topicsFilter = document.querySelector('[data-post-filter-topics]') as HTMLUListElement;
+    const staticPosts = document.querySelector('[data-static-posts]') as HTMLUListElement;
+    const searchedPosts = document.querySelector('[data-searched-posts]') as HTMLUListElement;
+    const noPostsFound = document.querySelector('[data-no-posts-found]') as HTMLDivElement;
+    if (!searchFilter || !topicsFilter || !staticPosts || !searchedPosts || !noPostsFound) return;
 
-  const pagefind = await import(pagefindURL);
+    searchFilter.oninput = async () => requestSearch();
+    topicsFilter.querySelectorAll('input').forEach((topic) =>
+      topic.addEventListener('change', async () => {
+        topic.checked ? activeTopics.add(topic.value) : activeTopics.delete(topic.value);
+        await requestSearch();
+      }),
+    );
 
-  document.addEventListener('post-filter', async ({ detail: { search, topics } }) => {
-    const { results } = await pagefind.search(search, { filters: { topics: { any: topics } } });
+    const requestSearch = async () => {
+      const payload = await executeSearch(searchFilter.value, Array.from(activeTopics));
+      searchedPosts.innerHTML = '';
 
-    searchedPosts.innerHTML = '';
+      if (payload.length) {
+        staticPosts.classList.add('hidden');
+        searchedPosts.classList.remove('hidden');
+        noPostsFound.classList.add('hidden');
+      } else {
+        searchedPosts.classList.add('hidden');
+        if (searchFilter.value.length || activeTopics.size) noPostsFound.classList.remove('hidden');
+        else staticPosts.classList.remove('hidden');
+      }
 
-    if (results.length) {
-      staticPosts.classList.add('hidden');
-      searchedPosts.classList.remove('hidden');
-      noPostsFound.classList.add('hidden');
-    } else {
-      searchedPosts.classList.add('hidden');
-      if (search.length || topics.length) noPostsFound.classList.remove('hidden');
-      else staticPosts.classList.remove('hidden');
-    }
-
-    for (const result of results) {
-      const { raw_url, meta } = await result.data();
-      const post = encodeURIComponent(JSON.stringify({ ...meta, url: raw_url }));
-      searchedPosts.innerHTML += `<li><post-line data-post="${post}"/></li>`;
-    }
+      payload.forEach(({ raw_url, meta }) => {
+        const post = encodeURIComponent(JSON.stringify({ ...meta, url: raw_url }));
+        searchedPosts.innerHTML += `<li><post-line data-post="${post}"/></li>`;
+      });
+    };
   });
-});
 </script>

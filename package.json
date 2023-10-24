@@ -13,7 +13,7 @@
   "dependencies": {
     "@pagefind/modular-ui": "^1.0.3",
     "@planetscale/database": "^1.11.0",
-    "astro": "^3.3.2",
+    "astro": "^3.3.3",
     "pagefind": "^1.0.3"
   },
   "devDependencies": {
@@ -22,7 +22,7 @@
     "@astrojs/sitemap": "^3.0.2",
     "@astrojs/tailwind": "^5.0.2",
     "@astrojs/vercel": "^5.0.2",
-    "@fontsource/inter": "^5.0.14",
+    "@fontsource/inter": "^5.0.15",
     "@octokit/rest": "^20.0.2",
     "astro-og-canvas": "^0.2.1",
     "astro-robots-txt": "^1.0.0",
