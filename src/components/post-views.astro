@@ -15,6 +15,6 @@ const { slug } = Astro.props;
 <script define:vars={{ slug }}>
 fetch('/blog/api', { method: 'PUT', body: JSON.stringify({ slug }) }).then(async (res) => {
   const el = document.querySelector(`[data-post-views="${slug}"]`);
-  el.textContent = (await res.text())?.toString().padStart(6, '0');
+  if (el) el.textContent = (await res.text())?.toString().padStart(6, '0');
 });
 </script>
