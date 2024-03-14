@@ -7,6 +7,7 @@ import { defineConfig } from 'astro/config';
 import { toString } from 'mdast-util-to-string';
 import readingTime from 'reading-time';
 import rehypePrettyCode from 'rehype-pretty-code';
+import { createCssVariablesTheme } from 'shiki';
 import { visit } from 'unist-util-visit';
 
 export default defineConfig({
@@ -16,7 +17,7 @@ export default defineConfig({
   markdown: {
     syntaxHighlight: false,
     rehypePlugins: [
-      [rehypePrettyCode, { theme: 'css-variables' }],
+      [rehypePrettyCode, createCssVariablesTheme({ name: 'css-variables' })],
       () => (tree, vfile) => {
         const data = vfile.data as { astro: { frontmatter: Record<string, unknown> } };
         const payload = Math.round(readingTime(toString(tree)).minutes);
