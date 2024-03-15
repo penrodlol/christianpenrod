@@ -13,8 +13,8 @@ const { slug } = Astro.props;
 </div>
 
 <script define:vars={{ slug }}>
-fetch('/blog/api', { method: 'PUT', body: JSON.stringify({ slug }) }).then(async (res) => {
-  const el = document.querySelector(`[data-post-views="${slug}"]`);
-  if (el) el.textContent = (await res.text())?.toString().padStart(6, '0');
-});
+  fetch('/blog/api', { method: 'PUT', body: JSON.stringify({ slug }) }).then(async (res) => {
+    const el = document.querySelector(`[data-post-views="${slug}"]`);
+    if (el) el.textContent = (await res.text())?.toString().padStart(6, '0');
+  });
 </script>

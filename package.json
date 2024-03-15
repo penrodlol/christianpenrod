@@ -11,7 +11,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^4.5.3",
+    "@astrojs/db": "^0.8.5",
+    "astro": "^4.5.4",
     "pagefind": "^1.0.4"
   },
   "devDependencies": {
@@ -24,7 +25,7 @@
     "@octokit/rest": "^20.0.2",
     "astro-og-canvas": "^0.4.2",
     "astro-robots-txt": "^1.0.0",
-    "lucide-astro": "^0.357.0",
+    "lucide-astro": "^0.358.0",
     "mdast-util-to-string": "^4.0.0",
     "prettier": "3.2.5",
     "prettier-plugin-astro": "0.13.0",

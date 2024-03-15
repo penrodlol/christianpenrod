@@ -1,3 +1,4 @@
+import db from '@astrojs/db';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
@@ -37,6 +38,7 @@ export default defineConfig({
   integrations: [
     tailwind(),
     mdx(),
+    db(),
     sitemap({ changefreq: 'daily', lastmod: new Date() }),
     robotsTxt({ host: true, policy: [{ userAgent: '*', disallow: ['/404'] }] }),
   ],

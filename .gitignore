@@ -20,3 +20,6 @@ pnpm-debug.log*
 
 # Local Vercel folder
 .vercel
+
+# Local Astro folder
+.astro
