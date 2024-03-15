@@ -18,19 +18,16 @@ export default defineConfig({
   markdown: {
     syntaxHighlight: false,
     rehypePlugins: [
-      [rehypePrettyCode, createCssVariablesTheme({ name: 'css-variables' })],
+      [rehypePrettyCode, { theme: createCssVariablesTheme({ name: 'css-variables' }) }],
       () => (tree, vfile) => {
         const data = vfile.data as { astro: { frontmatter: Record<string, unknown> } };
         const payload = Math.round(readingTime(toString(tree)).minutes);
         data.astro.frontmatter.readingTime = payload;
 
         visit(tree, 'element', (node) => {
-          if (node.properties?.['data-rehype-pretty-code-fragment'] !== '') return;
-          node.tagName = 'figure';
-          visit(node, 'element', (child) => {
-            if (child.properties?.['data-rehype-pretty-code-title'] === '')
-              child.properties.slot = 'title';
-          });
+          if (node.properties?.['data-rehype-pretty-code-title'] !== '') return;
+          node.tagName = 'div';
+          node.properties.slot = 'title';
         });
       },
     ],
