@@ -1,6 +1,7 @@
-import planetscale from '@/libs/planetscale';
 import type { APIRoute } from 'astro';
 import { getEntry, z } from 'astro:content';
+import { PostView, db, eq, sql } from 'astro:db';
+import { sum } from 'drizzle-orm';
 
 export const prerender = false;
 
@@ -11,18 +12,16 @@ export const PUT: APIRoute = async ({ request }) => {
   const payload = await z.object({ slug: slugSchema }).safeParseAsync(await request.json());
   if (!payload.success) return new Response('Bad Request', { status: 400 });
 
-  const rs = await planetscale.transaction(async (t) => {
-    await t.execute('update PostView set views = views + 1 where post = ?', [payload.data.slug]);
-    return t.execute('select views from PostView where post = ?', [payload.data.slug]);
-  });
-  const row = z.object({ views: z.coerce.string().trim() }).safeParse(rs.rows[0]);
+  const [rs] = await db
+    .update(PostView)
+    .set({ views: sql`${PostView.views} + 1` })
+    .where(eq(PostView.post, payload.data.slug))
+    .returning({ views: PostView.views });
 
-  return new Response(row.success ? row.data.views : null, { status: 200 });
+  return new Response(rs?.views?.toString() ?? null, { status: 200 });
 };
 
 export const GET: APIRoute = async () => {
-  const rs = await planetscale.execute('select sum(views) as views from PostView');
-  const row = z.object({ views: z.coerce.number() }).safeParse(rs.rows[0]);
-
-  return new Response(row.success ? viewsFormatter.format(row.data.views) : null, { status: 200 });
+  const [rs] = await db.select({ totalViews: sum(PostView.views) }).from(PostView);
+  return new Response(viewsFormatter.format(Number(rs?.totalViews ?? 0)), { status: 200 });
 };

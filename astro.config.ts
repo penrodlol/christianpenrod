@@ -1,3 +1,4 @@
+import db from '@astrojs/db';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
@@ -7,6 +8,7 @@ import { defineConfig } from 'astro/config';
 import { toString } from 'mdast-util-to-string';
 import readingTime from 'reading-time';
 import rehypePrettyCode from 'rehype-pretty-code';
+import { createCssVariablesTheme } from 'shiki';
 import { visit } from 'unist-util-visit';
 
 export default defineConfig({
@@ -16,19 +18,16 @@ export default defineConfig({
   markdown: {
     syntaxHighlight: false,
     rehypePlugins: [
-      [rehypePrettyCode, { theme: 'css-variables' }],
+      [rehypePrettyCode, { theme: createCssVariablesTheme({ name: 'css-variables' }) }],
       () => (tree, vfile) => {
         const data = vfile.data as { astro: { frontmatter: Record<string, unknown> } };
         const payload = Math.round(readingTime(toString(tree)).minutes);
         data.astro.frontmatter.readingTime = payload;
 
         visit(tree, 'element', (node) => {
-          if (node.properties?.['data-rehype-pretty-code-fragment'] !== '') return;
-          node.tagName = 'figure';
-          visit(node, 'element', (child) => {
-            if (child.properties?.['data-rehype-pretty-code-title'] === '')
-              child.properties.slot = 'title';
-          });
+          if (node.properties?.['data-rehype-pretty-code-title'] !== '') return;
+          node.tagName = 'div';
+          node.properties.slot = 'title';
         });
       },
     ],
@@ -36,6 +35,7 @@ export default defineConfig({
   integrations: [
     tailwind(),
     mdx(),
+    db(),
     sitemap({ changefreq: 'daily', lastmod: new Date() }),
     robotsTxt({ host: true, policy: [{ userAgent: '*', disallow: ['/404'] }] }),
   ],
