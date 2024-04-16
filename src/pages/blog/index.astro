@@ -32,7 +32,10 @@ const totalViews = await getTotalViews(Astro).then((res) => res.text());
     </section>
     <Separator class="mb-8 mt-4 lg:mb-12" />
     <div class="grid gap-20 lg:grid-cols-[1fr_30%]">
-      <section x-data={`searchPosts(${JSON.stringify(posts)})`} class="flex flex-col gap-6">
+      <section
+        x-data={`searchPosts(${JSON.stringify(posts.map((post) => ({ data: post.data, slug: post.slug })))})`}
+        class="flex flex-col gap-6"
+      >
         <div class="flex items-center gap-4">
           <h2 class="font-bold leading-none tracking-wider text-2">ALL POSTS</h2>
           <Separator class="flex-1" />
