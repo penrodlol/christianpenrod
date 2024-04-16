@@ -5,7 +5,16 @@ const posts = defineCollection({
     z.object({
       title: z.string(),
       description: z.string(),
-      published: z.date(),
+      published: z.date().transform((date) => ({
+        date,
+        iso: date.toISOString(),
+        pretty: date.toLocaleDateString('en-US', {
+          month: '2-digit',
+          day: '2-digit',
+          year: 'numeric',
+          timeZone: 'UTC',
+        }),
+      })),
       topics: z.array(z.string()),
       repo: z.string().optional(),
       cover: image(),

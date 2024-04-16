@@ -23,7 +23,7 @@ export default defineConfig({
       () => (tree, vfile) => {
         const data = vfile.data as { astro: { frontmatter: Record<string, unknown> } };
         const payload = Math.round(readingTime(toString(tree)).minutes);
-        data.astro.frontmatter.readingTime = payload;
+        data.astro.frontmatter.readingTime = `${payload} Min Read`;
 
         visit(tree, 'element', (node) => {
           if (node.properties?.['data-rehype-pretty-code-title'] !== '') return;
@@ -41,4 +41,5 @@ export default defineConfig({
     sitemap({ changefreq: 'daily', lastmod: new Date() }),
     robotsTxt({ host: true, policy: [{ userAgent: '*', disallow: ['/404'] }] }),
   ],
+  vite: { build: { rollupOptions: { external: ['/.vercel/output/static/pagefind/pagefind.js'] } } },
 });

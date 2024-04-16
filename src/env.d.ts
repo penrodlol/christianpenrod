@@ -23,4 +23,5 @@ interface ImportMeta {
 
 interface Window {
   Alpine: import('alpinejs').Alpine;
+  Pagefind: any;
 }

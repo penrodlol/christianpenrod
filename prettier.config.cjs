@@ -4,11 +4,8 @@ module.exports = {
   semi: true,
   trailingComma: 'all',
   proseWrap: 'always',
-  printWidth: 100,
+  printWidth: 120,
   tailwindFunctions: ['twMerge', 'twJoin'],
   overrides: [{ files: '*.astro', options: { parser: 'astro' } }],
-  plugins: [
-    require.resolve('prettier-plugin-astro'),
-    require.resolve('prettier-plugin-tailwindcss'),
-  ],
+  plugins: [require.resolve('prettier-plugin-astro'), require.resolve('prettier-plugin-tailwindcss')],
 };

@@ -3,7 +3,6 @@ import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { Calendar, Clock4 } from 'lucide-astro';
 import { twJoin } from 'tailwind-merge';
-import Moment from './ui/moment.astro';
 import Separator from './ui/separator.astro';
 
 type Props = { post: CollectionEntry<'posts'> };
@@ -32,11 +31,11 @@ const { remarkPluginFrontmatter } = await post.render();
     <div class="flex justify-between gap-4 text-xxs text-2">
       <div class="flex items-center gap-2">
         <Calendar class="shrink-0" size={14} aria-hidden />
-        <Moment>{post.data.published}</Moment>
+        <time datetime={post.data.published.iso}>{post.data.published.pretty}</time>
       </div>
       <div class="flex items-center gap-2">
         <Clock4 class="shrink-0" size={14} aria-hidden />
-        <span>{remarkPluginFrontmatter.readingTime} Min Read</span>
+        <span>{remarkPluginFrontmatter.readingTime}</span>
       </div>
     </div>
   </div>

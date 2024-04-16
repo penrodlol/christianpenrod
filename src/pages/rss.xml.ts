@@ -12,7 +12,7 @@ export const GET: APIRoute = async () => {
     items: posts.map((post) => ({
       link: `blog/${post.slug}`,
       title: post.data.title,
-      pubDate: post.data.published,
+      pubDate: post.data.published.date,
     })),
   });
 };
