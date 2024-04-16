@@ -43,9 +43,9 @@ const totalViews = await getTotalViews(Astro).then((res) => res.text());
           </div>
         </div>
         <div class="flex flex-col gap-4 rounded border bg-2/30 p-4">
-          <Textfield placeholder="Search Posts" class="text-xs" @keydown.debounce.200ms="search($el.value)">
+          <Textfield placeholder="Search Posts" class="text-xs" @keyup.debounce.200ms="search($el.value)">
             <Search slot="prefix" size={12} aria-hidden />
-            <Command slot="suffix" key="/" @keydown.window.slash="$el.parentElement.previousElementSibling.focus()" />
+            <Command slot="suffix" key="/" @keyup.window.slash="$el.parentElement.previousElementSibling.focus()" />
           </Textfield>
           <!-- prettier-ignore -->
           <ul class="flex flex-wrap gap-2">
