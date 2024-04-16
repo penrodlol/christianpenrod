@@ -3,13 +3,12 @@ import { twJoin } from 'tailwind-merge';
 import Clipboard from './ui/clipboard.astro';
 ---
 
-<figure {...Astro.props} data-clipboard-wrapper class="rounded border">
+<figure {...Astro.props} class="rounded border">
   <figcaption class="flex items-center rounded-t border-b bg-2 pl-4 text-xxs text-2">
     <slot name="title" />
-    <Clipboard class="ml-auto px-4 py-1.5" />
+    <Clipboard target="$el.parentElement.nextElementSibling" class="ml-auto px-4 py-1.5" />
   </figcaption>
   <div
-    data-clipboard-content
     class={twJoin(
       // base
       'overflow-auto bg-[--shiki-color-background] p-4 font-sans text-xxs',
