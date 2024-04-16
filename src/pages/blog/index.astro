@@ -38,7 +38,11 @@ const totalViews = await getTotalViews(Astro).then((res) => res.text());
         <div class="flex flex-col gap-4 rounded border bg-2/30 p-4">
           <Textfield data-post-filter-search placeholder="Search Posts" class="text-xs">
             <Search slot="prefix" size={12} aria-hidden />
-            <Command slot="suffix" key="/" selector="[data-post-filter-search]" />
+            <Command
+              slot="suffix"
+              key="/"
+              @keyup.window.slash="$el.parentElement.previousElementSibling.focus()"
+            />
           </Textfield>
           <!-- prettier-ignore -->
           <ul data-post-filter-topics class="flex flex-wrap gap-2">

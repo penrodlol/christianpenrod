@@ -2,13 +2,14 @@
 import type { HTMLAttributes } from 'astro/types';
 import { twMerge } from 'tailwind-merge';
 
-type Props = HTMLAttributes<'kbd'> & { key: string; selector: string };
+type Props = HTMLAttributes<'kbd'> & { key: string };
 
-const { class: className, key, selector, ...props } = Astro.props;
+const { class: className, key, ...props } = Astro.props;
 ---
 
 <kbd
   {...props}
+  x-data
   class={twMerge(
     'rounded-sm border bg-2 px-2 py-0.5 font-sans',
     '!text-xxs leading-none text-1',
@@ -17,13 +18,3 @@ const { class: className, key, selector, ...props } = Astro.props;
 >
   {Astro.slots.has('default') ? <slot /> : key}
 </kbd>
-
-<script define:vars={{ key, selector }}>
-document.addEventListener('astro:page-load', () => {
-  const target = document.querySelector(selector);
-  if (target)
-    document.addEventListener('keydown', (event) => {
-      if (event.key === key) event.preventDefault(), target.focus();
-    });
-});
-</script>
