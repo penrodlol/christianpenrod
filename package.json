@@ -6,16 +6,18 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build && pagefind --site .vercel/output/static",
+    "build": "astro build --remote && pagefind --site .vercel/output/static",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
     "@astrojs/db": "^0.10.2",
+    "alpinejs": "^3.13.8",
     "astro": "^4.5.17",
     "pagefind": "^1.1.0"
   },
   "devDependencies": {
+    "@astrojs/alpinejs": "^0.4.0",
     "@astrojs/mdx": "^2.2.4",
     "@astrojs/rss": "^4.0.5",
     "@astrojs/sitemap": "^3.1.2",
@@ -23,6 +25,7 @@
     "@astrojs/vercel": "^7.5.2",
     "@fontsource/inter": "^5.0.17",
     "@octokit/rest": "^20.1.0",
+    "@types/alpinejs": "^3.13.10",
     "astro-og-canvas": "^0.4.2",
     "astro-robots-txt": "^1.0.0",
     "lucide-astro": "^0.366.0",

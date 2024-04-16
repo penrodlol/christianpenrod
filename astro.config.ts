@@ -1,3 +1,4 @@
+import alpine from '@astrojs/alpinejs';
 import db from '@astrojs/db';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
@@ -36,6 +37,7 @@ export default defineConfig({
     tailwind(),
     mdx(),
     db(),
+    alpine({ entrypoint: '/alpine.config.ts' }),
     sitemap({ changefreq: 'daily', lastmod: new Date() }),
     robotsTxt({ host: true, policy: [{ userAgent: '*', disallow: ['/404'] }] }),
   ],
