@@ -57,6 +57,8 @@ const totalViews = await getTotalViews(Astro).then((res) => res.text());
             <template x-for="post in posts">
               <li>
                 <a
+                  :href="'/blog/' + post.slug"
+                  :aria-label="post.data.title"
                   class={twJoin(
                     'group flex flex-col rounded py-2 text-xs',
                     'sm:flex-row sm:items-center sm:justify-between sm:gap-2',
