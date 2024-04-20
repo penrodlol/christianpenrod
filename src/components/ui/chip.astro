@@ -1,27 +1,20 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
-import { twJoin, twMerge } from 'tailwind-merge';
+import { twMerge } from 'tailwind-merge';
 
-type Props = Omit<HTMLAttributes<'input'>, 'type'>;
+type Props = Omit<HTMLAttributes<'input'>, 'type'> & { value: string };
 
-const { class: className, ...props } = Astro.props;
+const { class: className, value, ...props } = Astro.props;
 ---
 
 <label class={twMerge('relative flex rounded border bg-3 px-2 text-2', className)}>
   <input
     {...props}
+    {value}
     type="checkbox"
-    class={twJoin(
-      'peer absolute inset-0 cursor-pointer appearance-none rounded',
-      'checked:ring-1 focus-visible:outline-none focus-visible:ring-1',
-    )}
+    class="peer absolute inset-0 cursor-pointer appearance-none rounded checked:ring-1 focus-visible:outline-none focus-visible:ring-1"
   />
-  <div
-    class={twJoin(
-      'text-xxs peer-checked:text-emphasis peer-hover:text-emphasis',
-      'motion-safe:transition-colors',
-    )}
-  >
-    <slot />
+  <div class="text-xxs peer-checked:text-emphasis peer-hover:text-emphasis motion-safe:transition-colors">
+    {value}
   </div>
 </label>

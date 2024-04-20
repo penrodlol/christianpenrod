@@ -1,11 +1,9 @@
 import type { APIRoute } from 'astro';
 import { getEntry, z } from 'astro:content';
 import { PostView, db, eq, sql } from 'astro:db';
-import { sum } from 'drizzle-orm';
 
 export const prerender = false;
 
-const viewsFormatter = Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 });
 const slugSchema = z.string().refine(async (slug) => !!getEntry('posts', slug.trim()));
 
 export const PUT: APIRoute = async ({ request }) => {
@@ -19,9 +17,4 @@ export const PUT: APIRoute = async ({ request }) => {
     .returning({ views: PostView.views });
 
   return new Response(rs?.views?.toString() ?? null, { status: 200 });
-};
-
-export const GET: APIRoute = async () => {
-  const [rs] = await db.select({ totalViews: sum(PostView.views) }).from(PostView);
-  return new Response(viewsFormatter.format(Number(rs?.totalViews ?? 0)), { status: 200 });
 };

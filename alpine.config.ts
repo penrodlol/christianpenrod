@@ -1,5 +1,6 @@
 import type { Alpine } from 'alpinejs';
-import type { CollectionEntry } from 'astro:content';
+
+type PagefindResults = { results: Array<{ data: () => Promise<{ meta: Record<string, unknown> }> }> };
 
 export default (Alpine: Alpine) => {
   Alpine.magic('fetch', () => async (...props: Parameters<typeof fetch>) => {
@@ -7,36 +8,22 @@ export default (Alpine: Alpine) => {
     return await fetch(...props).then((res) => res.json());
   });
 
-  Alpine.data('searchPosts', (posts: Array<CollectionEntry<'posts'>>) => ({
-    posts,
+  Alpine.data('pagefind', (data: Array<Record<string, unknown>>, key: string) => ({
+    pagefind: import(/* @vite-ignore */ import.meta.env.PUBLIC_PAGEFIND_URL),
     query: null as string | null,
-    topics: new Set<string>(),
-    async init() {
-      if (window.Pagefind) return;
-      window.Pagefind = await import(/* @vite-ignore */ import.meta.env.PUBLIC_PAGEFIND_URL);
-      await window.Pagefind.init();
-    },
-    async search(query: string) {
-      this.query = query?.trim().length ? query.trim() : null;
-      await this.execute();
-    },
-    async filter(topic: string) {
-      this.topics.has(topic) ? this.topics.delete(topic) : this.topics.add(topic);
-      await this.execute();
+    tags: [],
+    results: data,
+    init() {
+      this.$watch('query', () => this.execute());
+      this.$watch('tags', () => this.execute());
     },
     async execute() {
-      if (!this.query && !this.topics.size) this.posts = posts;
+      if (!this.query?.trim()?.length && !this.tags?.length) this.results = data;
       else {
-        const filters = { filters: { topics: { any: Array.from(this.topics) } } };
-        const { results } = await window.Pagefind.search(this.query, filters);
-
-        this.posts = await Promise.all(
-          results.map(async (result: any) => {
-            const { meta } = await result.data();
-            const post = posts.find(({ slug }: any) => slug === meta.slug);
-            return { ...post, data: { ...meta, ...(post?.data ?? {}) } };
-          }),
-        );
+        const filters = { filters: { tag: { any: this.tags } } };
+        const { results }: PagefindResults = await (await this.pagefind).search(this.query, filters);
+        const payload = await Promise.all(results.map(async (result) => result.data()));
+        this.results = payload.map((item) => data.find((result) => result[key] === item.meta[key])) as typeof data;
       }
     },
   }));
