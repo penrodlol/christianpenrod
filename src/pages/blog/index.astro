@@ -1,5 +1,6 @@
 ---
 import PostCard from '@/components/post-card.astro';
+import PostResults from '@/components/post-results.astro';
 import Chip from '@/components/ui/chip.astro';
 import Command from '@/components/ui/command.astro';
 import Separator from '@/components/ui/separator.astro';
@@ -8,21 +9,21 @@ import Layout from '@/layouts/layout.astro';
 import { getCollection } from 'astro:content';
 import { PostView, db, sum } from 'astro:db';
 import { Dot, Search } from 'lucide-astro';
-import { twJoin } from 'tailwind-merge';
 
-const posts = await Promise.all(
-  (await getCollection('posts'))
-    .sort((a, b) => b.data.published.date.valueOf() - a.data.published.date.valueOf())
-    .map(async (post) => {
-      const { readingTime } = (await post.render()).remarkPluginFrontmatter;
-      const line = { title: post.data.title, published: post.data.published, slug: post.slug, readingTime };
-      return { ...post, line };
-    }),
-);
-const topics = [...new Set(posts.flatMap((post) => post.data.topics))].sort();
+export type PostResults = typeof postResults;
 
 const [rs] = await db.select({ views: sum(PostView.views) }).from(PostView);
 const views = Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 }).format(Number(rs?.views ?? 0));
+
+const _posts = await getCollection('posts');
+const posts = _posts.sort((a, b) => b.data.published.date.valueOf() - a.data.published.date.valueOf());
+const topics = [...new Set(posts.flatMap((post) => post.data.topics))].sort();
+const postResults = await Promise.all(
+  posts.map(async (post) => {
+    const { readingTime } = (await post.render()).remarkPluginFrontmatter;
+    return { title: post.data.title, published: post.data.published, slug: post.slug, readingTime };
+  }),
+);
 ---
 
 <Layout title="Blog | Christian Penrod">
@@ -33,10 +34,7 @@ const views = Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigi
     </section>
     <Separator class="mb-8 mt-4 lg:mb-12" />
     <div class="grid gap-20 lg:grid-cols-[1fr_30%]">
-      <section
-        x-data={`pagefind(${JSON.stringify(posts.map((post) => post.line))}, "slug")`}
-        class="flex flex-col gap-6"
-      >
+      <section x-data={`pagefind(${JSON.stringify(postResults)}, "slug")`} class="flex flex-col gap-6">
         <div class="flex items-center gap-4">
           <h2 class="font-bold leading-none tracking-wider text-2">ALL POSTS</h2>
           <Separator class="flex-1" />
@@ -56,29 +54,7 @@ const views = Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigi
           </ul>
         </div>
         <div>
-          <template x-for="post in results">
-            <ul class="flex flex-col">
-              <li>
-                <a
-                  :href="'/blog/' + post.slug"
-                  :aria-label="post.title"
-                  class={twJoin(
-                    'group flex flex-col rounded py-2 text-xs sm:flex-row sm:items-center sm:justify-between sm:gap-2',
-                    'focus-visible:outline-none focus-visible:ring-1',
-                  )}
-                >
-                  <span x-text="post.title" class="group-hover:text-emphasis motion-safe:transition-colors"></span>
-                  <Separator class="flex-1" />
-                  <div class="flex items-center text-xxs text-2">
-                    <time :datetime="post.published.iso" x-text="post.published.pretty"></time>
-                    <Dot class="shrink-0" size={14} aria-hidden />
-                    <span x-text="post.readingTime"></span>
-                  </div>
-                  <Separator class="mt-4 sm:hidden" />
-                </a>
-              </li>
-            </ul>
-          </template>
+          <PostResults results={postResults} />
           <div x-show="!results?.length" x-cloak class="mt-6 text-center [&[x-cloak]]:hidden">
             <h2 class="text-base font-bold tracking-wider">No Posts Found</h2>
             <p class="text-xs text-2">No posts matched the search criteria.</p>
