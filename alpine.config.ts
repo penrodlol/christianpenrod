@@ -1,6 +1,7 @@
 import type { Alpine } from 'alpinejs';
 
-type PagefindResults = { results: Array<{ data: () => Promise<{ meta: Record<string, unknown> }> }> };
+type PagefindResult = Record<string, unknown>;
+type PagefindResults = { results: Array<{ data: () => Promise<{ meta: PagefindResult }> }> };
 
 export default (Alpine: Alpine) => {
   Alpine.magic('fetch', () => async (...props: Parameters<typeof fetch>) => {
@@ -8,20 +9,23 @@ export default (Alpine: Alpine) => {
     return await fetch(...props).then((res) => res.json());
   });
 
-  Alpine.data('pagefind', (data: Array<Record<string, unknown>>, key: string) => ({
-    pagefind: import(/* @vite-ignore */ import.meta.env.PUBLIC_PAGEFIND_URL),
+  Alpine.data('pagefind', (data: Array<PagefindResult>, key: string) => ({
     query: null as string | null,
     tags: [],
     results: data,
-    init() {
+    async init() {
       this.$watch('query', () => this.execute());
       this.$watch('tags', () => this.execute());
+
+      if (window.Pagefind) return;
+      window.Pagefind = await import(String(/* @vite-ignore */ import.meta.env.PUBLIC_PAGEFIND_URL));
+      await window.Pagefind.init();
     },
     async execute() {
       if (!this.query?.trim()?.length && !this.tags?.length) this.results = data;
       else {
         const filters = { filters: { tag: { any: this.tags } } };
-        const { results }: PagefindResults = await (await this.pagefind).search(this.query, filters);
+        const { results }: PagefindResults = await window.Pagefind.search(this.query, filters);
         const payload = await Promise.all(results.map(async (result) => result.data()));
         this.results = payload.map((item) => data.find((result) => result[key] === item.meta[key])) as typeof data;
       }
