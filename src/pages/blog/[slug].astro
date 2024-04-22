@@ -48,7 +48,7 @@ const { remarkPluginFrontmatter: extras, headings, Content } = await post.render
           </div>
           <div class="flex items-center gap-2 rounded border bg-2 px-2">
             <Clock4 class="shrink-0" size={14} aria-hidden />
-            <span data-pagefind-meta="readingTime">{extras.readingTime} Min Read</span>
+            <span data-pagefind-meta="readingTime">{extras.readingTime}</span>
           </div>
           <div
             x-data={`{ views: $fetch("/blog/api", ${JSON.stringify({ method: 'PUT', body: { slug: post.slug } })})}`}
