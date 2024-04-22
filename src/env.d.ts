@@ -11,12 +11,14 @@ interface ImportMetaEnv {
   readonly TWITTER: string;
   readonly LINKEDIN: string;
   readonly EMAIL: string;
-  readonly PLANETSCALE_DB_HOST: string;
-  readonly PLANETSCALE_DB_USERNAME: string;
-  readonly PLANETSCALE_DB_PASSWORD: string;
   readonly PUBLIC_PAGEFIND_URL: string;
 }
 
 interface ImportMeta {
   readonly env: ImportMetaEnv;
+}
+
+interface Window {
+  Alpine: import('alpinejs').Alpine;
+  Pagefind: import('pagefind').Pagefind;
 }

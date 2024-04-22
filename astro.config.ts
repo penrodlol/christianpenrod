@@ -1,3 +1,4 @@
+import alpine from '@astrojs/alpinejs';
 import db from '@astrojs/db';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
@@ -22,7 +23,7 @@ export default defineConfig({
       () => (tree, vfile) => {
         const data = vfile.data as { astro: { frontmatter: Record<string, unknown> } };
         const payload = Math.round(readingTime(toString(tree)).minutes);
-        data.astro.frontmatter.readingTime = payload;
+        data.astro.frontmatter.readingTime = `${payload} Min Read`;
 
         visit(tree, 'element', (node) => {
           if (node.properties?.['data-rehype-pretty-code-title'] !== '') return;
@@ -36,6 +37,7 @@ export default defineConfig({
     tailwind(),
     mdx(),
     db(),
+    alpine({ entrypoint: '/alpine.config.ts' }),
     sitemap({ changefreq: 'daily', lastmod: new Date() }),
     robotsTxt({ host: true, policy: [{ userAgent: '*', disallow: ['/404'] }] }),
   ],

@@ -5,7 +5,7 @@ export const { getStaticPaths, GET } = OGImageRoute({
   pages: import.meta.glob('/src/content/posts/**/*.mdx', { eager: true }),
   getImageOptions: (_, post) => {
     const published = new Date(post.frontmatter.published).toDateString();
-    const readingTime = `${post.frontmatter.readingTime} Minute Read`;
+    const readingTime = `${post.frontmatter.readingTime}`;
 
     return {
       title: post.frontmatter.title,

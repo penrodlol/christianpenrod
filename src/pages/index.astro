@@ -11,7 +11,7 @@ import { ArrowRight } from 'lucide-astro';
 
 const projects = ['feedjoy', 'christianpenrod'];
 const posts = (await getCollection('posts'))
-  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
+  .sort((a, b) => b.data.published.date.valueOf() - a.data.published.date.valueOf())
   .slice(0, 3);
 ---
 

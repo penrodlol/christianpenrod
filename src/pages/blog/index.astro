@@ -1,20 +1,29 @@
 ---
 import PostCard from '@/components/post-card.astro';
-import PostLine from '@/components/post-line.astro';
+import PostResults from '@/components/post-results.astro';
 import Chip from '@/components/ui/chip.astro';
 import Command from '@/components/ui/command.astro';
 import Separator from '@/components/ui/separator.astro';
 import Textfield from '@/components/ui/textfield.astro';
 import Layout from '@/layouts/layout.astro';
 import { getCollection } from 'astro:content';
+import { PostView, db, sum } from 'astro:db';
 import { Dot, Search } from 'lucide-astro';
-import { GET as getTotalViews } from './api';
+
+export type PostResults = typeof postResults;
+
+const [rs] = await db.select({ views: sum(PostView.views) }).from(PostView);
+const views = Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 }).format(Number(rs?.views ?? 0));
 
 const _posts = await getCollection('posts');
-const posts = _posts.sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
-const topics = [...new Set(_posts.flatMap((post) => post.data.topics))].sort();
-// @ts-ignore
-const totalViews = await getTotalViews(Astro).then((res) => res.text());
+const posts = _posts.sort((a, b) => b.data.published.date.valueOf() - a.data.published.date.valueOf());
+const topics = [...new Set(posts.flatMap((post) => post.data.topics))].sort();
+const postResults = await Promise.all(
+  posts.map(async (post) => {
+    const { readingTime } = (await post.render()).remarkPluginFrontmatter;
+    return { title: post.data.title, published: post.data.published, slug: post.slug, readingTime };
+  }),
+);
 ---
 
 <Layout title="Blog | Christian Penrod">
@@ -25,33 +34,27 @@ const totalViews = await getTotalViews(Astro).then((res) => res.text());
     </section>
     <Separator class="mb-8 mt-4 lg:mb-12" />
     <div class="grid gap-20 lg:grid-cols-[1fr_30%]">
-      <section class="flex flex-col gap-6">
+      <section x-data={`pagefind(${JSON.stringify(postResults)}, "slug")`} class="flex flex-col gap-6">
         <div class="flex items-center gap-4">
           <h2 class="font-bold leading-none tracking-wider text-2">ALL POSTS</h2>
           <Separator class="flex-1" />
           <div class="flex items-center text-xxs text-2">
-            <span>{totalViews} Views</span>
+            <span>{views} Views</span>
             <Dot class="shrink-0" size={14} aria-hidden />
             <span>{posts.length} Posts</span>
           </div>
         </div>
-        <div class="flex flex-col gap-4 rounded border bg-2/30 p-4">
-          <Textfield data-post-filter-search placeholder="Search Posts" class="text-xs">
+        <div class="flex flex-col gap-4 rounded border bg-2/30 p-4 text-xs">
+          <Textfield placeholder="Search Posts" aria-label="Search Posts" x-model.debounce.200ms="query">
             <Search slot="prefix" size={12} aria-hidden />
-            <Command slot="suffix" key="/" selector="[data-post-filter-search]" />
+            <Command slot="suffix" key="/" @keyup.window.slash="$el.parentElement.previousElementSibling.focus()" />
           </Textfield>
           <!-- prettier-ignore -->
-          <ul data-post-filter-topics class="flex flex-wrap gap-2">
-            {topics.map((value) => <li><Chip aria-label={`${value} Filter`} {value}>{value}</Chip></li>)}
-          </ul>
+          <ul class="flex flex-wrap gap-2">{topics.map((value) => (<li><Chip {value} x-model="tags" /></li>))}</ul>
         </div>
         <div>
-          <ul data-searched-posts class="flex flex-col"></ul>
-          <!-- prettier-ignore -->
-          <ul data-static-posts class="flex flex-col">
-            {posts.map((post) => <li><PostLine {post} /></li>)}
-          </ul>
-          <div data-no-posts-found class="mt-6 hidden text-center">
+          <PostResults results={postResults} />
+          <div x-show="!results?.length" x-cloak class="mt-6 text-center [&[x-cloak]]:hidden">
             <h2 class="text-base font-bold tracking-wider">No Posts Found</h2>
             <p class="text-xs text-2">No posts matched the search criteria.</p>
           </div>
@@ -67,46 +70,3 @@ const totalViews = await getTotalViews(Astro).then((res) => res.text());
     </div>
   </div>
 </Layout>
-
-<script>
-  import { executeSearch, prepareSearch } from '@/libs/pagefind';
-
-  document.addEventListener('astro:page-load', () => prepareSearch(), { once: true });
-  document.addEventListener('astro:page-load', () => {
-    const activeTopics = new Set<string>();
-    const searchFilter = document.querySelector('[data-post-filter-search]') as HTMLInputElement;
-    const topicsFilter = document.querySelector('[data-post-filter-topics]') as HTMLUListElement;
-    const staticPosts = document.querySelector('[data-static-posts]') as HTMLUListElement;
-    const searchedPosts = document.querySelector('[data-searched-posts]') as HTMLUListElement;
-    const noPostsFound = document.querySelector('[data-no-posts-found]') as HTMLDivElement;
-    if (!searchFilter || !topicsFilter || !staticPosts || !searchedPosts || !noPostsFound) return;
-
-    searchFilter.oninput = async () => requestSearch();
-    topicsFilter.querySelectorAll('input').forEach((topic) => {
-      topic.onchange = async () => {
-        topic.checked ? activeTopics.add(topic.value) : activeTopics.delete(topic.value);
-        await requestSearch();
-      };
-    });
-
-    const requestSearch = async () => {
-      const payload = await executeSearch(searchFilter.value, Array.from(activeTopics));
-      searchedPosts.innerHTML = '';
-
-      if (payload.length) {
-        staticPosts.classList.add('hidden');
-        searchedPosts.classList.remove('hidden');
-        noPostsFound.classList.add('hidden');
-      } else {
-        searchedPosts.classList.add('hidden');
-        if (searchFilter.value.length || activeTopics.size) noPostsFound.classList.remove('hidden');
-        else staticPosts.classList.remove('hidden');
-      }
-
-      payload.forEach(({ raw_url, meta }) => {
-        const post = encodeURIComponent(JSON.stringify({ ...meta, url: raw_url }));
-        searchedPosts.innerHTML += `<li><post-line data-post="${post}"/></li>`;
-      });
-    };
-  });
-</script>

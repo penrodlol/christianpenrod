@@ -8,9 +8,7 @@ const { class: className, type, spellcheck, autocomplete, ...props } = Astro.pro
 ---
 
 <div class={twMerge('relative flex items-center justify-between rounded border bg-1', className)}>
-  <div class="absolute left-2 top-1/2 z-10 shrink-0 -translate-y-1/2 text-2/50">
-    <slot name="prefix" />
-  </div>
+  <div class="absolute left-2 top-1/2 z-10 shrink-0 -translate-y-1/2 text-2/50"><slot name="prefix" /></div>
   <input
     {...props}
     type={type ?? 'text'}
@@ -24,7 +22,5 @@ const { class: className, type, spellcheck, autocomplete, ...props } = Astro.pro
       Astro.slots.has('suffix') && 'pr-10',
     )}
   />
-  <div class="absolute right-2 top-1/2 z-10 shrink-0 -translate-y-1/2 text-2/50">
-    <slot name="suffix" />
-  </div>
+  <div class="absolute right-2 top-1/2 z-10 shrink-0 -translate-y-1/2 text-2/50"><slot name="suffix" /></div>
 </div>

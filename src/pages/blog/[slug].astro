@@ -4,20 +4,18 @@ import PostCard from '@/components/post-card.astro';
 import PostCode from '@/components/post-code.astro';
 import PostGithub from '@/components/post-github.astro';
 import PostSubheader from '@/components/post-subheader.astro';
-import PostViews from '@/components/post-views.astro';
 import Link from '@/components/ui/link.astro';
-import Moment from '@/components/ui/moment.astro';
 import Separator from '@/components/ui/separator.astro';
 import Layout from '@/layouts/layout.astro';
 import type { GetStaticPaths } from 'astro';
 import { Image } from 'astro:assets';
 import { getCollection, type CollectionEntry } from 'astro:content';
-import { Calendar, Clock4, Github, Linkedin, Mail, Rss, Twitter } from 'lucide-astro';
+import { Calendar, Clock4, Eye, Github, Linkedin, Mail, Rss, Twitter } from 'lucide-astro';
 
 export const getStaticPaths: GetStaticPaths = async () =>
   getCollection('posts').then((posts) =>
     posts
-      .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
+      .sort((a, b) => b.data.published.date.valueOf() - a.data.published.date.valueOf())
       .map((post, index, _posts) => {
         const prev = _posts[index + 1] ?? _posts[0];
         const next = _posts[index - 1] ?? _posts[_posts.length - 1];
@@ -39,18 +37,26 @@ const { remarkPluginFrontmatter: extras, headings, Content } = await post.render
 >
   <div class="mx-auto mt-fluid-5 max-w-screen-lg xl:grid xl:grid-cols-[1fr,17rem] xl:gap-16">
     <article data-pagefind-body class="mx-auto max-w-prose">
-      <div class="flex flex-col gap-3" data-pagefind-meta={`description:${post.data.description}`}>
+      <div class="flex flex-col gap-3" data-pagefind-meta={`slug:${post.slug}`}>
         <h1 class="text-lg font-bold uppercase tracking-widest">{post.data.title}</h1>
         <div class="flex flex-wrap items-center gap-4 text-xxs text-2">
           <div class="flex items-center gap-2 rounded border bg-2 px-2">
             <Calendar class="shrink-0" size={14} aria-hidden />
-            <Moment data-pagefind-meta="published">{post.data.published}</Moment>
+            <time data-pagefind-meta="published" datetime={post.data.published.iso}>
+              {post.data.published.pretty}
+            </time>
           </div>
           <div class="flex items-center gap-2 rounded border bg-2 px-2">
             <Clock4 class="shrink-0" size={14} aria-hidden />
             <span data-pagefind-meta="readingTime">{extras.readingTime} Min Read</span>
           </div>
-          <PostViews slug={post.slug} />
+          <div
+            x-data={`{ views: $fetch("/blog/api", ${JSON.stringify({ method: 'PUT', body: { slug: post.slug } })})}`}
+            class="flex items-center gap-2 rounded border bg-2 px-2 tracking-wider"
+          >
+            <Eye class="shrink-0" size={14} aria-hidden />
+            <span x-text="(await views)?.toString().padStart(6, '0')">000000</span>
+          </div>
         </div>
       </div>
       <Separator class="mb-4 mt-6 xl:mb-10" />
@@ -80,7 +86,7 @@ const { remarkPluginFrontmatter: extras, headings, Content } = await post.render
     </article>
     <h2 id="introduction" class="sr-only"></h2>
     <ul class="hidden">
-      {post.data.topics.map((topic) => <ul data-pagefind-filter="topics">{topic}</ul>)}
+      {post.data.topics.map((topic) => <ul data-pagefind-filter="tag">{topic}</ul>)}
     </ul>
     <aside class="sticky top-10 hidden h-max rounded border xl:block">
       <div class="flex flex-col gap-4 border-b p-4">

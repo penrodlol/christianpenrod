@@ -5,7 +5,7 @@ import Clipboard from './ui/clipboard.astro';
 import Link from './ui/link.astro';
 ---
 
-<details data-socials class="group relative">
+<details x-data class="group relative" @click.outside="$el.open && ($el.open = false)">
   <summary
     class={twJoin(
       'group peer flex cursor-pointer select-none list-none items-center gap-1 rounded',
@@ -38,10 +38,3 @@ import Link from './ui/link.astro';
     </ul>
   </div>
 </details>
-
-<script>
-  document.addEventListener('astro:page-load', () => {
-    const el = document.querySelector('[data-socials]') as HTMLDetailsElement;
-    document.addEventListener('click', (e) => !el.contains(e.target as Node) && (el.open = false));
-  });
-</script>
