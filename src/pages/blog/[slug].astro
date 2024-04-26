@@ -35,24 +35,24 @@ const { remarkPluginFrontmatter: extras, headings, Content } = await post.render
   description={post.data.description}
   og={`open-graph/src/content/posts/${post.slug}.png`}
 >
-  <div class="mx-auto mt-fluid-5 max-w-screen-lg xl:grid xl:grid-cols-[1fr,17rem] xl:gap-16">
+  <div class="mt-fluid-5 mx-auto max-w-screen-lg xl:grid xl:grid-cols-[1fr,17rem] xl:gap-16">
     <article data-pagefind-body class="mx-auto max-w-prose">
       <div class="flex flex-col gap-3" data-pagefind-meta={`slug:${post.slug}`}>
         <h1 class="text-lg font-bold uppercase tracking-widest">{post.data.title}</h1>
-        <div class="flex flex-wrap items-center gap-4 text-xxs text-2">
-          <div class="flex items-center gap-2 rounded border bg-2 px-2">
+        <div class="text-xxs text-2 flex flex-wrap items-center gap-4">
+          <div class="bg-2 flex items-center gap-2 rounded border px-2">
             <Calendar class="shrink-0" size={14} aria-hidden />
             <time data-pagefind-meta="published" datetime={post.data.published.iso}>
               {post.data.published.pretty}
             </time>
           </div>
-          <div class="flex items-center gap-2 rounded border bg-2 px-2">
+          <div class="bg-2 flex items-center gap-2 rounded border px-2">
             <Clock4 class="shrink-0" size={14} aria-hidden />
             <span data-pagefind-meta="readingTime">{extras.readingTime}</span>
           </div>
           <div
             x-data={`{ views: $fetch("/blog/api", ${JSON.stringify({ method: 'PUT', body: { slug: post.slug } })})}`}
-            class="flex items-center gap-2 rounded border bg-2 px-2 tracking-wider"
+            class="bg-2 flex items-center gap-2 rounded border px-2 tracking-wider"
           >
             <Eye class="shrink-0" size={14} aria-hidden />
             <span x-text="(await views)?.toString().padStart(6, '0')">000000</span>
@@ -103,7 +103,7 @@ const { remarkPluginFrontmatter: extras, headings, Content } = await post.render
         </div>
         <div class="text-xxs">
           <p class="font-bold tracking-wider">CHRISTIAN PENROD</p>
-          <p class="mb-2 text-2">Front-End Web Developer</p>
+          <p class="text-2 mb-2">Front-End Web Developer</p>
           <!-- prettier-ignore -->
           <ul class="flex text-2 [&_[data-external-icon]]:hidden [&_a]:!pr-2 [&_svg]:!w-3">
             <li><Link href={import.meta.env.GITHUB}><Github size={12} aria-label="Github" /></Link></li>
@@ -120,24 +120,24 @@ const { remarkPluginFrontmatter: extras, headings, Content } = await post.render
 
 <style is:global lang="sass">
   [data-content] a
-    @apply text-1
+    @apply text-foreground-1
 
   [data-content] p
-    @apply text-2
+    @apply text-foreground-2
 
   [data-content] blockquote
-    @apply rounded border bg-2 italic pr-4 pl-6 py-2 relative
+    @apply rounded border bg-surface-2 italic pr-4 pl-6 py-2 relative
   [data-content] blockquote::before
-    @apply bg-3 content-[""] rounded-l absolute w-3 border-r inset-y-0 left-0
+    @apply bg-surface-3 content-[""] rounded-l absolute w-3 border-r inset-y-0 left-0
 
   [data-content] ol
     @apply list-decimal list-inside
 
   [data-content] code:not([data-language])
-    @apply text-1 font-sans text-xxs border rounded px-1.5 py-0.5
+    @apply text-foreground-1 font-sans text-xs border rounded px-1.5 py-0.5
 
   [data-content] details
-    @apply bg-2 rounded border [&:not(:last-of-type)]:mb-3 px-4 py-1 text-xs
+    @apply bg-surface-2 rounded border [&:not(:last-of-type)]:mb-3 px-4 py-1 text-sm
   [data-content] details[open]
     @apply [&_summary]:mb-4 pb-4
   [data-content] summary

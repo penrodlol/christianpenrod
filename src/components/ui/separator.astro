@@ -1,21 +1,16 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
-import { twMerge } from 'tailwind-merge';
+import { tv, type VariantProps } from 'tailwind-variants';
 
-type BaseProps = Omit<HTMLAttributes<'div'>, 'role'>;
-type AdditionalProps = { orientation?: 'horizontal' | 'vertical' };
-type Props = BaseProps & AdditionalProps;
+const variants = tv({
+  base: 'shrink-0 rounded bg-[oklch(var(--border))]',
+  defaultVariants: { orientation: 'horizontal' },
+  variants: { orientation: { horizontal: 'h-px w-full', vertical: 'h-full w-px' } },
+});
 
-const { class: className, orientation = 'horizontal', ...props } = Astro.props;
+type Props = HTMLAttributes<'div'> & VariantProps<typeof variants>;
+
+const { class: className, orientation, ...props } = Astro.props;
 ---
 
-<div
-  {...props}
-  role="none"
-  class={twMerge(
-    'shrink-0 rounded bg-3',
-    orientation === 'horizontal' ? 'h-px w-full' : 'h-full w-px',
-    className,
-  )}
->
-</div>
+<div {...props} role="none" class={variants({ orientation, className })}></div>

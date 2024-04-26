@@ -2,12 +2,12 @@
 import Me from '@/assets/me.webp';
 import PostCard from '@/components/post-card.astro';
 import ProjectCard from '@/components/project-card.astro';
+import * as DescriptionList from '@/components/ui/description-list';
 import Link from '@/components/ui/link.astro';
-import Separator from '@/components/ui/separator.astro';
+import Text from '@/components/ui/text.astro';
 import Layout from '@/layouts/layout.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import { ArrowRight } from 'lucide-astro';
 
 const projects = ['feedjoy', 'christianpenrod'];
 const posts = (await getCollection('posts'))
@@ -15,56 +15,50 @@ const posts = (await getCollection('posts'))
   .slice(0, 3);
 ---
 
-<Layout>
-  <div class="mx-auto mt-fluid-5 flex max-w-lg flex-col gap-10 lg:max-w-screen-lg">
-    <section class="flex items-center gap-24">
-      <div class="hidden h-[280px] w-[280px] shrink-0 rounded border-2 lg:block [&_img]:rounded">
-        <Image src={Me} alt="Me" loading="eager" quality={100} width={2048} height={2048} />
-      </div>
-      <div>
-        <h1 class="text-3xl font-bold tracking-widest">CHRISTIAN PENROD</h1>
-        <p class="text-xl tracking-wider text-2">Front-End Web Developer</p>
-        <Separator class="my-3" />
-        <p class="mb-8 max-w-prose text-xs text-2">
-          Working on the web since 2018. I enjoy developing efficient web experiences through code
-          and design. I'm equally driven to sharing knowledge with others as well.
-        </p>
-        <ul class="flex flex-col gap-2 text-xxs">
-          <li class="flex items-center justify-between gap-2 px-2">
-            <span class="text-2">Location:</span><span>Pittsburgh, PA, USA</span>
-          </li>
-          <Separator />
-          <li class="flex items-center justify-between gap-2 px-2">
-            <span class="text-2">Occupation:</span>
-            <Link href={import.meta.env.JOB}>@McKesson Corporation</Link>
-          </li>
-          <Separator />
-          <li class="flex items-center justify-between gap-2 px-2">
-            <span class="text-2">Education:</span>
-            <Link href={import.meta.env.COLLEGE}>@LaRoche University</Link>
-          </li>
-          <Separator class="hidden lg:block" />
-        </ul>
-      </div>
-    </section>
-    <Separator />
-    <section class="flex flex-col gap-6">
-      <h2 class="font-bold leading-none tracking-wider text-2">PROJECTS</h2>
-      <!-- prettier-ignore -->
-      <ul class="grid lg:grid-cols-2 gap-x-10 gap-y-6">
-        {projects.map((project) => (<li><ProjectCard {project} /></li>))}
-      </ul>
-    </section>
-    <Separator />
-    <section class="flex flex-col gap-6">
-      <h2 class="font-bold leading-none tracking-wider text-2">RECENT POSTS</h2>
-      <!-- prettier-ignore -->
-      <ul class="gap-10 grid lg:grid-cols-3">
-        {posts.map((post) => (<li><PostCard {post} /></li>))}
-      </ul>
-      <Link href="/blog" class="mt-2 self-end text-xs text-2">
-        View All Posts <ArrowRight size={14} aria-hidden />
-      </Link>
-    </section>
-  </div>
+<Layout class="mx-auto flex w-full max-w-xl flex-col gap-20 lg:max-w-screen-lg">
+  <section class="flex items-center gap-24">
+    <div class="hidden size-[280px] shrink-0 rounded border-2 lg:block [&_img]:rounded">
+      <Image src={Me} alt="Me" loading="eager" quality={100} />
+    </div>
+    <div>
+      <Text as="h1" class="leading-none">CHRISTIAN PENROD</Text>
+      <Text as="h2" class="text-foreground-2">Front-End Web Developer</Text>
+      <Text as="p" class="mb-10 mt-4 text-foreground-2">
+        Working on the web since 2018. I enjoy developing efficient web experiences through code and design. I'm equally
+        driven to sharing knowledge with others.
+      </Text>
+      <DescriptionList.Root class="text-sm">
+        <DescriptionList.Item>
+          <DescriptionList.Key>Location</DescriptionList.Key>
+          <DescriptionList.Value>{import.meta.env.LOCATION}</DescriptionList.Value>
+        </DescriptionList.Item>
+        <DescriptionList.Item>
+          <DescriptionList.Key>Occupation</DescriptionList.Key>
+          <DescriptionList.Value>
+            <Link href={import.meta.env.JOB_LINK}>@{import.meta.env.JOB_NAME}</Link>
+          </DescriptionList.Value>
+        </DescriptionList.Item>
+        <DescriptionList.Item>
+          <DescriptionList.Key>Education</DescriptionList.Key>
+          <DescriptionList.Value>
+            <Link href={import.meta.env.COLLEGE_LINK}>@{import.meta.env.COLLEGE_NAME}</Link>
+          </DescriptionList.Value>
+        </DescriptionList.Item>
+      </DescriptionList.Root>
+    </div>
+  </section>
+  <section class="flex flex-col gap-6">
+    <Text as="h4" class="text-foreground-2">PROJECTS</Text>
+    <!-- prettier-ignore -->
+    <ul class="grid lg:grid-cols-2 gap-x-10 gap-y-6">
+      {projects.map((project) => <li><ProjectCard {project} /></li>)}
+    </ul>
+  </section>
+  <section class="flex flex-col gap-6">
+    <Text as="h4" class="text-foreground-2">RECENT POSTS</Text>
+    <!-- prettier-ignore -->
+    <ul class="gap-10 grid lg:grid-cols-3">
+      {posts.map((post) => <li><PostCard {post} /></li>)}
+    </ul>
+  </section>
 </Layout>

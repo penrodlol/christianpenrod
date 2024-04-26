@@ -1,0 +1,10 @@
+---
+import { type HTMLAttributes } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+
+type Props = HTMLAttributes<'li'>;
+
+const { class: className, ...props } = Astro.props;
+---
+
+<li {...props} x-id="['navigation-menu-dropdown']" class={twMerge('group relative', className)}><slot /></li>

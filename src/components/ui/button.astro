@@ -1,0 +1,23 @@
+---
+import { type HTMLAttributes } from 'astro/types';
+import { tv, type VariantProps } from 'tailwind-variants';
+
+export const buttonVariants = tv({
+  base: [
+    'inline-flex items-center justify-center gap-1 whitespace-nowrap rounded',
+    'disabled:opacity-50 disabled:cursor-not-allowed',
+    'motion-safe:transition-colors focus-visible:outline-none focus-visible:ring-1',
+  ],
+  defaultVariants: { color: 'ghost' },
+  variants: {
+    color: { ghost: 'bg-transparent enabled:hover:text-emphasis enabled:hover:bg-surface-3' },
+    size: { icon: 'size-8 [&_svg]:size-4' },
+  },
+});
+
+type Props = HTMLAttributes<'button'> & VariantProps<typeof buttonVariants>;
+
+const { class: className, color, size, ...props } = Astro.props;
+---
+
+<button {...props} class={buttonVariants({ color, size, className })}><slot /></button>

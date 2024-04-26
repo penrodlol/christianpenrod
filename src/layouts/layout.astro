@@ -1,24 +1,31 @@
 ---
 import favicon from '@/assets/favicon.webp';
 import ogDefault from '@/assets/og.webp';
-import Socials from '@/components/socials.astro';
+import Button, { buttonVariants } from '@/components/ui/button.astro';
 import Link from '@/components/ui/link.astro';
-import Separator from '@/components/ui/separator.astro';
-import '@fontsource/inter';
+import * as NavigationMenu from '@/components/ui/navigation-menu';
+import Text from '@/components/ui/text.astro';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/700.css';
+import { ThemeSwitch } from 'astro-color-scheme';
+import type { HTMLAttributes } from 'astro/types';
 import { ViewTransitions } from 'astro:transitions';
-import { Home } from 'lucide-astro';
-import { twJoin } from 'tailwind-merge';
+import { Github, Linkedin, MoonStar, Sun, Twitter } from 'lucide-astro';
+import { twMerge } from 'tailwind-merge';
 
-type Props = { title?: string; description?: string; og?: string };
+type Props = HTMLAttributes<'main'> & { title?: string; description?: string; og?: string };
 
 const {
   title = 'Christian Penrod | Front-End Web Developer',
   description = 'Developing for the web since 2015, based in Pittsburgh PA.',
   og = ogDefault.src,
+  class: className,
+  ...props
 } = Astro.props;
 ---
 
-<html lang="en" class="ml-[calc(100vw-100%)] scroll-pt-10 bg-2 bg-noise text-1 selection:bg-3">
+<html lang="en" class="ml-[calc(100vw-100%)] bg-surface-2 text-foreground-1 antialiased sm:p-4">
   <head>
     <title>{title}</title>
     <meta charset="utf-8" />
@@ -43,37 +50,34 @@ const {
     <link href={new URL(Astro.url.pathname, Astro.site)} rel="canonical" />
     <ViewTransitions />
   </head>
-  <body class="p-4 text-sm">
-    <div
-      class={twJoin(
-        'mx-auto flex min-h-[calc(100vh-2.125rem)] max-w-screen-xl',
-        'flex-col rounded border bg-1 px-fluid-4 py-4',
-      )}
-    >
-      <header class="flex items-center gap-4 text-xxs">
-        <Link href="/" aria-label="Home" class="rounded border bg-2 p-1 text-2">
-          <Home size={14} aria-hidden />
-        </Link>
-        <nav class="ml-auto">
-          <ul class="flex gap-4">
-            <li><Link href="/blog">Blog</Link></li>
-          </ul>
-        </nav>
-        <Socials />
-      </header>
-      <main class="mb-fluid-6 flex-1"><slot /></main>
-      <footer class="mx-auto w-full max-w-screen-lg">
-        <Separator />
-        <div class="flex justify-between px-2 pt-4 text-xxs text-2">
-          <p>©{new Date().getFullYear()} Christian Penrod - All Rights Reserved</p>
-          <nav>
-            <ul class="flex gap-4">
-              <li><Link href="/">Home</Link></li>
-              <li><Link href="/blog">Blog</Link></li>
-            </ul>
-          </nav>
-        </div>
-      </footer>
-    </div>
+  <body class="mx-auto flex min-h-[calc(100dvh-2rem)] max-w-screen-xl flex-col bg-surface-1 sm:rounded sm:border">
+    <header class="sticky top-1 flex h-12 w-full items-center rounded-t border-b bg-surface-1 px-4 text-sm">
+      <Link href="/" aria-label="Home" class={buttonVariants({ size: 'icon', class: 'mr-auto' })} />
+      <NavigationMenu.Root>
+        <NavigationMenu.Link href="/blog">Blog</NavigationMenu.Link>
+        <NavigationMenu.Dropdown>
+          <NavigationMenu.DropdownTrigger>Socials</NavigationMenu.DropdownTrigger>
+          <NavigationMenu.DropdownLinks class="[&_svg:first-child]:size-3.5 [&_svg:last-child]:ml-auto">
+            <NavigationMenu.Link href={import.meta.env.GITHUB}><Github /> Github</NavigationMenu.Link>
+            <NavigationMenu.Link href={import.meta.env.TWITTER}><Twitter /> Twitter/X</NavigationMenu.Link>
+            <NavigationMenu.Link href={import.meta.env.LINKEDIN}> <Linkedin />LinkedIn</NavigationMenu.Link>
+          </NavigationMenu.DropdownLinks>
+        </NavigationMenu.Dropdown>
+      </NavigationMenu.Root>
+      <ThemeSwitch strategy="button">
+        <Button size="icon" aria-label="Toggle theme">
+          <MoonStar class="hidden animate-in motion-safe:fade-in-0 motion-safe:zoom-in-50 dark:block" />
+          <Sun class="animate-in motion-safe:fade-in-0 motion-safe:zoom-in-50 dark:hidden" />
+        </Button>
+      </ThemeSwitch>
+    </header>
+    <main {...props} class={twMerge('flex-1 px-8 py-14', className)}><slot /></main>
+    <footer class="flex items-center justify-between gap-3 rounded-b border-t px-6 py-4 text-sm text-foreground-2">
+      <Text as="p">©{new Date().getFullYear()} Christian Penrod - All Rights Reserved</Text>
+      <NavigationMenu.Root>
+        <NavigationMenu.Link href="/">Home</NavigationMenu.Link>
+        <NavigationMenu.Link href="/blog" class="mr-2">Blog</NavigationMenu.Link>
+      </NavigationMenu.Root>
+    </footer>
   </body>
 </html>

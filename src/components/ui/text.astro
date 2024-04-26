@@ -1,0 +1,22 @@
+---
+import type { HTMLTag, Polymorphic } from 'astro/types';
+import { tv } from 'tailwind-variants';
+
+type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }>;
+
+const variants = tv({
+  variants: {
+    Tag: {
+      p: 'max-w-prose',
+      h1: 'text-xxl font-medium',
+      h2: 'text-xl font-medium',
+      h3: 'text-lg font-medium',
+      h4: 'text-md font-medium',
+    },
+  },
+});
+
+const { as: Tag = 'span', class: className, ...props } = Astro.props;
+---
+
+<Tag {...props} class={variants({ Tag, className })}><slot /></Tag>

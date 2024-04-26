@@ -1,0 +1,12 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+import Separator from '../../separator.astro';
+
+type Props = HTMLAttributes<'div'>;
+
+const { class: className, ...props } = Astro.props;
+---
+
+<div {...props} class={twMerge('flex items-center justify-between', className)}><slot /></div>
+<Separator class="my-2 last-of-type:mb-0" />

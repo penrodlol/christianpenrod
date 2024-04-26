@@ -5,8 +5,11 @@
 interface ImportMetaEnv {
   readonly GITHUB_TOKEN: string;
   readonly USERNAME: string;
-  readonly JOB: string;
-  readonly COLLEGE: string;
+  readonly LOCATION: string;
+  readonly JOB_NAME: string;
+  readonly JOB_LINK: string;
+  readonly COLLEGE_NAME: string;
+  readonly COLLEGE_LINK: string;
   readonly GITHUB: string;
   readonly TWITTER: string;
   readonly LINKEDIN: string;
