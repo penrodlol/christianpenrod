@@ -7,11 +7,14 @@ export default (Alpine: Alpine) => {
   });
 
   Alpine.data('partial', (url: string) => ({
+    loading: false,
     render() {
+      this.loading = true;
       const form = this.$root.querySelector('form') as HTMLFormElement;
       fetch(url, { method: 'POST', body: new FormData(form) }).then(async (response) => {
         const html = new DOMParser().parseFromString(await response.text(), 'text/html');
         const newHTML = html.querySelector('[data-partial-results]') as HTMLElement;
+        this.loading = false;
         this.$root.querySelector('[data-partial-results]')?.replaceWith(newHTML);
       });
     },

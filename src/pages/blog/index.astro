@@ -39,12 +39,12 @@ const topics = [...new Set(posts.flatMap((post) => post.data.topics))].sort();
         </div>
         <div x-data="partial('/blog/results')" class="flex flex-col gap-6">
           <form method="POST" class="flex flex-col gap-4 rounded border p-4 text-xs" @submit.prevent>
-            <Textfield name="query" placeholder="Search Posts" aria-label="Search Posts" @keyup.debounce.300="render">
+            <Textfield name="query" placeholder="Search Posts" aria-label="Search Posts" @keyup.debounce.300ms="render">
               <Search slot="prefix" aria-hidden class="size-3.5" />
               <Command slot="suffix" key="/" @keyup.window.slash="$el.parentElement.previousElementSibling.focus()" />
             </Textfield>
             <fieldset class="flex flex-wrap gap-2">
-              {topics.map((value) => <Chip name="tags" x-on.debounce.300:click="render" {value} />)}
+              {topics.map((value) => <Chip name="tags" x-on.debounce.300ms:click="render" {value} />)}
             </fieldset>
           </form>
           <PostsResults />

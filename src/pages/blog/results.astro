@@ -3,6 +3,7 @@ export const partial = true;
 export const prerender = false;
 
 import Separator from '@/components/ui/separator.astro';
+import Skeleton from '@/components/ui/skeleton.astro';
 import Text from '@/components/ui/text.astro';
 import { z } from 'astro/zod';
 import { getCollection } from 'astro:content';
@@ -32,7 +33,7 @@ if (Astro.request.method === 'POST') {
 ---
 
 <div data-partial-results>
-  <ul>
+  <ul x-show="!loading">
     {
       posts.map((post) => (
         <li>
@@ -56,6 +57,10 @@ if (Astro.request.method === 'POST') {
         </li>
       ))
     }
+  </ul>
+  <ul x-show="loading" x-cloak x-transition.delay.200ms class="flex flex-col [&[x-cloak]]:hidden">
+    <template x-for="_ in 6"><li><Skeleton class="my-2 h-10 sm:h-6" /></li></template>
+    <Separator class="mt-4 sm:hidden" />
   </ul>
   {
     !posts.length && (
