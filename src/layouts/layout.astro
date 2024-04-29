@@ -25,7 +25,7 @@ const {
 } = Astro.props;
 ---
 
-<html lang="en" class="ml-[calc(100vw-100%)] bg-surface-2 text-foreground-1 antialiased sm:p-4">
+<html lang="en" class="bg-2 text-1 ml-[calc(100vw-100%)] antialiased sm:p-4">
   <head>
     <title>{title}</title>
     <meta charset="utf-8" />
@@ -50,8 +50,8 @@ const {
     <link href={new URL(Astro.url.pathname, Astro.site)} rel="canonical" />
     <ViewTransitions />
   </head>
-  <body class="mx-auto flex min-h-[calc(100dvh-2rem)] max-w-screen-xl flex-col bg-surface-1 sm:rounded sm:border">
-    <header class="sticky top-1 flex h-12 w-full items-center rounded-t border-b bg-surface-1 px-4 text-sm">
+  <body class="bg-1 mx-auto flex min-h-[calc(100dvh-2rem)] max-w-screen-xl flex-col sm:rounded sm:border">
+    <header class="bg-1 sticky top-1 flex h-12 w-full items-center rounded-t border-b px-4 text-xs">
       <Link href="/" aria-label="Home" class={buttonVariants({ size: 'icon', class: 'mr-auto' })} />
       <NavigationMenu.Root>
         <NavigationMenu.Link href="/blog">Blog</NavigationMenu.Link>
@@ -71,8 +71,8 @@ const {
         </Button>
       </ThemeSwitch>
     </header>
-    <main {...props} class={twMerge('flex-1 px-8 py-14', className)}><slot /></main>
-    <footer class="flex items-center justify-between gap-3 rounded-b border-t px-6 py-4 text-sm text-foreground-2">
+    <main {...props} class={twMerge('flex-1 px-6 py-10 sm:px-8 sm:py-14', className)}><slot /></main>
+    <footer class="text-2 flex items-center justify-between gap-3 rounded-b border-t px-6 py-4 text-xs">
       <Text as="p">©{new Date().getFullYear()} Christian Penrod - All Rights Reserved</Text>
       <NavigationMenu.Root>
         <NavigationMenu.Link href="/">Home</NavigationMenu.Link>

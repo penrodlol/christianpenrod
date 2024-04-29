@@ -15,19 +15,16 @@ const posts = (await getCollection('posts'))
   .slice(0, 3);
 ---
 
-<Layout class="mx-auto flex w-full max-w-xl flex-col gap-20 lg:max-w-screen-lg">
+<Layout class="mx-auto flex w-full max-w-xl flex-col gap-14 lg:max-w-screen-lg lg:gap-20">
   <section class="flex items-center gap-24">
-    <div class="hidden size-[280px] shrink-0 rounded border-2 lg:block [&_img]:rounded">
-      <Image src={Me} alt="Me" loading="eager" quality={100} />
-    </div>
     <div>
       <Text as="h1" class="leading-none">CHRISTIAN PENROD</Text>
-      <Text as="h2" class="text-foreground-2">Front-End Web Developer</Text>
-      <Text as="p" class="mb-10 mt-4 text-foreground-2">
+      <Text as="h2" class="text-2">Front-End Web Developer</Text>
+      <Text as="p" class="text-2 mb-10 mt-4">
         Working on the web since 2018. I enjoy developing efficient web experiences through code and design. I'm equally
         driven to sharing knowledge with others.
       </Text>
-      <DescriptionList.Root class="text-sm">
+      <DescriptionList.Root class="text-xs">
         <DescriptionList.Item>
           <DescriptionList.Key>Location</DescriptionList.Key>
           <DescriptionList.Value>{import.meta.env.LOCATION}</DescriptionList.Value>
@@ -46,16 +43,19 @@ const posts = (await getCollection('posts'))
         </DescriptionList.Item>
       </DescriptionList.Root>
     </div>
+    <div class="hidden size-[320px] shrink-0 rounded border-2 lg:block [&_img]:rounded">
+      <Image src={Me} alt="Me" loading="eager" quality={100} />
+    </div>
   </section>
   <section class="flex flex-col gap-6">
-    <Text as="h4" class="text-foreground-2">PROJECTS</Text>
+    <Text as="h4" class="text-2">PROJECTS</Text>
     <!-- prettier-ignore -->
     <ul class="grid lg:grid-cols-2 gap-x-10 gap-y-6">
       {projects.map((project) => <li><ProjectCard {project} /></li>)}
     </ul>
   </section>
   <section class="flex flex-col gap-6">
-    <Text as="h4" class="text-foreground-2">RECENT POSTS</Text>
+    <Text as="h4" class="text-2">RECENT POSTS</Text>
     <!-- prettier-ignore -->
     <ul class="gap-10 grid lg:grid-cols-3">
       {posts.map((post) => <li><PostCard {post} /></li>)}

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build --remote && pagefind --site .vercel/output/static",
+    "build": "astro build --remote",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -14,7 +14,7 @@
     "@astrojs/db": "^0.10.2",
     "alpinejs": "^3.13.8",
     "astro": "^4.5.17",
-    "pagefind": "^1.1.0"
+    "fuse.js": "^7.0.0"
   },
   "devDependencies": {
     "@astrojs/alpinejs": "^0.4.0",
@@ -43,6 +43,7 @@
     "tailwind-variants": "^0.2.1",
     "tailwindcss": "^3.4.3",
     "tailwindcss-animate": "^1.0.7",
+    "tailwindcss-fluid-type": "^2.0.6",
     "unist-util-visit": "^5.0.0"
   }
 }

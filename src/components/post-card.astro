@@ -23,11 +23,11 @@ const { remarkPluginFrontmatter } = await post.render();
   <div class="h-14 rounded-t opacity-40 group-hover:opacity-60 motion-safe:transition-opacity">
     <Image src={post.data.cover} alt="Post Cover" loading="eager" class="rounded-t" />
   </div>
-  <div class="z-20 flex flex-1 flex-col gap-2 border-t bg-surface-1 p-4">
-    <Text class="group-hover:text-emphasis motion-safe:transition-colors">{post.data.title}</Text>
-    <Text as="p" class="flex-1 text-sm text-foreground-2">{post.data.description}</Text>
+  <div class="bg-1 z-20 flex flex-1 flex-col gap-2 border-t p-4">
+    <Text class="group-hover:text-brand font-medium motion-safe:transition-colors">{post.data.title}</Text>
+    <Text as="p" class="text-2 flex-1 text-xs">{post.data.description}</Text>
     <Separator class="my-1.5" />
-    <div class="flex justify-between gap-4 text-sm text-foreground-2">
+    <div class="text-2 flex justify-between gap-4 text-xs">
       <div class="flex items-center gap-2">
         <Calendar class="shrink-0" size={14} aria-hidden />
         <time datetime={post.data.published.iso}>{post.data.published.pretty}</time>

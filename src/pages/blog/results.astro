@@ -1,0 +1,70 @@
+---
+export const partial = true;
+export const prerender = false;
+
+import Separator from '@/components/ui/separator.astro';
+import Text from '@/components/ui/text.astro';
+import { z } from 'astro/zod';
+import { getCollection } from 'astro:content';
+import Fuse, { type Expression } from 'fuse.js';
+import { Dot } from 'lucide-astro';
+import { twJoin } from 'tailwind-merge';
+
+let posts = (await getCollection('posts'))
+  .map((post) => ({ ...post.data, slug: post.slug }))
+  .sort((a, b) => b.published.date.valueOf() - a.published.date.valueOf());
+
+if (Astro.request.method === 'POST') {
+  const formData = await Astro.request.formData();
+  const title = z.string().trim().parse(formData.get('query'));
+  const topics = z.array(z.string()).parse(formData.getAll('tags'));
+
+  const fuse = new Fuse(posts, { keys: ['title', 'topics'] });
+  const fuseExpression: Expression = { $and: [] };
+
+  if (title) fuseExpression.$and?.push({ title });
+  if (topics.length) fuseExpression.$and?.push({ $or: topics.map((topics) => ({ topics })) });
+  if (fuseExpression.$and?.length) {
+    const fuseResults = fuse.search(fuseExpression).map((result) => result.item);
+    posts = posts.filter((post) => fuseResults.includes(post));
+  }
+}
+---
+
+<div data-partial-results>
+  <ul>
+    {
+      posts.map((post) => (
+        <li>
+          <a
+            href={`/blog/${post.slug}`}
+            aria-label={post.title}
+            class={twJoin(
+              'group flex flex-col rounded py-2 text-xs sm:flex-row sm:items-center sm:justify-between sm:gap-2',
+              'focus-visible:outline-none focus-visible:ring-1',
+            )}
+          >
+            <Text class="group-hover:text-brand motion-safe:transition-colors">{post.title}</Text>
+            <Separator class="flex-1" />
+            <div class="flex items-center text-2">
+              <time datetime={post.published.iso}>{post.published.pretty}</time>
+              <Dot aria-hidden class="shrink-4 size-4" />
+              <Text>2 Min Read</Text>
+            </div>
+            <Separator class="mt-4 sm:hidden" />
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+  {
+    !posts.length && (
+      <div class="mx-auto mt-6 max-w-max text-center">
+        <Text as="h4">No Posts Found</Text>
+        <Text as="p" class="text-2 text-xs">
+          No posts matched the search criteria.
+        </Text>
+      </div>
+    )
+  }
+</div>

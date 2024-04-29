@@ -18,8 +18,8 @@ const { class: className, ...props } = Astro.props;
   @focusout="$el.ariaExpanded = false"
   class={twMerge(
     'flex items-center gap-2 rounded px-3 py-1.5',
-    'group-hover:text-emphasis group-focus-within:text-emphasis',
-    'group-focus-within:bg-surface-3 group-hover:bg-surface-3 motion-safe:transition-colors',
+    'group-hover:text-brand group-focus-within:text-brand',
+    'group-focus-within:bg-3 group-hover:bg-3 motion-safe:transition-colors',
     'group-focus-within:outline-none group-focus-within:ring-1',
     className,
   )}
