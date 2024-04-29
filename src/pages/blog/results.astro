@@ -58,7 +58,7 @@ if (Astro.request.method === 'POST') {
       ))
     }
   </ul>
-  <ul x-show="loading" x-cloak x-transition.delay.200ms class="flex flex-col [&[x-cloak]]:hidden">
+  <ul x-show="loading" x-cloak x-transition.delay.100ms class="flex flex-col [&[x-cloak]]:hidden">
     <template x-for="_ in 6"><li><Skeleton class="my-2 h-10 sm:h-6" /></li></template>
     <Separator class="mt-4 sm:hidden" />
   </ul>
