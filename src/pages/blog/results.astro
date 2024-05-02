@@ -2,31 +2,56 @@
 export const prerender = false;
 export const partial = true;
 
+import Separator from '@/components/ui/separator.astro';
+import Skeleton from '@/components/ui/skeleton.astro';
+import Text from '@/components/ui/text.astro';
 import { z } from 'astro/zod';
 import { getCollection } from 'astro:content';
 import { db, sql } from 'astro:db';
+import { Dot } from 'lucide-astro';
+import { twJoin } from 'tailwind-merge';
 
-const posts = await getCollection('posts');
+let posts = await getCollection('posts');
 
 if (Astro.request.method === 'POST') {
   const formData = await Astro.request.formData();
-  const term = z.string().safeParse(formData.get('query'));
+  const term = z.string().trim().min(1).safeParse(formData.get('query'));
 
   if (term.success) {
-    const payload = await db.run(sql`select title from PostSearch where title match ${term.data}`);
-    console.log(payload.rows); // FTS Seach with Astro DB!!!
+    const payload = await db.run(sql`select slug from PostSearch where content match ${term.data}`);
+    posts = posts.filter((post) => payload.rows.some((row) => row.slug === post.slug));
   }
 }
 ---
 
-<ul data-partial-results>
-  {
-    posts.map((post) => (
-      <li>
-        <a>
-          <span>{post.data.title}</span>
-        </a>
-      </li>
-    ))
-  }
-</ul>
+<div data-partial-results>
+  <ul x-show="!loading">
+    {
+      posts.map((post) => (
+        <li>
+          <a
+            href={`/blog/${post.slug}`}
+            aria-label={post.data.title}
+            class={twJoin([
+              'group flex flex-col rounded py-2 text-xs',
+              'sm:flex-row sm:items-center sm:justify-between sm:gap-2',
+              'focus-visible:outline-none focus-visible:ring-1',
+            ])}
+          >
+            <Text class="group-hover:text-brand motion-safe:transition-colors">{post.data.title}</Text>
+            <Separator class="flex-1" />
+            <div class="flex items-center text-2">
+              <time datetime={post.data.published.iso}>{post.data.published.pretty}</time>
+              <Dot aria-hidden class="shrink-4 size-4" />
+              <Text>2 Min Read</Text>
+            </div>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <div x-show="loading" x-cloak x-transition:enter.delay.100ms class="mt-1 flex flex-col gap-4 [&[x-cloak]]:hidden">
+    <template x-for="_ in 6"><Skeleton class="h-8 w-full" /></template>
+  </div>
+</div>

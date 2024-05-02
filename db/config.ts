@@ -5,6 +5,7 @@ const Post = defineTable({
     id: column.number({ primaryKey: true }),
     title: column.text(),
     description: column.text(),
+    slug: column.text({ unique: true }),
     content: column.text({ multiline: true }),
   },
 });

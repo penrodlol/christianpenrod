@@ -9,6 +9,7 @@ import Layout from '@/layouts/layout.astro';
 import { getCollection } from 'astro:content';
 import { PostView, db, sum } from 'astro:db';
 import { Dot, Search } from 'lucide-astro';
+import PostResults from './results.astro';
 
 const [rs] = await db.select({ views: sum(PostView.views) }).from(PostView);
 const views = Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 }).format(Number(rs?.views ?? 0));
@@ -44,6 +45,7 @@ const topics = [...new Set(posts.flatMap((post) => post.data.topics))].sort();
             </Textfield>
             <fieldset class="flex flex-wrap gap-2">{topics.map((value) => <Chip {value} />)}</fieldset>
           </form>
+          <PostResults />
         </div>
       </section>
       <section class="hidden flex-col gap-6 lg:flex">
