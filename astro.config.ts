@@ -10,7 +10,6 @@ import { toString } from 'mdast-util-to-string';
 import readingTime from 'reading-time';
 import rehypePrettyCode from 'rehype-pretty-code';
 import { createCssVariablesTheme } from 'shiki';
-import { visit } from 'unist-util-visit';
 
 export default defineConfig({
   site: 'https://christianpenrod.com',
@@ -24,12 +23,6 @@ export default defineConfig({
         const data = vfile.data as { astro: { frontmatter: Record<string, unknown> } };
         const payload = Math.round(readingTime(toString(tree)).minutes);
         data.astro.frontmatter.readingTime = `${payload} Min Read`;
-
-        visit(tree, 'element', (node) => {
-          if (node.properties?.['data-rehype-pretty-code-title'] !== '') return;
-          node.tagName = 'div';
-          node.properties.slot = 'title';
-        });
       },
     ],
   },

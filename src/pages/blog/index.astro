@@ -9,7 +9,6 @@ import Layout from '@/layouts/layout.astro';
 import { getCollection } from 'astro:content';
 import { PostView, db, sum } from 'astro:db';
 import { Dot, Search } from 'lucide-astro';
-import PostsResults from './results.astro';
 
 const [rs] = await db.select({ views: sum(PostView.views) }).from(PostView);
 const views = Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 }).format(Number(rs?.views ?? 0));
@@ -38,16 +37,13 @@ const topics = [...new Set(posts.flatMap((post) => post.data.topics))].sort();
           </div>
         </div>
         <div x-data="partial('/blog/results')" class="flex flex-col gap-6">
-          <form method="POST" class="flex flex-col gap-4 rounded border p-4 text-xs" @submit.prevent>
-            <Textfield name="query" placeholder="Search Posts" aria-label="Search Posts" @keyup.debounce.300ms="render">
+          <form method="post" class="flex flex-col gap-4 rounded border p-4 text-xs" @submit.prevent="submit">
+            <Textfield name="query" placeholder="Search Posts" aria-label="Search Posts">
               <Search slot="prefix" aria-hidden class="size-3.5" />
               <Command slot="suffix" key="/" @keyup.window.slash="$el.parentElement.previousElementSibling.focus()" />
             </Textfield>
-            <fieldset class="flex flex-wrap gap-2">
-              {topics.map((value) => <Chip name="tags" x-on.debounce.300ms:click="render" {value} />)}
-            </fieldset>
+            <fieldset class="flex flex-wrap gap-2">{topics.map((value) => <Chip {value} />)}</fieldset>
           </form>
-          <PostsResults />
         </div>
       </section>
       <section class="hidden flex-col gap-6 lg:flex">

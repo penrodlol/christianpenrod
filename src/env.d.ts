@@ -1,5 +1,6 @@
 /// <reference path="../.astro/db-types.d.ts" />
 /// <reference path="../.astro/types.d.ts" />
+/// <reference path="../.astro/db-search-types.d.ts" />
 /// <reference types="astro/client" />
 
 interface ImportMetaEnv {
@@ -23,5 +24,4 @@ interface ImportMeta {
 
 interface Window {
   Alpine: import('alpinejs').Alpine;
-  Pagefind: import('pagefind').Pagefind;
 }

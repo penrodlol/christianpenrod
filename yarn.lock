@@ -2107,6 +2107,11 @@ fill-range@^7.0.1:
   dependencies:
     to-regex-range "^5.0.1"
 
+filter-obj@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/filter-obj/-/filter-obj-5.1.0.tgz#5bd89676000a713d7db2e197f660274428e524ed"
+  integrity sha512-qWeTREPoT7I0bifpPUXtxkZJ1XJzxWtfoWWkdVGqa+eCr3SHW/Ocp89o8vLvbUuQnadybJpjOKu4V+RwO6sGng==
+
 find-up@^4.0.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/find-up/-/find-up-4.1.0.tgz#97afe7d6cdc0bc5928584b7c8d7b16e8a9aa5d19"
@@ -2135,6 +2140,16 @@ flattie@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/flattie/-/flattie-1.1.1.tgz#88182235723113667d36217fec55359275d6fe3d"
   integrity sha512-9UbaD6XdAL97+k/n+N7JwX46K/M6Zc6KcFYskrYL8wbBV/Uyk0CTAMY0VT+qiK5PM7AIc9aTWYtq65U7T+aCNQ==
+
+fluid-tailwind@^0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/fluid-tailwind/-/fluid-tailwind-0.1.6.tgz#19d4cb72bb47d7ff43371d22157fd85fabee9186"
+  integrity sha512-Utmkyljta6Yg6UwEpodXopI5UI/fbcSBYoZnIs5AJ09ndouf8wgLu3wWf8roMPgvfF/dzVAQfUKIbNyO6Vxf5A==
+  dependencies:
+    filter-obj "^5.1.0"
+    map-obj "^5.0.2"
+    picocolors "^1.0.0"
+    tailwindcss-priv "npm:tailwindcss@3.4.1"
 
 foreground-child@^3.1.0:
   version "3.1.1"
@@ -2191,11 +2206,6 @@ function-bind@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.2.tgz#2c02d864d97f3ea6c8830c464cbd11ab6eab7a1c"
   integrity sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==
-
-fuse.js@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/fuse.js/-/fuse.js-7.0.0.tgz#6573c9fcd4c8268e403b4fc7d7131ffcf99a9eb2"
-  integrity sha512-14F4hBIxqKvD4Zz/XjDc3y94mNZN6pRv3U13Udo0lNLCWRBUsrMv2xwcF/y/Z5sV6+FQW+/ow68cHpm4sunt8Q==
 
 gauge@^3.0.0:
   version "3.0.2"
@@ -2684,7 +2694,7 @@ jackspeak@^2.3.5:
   optionalDependencies:
     "@pkgjs/parseargs" "^0.11.0"
 
-jiti@^1.21.0:
+jiti@^1.19.1, jiti@^1.21.0:
   version "1.21.0"
   resolved "https://registry.yarnpkg.com/jiti/-/jiti-1.21.0.tgz#7c97f8fe045724e136a397f7340475244156105d"
   integrity sha512-gFqAIbuKyyso/3G2qhiO2OM6shY6EPP/R0+mkDbyspxKazh8BXDC5FiFsUjlczgdNz/vfra0da2y+aHrusLG/Q==
@@ -2844,6 +2854,11 @@ make-dir@^3.1.0:
   integrity sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==
   dependencies:
     semver "^6.0.0"
+
+map-obj@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-5.0.2.tgz#174ad9f7e5e4e777a219126d9a734ff3e14a1c68"
+  integrity sha512-K6K2NgKnTXimT3779/4KxSvobxOtMmx1LBZ3NwRxT/MDIR3Br/fQ4Q+WCX5QxjyUR8zg5+RV9Tbf2c5pAWTD2A==
 
 markdown-extensions@^2.0.0:
   version "2.0.0"
@@ -4616,6 +4631,34 @@ tailwindcss-fluid-type@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/tailwindcss-fluid-type/-/tailwindcss-fluid-type-2.0.6.tgz#766df99a7ab5984ddd896aeb5716eff6c8baf999"
   integrity sha512-52cOi3zDHWNChRbwlZ9r7UnY/1LGBFQA0enaFfy8zGrXuXuWSxZZFssrMBh717C9HjdBay7Qn3amH89VirsIsw==
+
+"tailwindcss-priv@npm:tailwindcss@3.4.1":
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-3.4.1.tgz#f512ca5d1dd4c9503c7d3d28a968f1ad8f5c839d"
+  integrity sha512-qAYmXRfk3ENzuPBakNK0SRrUDipP8NQnEY6772uDhflcQz5EhRdD7JNZxyrFHVQNCwULPBn6FNPp9brpO7ctcA==
+  dependencies:
+    "@alloc/quick-lru" "^5.2.0"
+    arg "^5.0.2"
+    chokidar "^3.5.3"
+    didyoumean "^1.2.2"
+    dlv "^1.1.3"
+    fast-glob "^3.3.0"
+    glob-parent "^6.0.2"
+    is-glob "^4.0.3"
+    jiti "^1.19.1"
+    lilconfig "^2.1.0"
+    micromatch "^4.0.5"
+    normalize-path "^3.0.0"
+    object-hash "^3.0.0"
+    picocolors "^1.0.0"
+    postcss "^8.4.23"
+    postcss-import "^15.1.0"
+    postcss-js "^4.0.1"
+    postcss-load-config "^4.0.1"
+    postcss-nested "^6.0.1"
+    postcss-selector-parser "^6.0.11"
+    resolve "^1.22.2"
+    sucrase "^3.32.0"
 
 tailwindcss@^3.4.3:
   version "3.4.3"
