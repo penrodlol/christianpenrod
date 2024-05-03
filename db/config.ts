@@ -1,15 +1,5 @@
 import { column, defineDb, defineTable } from 'astro:db';
 
-const Post = defineTable({
-  columns: {
-    id: column.number({ primaryKey: true }),
-    title: column.text(),
-    description: column.text(),
-    slug: column.text({ unique: true }),
-    content: column.text({ multiline: true }),
-  },
-});
-
 const PostView = defineTable({
   columns: {
     id: column.number({ primaryKey: true }),
@@ -18,4 +8,4 @@ const PostView = defineTable({
   },
 });
 
-export default defineDb({ tables: { Post, PostView } });
+export default defineDb({ tables: { PostView } });
