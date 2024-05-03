@@ -49,7 +49,7 @@ const { remarkPluginFrontmatter: extras, headings, Content } = await post.render
             <span>{extras.readingTime}</span>
           </div>
           <div
-            x-data={`{ views: $fetch("/blog/api", ${JSON.stringify({ method: 'PUT', body: { slug: post.slug } })})}`}
+            x-data={`{ views: $fetch("/blog/api/views", ${JSON.stringify({ method: 'PUT', body: { slug: post.slug } })})}`}
             class="flex items-center gap-2 rounded border bg-2 px-2 tracking-wider"
           >
             <Eye class="shrink-0" size={14} aria-hidden />
