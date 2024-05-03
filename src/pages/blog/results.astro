@@ -16,9 +16,12 @@ let posts = await getCollection('posts');
 if (Astro.request.method === 'POST') {
   const formData = await Astro.request.formData();
   const term = z.string().trim().min(1).safeParse(formData.get('query'));
+  const topics = z.array(z.string().trim().min(1)).min(1).safeParse(formData.getAll('topics'));
+
+  if (topics.success) posts = posts.filter((post) => post.data.topics.some((topic) => topics.data.includes(topic)));
 
   if (term.success) {
-    const payload = await db.run(sql`select slug from PostSearch where content match ${term.data}`);
+    const payload = await db.run(sql`select slug from PostSearch where body match ${term.data}`);
     posts = posts.filter((post) => payload.rows.some((row) => row.slug === post.slug));
   }
 }
