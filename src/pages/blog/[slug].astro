@@ -4,6 +4,7 @@ import PostCard from '@/components/post-card.astro';
 import PostCode from '@/components/post-code.astro';
 import PostGithub from '@/components/post-github.astro';
 import PostSubheader from '@/components/post-subheader.astro';
+import Date from '@/components/ui/date.astro';
 import Link from '@/components/ui/link.astro';
 import Separator from '@/components/ui/separator.astro';
 import Layout from '@/layouts/layout.astro';
@@ -15,7 +16,7 @@ import { Calendar, Clock4, Eye, Github, Linkedin, Mail, Rss, Twitter } from 'luc
 export const getStaticPaths: GetStaticPaths = async () =>
   getCollection('posts').then((posts) =>
     posts
-      .sort((a, b) => b.data.published.date.valueOf() - a.data.published.date.valueOf())
+      .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
       .map((post, index, _posts) => {
         const prev = _posts[index + 1] ?? _posts[0];
         const next = _posts[index - 1] ?? _posts[_posts.length - 1];
@@ -42,7 +43,7 @@ const { remarkPluginFrontmatter: extras, headings, Content } = await post.render
         <div class="text-xxs flex flex-wrap items-center gap-4 text-2">
           <div class="flex items-center gap-2 rounded border bg-2 px-2">
             <Calendar class="shrink-0" size={14} aria-hidden />
-            <time datetime={post.data.published.iso}>{post.data.published.pretty} </time>
+            <Date value={post.data.published} />
           </div>
           <div class="flex items-center gap-2 rounded border bg-2 px-2">
             <Clock4 class="shrink-0" size={14} aria-hidden />

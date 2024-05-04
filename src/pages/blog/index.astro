@@ -14,8 +14,7 @@ import PostResults from './results.astro';
 const [rs] = await db.select({ views: sum(PostView.views) }).from(PostView);
 const views = Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 }).format(Number(rs?.views ?? 0));
 
-const _posts = await getCollection('posts');
-const posts = _posts.sort((a, b) => b.data.published.date.valueOf() - a.data.published.date.valueOf());
+const posts = (await getCollection('posts')).sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 const topics = [...new Set(posts.flatMap((post) => post.data.topics))].sort();
 ---
 

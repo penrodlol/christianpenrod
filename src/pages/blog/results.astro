@@ -2,6 +2,7 @@
 export const prerender = false;
 export const partial = true;
 
+import Date from '@/components/ui/date.astro';
 import Separator from '@/components/ui/separator.astro';
 import Skeleton from '@/components/ui/skeleton.astro';
 import Text from '@/components/ui/text.astro';
@@ -44,9 +45,9 @@ if (Astro.request.method === 'POST') {
             <Text class="group-hover:text-brand motion-safe:transition-colors">{post.data.title}</Text>
             <Separator class="flex-1" />
             <div class="flex items-center text-2">
-              <time datetime={post.data.published.iso}>{post.data.published.pretty}</time>
+              <Date value={post.data.published} />
               <Dot aria-hidden class="shrink-4 size-4" />
-              <Text>2 Min Read</Text>
+              <Text>{post.render().then((data) => data.remarkPluginFrontmatter.readingTime)}</Text>
             </div>
           </a>
         </li>
