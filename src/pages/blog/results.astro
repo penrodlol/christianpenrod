@@ -32,6 +32,8 @@ if (Astro.request.method === 'POST') {
     posts = posts.filter((post) => payload.rows.some((row) => row.slug === post.slug));
   }
 }
+
+console.log(posts[0]?.glob);
 ---
 
 <div data-partial-results>
