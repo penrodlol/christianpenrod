@@ -2,14 +2,16 @@
 export const prerender = false;
 export const partial = true;
 
+import Button from '@/components/ui/button.astro';
 import Date from '@/components/ui/date.astro';
+import If from '@/components/ui/if.astro';
 import Separator from '@/components/ui/separator.astro';
 import Skeleton from '@/components/ui/skeleton.astro';
 import Text from '@/components/ui/text.astro';
 import { z } from 'astro/zod';
 import { getCollection } from 'astro:content';
 import { db, sql } from 'astro:db';
-import { Dot } from 'lucide-astro';
+import { Dot, RefreshCw } from 'lucide-astro';
 import { twJoin } from 'tailwind-merge';
 
 let posts = (await getCollection('posts')).sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
@@ -59,12 +61,19 @@ if (Astro.request.method === 'POST') {
     <template x-for="_ in 6"><Skeleton class="h-8 w-full" /></template>
   </div>
 
-  {
-    !posts.length && (
-      <div x-show="!loading" x-cloak class="mt-6 text-center [&[x-cloak]]:hidden">
-        <h2 class="font-bold tracking-wider text-base">No Posts Found</h2>
-        <p class="text-2 text-xs">No posts matched the search criteria.</p>
+  <If condition={!posts.length}>
+    <div x-show="!loading" x-cloak class="mx-auto mt-6 max-w-max text-center text-xs [&[x-cloak]]:hidden">
+      <div x-show="failed">
+        <Text as="h3">Failed to Load Posts</Text>
+        <Text as="p">An error occurred while fetching posts.</Text>
       </div>
-    )
-  }
+      <div x-show="!failed">
+        <Text as="h3">No Posts Found</Text>
+        <Text as="p">No posts matched the search criteria.</Text>
+      </div>
+      <Button class="group mt-6" @click="$root.querySelector('form')?.reset(); submit()">
+        <RefreshCw aria-hidden class="size-3 group-hover:rotate-180 motion-safe:transition-transform" /> Reset Filters
+      </Button>
+    </div>
+  </If>
 </div>

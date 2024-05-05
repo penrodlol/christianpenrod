@@ -50,11 +50,15 @@ const posts = (await getCollection('posts'))
   <section class="flex flex-col gap-6">
     <Text as="h4" class="text-2">PROJECTS</Text>
     <!-- prettier-ignore -->
-    <ul class="grid lg:grid-cols-2 gap-x-10 gap-y-6">{projects.map((project) => <li><ProjectCard {project} /></li>)}</ul>
+    <ul class="grid lg:grid-cols-2 gap-x-10 gap-y-6">
+      {projects.map((project) => <li><ProjectCard {project} /></li>)}
+    </ul>
   </section>
   <section class="flex flex-col gap-6">
     <Text as="h4" class="text-2">RECENT POSTS</Text>
     <!-- prettier-ignore -->
-    <ul class="gap-10 grid lg:grid-cols-3">{posts.map((post) => <li><PostCard {post} /></li>)}</ul>
+    <ul class="gap-10 grid lg:grid-cols-3">
+      {posts.map((post) => <li><PostCard {post} /></li>)}
+    </ul>
   </section>
 </Layout>
