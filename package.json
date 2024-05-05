@@ -28,7 +28,6 @@
     "astro-color-scheme": "^1.1.2",
     "astro-og-canvas": "^0.4.2",
     "astro-robots-txt": "^1.0.0",
-    "fluid-tailwind": "^0.1.6",
     "lucide-astro": "^0.366.0",
     "mdast-util-to-string": "^4.0.0",
     "prettier": "3.2.5",
@@ -43,7 +42,6 @@
     "tailwind-variants": "^0.2.1",
     "tailwindcss": "^3.4.3",
     "tailwindcss-animate": "^1.0.7",
-    "tailwindcss-fluid-type": "^2.0.6",
-    "unist-util-visit": "^5.0.0"
+    "tailwindcss-fluid-type": "^2.0.6"
   }
 }
