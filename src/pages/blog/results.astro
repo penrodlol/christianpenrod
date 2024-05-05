@@ -12,7 +12,7 @@ import { db, sql } from 'astro:db';
 import { Dot } from 'lucide-astro';
 import { twJoin } from 'tailwind-merge';
 
-let posts = await getCollection('posts');
+let posts = (await getCollection('posts')).sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 
 if (Astro.request.method === 'POST') {
   const formData = await Astro.request.formData();
