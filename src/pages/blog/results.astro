@@ -27,9 +27,6 @@ if (Astro.request.method === 'POST') {
     const payload = await db.run(sql`select slug from PostSearch where body match ${term.data}`);
     posts = posts.filter((post) => payload.rows.some((row) => row.slug === post.slug));
   }
-
-  const _posts = import.meta.glob('/src/content/posts/**/*.mdx', { eager: true });
-  console.log((Object.values(_posts)[0] as any)?.frontmatter?.readingTime);
 }
 ---
 
