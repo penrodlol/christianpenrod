@@ -58,4 +58,13 @@ if (Astro.request.method === 'POST') {
   <div x-show="loading" x-cloak x-transition:enter.delay.100ms class="mt-1 flex flex-col gap-4 [&[x-cloak]]:hidden">
     <template x-for="_ in 6"><Skeleton class="h-8 w-full" /></template>
   </div>
+
+  {
+    !posts.length && (
+      <div x-show="!loading" x-cloak class="mt-6 text-center [&[x-cloak]]:hidden">
+        <h2 class="font-bold tracking-wider text-base">No Posts Found</h2>
+        <p class="text-2 text-xs">No posts matched the search criteria.</p>
+      </div>
+    )
+  }
 </div>
