@@ -14,7 +14,7 @@ import { db, sql } from 'astro:db';
 import { Dot, RefreshCw } from 'lucide-astro';
 import { twJoin } from 'tailwind-merge';
 
-await Astro.glob('/src/content/posts/**/*.mdx'); // Needed to get 'render' working.
+import.meta.glob('/src/content/posts/**/*.mdx', { eager: true });
 
 let posts = (await getCollection('posts')).sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 
