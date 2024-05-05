@@ -14,11 +14,9 @@ import { db, sql } from 'astro:db';
 import { Dot, RefreshCw } from 'lucide-astro';
 import { twJoin } from 'tailwind-merge';
 
-const globs = await Astro.glob('/src/content/posts/**/*.mdx');
+await Astro.glob('/src/content/posts/**/*.mdx'); // Needed to get 'render' working.
 
-let posts = (await getCollection('posts'))
-  .map((post) => ({ ...post, glob: globs.find((glob) => glob.url?.includes(post.slug)) }))
-  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+let posts = (await getCollection('posts')).sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 
 if (Astro.request.method === 'POST') {
   const formData = await Astro.request.formData();
@@ -32,8 +30,6 @@ if (Astro.request.method === 'POST') {
     posts = posts.filter((post) => payload.rows.some((row) => row.slug === post.slug));
   }
 }
-
-console.log(posts[0]?.glob);
 ---
 
 <div data-partial-results>
@@ -55,7 +51,7 @@ console.log(posts[0]?.glob);
             <div class="flex items-center text-2">
               <Date value={post.data.published} />
               <Dot aria-hidden class="shrink-4 size-4" />
-              <Text>{post.glob?.frontmatter.readingTime}</Text>
+              <Text>{post.render().then((data) => data.remarkPluginFrontmatter.readingTime)}</Text>
             </div>
           </a>
         </li>
