@@ -11,7 +11,7 @@ import '@fontsource/inter/700.css';
 import { ThemeSwitch } from 'astro-color-scheme';
 import type { HTMLAttributes } from 'astro/types';
 import { ViewTransitions } from 'astro:transitions';
-import { Github, Linkedin, MoonStar, Sun, Twitter } from 'lucide-astro';
+import { Github, Home, Linkedin, MoonStar, Sun, Twitter } from 'lucide-astro';
 import { twMerge } from 'tailwind-merge';
 
 type Props = HTMLAttributes<'main'> & { title?: string; description?: string; og?: string };
@@ -52,7 +52,9 @@ const {
   </head>
   <body class="mx-auto flex min-h-[calc(100dvh-2rem)] max-w-screen-xl flex-col bg-1 sm:rounded sm:border">
     <header class="sticky top-1 flex h-12 w-full items-center rounded-t border-b bg-1 px-4 text-xs">
-      <Link href="/" aria-label="Home" class={buttonVariants({ color: 'ghost', size: 'icon', class: 'mr-auto' })} />
+      <Link href="/" aria-label="Home" class={buttonVariants({ color: 'ghost', size: 'icon', class: 'mr-auto' })}>
+        <Home class="size-3.5" />
+      </Link>
       <NavigationMenu.Root>
         <NavigationMenu.Link href="/blog">Blog</NavigationMenu.Link>
         <NavigationMenu.Dropdown>
