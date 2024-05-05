@@ -9,7 +9,7 @@ import Separator from '@/components/ui/separator.astro';
 import Skeleton from '@/components/ui/skeleton.astro';
 import Text from '@/components/ui/text.astro';
 import { z } from 'astro/zod';
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import { db, sql } from 'astro:db';
 import { Dot, RefreshCw } from 'lucide-astro';
 import { twJoin } from 'tailwind-merge';
@@ -27,6 +27,9 @@ if (Astro.request.method === 'POST') {
     const payload = await db.run(sql`select slug from PostSearch where body match ${term.data}`);
     posts = posts.filter((post) => payload.rows.some((row) => row.slug === post.slug));
   }
+
+  const post = await getEntry('posts', 'astro-shiki-syntax-highlighting-with-css-variables');
+  console.log(await post.render());
 }
 ---
 
