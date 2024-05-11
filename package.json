@@ -29,6 +29,7 @@
     "astro-og-canvas": "^0.4.2",
     "astro-robots-txt": "^1.0.0",
     "lucide-astro": "^0.366.0",
+    "mdast-util-from-markdown": "^2.0.0",
     "mdast-util-to-string": "^4.0.0",
     "prettier": "3.2.5",
     "prettier-plugin-astro": "0.13.0",
