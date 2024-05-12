@@ -15,11 +15,11 @@ const external = href?.toString().startsWith('https://');
   target={external ? '_blank' : target}
   rel={external ? 'nofollow noopener noreferrer' : rel}
   class={twMerge(
-    'inline-flex items-center gap-1 rounded motion-safe:transition-colors',
+    'inline-flex items-center justify-center gap-1 rounded motion-safe:transition-colors',
     'hover:text-brand focus-visible:outline-none focus-visible:ring-1',
     className,
   )}
 >
   <slot />
-  {external && <ArrowUpRight aria-hidden class="text-2 size-3" />}
+  {external && <ArrowUpRight aria-hidden class="size-3 text-2" />}
 </a>

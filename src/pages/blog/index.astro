@@ -18,46 +18,44 @@ const posts = (await getCollection('posts')).sort((a, b) => b.data.published.val
 const topics = [...new Set(posts.flatMap((post) => post.data.topics))].sort();
 ---
 
-<Layout title="Blog | Christian Penrod">
-  <div class="mx-auto max-w-xl lg:max-w-screen-lg">
-    <section>
-      <Text as="h1">BLOG POSTS</Text>
-      <Text as="p" class="text-2">Explore various sofware-related posts.</Text>
+<Layout title="Blog | Christian Penrod" class="mx-auto max-w-xl lg:max-w-screen-xl lg:px-20">
+  <section>
+    <Text as="h1">BLOG POSTS</Text>
+    <Text as="p" class="text-2">Explore various sofware-related posts.</Text>
+  </section>
+  <Separator class="mb-8 mt-4 lg:mb-12" />
+  <div class="grid gap-20 lg:grid-cols-[1fr_30%]">
+    <section class="flex flex-col gap-6">
+      <div class="flex items-center gap-4">
+        <Text as="h4" class="text-2">ALL POSTS</Text>
+        <Separator class="flex-1" />
+        <div class="flex items-center text-2 text-xs">
+          <Text>{views} Views</Text>
+          <Dot aria-hidden class="size-4 shrink-0" />
+          <Text>{posts.length} Posts</Text>
+        </div>
+      </div>
+      <div x-data="partial('/blog/results')" class="flex flex-col gap-6">
+        <form
+          method="post"
+          class="flex flex-col gap-4 rounded border p-4 text-xs"
+          @submit.prevent="!loading && submission.get('query')?.trim() !== $el.query.value?.trim() && submit()"
+        >
+          <Textfield name="query" placeholder="Search Posts" aria-label="Search Posts">
+            <Search slot="prefix" aria-hidden class="size-3.5" />
+            <Command slot="suffix" key="/" @keyup.window.slash="$el.parentElement.previousElementSibling.focus()" />
+          </Textfield>
+          <fieldset class="flex flex-wrap gap-2">
+            {topics.map((value) => <Chip name="topics" x-on:click="submit" {value} />)}
+          </fieldset>
+        </form>
+        <PostResults />
+      </div>
     </section>
-    <Separator class="mb-8 mt-4 lg:mb-12" />
-    <div class="grid gap-20 lg:grid-cols-[1fr_30%]">
-      <section class="flex flex-col gap-6">
-        <div class="flex items-center gap-4">
-          <Text as="h4" class="text-2">ALL POSTS</Text>
-          <Separator class="flex-1" />
-          <div class="flex items-center text-2 text-xs">
-            <Text>{views} Views</Text>
-            <Dot aria-hidden class="size-4 shrink-0" />
-            <Text>{posts.length} Posts</Text>
-          </div>
-        </div>
-        <div x-data="partial('/blog/results')" class="flex flex-col gap-6">
-          <form
-            method="post"
-            class="flex flex-col gap-4 rounded border p-4 text-xs"
-            @submit.prevent="!loading && submission.get('query')?.trim() !== $el.query.value?.trim() && submit()"
-          >
-            <Textfield name="query" placeholder="Search Posts" aria-label="Search Posts">
-              <Search slot="prefix" aria-hidden class="size-3.5" />
-              <Command slot="suffix" key="/" @keyup.window.slash="$el.parentElement.previousElementSibling.focus()" />
-            </Textfield>
-            <fieldset class="flex flex-wrap gap-2">
-              {topics.map((value) => <Chip name="topics" x-on:click="submit" {value} />)}
-            </fieldset>
-          </form>
-          <PostResults />
-        </div>
-      </section>
-      <section class="hidden flex-col gap-6 lg:flex">
-        <Text as="h4" class="text-2">RECENT POSTS</Text>
-        <!-- prettier-ignore -->
-        <ul class="flex flex-col gap-6">{posts.slice(0, 3).map((post) => <li><PostCard {post} /></li>)}</ul>
-      </section>
-    </div>
+    <section class="hidden flex-col gap-6 lg:flex">
+      <Text as="h4" class="text-2">RECENT POSTS</Text>
+      <!-- prettier-ignore -->
+      <ul class="flex flex-col gap-6">{posts.slice(0, 3).map((post) => <li><PostCard {post} /></li>)}</ul>
+    </section>
   </div>
 </Layout>

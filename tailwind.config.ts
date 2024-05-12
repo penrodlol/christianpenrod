@@ -38,6 +38,7 @@ export default {
           '--border': '30% 0 0',
           '--ring': '40% 0 0',
 
+          '--shiki-font-size': '0.85rem',
           '--shiki-color-text': 'oklch(92% 0.012 276.09)',
           '--shiki-color-background': 'oklch(0% 0 0)',
           '--shiki-token-constant': 'oklch(67.31% 0 0)',
@@ -48,6 +49,11 @@ export default {
           '--shiki-token-function': 'oklch(100% 0 0)',
           '--shiki-token-string-expression': 'oklch(76.68% 0 0)',
           '--shiki-token-punctuation': 'oklch(100% 0 0)',
+
+          '--scrollbar-thumb': 'oklch(var(--bg-3))',
+          '--scrollbar-thumb-radius': '0.25rem',
+          '--scrollbar-track-radius': '0.25rem',
+          '--scrollbar-track': 'transparent',
         },
       });
     }),

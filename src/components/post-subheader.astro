@@ -2,6 +2,7 @@
 import { Link } from 'lucide-astro';
 import { twJoin } from 'tailwind-merge';
 import Separator from './ui/separator.astro';
+import Text from './ui/text.astro';
 
 const slot = await Astro.slots.render('default');
 const hash = slot.toLowerCase().replace(/ /g, '-');
@@ -12,21 +13,14 @@ const hash = slot.toLowerCase().replace(/ /g, '-');
     id={hash}
     href={`#${hash}`}
     class={twJoin(
-      'group max-w-max rounded text-base motion-safe:transition-colors',
-      'hover:text-emphasis focus-visible:outline-none focus-visible:ring-2',
+      'group max-w-max rounded hover:text-brand',
+      'focus-visible:outline-none focus-visible:ring motion-safe:transition-colors',
     )}
   >
-    <h2 class="flex items-center gap-1 uppercase tracking-wider">
+    <Text as="h2" class="flex items-center gap-2 uppercase text-lg">
       {slot}
-      <Link
-        size={14}
-        aria-hidden
-        class={twJoin(
-          'opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100',
-          'motion-safe:transition-opacity',
-        )}
-      />
-    </h2>
+      <Link class="hidden size-4 animate-in group-hover:block motion-safe:fade-in-0 motion-safe:zoom-in-75" />
+    </Text>
   </a>
   <Separator />
 </div>

@@ -16,7 +16,7 @@ const variants = tv({
   },
 });
 
-const { as: Tag = 'span', class: className, ...props } = Astro.props;
+const { as: Tag = 'p', class: className, ...props } = Astro.props;
 ---
 
 <Tag {...props} class={variants({ Tag, className })}><slot /></Tag>

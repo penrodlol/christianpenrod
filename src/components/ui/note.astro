@@ -1,0 +1,21 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { Info } from 'lucide-astro';
+import { twMerge } from 'tailwind-merge';
+
+type Props = HTMLAttributes<'aside'>;
+
+const id = crypto.randomUUID();
+const { class: className, ...props } = Astro.props;
+---
+
+<aside
+  {...props}
+  aria-labelledby={id}
+  class={twMerge('flex items-start gap-2 rounded border border-l-8 bg-2 px-4 py-3 text-xs', className)}
+>
+  <h4 {id} aria-label="Note" class="peer flex items-center gap-2">
+    <Info class="size-4 shrink-0 translate-y-1 text-2" aria-hidden />
+  </h4>
+  <section><slot /></section>
+</aside>

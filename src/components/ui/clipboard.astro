@@ -11,16 +11,17 @@ const { class: className, 'aria-label': ariaLabel, content, target, ...props } =
 <button
   {...props}
   x-data="{ copied: false }"
+  x-cloak
   aria-label={ariaLabel ?? 'Copy to clipboard'}
   @click={`navigator.clipboard.writeText(${target} ? ${target}?.textContent?.trim() : "${content}").then(() => copied = true)`}
   @mouseleave.debounce.1000ms="copied && (copied = false)"
   class={twMerge(
-    'group flex select-none items-center gap-2 rounded hover:text-emphasis',
-    'focus-visible:outline-none focus-visible:ring-2 motion-safe:transition-colors',
+    'group flex select-none items-center gap-2 rounded p-2 hover:bg-3 hover:text-brand [&[x-cloak]]:hidden',
+    'focus-visible:outline-none focus-visible:ring motion-safe:transition-colors',
     className,
   )}
 >
   <slot />
-  <ClipboardIcon size={14} aria-hidden x-show="!copied" />
-  <Check size={14} aria-hidden x-show="copied" />
+  <ClipboardIcon class="size-3.5 animate-in zoom-in-0" aria-hidden x-show="!copied" />
+  <Check class="size-3.5 animate-in zoom-in-0" aria-hidden x-show="copied" />
 </button>

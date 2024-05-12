@@ -25,7 +25,7 @@ const {
 } = Astro.props;
 ---
 
-<html lang="en" class="ml-[calc(100vw-100%)] bg-2 text-1 antialiased sm:p-4">
+<html lang="en" class="ml-[calc(100vw-100%)] bg-2 text-1 antialiased scrollbar-thin sm:p-4">
   <head>
     <title>{title}</title>
     <meta charset="utf-8" />
@@ -51,7 +51,7 @@ const {
     <ViewTransitions />
   </head>
   <body class="mx-auto flex min-h-[calc(100dvh-2rem)] max-w-screen-xl flex-col bg-1 sm:rounded sm:border">
-    <header class="sticky top-1 flex h-12 w-full items-center rounded-t border-b bg-1 px-4 text-xs">
+    <header class="sticky top-0 z-50 flex h-12 w-full items-center rounded-t border-b bg-1 px-4 text-xs">
       <Link href="/" aria-label="Home" class={buttonVariants({ color: 'ghost', size: 'icon', class: 'mr-auto' })}>
         <Home class="size-3.5" />
       </Link>

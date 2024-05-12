@@ -1,0 +1,7 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = HTMLAttributes<'nav'>;
+---
+
+<nav {...Astro.props}><slot /></nav>
