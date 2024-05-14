@@ -2,8 +2,10 @@
 import favicon from '@/assets/favicon.webp';
 import ogDefault from '@/assets/og.webp';
 import Button, { buttonVariants } from '@/components/ui/button.astro';
+import Clipboard from '@/components/ui/clipboard.astro';
 import Link from '@/components/ui/link.astro';
 import * as NavigationMenu from '@/components/ui/navigation-menu';
+import Separator from '@/components/ui/separator.astro';
 import Text from '@/components/ui/text.astro';
 import '@fontsource/inter/400.css';
 import '@fontsource/inter/500.css';
@@ -63,6 +65,10 @@ const {
             <NavigationMenu.Link href={import.meta.env.GITHUB}><Github /> Github</NavigationMenu.Link>
             <NavigationMenu.Link href={import.meta.env.TWITTER}><Twitter /> Twitter/X</NavigationMenu.Link>
             <NavigationMenu.Link href={import.meta.env.LINKEDIN}> <Linkedin />LinkedIn</NavigationMenu.Link>
+            <Separator />
+            <NavigationMenu.Link href={`mailto:${import.meta.env.EMAIL}`} class="p-0 *:w-full" @click.prevent>
+              <Clipboard content={import.meta.env.EMAIL}>Copy Email</Clipboard>
+            </NavigationMenu.Link>
           </NavigationMenu.DropdownLinks>
         </NavigationMenu.Dropdown>
       </NavigationMenu.Root>

@@ -16,8 +16,8 @@ const { class: className, 'aria-label': ariaLabel, content, target, ...props } =
   @click={`navigator.clipboard.writeText(${target} ? ${target}?.textContent?.trim() : "${content}").then(() => copied = true)`}
   @mouseleave.debounce.1000ms="copied && (copied = false)"
   class={twMerge(
-    'group flex select-none items-center gap-2 rounded p-2 hover:bg-3 hover:text-brand [&[x-cloak]]:hidden',
-    'focus-visible:outline-none focus-visible:ring motion-safe:transition-colors',
+    'group flex select-none items-center justify-between gap-2 rounded p-2 [&[x-cloak]]:hidden',
+    'hover:bg-3 hover:text-brand focus-visible:outline-none focus-visible:ring motion-safe:transition-colors',
     className,
   )}
 >

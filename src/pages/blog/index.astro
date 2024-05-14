@@ -18,13 +18,13 @@ const posts = (await getCollection('posts')).sort((a, b) => b.data.published.val
 const topics = [...new Set(posts.flatMap((post) => post.data.topics))].sort();
 ---
 
-<Layout title="Blog | Christian Penrod" class="mx-auto max-w-xl lg:max-w-screen-xl lg:px-20">
+<Layout title="Blog | Christian Penrod" class="mx-auto lg:max-w-screen-xl lg:px-20">
   <section>
     <Text as="h1">BLOG POSTS</Text>
     <Text as="p" class="text-2">Explore various sofware-related posts.</Text>
   </section>
   <Separator class="mb-8 mt-4 lg:mb-12" />
-  <div class="grid gap-20 lg:grid-cols-[1fr_30%]">
+  <div class="grid gap-10 lg:grid-cols-[1fr_30%] xl:gap-20">
     <section class="flex flex-col gap-6">
       <div class="flex items-center gap-4">
         <Text as="h4" class="text-2">ALL POSTS</Text>

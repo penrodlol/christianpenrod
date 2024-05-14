@@ -54,6 +54,7 @@ if (Astro.request.method === 'POST') {
               <Text>{post.render().then((data) => data.remarkPluginFrontmatter.readingTime)}</Text>
             </div>
           </a>
+          <Separator class="my-2 sm:hidden" />
         </li>
       ))
     }
