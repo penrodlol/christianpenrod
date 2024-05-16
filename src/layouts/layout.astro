@@ -66,8 +66,8 @@ const {
             <NavigationMenu.Link href={import.meta.env.TWITTER}><Twitter /> Twitter/X</NavigationMenu.Link>
             <NavigationMenu.Link href={import.meta.env.LINKEDIN}> <Linkedin />LinkedIn</NavigationMenu.Link>
             <Separator />
-            <NavigationMenu.Link href={`mailto:${import.meta.env.EMAIL}`} class="p-0 *:w-full" @click.prevent>
-              <Clipboard content={import.meta.env.EMAIL}>Copy Email</Clipboard>
+            <NavigationMenu.Link href={`mailto:${import.meta.env.EMAIL}`} class="p-0" tabindex="-1" @click.prevent>
+              <Clipboard class="w-full" content={import.meta.env.EMAIL}>Copy Email</Clipboard>
             </NavigationMenu.Link>
           </NavigationMenu.DropdownLinks>
         </NavigationMenu.Dropdown>

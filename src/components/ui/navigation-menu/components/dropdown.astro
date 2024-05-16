@@ -7,4 +7,14 @@ type Props = HTMLAttributes<'li'>;
 const { class: className, ...props } = Astro.props;
 ---
 
-<li {...props} x-id="['navigation-menu-dropdown']" class={twMerge('group relative', className)}><slot /></li>
+<li
+  {...props}
+  x-id="['navigation-menu-dropdown']"
+  x-data="{ open: false }"
+  @mouseenter="open = true"
+  @mouseleave="open = false"
+  @keydown.escape.prevent.stop="$refs.navigationMenuDropdownTrigger?.focus(); open = false"
+  class={twMerge('group relative', className)}
+>
+  <slot />
+</li>
