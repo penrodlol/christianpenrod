@@ -1,0 +1,23 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+import Clipboard from '../../clipboard.astro';
+
+type Props = HTMLAttributes<'figure'>;
+
+const { class: className, ...props } = Astro.props;
+---
+
+<figure
+  {...props}
+  class={twMerge(
+    'relative rounded border bg-[--shiki-color-background]',
+    '[&_[data-line]::before]:mr-2 [&_[data-line]::before]:[content:counter(line)]',
+    '[&_[data-line]::before]:inline-block [&_[data-line]::before]:[counter-increment:line]',
+    '[&_[data-highlighted-line]_span]:opacity-30 [&_[data-line]::before]:w-5 [&_[data-line]::before]:opacity-30',
+    className,
+  )}
+>
+  <slot />
+  <Clipboard class="absolute -top-0.5 right-0 text-2" target="$el.parentElement.querySelector('pre')" />
+</figure>

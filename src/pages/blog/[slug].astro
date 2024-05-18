@@ -4,7 +4,7 @@ import PostCard from '@/components/post-card.astro';
 import PostGithub from '@/components/post-github.astro';
 import PostSubheader from '@/components/post-subheader.astro';
 import Badge from '@/components/ui/badge.astro';
-import Code from '@/components/ui/code.astro';
+import * as Code from '@/components/ui/code';
 import Date from '@/components/ui/date.astro';
 import Link from '@/components/ui/link.astro';
 import Note from '@/components/ui/note.astro';
@@ -39,7 +39,7 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
   title={post.data.title}
   description={post.data.description}
   og={`open-graph/src/content/posts/${post.slug}.png`}
-  class="mx-auto max-w-screen-xl xl:grid xl:grid-cols-[1fr,18rem] xl:gap-16 xl:px-16"
+  class="mx-auto max-w-2xl xl:grid xl:max-w-screen-xl xl:grid-cols-[1fr,18rem] xl:gap-16 xl:px-16"
 >
   <article>
     <Text as="h1" class="uppercase text-3xl">{post.data.title}</Text>
@@ -55,7 +55,17 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
     </div>
     <Separator class="my-8" />
     <div class="flex max-w-[70ch] flex-col gap-8 leading-7 [&>p]:text-1/85 [&_p_a]:underline">
-      <Content components={{ h2: PostSubheader, a: Link, figure: Code, blockquote: Note }} />
+      <Content
+        components={{
+          h2: PostSubheader,
+          a: Link,
+          blockquote: Note,
+          figure: Code.Root,
+          figcaption: Code.Header,
+          pre: Code.Content,
+          code: Code.Block,
+        }}
+      />
       {post.data.repo && <PostGithub repo={post.data.repo} />}
     </div>
     <Separator class="mb-8 mt-16" />
