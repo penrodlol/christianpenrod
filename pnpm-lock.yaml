@@ -43,9 +43,6 @@ devDependencies:
   '@types/alpinejs':
     specifier: ^3.13.10
     version: 3.13.10
-  astro-color-scheme:
-    specifier: ^1.1.4
-    version: 1.1.4
   astro-og-canvas:
     specifier: ^0.5.0
     version: 0.5.0(astro@4.8.5)
@@ -1793,10 +1790,6 @@ packages:
   /astring@1.8.6:
     resolution: {integrity: sha512-ISvCdHdlTDlH5IpxQJIex7BWBywFWgjJSVdwst+/iQCoEYnyOaQ95+X1JGshuBjGp6nxKUy1jMgE3zPqN7fQdg==}
     hasBin: true
-    dev: true
-
-  /astro-color-scheme@1.1.4:
-    resolution: {integrity: sha512-6uKMDb9ShrUwjGZhYKj375ZzAwSewurwhGZdSWOK2gBB+/YpFSbNm5wiOGG83O18AKna++2GhXOmhvaCnhP/Mg==}
     dev: true
 
   /astro-og-canvas@0.5.0(astro@4.8.5):
