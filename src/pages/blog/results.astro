@@ -20,13 +20,14 @@ let posts = (await getCollection('posts')).sort((a, b) => b.data.published.value
 
 if (Astro.request.method === 'POST') {
   const formData = await Astro.request.formData();
-  const term = z.string().trim().min(1).safeParse(formData.get('query'));
+  // prettier-ignore
+  const query = z.string().trim().min(1).transform(v => `"${v.replaceAll('"', '""')}"`).safeParse(formData.get('query'));
   const topics = z.array(z.string().trim().min(1)).min(1).safeParse(formData.getAll('topics'));
 
   if (topics.success) posts = posts.filter((post) => post.data.topics.some((topic) => topics.data.includes(topic)));
 
-  if (term.success) {
-    const payload = await db.run(sql`select slug from PostSearch where body match ${term.data}`);
+  if (query.success) {
+    const payload = await db.run(sql`select slug from PostSearch where body match ${query.data}`);
     posts = posts.filter((post) => payload.rows.some((row) => row.slug === post.slug));
   }
 }
