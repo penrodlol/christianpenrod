@@ -39,7 +39,7 @@ const topics = [...new Set(posts.flatMap((post) => post.data.topics))].sort();
       <div x-data="partial('/blog/results')" class="flex flex-col gap-6">
         <form
           method="post"
-          class="flex flex-col gap-4 rounded border p-4 text-xs"
+          class="flex flex-col gap-4 rounded border p-4 shadow text-xs"
           @submit.prevent="!loading && (submission.get('query')?.trim() ?? '') !== $el.query.value?.trim() && submit()"
         >
           <div class="flex gap-2">

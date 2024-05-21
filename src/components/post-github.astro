@@ -15,11 +15,11 @@ const repo = await octokit.repos
   target="_blank"
   rel="nofollow noopener noreferrer"
   aria-label={`Check out the github repo: ${repo.name}. ${repo.description}`}
-  class="group flex flex-col gap-1 rounded border px-4 py-3 focus-visible:outline-none focus-visible:ring"
+  class="group flex flex-col gap-1 rounded border px-4 py-3 shadow focus-visible:outline-none focus-visible:ring"
 >
   <div class="flex items-center gap-2 group-hover:text-brand motion-safe:transition-colors">
     <Book class="size-3.5 shrink-0 text-2" aria-hidden />
-    <Text class="font-medium text-sm">{repo.name}</Text>
+    <Text class="text-sm">{repo.name}</Text>
   </div>
   <Text as="p" class="text-2 text-xs">{repo.description}</Text>
   <div class="mt-1.5 flex items-center gap-4 text-2 text-xs">

@@ -19,5 +19,5 @@ const { class: className, ...props } = Astro.props;
   )}
 >
   <slot />
-  <Clipboard class="absolute -top-0.5 right-0 text-2" target="$el.parentElement.querySelector('pre')" />
+  <Clipboard class="absolute right-0 top-0 text-2" target="$el.parentElement.querySelector('pre')" />
 </figure>

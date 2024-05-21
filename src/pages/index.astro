@@ -8,6 +8,7 @@ import Text from '@/components/ui/text.astro';
 import Layout from '@/layouts/layout.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
+import { ArrowRight } from 'lucide-astro';
 
 const projects = ['feedjoy', 'christianpenrod'];
 const posts = (await getCollection('posts'))
@@ -43,8 +44,8 @@ const posts = (await getCollection('posts'))
         </DescriptionList.Item>
       </DescriptionList.Root>
     </div>
-    <div class="hidden size-[320px] shrink-0 rounded border-2 lg:block [&_img]:rounded">
-      <Image src={Me} alt="Me" loading="eager" quality={100} />
+    <div class="hidden size-[320px] shrink-0 overflow-hidden rounded border-2 opacity-80 shadow lg:block">
+      <Image src={Me} alt="Me" loading="eager" quality={100} class="brightness-150 grayscale dark:brightness-100" />
     </div>
   </section>
   <section class="flex flex-col gap-6">
@@ -60,5 +61,6 @@ const posts = (await getCollection('posts'))
     <ul class="gap-10 grid lg:grid-cols-3">
       {posts.map((post) => <li><PostCard {post} /></li>)}
     </ul>
+    <Link href="/blog" class="self-end">View all posts <ArrowRight class="size-3" /></Link>
   </section>
 </Layout>

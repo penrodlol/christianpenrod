@@ -52,7 +52,7 @@ const {
     <link href={new URL(Astro.url.pathname, Astro.site)} rel="canonical" />
     <ViewTransitions />
   </head>
-  <body class="mx-auto flex min-h-[calc(100dvh-2rem)] max-w-screen-xl flex-col bg-1 sm:rounded sm:border">
+  <body class="mx-auto flex min-h-[calc(100dvh-2rem)] max-w-screen-xl flex-col bg-1 shadow sm:rounded sm:border">
     <header class="sticky top-0 z-50 flex h-12 w-full items-center rounded-t border-b bg-1 px-4 text-xs">
       <Link href="/" aria-label="Home" class={buttonVariants({ color: 'ghost', size: 'icon', class: 'mr-auto' })}>
         <Home class="size-3.5" />
