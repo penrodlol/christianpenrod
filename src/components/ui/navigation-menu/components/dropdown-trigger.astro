@@ -16,6 +16,7 @@ const { class: className, ...props } = Astro.props;
   @focusin.window="open = $el === $event.target || $refs.navigationMenuDropdownLinks?.contains($event.target)"
   @keydown.enter.prevent.stop="open = !open"
   @keydown.space.prevent.stop="open = !open"
+  @touchstart="open = !open"
   class={twMerge(
     'flex items-center gap-2 rounded px-3 py-1.5',
     'focus:outline-none focus:ring-1 motion-safe:transition-colors',
