@@ -4,6 +4,7 @@ import PostCard from '@/components/post-card.astro';
 import PostGithub from '@/components/post-github.astro';
 import PostSubheader from '@/components/post-subheader.astro';
 import Badge from '@/components/ui/badge.astro';
+import { buttonVariants } from '@/components/ui/button.astro';
 import * as Code from '@/components/ui/code';
 import Date from '@/components/ui/date.astro';
 import Link from '@/components/ui/link.astro';
@@ -15,10 +16,12 @@ import Layout from '@/layouts/layout.astro';
 import type { GetStaticPaths } from 'astro';
 import { Image } from 'astro:assets';
 import { getCollection, type CollectionEntry } from 'astro:content';
-import { Calendar, Clock4, Eye } from 'lucide-astro';
+import { Calendar, Clock4, Eye, Github, Linkedin, Mail, Rss, Twitter } from 'lucide-astro';
 
 type Post = CollectionEntry<'posts'>;
 type Props = { post: Post; prev: Post; next: Post };
+
+const social = buttonVariants({ size: 'icon', color: 'ghost', class: '[&_svg]:size-3.5 size-6' });
 
 export const getStaticPaths: GetStaticPaths = async () =>
   getCollection('posts').then((posts) =>
@@ -86,11 +89,22 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
       </TableOfContents.Links>
     </TableOfContents.Root>
     <Separator class="my-4" />
-    <div class="flex gap-4">
-      <div class="size-14 shrink-0 rounded border bg-2"><Image src={Me} alt="Me" loading="eager" /></div>
-      <div class="flex flex-col text-xs">
-        <Text class="font-medium">CHRISTIAN PENROD</Text>
-        <Text class="text-2">Front-End Web Developer</Text>
+    <div class="flex items-center gap-4">
+      <div class="size-14 shrink-0 rounded border shadow">
+        <Image src={Me} alt="Me" loading="eager" class="brightness-150 grayscale dark:brightness-100" />
+      </div>
+      <div class="flex flex-col gap-px">
+        <div class="flex flex-col pl-2 text-xs">
+          <Text class="font-medium leading-none">CHRISTIAN PENROD</Text>
+          <Text class="text-2">Front-End Web Developer</Text>
+        </div>
+        <ul class="flex text-2 [&_[data-external-icon]]:hidden">
+          <li><Link href={import.meta.env.GITHUB} aria-label="Github" class={social}><Github /></Link></li>
+          <li><Link href={import.meta.env.TWITTER} aria-label="Twitter" class={social}><Twitter /></Link></li>
+          <li><Link href={import.meta.env.LINKEDIN} aria-label="LinkedIn" class={social}><Linkedin /></Link></li>
+          <li><Link href={`mailto:${import.meta.env.EMAIL}`} aria-label="Email" class={social}><Mail /></Link></li>
+          <li><Link href={new URL('rss.xml', import.meta.env.SITE)} aria-label="RSS" class={social}><Rss /></Link></li>
+        </ul>
       </div>
     </div>
   </aside>
