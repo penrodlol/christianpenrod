@@ -21,5 +21,5 @@ const external = href?.toString().startsWith('https://');
   )}
 >
   <slot />
-  {external && <ArrowUpRight aria-hidden class="size-3 text-2" />}
+  {external && <ArrowUpRight data-external-icon aria-hidden class="size-3 text-2" />}
 </a>
