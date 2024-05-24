@@ -42,18 +42,17 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
   title={post.data.title}
   description={post.data.description}
   og={`open-graph/src/content/posts/${post.slug}.png`}
-  class="mx-auto max-w-2xl xl:grid xl:max-w-screen-xl xl:grid-cols-[1fr,18rem] xl:gap-16 xl:px-16"
+  class="mx-auto max-w-2xl lg:grid lg:max-w-screen-xl lg:grid-cols-[1fr,18rem] lg:gap-16 lg:px-16"
 >
   <article>
     <Text as="h1" class="uppercase text-3xl">{post.data.title}</Text>
     <div class="mt-4 flex flex-wrap items-center gap-4">
       <Badge><Calendar aria-hidden /><Date value={post.data.published} /></Badge>
       <Badge><Clock4 aria-hidden />{remarkPluginFrontmatter.readingTime}</Badge>
-      <Badge
-        x-data={`{ views: $fetch("/blog/views", ${JSON.stringify({ method: 'PUT', body: { slug: post.slug } })})}`}
-      >
+      <!-- prettier-ignore -->
+      <Badge x-data={`{ views: $fetch("/blog/views", ${JSON.stringify({ method: 'PUT', body: { slug: post.slug } })})}`}>
         <Eye aria-hidden />
-        <Text x-text="(await views)?.toString().padStart(6, '0')">000000</Text>
+        <Text x-text="(await views)?.toString().padStart(6, '0')">000000</Text  >
       </Badge>
     </div>
     <Separator class="my-8" />
@@ -70,6 +69,7 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
         }}
       />
       {post.data.repo && <PostGithub repo={post.data.repo} />}
+      <Text as="h2" id="introduction" class="sr-only">Introduction</Text>
     </div>
     <Separator class="mb-8 mt-16" />
     <div class="flex flex-col gap-6">
@@ -80,11 +80,11 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
       </ul>
     </div>
   </article>
-  <aside class="sticky top-20 hidden h-max rounded border p-4 shadow xl:block">
+  <aside class="sticky top-20 hidden h-max rounded border p-4 shadow lg:block">
     <TableOfContents.Root aria-labelledby="table-of-contents">
       <TableOfContents.Title id="table-of-contents">TABLE OF CONTENTS</TableOfContents.Title>
       <TableOfContents.Links>
-        <TableOfContents.Link {...{ slug: 'heading', text: 'Introduction' }} />
+        <TableOfContents.Link {...{ slug: 'introduction', text: 'Introduction' }} />
         {headings.map((heading) => <TableOfContents.Link {...heading} />)}
       </TableOfContents.Links>
     </TableOfContents.Root>
