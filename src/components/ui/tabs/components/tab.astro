@@ -1,0 +1,36 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+
+type Props = HTMLAttributes<'button'> & { for: string };
+
+const { class: className, for: htmlFor, ...props } = Astro.props;
+---
+
+<button
+  {...props}
+  role="tab"
+  type="button"
+  :id={`$id('tabs') + '-tab-${htmlFor}'`}
+  :tabindex={`active === "${htmlFor}" ? '0' : '-1'`}
+  :aria-selected={`active === "${htmlFor}"`}
+  :aria-controls={`$id('tabs') + '-tabpanel-${htmlFor}'`}
+  @click={`active = "${htmlFor}"`}
+  @focus={`active = "${htmlFor}"`}
+  class={twMerge(
+    'relative flex flex-1 items-center justify-center whitespace-nowrap',
+    'rounded px-3 py-0.5 text-xs aria-selected:text-brand',
+    'hover:text-brand motion-safe:transition-colors',
+    'focus-visible:outline-none focus-visible:ring-1',
+    className,
+  )}
+>
+  <div
+    role="none"
+    x-show={`active === "${htmlFor}"`}
+    x-transition:enter="animate-in fade-in-0 zoom-in-90"
+    class="absolute inset-0 z-0 rounded bg-1 content-[''] motion-safe:transition-colors"
+  >
+  </div>
+  <div class="z-10"><slot /></div>
+</button>
