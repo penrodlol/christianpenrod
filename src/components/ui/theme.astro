@@ -4,17 +4,26 @@ import Button from './button.astro';
 ---
 
 <Button
-  x-data
+  x-data="{ theme: localStorage.theme ?? 'light' }"
   color="ghost"
   size="icon"
   aria-label="Toggle theme"
   @click={`
     document.documentElement.classList.toggle('dark');
-    localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+    localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+    theme = localStorage.theme;
 `}
 >
-  <Sun class="hidden animate-in motion-safe:fade-in-0 motion-safe:zoom-in-0 dark:block" />
-  <MoonStar class="animate-in motion-safe:fade-in-0 motion-safe:zoom-in-0 dark:hidden" />
+  <Sun
+    x-show="theme === 'dark'"
+    class="hidden dark:block"
+    x-transition:enter="animate-in motion-safe:fade-in-0 motion-safe:zoom-in-0"
+  />
+  <MoonStar
+    x-show="theme === 'light'"
+    class="dark:hidden"
+    x-transition:enter="animate-in motion-safe:fade-in-0 motion-safe:zoom-in-0"
+  />
 </Button>
 
 <script is:inline>

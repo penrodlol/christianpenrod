@@ -24,6 +24,6 @@ const { class: className, 'aria-label': ariaLabel, content, target, ...props } =
   )}
 >
   <slot />
-  <ClipboardIcon class="size-3.5 animate-in zoom-in-0" aria-hidden x-show="!copied" />
-  <Check class="size-3.5 animate-in zoom-in-0" aria-hidden x-show="copied" />
+  <ClipboardIcon x-show="!copied" x-transition:enter="animate-in motion-safe:zoom-in-0" class="size-3.5" aria-hidden />
+  <Check x-show="copied" x-transition:enter="animate-in motion-safe:zoom-in-0" class="size-3.5" aria-hidden />
 </button>
