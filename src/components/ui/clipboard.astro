@@ -18,12 +18,12 @@ const { class: className, 'aria-label': ariaLabel, content, target, ...props } =
   @keydown.enter.debounce.1000ms="copied && (copied = false)"
   @keydown.space.debounce.1000ms="copied && (copied = false)"
   class={twMerge(
-    'group flex select-none items-center justify-between gap-2 rounded p-2 [&[x-cloak]_svg:last-of-type]:hidden',
+    'group flex select-none items-center justify-between gap-2 rounded p-2',
     'hover:bg-3 hover:text-brand focus-visible:outline-none focus-visible:ring-1 motion-safe:transition-colors',
     className,
   )}
 >
   <slot />
   <ClipboardIcon x-show="!copied" x-transition:enter="animate-in motion-safe:zoom-in-0" class="size-3.5" aria-hidden />
-  <Check x-show="copied" x-transition:enter="animate-in motion-safe:zoom-in-0" class="size-3.5" aria-hidden />
+  <Check x-show="copied" x-cloak x-transition:enter="animate-in motion-safe:zoom-in-0" class="size-3.5" aria-hidden />
 </button>

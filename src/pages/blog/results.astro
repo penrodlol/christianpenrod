@@ -61,12 +61,12 @@ if (Astro.request.method === 'POST') {
     }
   </ul>
 
-  <div x-show="loading" x-cloak x-transition:enter.delay.100ms class="mt-1 flex flex-col gap-4 [&[x-cloak]]:hidden">
+  <div x-show="loading" x-cloak x-transition:enter.delay.100ms class="mt-1 flex flex-col gap-4">
     <template x-for="_ in 6"><Skeleton class="h-8 w-full" /></template>
   </div>
 
   <If condition={!posts.length}>
-    <div x-show="!loading" x-cloak class="mx-auto mt-6 max-w-max text-center text-xs [&[x-cloak]]:hidden">
+    <div x-show="!loading" x-cloak class="mx-auto mt-6 max-w-max text-center text-xs">
       <div x-show="failed">
         <Text as="h3">Failed to Load Posts</Text>
         <Text as="p">An error occurred while fetching posts.</Text>
