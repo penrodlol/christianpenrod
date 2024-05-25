@@ -1,6 +1,10 @@
 import type { Alpine } from 'alpinejs';
+// @ts-ignore\
+import collapse from '@alpinejs/collapse';
 
 export default (Alpine: Alpine) => {
+  Alpine.plugin([collapse]);
+
   Alpine.magic('fetch', () => async (...props: Parameters<typeof fetch>) => {
     if (props[1]?.body) props[1].body = JSON.stringify(props[1].body);
     return await fetch(...props).then((res) => res.json());
