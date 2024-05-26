@@ -14,7 +14,7 @@ import { createCssVariablesTheme } from 'shiki';
 export default defineConfig({
   site: 'https://christianpenrod.com',
   output: 'hybrid',
-  adapter: vercel({ webAnalytics: { enabled: true } }),
+  adapter: vercel({ webAnalytics: { enabled: true }, imageService: true }),
   markdown: {
     syntaxHighlight: false,
     rehypePlugins: [
