@@ -14,7 +14,5 @@ const { class: className, value, ...props } = Astro.props;
     type="checkbox"
     class="peer absolute inset-0 cursor-pointer appearance-none rounded checked:ring-1 focus-visible:outline-none focus-visible:ring-1"
   />
-  <div class="text-xxs peer-checked:text-emphasis peer-hover:text-emphasis motion-safe:transition-colors">
-    {value}
-  </div>
+  <div class="text-xs peer-checked:text-brand peer-hover:text-brand motion-safe:transition-colors">{value}</div>
 </label>

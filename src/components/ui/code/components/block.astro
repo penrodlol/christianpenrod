@@ -1,0 +1,22 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+
+type Props = HTMLAttributes<'code'>;
+
+const { class: className, ...props } = Astro.props;
+---
+
+<code
+  {...props}
+  class={twMerge(
+    'font-sans [counter-reset:line] [font-size:--shiki-font-size]',
+    'bg-[--shiki-color-background] [&:not(&:has(span))]:text-[--shiki-color-text]',
+    '[&:not(&:has(span))]:mx-0.5 [&:not(&:has(span))]:rounded [&:not(&:has(span))]:border',
+    '[&:not(&:has(span))]:decoration-clone [&:not(&:has(span))]:px-1 [&:not(&:has(span))]:py-px',
+    '[&:not(&:has(span))]:whitespace-nowrap',
+    className,
+  )}
+>
+  <slot />
+</code>

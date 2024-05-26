@@ -1,0 +1,19 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+
+type Props = HTMLAttributes<'div'>;
+
+const { class: className, ...props } = Astro.props;
+---
+
+<div
+  {...props}
+  class={twMerge(
+    'flex items-center justify-center gap-1.5 rounded bg-3 px-2 py-0.5 text-xs',
+    '[&_svg]:size-3.5 [&_svg]:shrink-0',
+    className,
+  )}
+>
+  <slot />
+</div>

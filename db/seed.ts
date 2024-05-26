@@ -1,8 +1,18 @@
 import { getCollection } from 'astro:content';
-import { db, PostView } from 'astro:db';
+import { PostView, db, sql } from 'astro:db';
+import { fromMarkdown } from 'mdast-util-from-markdown';
+import { toString } from 'mdast-util-to-string';
 
 export default async function () {
-  await db
-    .insert(PostView)
-    .values((await getCollection('posts')).map((post) => ({ post: post.slug })));
+  const posts = await getCollection('posts');
+  const postsSearches = posts
+    .map((post) => ({ slug: post.slug, body: toString(fromMarkdown(post.body)) }))
+    .map((post) => sql`(${post.slug}, ${post.body})`);
+
+  await db.batch([
+    db.insert(PostView).values(posts.map((post) => ({ post: post.slug }))),
+    db.run(sql`drop table if exists PostSearch`),
+    db.run(sql`create virtual table PostSearch using fts5(slug, body)`),
+    db.run(sql.join([sql`insert into PostSearch (slug, body) values `, sql.join(postsSearches, sql`,`)])),
+  ]);
 }

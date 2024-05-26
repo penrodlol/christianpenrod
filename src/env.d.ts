@@ -1,3 +1,4 @@
+/// <reference path="../.astro/actions.d.ts" />
 /// <reference path="../.astro/db-types.d.ts" />
 /// <reference path="../.astro/types.d.ts" />
 /// <reference types="astro/client" />
@@ -5,8 +6,11 @@
 interface ImportMetaEnv {
   readonly GITHUB_TOKEN: string;
   readonly USERNAME: string;
-  readonly JOB: string;
-  readonly COLLEGE: string;
+  readonly LOCATION: string;
+  readonly JOB_NAME: string;
+  readonly JOB_LINK: string;
+  readonly COLLEGE_NAME: string;
+  readonly COLLEGE_LINK: string;
   readonly GITHUB: string;
   readonly TWITTER: string;
   readonly LINKEDIN: string;
@@ -20,5 +24,4 @@ interface ImportMeta {
 
 interface Window {
   Alpine: import('alpinejs').Alpine;
-  Pagefind: import('pagefind').Pagefind;
 }

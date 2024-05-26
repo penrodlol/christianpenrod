@@ -1,24 +1,23 @@
 ---
 title: Developing Browser Extensions with Next.js
 description:
-  Learn how to bundle a Next.js application within a browser extension. Compatible with
-  Chromium-based browsers and Firefox.
+  Learn how to bundle a Next.js application within a browser extension. Compatible with Chromium-based browsers and
+  Firefox.
 published: 2022-04-19
 topics: [Next.js]
 repo: demo-nextjs-browser-extension
-cover: ../../assets/covers/2.webp
 ---
 
-Although modern browsers offer a plethora of tooling to help assist web development and general
-productivity, there will always be some niche solution(s) not offered. How do we solve this?
-_Extensions!_
+import * as Tabs from '@/components/ui/tabs';
 
-For the following example, we will showcase how easy it is to bundle a Next.js application within a
-browser extension that's compatible with all Chromium-based browsers (Chrome, Edge, Opera, Brave)
-and Firefox.
+Although modern browsers offer a plethora of tooling to help assist web development and general productivity, there will
+always be some niche solution(s) not offered. How do we solve this? _Extensions!_
 
-It's worth mentioning that by using a rich framework like Next.js, we unlock the ablity to create
-and scale a more complex web application. All embedded within a browser extension.
+For the following example, we will showcase how easy it is to bundle a Next.js application within a browser extension
+that's compatible with all Chromium-based browsers (Chrome, Edge, Opera, Brave) and Firefox.
+
+It's worth mentioning that by using a rich framework like Next.js, we unlock the ablity to create and scale a more
+complex web application. All embedded within a browser extension.
 
 ## Setup
 
@@ -34,8 +33,8 @@ yarn add -D @types/chrome
 yarn add -D @types/firefox-webext-browser
 ```
 
-Now that we have our application, let add some dimensions to our body tag. This will determine the
-size of the popup window when clicking on the extension's icon within the browser's toolbar.
+Now that we have our application, let add some dimensions to our body tag. This will determine the size of the popup
+window when clicking on the extension's icon within the browser's toolbar.
 
 > The max dimensions allowed via Chromium browsers and Firefox is _800x600_ pixels. [Chromium
 > Source][chromium-dimensions] | [Firefox Source][firefox-dimensions]
@@ -49,9 +48,8 @@ body {
 
 ## Update Template
 
-Once our dimensions are in place, lets update the template within our application. For the following
-example, we will keep it simple but do note; we could make a much more complex application with the
-help of a framework like Next.js.
+Once our dimensions are in place, lets update the template within our application. For the following example, we will
+keep it simple but do note; we could make a much more complex application with the help of a framework like Next.js.
 
 ```tsx title="pages/index.tsx"
 import type { NextPage } from 'next';
@@ -72,13 +70,16 @@ export default Home;
 
 ## Configuring The Manifest
 
-Within all extensions, there exists a `manifest.json` file. Think of this file as the configuration
-file. It contains the extension's metadata and security permissions as well as a pointer to our
-Next.js application. Let's now add this file to our Next.js app's `/public` directory:
+Within all extensions, there exists a `manifest.json` file. Think of this file as the configuration file. It contains
+the extension's metadata and security permissions as well as a pointer to our Next.js application. Let's now add this
+file to our Next.js app's `/public` directory:
 
-<div>
-  <details>
-    <summary>Chrome</summary>
+<Tabs.Root defaultValue="chrome">
+  <Tabs.TabList>
+    <Tabs.Tab for="chrome" aria-selected>Chrome</Tabs.Tab>
+    <Tabs.Tab for="other">Firefox/Edge/Opera/Brave</Tabs.Tab>
+  </Tabs.TabList>
+  <Tabs.TabPanel value="chrome" aria-hidden="false">
     ```json title="public/manifest.json"    
     {
       "name": "Next.js Browser Extension Demo",
@@ -90,9 +91,8 @@ Next.js application. Let's now add this file to our Next.js app's `/public` dire
       }
     }
     ```
-  </details>
-  <details>
-    <summary>Firefox/Edge/Opera/Brave</summary>
+  </Tabs.TabPanel>
+  <Tabs.TabPanel value="other">
     ```json title="public/manifest.json"    
     {
       "name": "Next.js Browser Extension Demo",
@@ -104,46 +104,43 @@ Next.js application. Let's now add this file to our Next.js app's `/public` dire
       }
     }
     ```
-  </details>
-</div>
+  </Tabs.TabPanel>
+</Tabs.Root>
 
-Before moving further, lets break down the contents of the manifest.json file. To begin, we have the
-`name` and `version`. Each are simply metadata for the extension and are required.
+Before moving further, lets break down the contents of the manifest.json file. To begin, we have the `name` and
+`version`. Each are simply metadata for the extension and are required.
 
-Next, there's the `manifest_version`. This field is essential for defining which manifest.json
-version the browser should interpret. If your curious about which versions are compatibile with
-which browsers, check out the docs [here][manifest-compatibility].
+Next, there's the `manifest_version`. This field is essential for defining which manifest.json version the browser
+should interpret. If your curious about which versions are compatibile with which browsers, check out the docs
+[here][manifest-compatibility].
 
-Based on the manifest_version, the next field can be either `action` or `browser_action`. Each of
-which preforms the same action. This field's content is responsible for creating the actual icon and
-title of the extension within the browser's toolbar. It's also responsible for creating a pointer to
-our Next.js application.
+Based on the manifest_version, the next field can be either `action` or `browser_action`. Each of which preforms the
+same action. This field's content is responsible for creating the actual icon and title of the extension within the
+browser's toolbar. It's also responsible for creating a pointer to our Next.js application.
 
-> If your curious in learning more about manifest.json, consider checking out the official docs
-> [here][manifest].
+> If your curious in learning more about manifest.json, consider checking out the official docs [here][manifest].
 
 ## Bundling The Application
 
-Before testing our extension, we must first bundle the Next.js application. This can be done by
-running the following commands:
+Before testing our extension, we must first bundle the Next.js application. This can be done by running the following
+commands:
 
 ```bash
 npx next build
 npx next export
 ```
 
-Once complete, we should see an `/out` directory. It contains the bundled version of our Next.js
-application as well as our manifest.json. Think of this directory as the source code of our
-extension.
+Once complete, we should see an `/out` directory. It contains the bundled version of our Next.js application as well as
+our manifest.json. Think of this directory as the source code of our extension.
 
-> If your using _Firefox_, please skip to the next section! The following only applies to
-> Chromium-based browsers (Chrome, Edge, Opera, and Brave).
+> If your using _Firefox_, please skip to the next section! The following only applies to Chromium-based browsers
+> (Chrome, Edge, Opera, and Brave).
 
-Before importing our extension into the browser, we must address one issue. Directories and files
-prefixed with an underscore (`\_`) are reserved by system.
+Before importing our extension into the browser, we must address one issue. Directories and files prefixed with an
+underscore (`\_`) are reserved by system.
 
-This conflicts with a bundled Next.js application since its root directory is `\_next`. To resolve
-this issue, we can run the following command to replace all instances of '\_next' with 'next':
+This conflicts with a bundled Next.js application since its root directory is `\_next`. To resolve this issue, we can
+run the following command to replace all instances of '\_next' with 'next':
 
 ```bash
 # Windows/Linux
@@ -155,70 +152,70 @@ mv ./out/_next ./out/next && cd ./out && grep -rli '_next' * | xargs -I@ sed -i 
 
 ## Testing In Browser
 
-We've now successfully prepared our Next.js application to be embedded within an extension! Our last
-step is to simply import it into the browser to test:
+We've now successfully prepared our Next.js application to be embedded within an extension! Our last step is to simply
+import it into the browser to test:
 
-> Please note, we will _not_ cover publishing an extension to the browser's marketplace. However,
-> there are plenty of resources available on this subject.
+> Please note, we will _not_ cover publishing an extension to the browser's marketplace. However, there are plenty of
+> resources available on this subject.
 
-<div>
-  <details>
-    <summary>Chrome</summary>
-
+<Tabs.Root defaultValue="chrome">
+  <Tabs.TabList>
+    <Tabs.Tab for="chrome" aria-selected>Chrome</Tabs.Tab>
+    <Tabs.Tab for="firefox">Firefox</Tabs.Tab>
+    <Tabs.Tab for="edge">Edge</Tabs.Tab>
+    <Tabs.Tab for="opera">Opera</Tabs.Tab>
+    <Tabs.Tab for="brave">Brave</Tabs.Tab>
+  </Tabs.TabList>
+  <Tabs.TabPanel value="chrome" aria-hidden="false">
+    
     1. Navigate to: chrome://extensions
     2. Toggle on 'Developer Mode' in the top right corner.
     3. Click the 'Load Unpacked' button.
     4. Select your /out directory.
 
-  </details>
-  <details>
-    <summary>Firefox</summary>
-
+  </Tabs.TabPanel>
+  <Tabs.TabPanel value="firefox">
+  
     1. Navigate to: about:debugging#/runtime/this-firefox
     2. Click the 'Load Temporary Add-on...' button.
     3. Select your manifest.json file.
 
-  </details>
-  <details>
-    <summary>Edge</summary>
-
+  </Tabs.TabPanel>
+  <Tabs.TabPanel value="edge">
+  
     1. Navigate to: edge://extensions/
     2. Toggle on 'Developer Mode' in the left panel.
     3. Click the 'Load Unpacked' button.
     4. Select your /out directory.
-
-  </details>
-  <details>
-    <summary>Opera</summary>
+  
+  </Tabs.TabPanel>
+  <Tabs.TabPanel value="opera">
 
     1. Navigate to: opera://extensions
     2. Toggle on 'Developer Mode' in the top right corner.
     3. Click the 'Load Unpacked' button.
     4. Select your /out directory.
 
-  </details>
-  <details>
-    <summary>Brave</summary>
-
+  </Tabs.TabPanel>
+  <Tabs.TabPanel value="brave">
+  
     1. Navigate to: brave://extensions
     2. Toggle on 'Developer Mode' in the top right corner.
     3. Click the 'Load Unpacked' button.
     4. Select your /out directory.
-
-  </details>
-</div>
+  
+  </Tabs.TabPanel>
+</Tabs.Root>
 
 ## Remarks
 
-Overall, extensions are fantastic tools that undoubtedly excel web development and general
-productivity.
+Overall, extensions are fantastic tools that undoubtedly excel web development and general productivity.
 
-The requirements for building an extension are as simple as its gets: HTML/CSS/JavaScript... and a
-manifest.json. With this simplicity, it unlocks the capability to embed rich/complex web
-applications.
+The requirements for building an extension are as simple as its gets: HTML/CSS/JavaScript... and a manifest.json. With
+this simplicity, it unlocks the capability to embed rich/complex web applications.
 
-With a more rich/complex web application comes the ability to solve more niche solutions not offered
-by browsers out of the box.
+With a more rich/complex web application comes the ability to solve more niche solutions not offered by browsers out of
+the box.
 
 [chromium-dimensions]:
   https://source.chromium.org/chromium/chromium/src/+/main:chrome/browser/ui/views/extensions/extension_popup.h;l=60

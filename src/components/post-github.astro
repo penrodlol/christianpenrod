@@ -1,6 +1,7 @@
 ---
 import octokit from '@/libs/octokit';
 import { Book, GitFork, Star } from 'lucide-astro';
+import Text from './ui/text.astro';
 
 type Props = { repo: string };
 
@@ -14,25 +15,16 @@ const repo = await octokit.repos
   target="_blank"
   rel="nofollow noopener noreferrer"
   aria-label={`Check out the github repo: ${repo.name}. ${repo.description}`}
-  class="group flex flex-col gap-1 rounded border p-4 focus-visible:outline-none focus-visible:ring-2"
+  class="group flex flex-col gap-1 rounded border px-4 py-3 shadow focus-visible:outline-none focus-visible:ring-1"
 >
-  <div class="flex items-center gap-2 text-xs">
-    <Book class="shrink-0" size={12} aria-hidden />
-    <span class="group-hover:text-emphasis motion-safe:transition-colors">{repo.name}</span>
+  <div class="flex items-center gap-2 group-hover:text-brand motion-safe:transition-colors">
+    <Book class="size-3.5 shrink-0 text-2" aria-hidden />
+    <Text class="text-sm">{repo.name}</Text>
   </div>
-  <p class="text-xxs text-2">{repo.description}</p>
-  <div class="mt-2 flex items-center gap-3 text-xxs">
-    <div class="mr-2 flex items-center gap-1">
-      <div class="h-3 w-3 shrink-0 rounded-full bg-emphasis/50"></div>
-      {repo.language}
-    </div>
-    <div class="flex items-center gap-1">
-      <Star class="shrink-0" size={14} aria-hidden />
-      {repo.stargazers_count}
-    </div>
-    <div class="flex items-center gap-1">
-      <GitFork class="shrink-0" size={14} aria-hidden />
-      {repo.forks_count}
-    </div>
+  <Text as="p" class="text-2 text-xs">{repo.description}</Text>
+  <div class="mt-1.5 flex items-center gap-4 text-2 text-xs">
+    <div class="mr-1 flex items-center gap-1"><div class="size-4 rounded-full border bg-3"></div>{repo.language}</div>
+    <div class="flex items-center gap-1"><Star class="size-4" aria-hidden />{repo.stargazers_count}</div>
+    <div class="flex items-center gap-1"><GitFork class="size-4" aria-hidden />{repo.forks_count}</div>
   </div>
 </a>

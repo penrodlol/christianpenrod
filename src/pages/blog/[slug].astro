@@ -1,21 +1,37 @@
 ---
-import Favicon from '@/assets/favicon.webp';
+import Me from '@/assets/me.webp';
 import PostCard from '@/components/post-card.astro';
-import PostCode from '@/components/post-code.astro';
 import PostGithub from '@/components/post-github.astro';
 import PostSubheader from '@/components/post-subheader.astro';
+import Badge from '@/components/ui/badge.astro';
+import Button, { buttonVariants } from '@/components/ui/button.astro';
+import * as Code from '@/components/ui/code';
+import Collapsible from '@/components/ui/collapsible.astro';
+import Date from '@/components/ui/date.astro';
 import Link from '@/components/ui/link.astro';
+import Note from '@/components/ui/note.astro';
 import Separator from '@/components/ui/separator.astro';
+import * as TableOfContents from '@/components/ui/table-of-contents';
+import Text from '@/components/ui/text.astro';
 import Layout from '@/layouts/layout.astro';
 import type { GetStaticPaths } from 'astro';
 import { Image } from 'astro:assets';
 import { getCollection, type CollectionEntry } from 'astro:content';
-import { Calendar, Clock4, Eye, Github, Linkedin, Mail, Rss, Twitter } from 'lucide-astro';
+import { Calendar, ChevronRight, Clock4, Eye, Github, Linkedin, Mail, Rss, Twitter } from 'lucide-astro';
+import { twJoin } from 'tailwind-merge';
+import { tv } from 'tailwind-variants';
+
+type Post = CollectionEntry<'posts'>;
+type Props = { post: Post; prev: Post; next: Post };
+
+const social = buttonVariants({ size: 'icon', color: 'ghost', class: '[&_svg]:size-3.5 size-6' });
+const text = tv({ base: '[&>p]:text-1/85 [&_p_a]:underline' });
+const orderedList = tv({ base: '[&_ol]:list-decimal [&_ol]:list-inside' });
 
 export const getStaticPaths: GetStaticPaths = async () =>
   getCollection('posts').then((posts) =>
     posts
-      .sort((a, b) => b.data.published.date.valueOf() - a.data.published.date.valueOf())
+      .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
       .map((post, index, _posts) => {
         const prev = _posts[index + 1] ?? _posts[0];
         const next = _posts[index - 1] ?? _posts[_posts.length - 1];
@@ -23,123 +39,91 @@ export const getStaticPaths: GetStaticPaths = async () =>
       }),
   );
 
-type Post = CollectionEntry<'posts'>;
-type Props = { post: Post; prev: Post; next: Post };
-
 const { post, prev, next } = Astro.props;
-const { remarkPluginFrontmatter: extras, headings, Content } = await post.render();
+const { remarkPluginFrontmatter, headings, Content } = await post.render();
 ---
 
 <Layout
   title={post.data.title}
   description={post.data.description}
   og={`open-graph/src/content/posts/${post.slug}.png`}
+  class="mx-auto max-w-2xl lg:grid lg:max-w-screen-xl lg:grid-cols-[1fr,18rem] lg:gap-16 lg:px-16"
 >
-  <div class="mx-auto mt-fluid-5 max-w-screen-lg xl:grid xl:grid-cols-[1fr,17rem] xl:gap-16">
-    <article data-pagefind-body class="mx-auto max-w-prose">
-      <div class="flex flex-col gap-3" data-pagefind-meta={`slug:${post.slug}`}>
-        <h1 class="text-lg font-bold uppercase tracking-widest">{post.data.title}</h1>
-        <div class="flex flex-wrap items-center gap-4 text-xxs text-2">
-          <div class="flex items-center gap-2 rounded border bg-2 px-2">
-            <Calendar class="shrink-0" size={14} aria-hidden />
-            <time data-pagefind-meta="published" datetime={post.data.published.iso}>
-              {post.data.published.pretty}
-            </time>
-          </div>
-          <div class="flex items-center gap-2 rounded border bg-2 px-2">
-            <Clock4 class="shrink-0" size={14} aria-hidden />
-            <span data-pagefind-meta="readingTime">{extras.readingTime}</span>
-          </div>
-          <div
-            x-data={`{ views: $fetch("/blog/api", ${JSON.stringify({ method: 'PUT', body: { slug: post.slug } })})}`}
-            class="flex items-center gap-2 rounded border bg-2 px-2 tracking-wider"
-          >
-            <Eye class="shrink-0" size={14} aria-hidden />
-            <span x-text="(await views)?.toString().padStart(6, '0')">000000</span>
-          </div>
+  <article>
+    <Text as="h1" class="uppercase text-3xl">{post.data.title}</Text>
+    <div class="mt-4 flex flex-wrap items-center gap-4">
+      <Badge><Calendar aria-hidden /><Date value={post.data.published} /></Badge>
+      <Badge><Clock4 aria-hidden />{remarkPluginFrontmatter.readingTime}</Badge>
+      <!-- prettier-ignore -->
+      <Badge x-data={`{ views: $fetch("/blog/views", ${JSON.stringify({ method: 'PUT', body: { slug: post.slug } })})}`}>
+        <Eye aria-hidden />
+        <Text x-text="(await views)?.toString().padStart(6, '0')">000000</Text  >
+      </Badge>
+    </div>
+    <Separator class="my-4 lg:my-8" />
+    <Collapsible class="lg:hidden">
+      <Button slot="collapsible-trigger" color="ghost" id="table-of-contents-mobile">
+        <ChevronRight class="size-4 motion-safe:transition-transform" :class="expanded && 'rotate-90'" aria-hidden />
+        <Text>TABLE OF CONTENTS</Text>
+      </Button>
+      <TableOfContents.Root class="px-10 py-2" aria-labelledby="table-of-contents-mobile">
+        <TableOfContents.Links>
+          <TableOfContents.Link {...{ slug: 'introduction', text: 'Introduction' }} />
+          {headings.map((heading) => <TableOfContents.Link {...heading} />)}
+        </TableOfContents.Links>
+      </TableOfContents.Root>
+    </Collapsible>
+    <Separator class="my-4 lg:hidden" />
+    <div class={twJoin('flex max-w-[70ch] flex-col gap-8 leading-7', text(), orderedList())}>
+      <Content
+        components={{
+          h2: PostSubheader,
+          a: Link,
+          blockquote: Note,
+          figure: Code.Root,
+          figcaption: Code.Header,
+          pre: Code.Content,
+          code: Code.Block,
+        }}
+      />
+      {post.data.repo && <PostGithub repo={post.data.repo} />}
+      <Text as="h2" id="introduction" class="sr-only">Introduction</Text>
+    </div>
+    <Separator class="mb-8 mt-16" />
+    <div class="flex flex-col gap-6">
+      <Text as="h3">MORE POSTS</Text>
+      <ul class="grid gap-x-10 gap-y-6 md:grid-cols-2">
+        <li><PostCard post={prev} /></li>
+        <li><PostCard post={next} /></li>
+      </ul>
+    </div>
+  </article>
+  <aside class="sticky top-20 hidden h-max rounded border p-4 shadow lg:block">
+    <TableOfContents.Root aria-labelledby="table-of-contents-desktop">
+      <TableOfContents.Title id="table-of-contents-desktop">TABLE OF CONTENTS</TableOfContents.Title>
+      <TableOfContents.Links>
+        <TableOfContents.Link {...{ slug: 'introduction', text: 'Introduction' }} />
+        {headings.map((heading) => <TableOfContents.Link {...heading} />)}
+      </TableOfContents.Links>
+    </TableOfContents.Root>
+    <Separator class="my-4" />
+    <div class="flex items-center gap-4">
+      <div class="size-14 shrink-0 rounded border shadow">
+        <Image src={Me} alt="Me" loading="eager" class="brightness-150 grayscale dark:brightness-100" />
+      </div>
+      <div class="flex flex-col gap-px">
+        <div class="flex flex-col pl-2 text-xs">
+          <Text class="font-medium leading-none">CHRISTIAN PENROD</Text>
+          <Text class="text-2">Front-End Web Developer</Text>
         </div>
+        <ul class="flex text-2 [&_[data-external-icon]]:hidden">
+          <li><Link href={import.meta.env.GITHUB} aria-label="Github" class={social}><Github /></Link></li>
+          <li><Link href={import.meta.env.TWITTER} aria-label="Twitter" class={social}><Twitter /></Link></li>
+          <li><Link href={import.meta.env.LINKEDIN} aria-label="LinkedIn" class={social}><Linkedin /></Link></li>
+          <li><Link href={`mailto:${import.meta.env.EMAIL}`} aria-label="Email" class={social}><Mail /></Link></li>
+          <li><Link href={new URL('rss.xml', import.meta.env.SITE)} aria-label="RSS" class={social}><Rss /></Link></li>
+        </ul>
       </div>
-      <Separator class="mb-4 mt-6 xl:mb-10" />
-      <div data-pagefind-ignore class="block xl:hidden">
-        <details>
-          <summary class="text-xs tracking-wider">TABLE OF CONTENTS</summary>
-          <!-- prettier-ignore -->
-          <ol class="flex pt-2 flex-col gap-1 text-xs text-2">
-            <li><Link href="#introduction">Introduction</Link></li>
-            {headings.map((heading) => (<li><Link href={`#${heading.slug}`}>{heading.text}</Link></li>))}
-          </ol>
-        </details>
-        <Separator class="mb-10 mt-4" />
-      </div>
-      <div data-content class="flex flex-col gap-8 text-xs !leading-relaxed">
-        <Content components={{ a: Link, h2: PostSubheader, figure: PostCode }} />
-        {post.data.repo && <PostGithub repo={post.data.repo} />}
-      </div>
-      <Separator class="mb-16 mt-10" />
-      <div data-pagefind-ignore class="flex flex-col gap-4">
-        <h3 class="font-bold tracking-widest">MORE POSTS</h3>
-        <div class="grid gap-x-10 gap-y-6 md:grid-cols-2">
-          <PostCard post={prev} />
-          <PostCard post={next} />
-        </div>
-      </div>
-    </article>
-    <h2 id="introduction" class="sr-only"></h2>
-    <ul class="hidden">
-      {post.data.topics.map((topic) => <ul data-pagefind-filter="tag">{topic}</ul>)}
-    </ul>
-    <aside class="sticky top-10 hidden h-max rounded border xl:block">
-      <div class="flex flex-col gap-4 border-b p-4">
-        <h2 class="text-xs tracking-wider">TABLE OF CONTENTS</h2>
-        <!-- prettier-ignore -->
-        <ol class="flex flex-col gap-1 text-xxs text-2">
-          <li><Link href="#introduction">Introduction</Link></li>
-          {headings.map((heading) => (<li><Link href={`#${heading.slug}`}>{heading.text}</Link></li>))}
-        </ol>
-      </div>
-      <div class="flex gap-4 p-4">
-        <div class="h-[70px] w-[70px]">
-          <Image class="shrink-0" src={Favicon} alt="Me" width={2048} height={2048} />
-        </div>
-        <div class="text-xxs">
-          <p class="font-bold tracking-wider">CHRISTIAN PENROD</p>
-          <p class="mb-2 text-2">Front-End Web Developer</p>
-          <!-- prettier-ignore -->
-          <ul class="flex text-2 [&_[data-external-icon]]:hidden [&_a]:!pr-2 [&_svg]:!w-3">
-            <li><Link href={import.meta.env.GITHUB}><Github size={12} aria-label="Github" /></Link></li>
-            <li><Link href={import.meta.env.TWITTER}><Twitter size={12} aria-label="Twitter/X" /></Link></li>
-            <li><Link href={import.meta.env.LINKEDIN}><Linkedin size={12} aria-label="LinkedIn" /></Link></li>
-            <li><Link href={`mailto:${import.meta.env.EMAIL}`}><Mail size={12} aria-label="Email" /></Link></li>
-            <li><Link href={new URL('rss.xml', import.meta.env.SITE)}><Rss size={12} aria-label="RSS" /></Link></li>
-          </ul>
-        </div>
-      </div>
-    </aside>
-  </div>
+    </div>
+  </aside>
 </Layout>
-
-<style is:global lang="sass">
-  [data-content] a
-    @apply text-1
-
-  [data-content] p
-    @apply text-2
-
-  [data-content] blockquote
-    @apply rounded border bg-2 italic pr-4 pl-6 py-2 relative
-  [data-content] blockquote::before
-    @apply bg-3 content-[""] rounded-l absolute w-3 border-r inset-y-0 left-0
-
-  [data-content] ol
-    @apply list-decimal list-inside
-
-  [data-content] code:not([data-language])
-    @apply text-1 font-sans text-xxs border rounded px-1.5 py-0.5
-
-  [data-content] details
-    @apply bg-2 rounded border [&:not(:last-of-type)]:mb-3 px-4 py-1 text-xs
-  [data-content] details[open]
-    @apply [&_summary]:mb-4 pb-4
-  [data-content] summary
-    @apply cursor-pointer select-none hover:text-emphasis motion-safe:transition-colors
-</style>

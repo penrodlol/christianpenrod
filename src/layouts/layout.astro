@@ -1,38 +1,48 @@
 ---
 import favicon from '@/assets/favicon.webp';
 import ogDefault from '@/assets/og.webp';
-import Socials from '@/components/socials.astro';
+import { buttonVariants } from '@/components/ui/button.astro';
+import Clipboard from '@/components/ui/clipboard.astro';
 import Link from '@/components/ui/link.astro';
+import * as NavigationMenu from '@/components/ui/navigation-menu';
 import Separator from '@/components/ui/separator.astro';
-import '@fontsource/inter';
+import Text from '@/components/ui/text.astro';
+import Theme from '@/components/ui/theme.astro';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/700.css';
+import type { HTMLAttributes } from 'astro/types';
 import { ViewTransitions } from 'astro:transitions';
-import { Home } from 'lucide-astro';
-import { twJoin } from 'tailwind-merge';
+import { Github, Home, Linkedin, Twitter } from 'lucide-astro';
+import { twMerge } from 'tailwind-merge';
 
-type Props = { title?: string; description?: string; og?: string };
+type Props = HTMLAttributes<'main'> & { title?: string; description?: string; og?: string };
 
 const {
   title = 'Christian Penrod | Front-End Web Developer',
   description = 'Developing for the web since 2015, based in Pittsburgh PA.',
   og = ogDefault.src,
+  class: className,
+  ...props
 } = Astro.props;
 ---
 
-<html lang="en" class="ml-[calc(100vw-100%)] scroll-pt-10 bg-2 bg-noise text-1 selection:bg-3">
+<html lang="en" class="ml-[calc(100vw-100%)] scroll-pt-20 bg-2 text-1 antialiased scrollbar-thin sm:p-4">
   <head>
     <title>{title}</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="title" content={title} />
     <meta name="description" content={description} />
-    <meta name="og:type" content="website" />
-    <meta name="og:title" content={title} />
-    <meta name="og:description" content={description} />
-    <meta name="og:image" content={new URL(og, Astro.site)} />
-    <meta name="og:image:alt" content={title} />
-    <meta name="og:site_name" content={Astro.site} />
-    <meta name="og:image:width" content="1280" />
-    <meta name="og:image:height" content="675" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content={Astro.site} />
+    <meta property="og:url" content={new URL(og, Astro.site)} />
+    <meta property="og:image" content={new URL(og, Astro.site)} />
+    <meta property="og:image:alt" content={title} />
+    <meta property="og:image:width" content="1280" />
+    <meta property="og:image:height" content="675" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:creator" content={`@${import.meta.env.USERNAME}`} />
     <meta name="twitter:title" content={title} />
@@ -41,39 +51,38 @@ const {
     <link rel="icon" type="image/svg+xml" href={favicon.src} />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link href={new URL(Astro.url.pathname, Astro.site)} rel="canonical" />
+    <script is:inline set:text="document.documentElement.classList.add('[&_[x-cloak]]:hidden')" />
     <ViewTransitions />
   </head>
-  <body class="p-4 text-sm">
-    <div
-      class={twJoin(
-        'mx-auto flex min-h-[calc(100vh-2.125rem)] max-w-screen-xl',
-        'flex-col rounded border bg-1 px-fluid-4 py-4',
-      )}
-    >
-      <header class="flex items-center gap-4 text-xxs">
-        <Link href="/" aria-label="Home" class="rounded border bg-2 p-1 text-2">
-          <Home size={14} aria-hidden />
-        </Link>
-        <nav class="ml-auto">
-          <ul class="flex gap-4">
-            <li><Link href="/blog">Blog</Link></li>
-          </ul>
-        </nav>
-        <Socials />
-      </header>
-      <main class="mb-fluid-6 flex-1"><slot /></main>
-      <footer class="mx-auto w-full max-w-screen-lg">
-        <Separator />
-        <div class="flex justify-between px-2 pt-4 text-xxs text-2">
-          <p>©{new Date().getFullYear()} Christian Penrod - All Rights Reserved</p>
-          <nav>
-            <ul class="flex gap-4">
-              <li><Link href="/">Home</Link></li>
-              <li><Link href="/blog">Blog</Link></li>
-            </ul>
-          </nav>
-        </div>
-      </footer>
-    </div>
+  <body class="mx-auto flex min-h-[calc(100dvh-2rem)] max-w-screen-xl flex-col bg-1 shadow sm:rounded sm:border">
+    <header class="sticky top-0 z-50 flex h-12 w-full items-center rounded-t border-b bg-1 px-4 text-xs">
+      <Link href="/" aria-label="Home" class={buttonVariants({ color: 'ghost', size: 'icon', class: 'mr-auto' })}>
+        <Home class="size-3.5" />
+      </Link>
+      <NavigationMenu.Root>
+        <NavigationMenu.Link href="/blog">Blog</NavigationMenu.Link>
+        <NavigationMenu.Dropdown>
+          <NavigationMenu.DropdownTrigger>Socials</NavigationMenu.DropdownTrigger>
+          <NavigationMenu.DropdownLinks class="[&_svg:first-child]:size-3.5 [&_svg:last-child]:ml-auto">
+            <NavigationMenu.Link href={import.meta.env.GITHUB}><Github /> Github</NavigationMenu.Link>
+            <NavigationMenu.Link href={import.meta.env.TWITTER}><Twitter /> Twitter/X</NavigationMenu.Link>
+            <NavigationMenu.Link href={import.meta.env.LINKEDIN}> <Linkedin />LinkedIn</NavigationMenu.Link>
+            <Separator />
+            <NavigationMenu.Link href={`mailto:${import.meta.env.EMAIL}`} class="p-0" tabindex="-1" @click.prevent>
+              <Clipboard class="w-full" content={import.meta.env.EMAIL}>Copy Email</Clipboard>
+            </NavigationMenu.Link>
+          </NavigationMenu.DropdownLinks>
+        </NavigationMenu.Dropdown>
+      </NavigationMenu.Root>
+      <Theme />
+    </header>
+    <main {...props} class={twMerge('flex-1 px-6 py-10 sm:px-8 sm:py-14', className)}><slot /></main>
+    <footer class="flex items-center justify-between gap-3 rounded-b border-t px-6 py-4 text-2 text-xs">
+      <Text as="p">©{new Date().getFullYear()} Christian Penrod - All Rights Reserved</Text>
+      <NavigationMenu.Root>
+        <NavigationMenu.Link href="/">Home</NavigationMenu.Link>
+        <NavigationMenu.Link href="/blog" class="mr-2">Blog</NavigationMenu.Link>
+      </NavigationMenu.Root>
+    </footer>
   </body>
 </html>

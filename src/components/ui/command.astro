@@ -10,11 +10,7 @@ const { class: className, key, ...props } = Astro.props;
 <kbd
   {...props}
   x-data
-  class={twMerge(
-    'rounded-sm border bg-2 px-2 py-0.5 font-sans',
-    '!text-xxs leading-none text-1',
-    className,
-  )}
+  class={twMerge('bg-2 text-1 rounded-sm border px-2 py-0.5 font-sans !text-xs leading-none', className)}
 >
-  {Astro.slots.has('default') ? <slot /> : key}
+  {key}
 </kbd>

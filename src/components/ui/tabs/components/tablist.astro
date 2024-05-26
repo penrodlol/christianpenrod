@@ -1,0 +1,20 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+
+type Props = HTMLAttributes<'div'>;
+
+const { class: className, ...props } = Astro.props;
+---
+
+<div
+  {...props}
+  role="tablist"
+  @keydown.right.prevent.stop="$focus.wrap().next()"
+  @keydown.left.prevent.stop="$focus.wrap().prev()"
+  @keydown.home.prevent.stop="$focus.first()"
+  @keydown.end.prevent.stop="$focus.last()"
+  class={twMerge('flex gap-2 overflow-auto rounded border-b bg-2 p-1 scrollbar-thin', className)}
+>
+  <slot />
+</div>

@@ -1,0 +1,21 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+
+type Props = HTMLAttributes<'div'> & { value: string };
+
+const { class: className, value, ...props } = Astro.props;
+---
+
+<div
+  {...props}
+  role="tabpanel"
+  tabindex="0"
+  x-cloak
+  :id={`$id('tabs') + '-tabpanel-${value}'`}
+  :aria-labelledby={`$id('tabs') + '-tab-${value}'`}
+  :aria-hidden={`active !== "${value}"`}
+  class={twMerge('p-6 aria-hidden:hidden focus-visible:outline-none focus-visible:ring-1', className)}
+>
+  <slot />
+</div>

@@ -1,0 +1,40 @@
+---
+import { MoonStar, Sun } from 'lucide-astro';
+import Button from './button.astro';
+---
+
+<Button
+  x-data="{ theme: localStorage.theme }"
+  color="ghost"
+  size="icon"
+  aria-label="Toggle theme"
+  @click={`
+    document.documentElement.classList.toggle('dark');
+    localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+    theme = localStorage.theme;
+`}
+>
+  <Sun
+    x-show="theme === 'dark'"
+    x-transition:enter="animate-in duration-300 motion-safe:fade-in-0 motion-safe:zoom-in-0"
+    class="hidden dark:block"
+  />
+  <MoonStar
+    x-show="theme === 'light'"
+    x-transition:enter="animate-in duration-300 motion-safe:fade-in-0 motion-safe:zoom-in-0"
+    class="dark:hidden"
+  />
+</Button>
+
+<script is:inline>
+  function setTheme(root) {
+    if ('theme' in localStorage) root.classList.toggle('dark', localStorage.theme === 'dark');
+    else if (window.matchMedia('(prefers-color-scheme: dark)').matches) root.classList.add('dark');
+    else root.classList.remove('dark');
+
+    localStorage.theme = root.classList.contains('dark') ? 'dark' : 'light';
+  }
+
+  setTheme(document.documentElement);
+  document.addEventListener('astro:before-swap', (event) => setTheme(event.newDocument.documentElement));
+</script>
