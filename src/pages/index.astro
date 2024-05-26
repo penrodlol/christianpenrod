@@ -4,6 +4,7 @@ import PostCard from '@/components/post-card.astro';
 import ProjectCard from '@/components/project-card.astro';
 import * as DataList from '@/components/ui/datalist';
 import Link from '@/components/ui/link.astro';
+import Separator from '@/components/ui/separator.astro';
 import Text from '@/components/ui/text.astro';
 import Layout from '@/layouts/layout.astro';
 import { Image } from 'astro:assets';
@@ -30,21 +31,21 @@ const posts = (await getCollection('posts'))
           <DataList.Key>Location</DataList.Key>
           <DataList.Value>{import.meta.env.LOCATION}</DataList.Value>
         </DataList.Item>
-        <!-- <Separator class="my-2" /> -->
+        <Separator class="my-2" aria-hidden />
         <DataList.Item>
           <DataList.Key>Occupation</DataList.Key>
           <DataList.Value>
             <Link href={import.meta.env.JOB_LINK}>@{import.meta.env.JOB_NAME}</Link>
           </DataList.Value>
         </DataList.Item>
-        <!-- <Separator class="my-2" /> -->
+        <Separator class="my-2" aria-hidden />
         <DataList.Item>
           <DataList.Key>Education</DataList.Key>
           <DataList.Value>
             <Link href={import.meta.env.COLLEGE_LINK}>@{import.meta.env.COLLEGE_NAME}</Link>
           </DataList.Value>
         </DataList.Item>
-        <!-- <Separator class="mt-2" /> -->
+        <Separator class="mt-2" aria-hidden />
       </DataList.Root>
     </div>
     <div class="hidden size-[320px] shrink-0 overflow-hidden rounded border-2 opacity-80 shadow lg:block">

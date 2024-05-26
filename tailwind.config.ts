@@ -74,7 +74,7 @@ export default {
           '--shiki-color-background': 'hsl(0 0% 2%)',
           '--shiki-token-constant': 'hsl(0 0% 59%)',
           '--shiki-token-string': 'hsl(0 0% 70%)',
-          '--shiki-token-comment': 'hsl(0 0% 31%)',
+          '--shiki-token-comment': 'hsl(0 0% 50%)',
           '--shiki-token-keyword': 'hsl(0 0% 59%)',
           '--shiki-token-parameter': 'hsl(0 0% 100%)',
           '--shiki-token-function': 'hsl(0 0% 100%)',

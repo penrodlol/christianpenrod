@@ -14,8 +14,6 @@ const { class: className, ...props } = Astro.props;
   aria-labelledby={id}
   class={twMerge('flex items-start gap-2 rounded border border-l-8 bg-2 px-4 py-3 text-xs', className)}
 >
-  <h5 {id} aria-label="Note" class="peer flex items-center gap-2">
-    <Info class="size-4 shrink-0 translate-y-1 text-2" aria-hidden />
-  </h5>
+  <p {id} aria-label="Note" aria-hidden><Info class="size-4 shrink-0 translate-y-1 text-2" /></p>
   <section><slot /></section>
 </aside>
