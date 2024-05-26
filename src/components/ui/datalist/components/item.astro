@@ -7,4 +7,4 @@ type Props = HTMLAttributes<'div'>;
 const { class: className, ...props } = Astro.props;
 ---
 
-<li {...props} class={twMerge('flex items-center justify-between', className)}><slot /></li>
+<div {...props} class={twMerge('flex items-center justify-between', className)}><slot /></div>
