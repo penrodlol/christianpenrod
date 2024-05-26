@@ -32,7 +32,7 @@ import Button from './button.astro';
     else if (window.matchMedia('(prefers-color-scheme: dark)').matches) root.classList.add('dark');
     else root.classList.remove('dark');
 
-    localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+    localStorage.theme = root.classList.contains('dark') ? 'dark' : 'light';
   }
 
   setTheme(document.documentElement);
