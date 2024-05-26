@@ -93,8 +93,8 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
     <div class="flex flex-col gap-6">
       <Text as="h3">MORE POSTS</Text>
       <ul class="grid gap-x-10 gap-y-6 md:grid-cols-2">
-        <PostCard post={prev} />
-        <PostCard post={next} />
+        <li><PostCard post={prev} /></li>
+        <li><PostCard post={next} /></li>
       </ul>
     </div>
   </article>

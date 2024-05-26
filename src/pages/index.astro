@@ -2,8 +2,9 @@
 import Me from '@/assets/me.webp';
 import PostCard from '@/components/post-card.astro';
 import ProjectCard from '@/components/project-card.astro';
-import * as DescriptionList from '@/components/ui/description-list';
+import * as DataList from '@/components/ui/datalist';
 import Link from '@/components/ui/link.astro';
+import Separator from '@/components/ui/separator.astro';
 import Text from '@/components/ui/text.astro';
 import Layout from '@/layouts/layout.astro';
 import { Image } from 'astro:assets';
@@ -25,38 +26,41 @@ const posts = (await getCollection('posts'))
         Working on the web since 2018. I enjoy developing efficient web experiences through code and design. I'm equally
         driven to sharing knowledge with others.
       </Text>
-      <DescriptionList.Root class="text-xs">
-        <DescriptionList.Item>
-          <DescriptionList.Key>Location</DescriptionList.Key>
-          <DescriptionList.Value>{import.meta.env.LOCATION}</DescriptionList.Value>
-        </DescriptionList.Item>
-        <DescriptionList.Item>
-          <DescriptionList.Key>Occupation</DescriptionList.Key>
-          <DescriptionList.Value>
+      <DataList.Root class="text-xs">
+        <DataList.Item>
+          <DataList.Key>Location</DataList.Key>
+          <DataList.Value>{import.meta.env.LOCATION}</DataList.Value>
+        </DataList.Item>
+        <Separator class="my-2" />
+        <DataList.Item>
+          <DataList.Key>Occupation</DataList.Key>
+          <DataList.Value>
             <Link href={import.meta.env.JOB_LINK}>@{import.meta.env.JOB_NAME}</Link>
-          </DescriptionList.Value>
-        </DescriptionList.Item>
-        <DescriptionList.Item>
-          <DescriptionList.Key>Education</DescriptionList.Key>
-          <DescriptionList.Value>
+          </DataList.Value>
+        </DataList.Item>
+        <Separator class="my-2" />
+        <DataList.Item>
+          <DataList.Key>Education</DataList.Key>
+          <DataList.Value>
             <Link href={import.meta.env.COLLEGE_LINK}>@{import.meta.env.COLLEGE_NAME}</Link>
-          </DescriptionList.Value>
-        </DescriptionList.Item>
-      </DescriptionList.Root>
+          </DataList.Value>
+        </DataList.Item>
+        <Separator class="mt-2" />
+      </DataList.Root>
     </div>
     <div class="hidden size-[320px] shrink-0 overflow-hidden rounded border-2 opacity-80 shadow lg:block">
       <Image src={Me} alt="Me" loading="eager" quality={100} class="brightness-150 grayscale dark:brightness-100" />
     </div>
   </section>
   <section class="flex flex-col gap-6">
-    <Text as="h4" class="text-2">PROJECTS</Text>
+    <Text as="h3" class="text-2">PROJECTS</Text>
     <!-- prettier-ignore -->
     <ul class="grid lg:grid-cols-2 gap-x-10 gap-y-6">
       {projects.map((project) => <li><ProjectCard {project} /></li>)}
     </ul>
   </section>
   <section class="flex flex-col gap-6">
-    <Text as="h4" class="text-2">RECENT POSTS</Text>
+    <Text as="h3" class="text-2">RECENT POSTS</Text>
     <!-- prettier-ignore -->
     <ul class="gap-10 grid lg:grid-cols-3">
       {posts.map((post) => <li><PostCard {post} /></li>)}

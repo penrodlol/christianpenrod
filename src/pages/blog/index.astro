@@ -28,7 +28,7 @@ const topics = [...new Set(posts.flatMap((post) => post.data.topics))].sort();
   <div class="grid gap-10 lg:grid-cols-[1fr_30%] xl:gap-20">
     <section class="flex flex-col gap-6">
       <div class="flex items-center gap-4">
-        <Text as="h4" class="text-2">ALL POSTS</Text>
+        <Text as="h3" class="text-2">ALL POSTS</Text>
         <Separator class="flex-1" />
         <div class="flex items-center text-2 text-xs">
           <Text>{views} Views</Text>
@@ -57,7 +57,7 @@ const topics = [...new Set(posts.flatMap((post) => post.data.topics))].sort();
       </div>
     </section>
     <section class="hidden flex-col gap-6 lg:flex">
-      <Text as="h4" class="text-2">RECENT POSTS</Text>
+      <Text as="h3" class="text-2">RECENT POSTS</Text>
       <!-- prettier-ignore -->
       <ul class="flex flex-col gap-6">{posts.slice(0, 3).map((post) => <li><PostCard {post} /></li>)}</ul>
     </section>

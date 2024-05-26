@@ -2,9 +2,9 @@
 import type { HTMLAttributes } from 'astro/types';
 import { twMerge } from 'tailwind-merge';
 
-type Props = HTMLAttributes<'dt'>;
+type Props = HTMLAttributes<'span'>;
 
 const { class: className, ...props } = Astro.props;
 ---
 
-<dt {...props} class={twMerge('text-2 font-medium', className)}><slot />:</dt>
+<span {...props} class={twMerge('font-medium text-2', className)}><slot />:</span>
