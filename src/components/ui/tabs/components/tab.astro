@@ -26,7 +26,7 @@ const { class: className, for: htmlFor, ...props } = Astro.props;
   )}
 >
   <div
-    role="none"
+    role="presentation"
     x-show={`active === "${htmlFor}"`}
     x-transition:enter="animate-in fade-in-0 zoom-in-90"
     class="absolute inset-0 z-0 rounded bg-1 content-[''] motion-safe:transition-colors"

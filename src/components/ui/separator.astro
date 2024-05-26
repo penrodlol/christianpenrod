@@ -13,4 +13,4 @@ type Props = HTMLAttributes<'div'> & VariantProps<typeof variants>;
 const { class: className, orientation, ...props } = Astro.props;
 ---
 
-<div {...props} role="none" class={variants({ orientation, className })}></div>
+<div {...props} role="presentation" class={variants({ orientation, className })}></div>
