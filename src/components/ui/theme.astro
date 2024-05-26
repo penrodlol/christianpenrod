@@ -16,13 +16,13 @@ import Button from './button.astro';
 >
   <Sun
     x-show="theme === 'dark'"
+    x-transition:enter="animate-in duration-300 motion-safe:fade-in-0 motion-safe:zoom-in-0"
     class="hidden dark:block"
-    x-transition:enter="animate-in motion-safe:fade-in-0 motion-safe:zoom-in-0"
   />
   <MoonStar
     x-show="theme === 'light'"
+    x-transition:enter="animate-in duration-300 motion-safe:fade-in-0 motion-safe:zoom-in-0"
     class="dark:hidden"
-    x-transition:enter="animate-in motion-safe:fade-in-0 motion-safe:zoom-in-0"
   />
 </Button>
 
