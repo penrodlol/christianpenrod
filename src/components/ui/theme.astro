@@ -4,7 +4,7 @@ import Button from './button.astro';
 ---
 
 <Button
-  x-data="{ theme: localStorage.theme ?? 'light' }"
+  x-data="{ theme: localStorage.theme }"
   color="ghost"
   size="icon"
   aria-label="Toggle theme"
@@ -31,6 +31,8 @@ import Button from './button.astro';
     if ('theme' in localStorage) root.classList.toggle('dark', localStorage.theme === 'dark');
     else if (window.matchMedia('(prefers-color-scheme: dark)').matches) root.classList.add('dark');
     else root.classList.remove('dark');
+
+    localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
   }
 
   setTheme(document.documentElement);
