@@ -11,7 +11,7 @@ const { class: className, slug, text, depth, ...props } = Astro.props;
 
 <li>
   <Component
-    {...props as any}
+    {...props}
     href={`#${slug}`}
     class={twMerge('justify-start py-0.5 hover:text-brand motion-safe:transition-colors', className)}
   >

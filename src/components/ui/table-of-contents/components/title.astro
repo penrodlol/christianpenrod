@@ -8,4 +8,4 @@ type Props = ComponentProps<typeof Text>;
 const { class: className, as, ...props } = Astro.props;
 ---
 
-<Text {...props as any} as={as ?? 'h2'} class={twMerge('mb-2 text-sm', className)}><slot /></Text>
+<Text {...props} as={as ?? 'h2'} class={twMerge('mb-2 text-sm', className)}><slot /></Text>

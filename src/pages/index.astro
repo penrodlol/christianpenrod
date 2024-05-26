@@ -49,22 +49,18 @@ const posts = (await getCollection('posts'))
       </DataList.Root>
     </div>
     <div class="hidden size-[320px] shrink-0 overflow-hidden rounded border-2 opacity-80 shadow lg:block">
-      <Image src={Me} alt="Me" loading="eager" quality={100} class="brightness-150 grayscale dark:brightness-100" />
+      <Image src={Me} alt="Me" class="brightness-150 grayscale dark:brightness-100" />
     </div>
   </section>
   <section class="flex flex-col gap-6">
     <Text as="h3" class="text-2">PROJECTS</Text>
     <!-- prettier-ignore -->
-    <ul class="grid lg:grid-cols-2 gap-x-10 gap-y-6">
-      {projects.map((project) => <li><ProjectCard {project} /></li>)}
-    </ul>
+    <ul class="grid lg:grid-cols-2 gap-x-10 gap-y-6">{projects.map((project) => <li><ProjectCard {project} /></li>)}</ul>
   </section>
   <section class="flex flex-col gap-6">
     <Text as="h3" class="text-2">RECENT POSTS</Text>
     <!-- prettier-ignore -->
-    <ul class="gap-10 grid lg:grid-cols-3">
-      {posts.map((post) => <li><PostCard {post} /></li>)}
-    </ul>
+    <ul class="gap-10 grid lg:grid-cols-3">{posts.map((post) => <li><PostCard {post} /></li>)}</ul>
     <Link href="/blog" class="self-end">View all posts <ArrowRight class="size-3" /></Link>
   </section>
 </Layout>
