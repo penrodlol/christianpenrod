@@ -17,6 +17,7 @@ const { class: className, 'aria-label': ariaLabel, content, target, ...props } =
   @mouseleave.debounce.1000ms="copied && (copied = false)"
   @keydown.enter.debounce.1000ms="copied && (copied = false)"
   @keydown.space.debounce.1000ms="copied && (copied = false)"
+  @touchstart.debounce.1000ms="copied && (copied = false)"
   class={twMerge(
     'group flex select-none items-center justify-between gap-2 rounded p-2',
     'hover:bg-3 hover:text-brand focus-visible:outline-none focus-visible:ring-1 motion-safe:transition-colors',
