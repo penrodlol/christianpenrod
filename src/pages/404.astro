@@ -1,15 +1,12 @@
 ---
 import Link from '@/components/ui/link.astro';
+import Text from '@/components/ui/text.astro';
 import Layout from '@/layouts/layout.astro';
 import { ArrowLeft } from 'lucide-astro';
 ---
 
-<Layout>
-  <div class="mt-fluid-6 text-center">
-    <h1 class="text-fancy text-9xl tracking-widest">404</h1>
-    <p class="text-xl text-2">Page Not Found</p>
-    <Link href="/" class="mt-fluid-4 gap-3">
-      <ArrowLeft size={16} aria-hidden /> Go Back home
-    </Link>
-  </div>
+<Layout class="text-center">
+  <Text as="h1" class="text-9xl">404</Text>
+  <Text as="h2" class="text-2">Page Not Found</Text>
+  <Link href="/" class="mt-6 gap-3"><ArrowLeft class="size-4" aria-hidden />Go Back home </Link>
 </Layout>
