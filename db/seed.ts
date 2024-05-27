@@ -6,8 +6,8 @@ import { toString } from 'mdast-util-to-string';
 export default async function () {
   const posts = await getCollection('posts');
   const postsSearches = posts
-    .map((post) => ({ slug: post.slug, body: toString(fromMarkdown(post.body)) }))
-    .map((post) => sql`(${post.slug}, ${post.body})`);
+    .map((post) => ({ slug: post.slug, body: toString(fromMarkdown(post.body), { includeHtml: false }) }))
+    .map((post) => sql`(${post.slug}, ${post.body.replaceAll('\n', ' ')})`);
 
   await db.batch([
     db.insert(PostView).values(posts.map((post) => ({ post: post.slug }))),
