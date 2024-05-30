@@ -9,7 +9,7 @@ const { class: className, ...props } = Astro.props;
 ---
 
 <li>
-  <Component {...props as any} class={twMerge('hover:bg-3 w-full gap-2 rounded px-2 py-1.5', className)}>
+  <Component {...props} class={twMerge('w-full gap-2 rounded px-2 py-1.5 hover:bg-3', className)}>
     <slot />
   </Component>
 </li>
