@@ -39,7 +39,6 @@ export default defineConfig({
         PUBLIC_JOB_NAME: envField.string({ context: 'server', access: 'public' }),
         PUBLIC_COLLEGE_LINK: envField.string({ context: 'server', access: 'public' }),
         PUBLIC_COLLEGE_NAME: envField.string({ context: 'server', access: 'public' }),
-        GITHUB_TOKEN: envField.string({ context: 'server', access: 'secret' }),
       },
     },
   },
