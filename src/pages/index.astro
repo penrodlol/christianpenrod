@@ -9,6 +9,7 @@ import Text from '@/components/ui/text.astro';
 import Layout from '@/layouts/layout.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
+import * as env from 'astro:env/server';
 import { ArrowRight } from 'lucide-astro';
 
 const projects = ['feedjoy', 'christianpenrod'];
@@ -29,21 +30,17 @@ const posts = (await getCollection('posts'))
       <DataList.Root class="text-xs">
         <DataList.Item>
           <DataList.Key>Location</DataList.Key>
-          <DataList.Value>{import.meta.env.LOCATION}</DataList.Value>
+          <DataList.Value>{env.PUBLIC_LOCATION}</DataList.Value>
         </DataList.Item>
         <Separator class="my-2" aria-hidden />
         <DataList.Item>
           <DataList.Key>Occupation</DataList.Key>
-          <DataList.Value>
-            <Link href={import.meta.env.JOB_LINK}>@{import.meta.env.JOB_NAME}</Link>
-          </DataList.Value>
+          <DataList.Value><Link href={env.PUBLIC_JOB_LINK}>@{env.PUBLIC_JOB_NAME}</Link> </DataList.Value>
         </DataList.Item>
         <Separator class="my-2" aria-hidden />
         <DataList.Item>
           <DataList.Key>Education</DataList.Key>
-          <DataList.Value>
-            <Link href={import.meta.env.COLLEGE_LINK}>@{import.meta.env.COLLEGE_NAME}</Link>
-          </DataList.Value>
+          <DataList.Value><Link href={env.PUBLIC_COLLEGE_LINK}>@{env.PUBLIC_COLLEGE_NAME}</Link> </DataList.Value>
         </DataList.Item>
         <Separator class="mt-2" aria-hidden />
       </DataList.Root>

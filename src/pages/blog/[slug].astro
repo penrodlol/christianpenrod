@@ -17,6 +17,7 @@ import Layout from '@/layouts/layout.astro';
 import type { GetStaticPaths } from 'astro';
 import { Image } from 'astro:assets';
 import { getCollection, type CollectionEntry } from 'astro:content';
+import * as env from 'astro:env/server';
 import { Calendar, ChevronRight, Clock4, Eye, Github, Linkedin, Mail, Rss, Twitter } from 'lucide-astro';
 import { twJoin } from 'tailwind-merge';
 import { tv } from 'tailwind-variants';
@@ -117,11 +118,11 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
           <Text class="text-2">Front-End Web Developer</Text>
         </div>
         <ul class="flex text-2 [&_[data-external-icon]]:hidden">
-          <li><Link href={import.meta.env.GITHUB} aria-label="Github" class={social}><Github /></Link></li>
-          <li><Link href={import.meta.env.TWITTER} aria-label="Twitter" class={social}><Twitter /></Link></li>
-          <li><Link href={import.meta.env.LINKEDIN} aria-label="LinkedIn" class={social}><Linkedin /></Link></li>
-          <li><Link href={`mailto:${import.meta.env.EMAIL}`} aria-label="Email" class={social}><Mail /></Link></li>
-          <li><Link href={new URL('rss.xml', import.meta.env.SITE)} aria-label="RSS" class={social}><Rss /></Link></li>
+          <li><Link href={env.PUBLIC_GITHUB} aria-label="Github" class={social}><Github /></Link></li>
+          <li><Link href={env.PUBLIC_TWITTER} aria-label="Twitter" class={social}><Twitter /></Link></li>
+          <li><Link href={env.PUBLIC_LINKEDIN} aria-label="LinkedIn" class={social}><Linkedin /></Link></li>
+          <li><Link href={`mailto:${env.PUBLIC_EMAIL}`} aria-label="Email" class={social}><Mail /></Link></li>
+          <li><Link href={new URL('rss.xml', Astro.site)} aria-label="RSS" class={social}><Rss /></Link></li>
         </ul>
       </div>
     </div>

@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import vercel from '@astrojs/vercel/serverless';
 import robotsTxt from 'astro-robots-txt';
-import { defineConfig } from 'astro/config';
+import { defineConfig, envField } from 'astro/config';
 import { toString } from 'mdast-util-to-string';
 import readingTime from 'reading-time';
 import rehypePrettyCode from 'rehype-pretty-code';
@@ -25,6 +25,23 @@ export default defineConfig({
         data.astro.frontmatter.readingTime = `${payload} Min Read`;
       },
     ],
+  },
+  experimental: {
+    env: {
+      schema: {
+        PUBLIC_LOCATION: envField.string({ context: 'server', access: 'public' }),
+        PUBLIC_EMAIL: envField.string({ context: 'server', access: 'public' }),
+        PUBLIC_USERNAME: envField.string({ context: 'server', access: 'public' }),
+        PUBLIC_GITHUB: envField.string({ context: 'server', access: 'public' }),
+        PUBLIC_TWITTER: envField.string({ context: 'server', access: 'public' }),
+        PUBLIC_LINKEDIN: envField.string({ context: 'server', access: 'public' }),
+        PUBLIC_JOB_LINK: envField.string({ context: 'server', access: 'public' }),
+        PUBLIC_JOB_NAME: envField.string({ context: 'server', access: 'public' }),
+        PUBLIC_COLLEGE_LINK: envField.string({ context: 'server', access: 'public' }),
+        PUBLIC_COLLEGE_NAME: envField.string({ context: 'server', access: 'public' }),
+        GITHUB_TOKEN: envField.string({ context: 'server', access: 'secret' }),
+      },
+    },
   },
   integrations: [
     tailwind(),

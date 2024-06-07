@@ -1,13 +1,12 @@
 ---
 import octokit from '@/libs/octokit';
+import { PUBLIC_USERNAME } from 'astro:env/server';
 import { Book, GitFork, Star } from 'lucide-astro';
 import Text from './ui/text.astro';
 
 type Props = { repo: string };
 
-const repo = await octokit.repos
-  .get({ owner: import.meta.env.USERNAME, repo: Astro.props.repo })
-  .then((res) => res.data);
+const repo = await octokit.repos.get({ owner: PUBLIC_USERNAME, repo: Astro.props.repo }).then((res) => res.data);
 ---
 
 <a
