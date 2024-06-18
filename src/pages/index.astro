@@ -30,17 +30,17 @@ const posts = (await getCollection('posts'))
       <DataList.Root class="text-xs">
         <DataList.Item>
           <DataList.Key>Location</DataList.Key>
-          <DataList.Value>{env.PUBLIC_LOCATION}</DataList.Value>
+          <DataList.Value>{env.LOCATION}</DataList.Value>
         </DataList.Item>
         <Separator class="my-2" aria-hidden />
         <DataList.Item>
           <DataList.Key>Occupation</DataList.Key>
-          <DataList.Value><Link href={env.PUBLIC_JOB_LINK}>@{env.PUBLIC_JOB_NAME}</Link> </DataList.Value>
+          <DataList.Value><Link href={env.JOB_LINK}>@{env.JOB_NAME}</Link> </DataList.Value>
         </DataList.Item>
         <Separator class="my-2" aria-hidden />
         <DataList.Item>
           <DataList.Key>Education</DataList.Key>
-          <DataList.Value><Link href={env.PUBLIC_COLLEGE_LINK}>@{env.PUBLIC_COLLEGE_NAME}</Link> </DataList.Value>
+          <DataList.Value><Link href={env.COLLEGE_LINK}>@{env.COLLEGE_NAME}</Link> </DataList.Value>
         </DataList.Item>
         <Separator class="mt-2" aria-hidden />
       </DataList.Root>

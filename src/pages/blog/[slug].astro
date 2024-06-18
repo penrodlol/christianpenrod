@@ -118,10 +118,10 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
           <Text class="text-2">Front-End Web Developer</Text>
         </div>
         <ul class="flex text-2 [&_[data-external-icon]]:hidden">
-          <li><Link href={env.PUBLIC_GITHUB} aria-label="Github" class={social}><Github /></Link></li>
-          <li><Link href={env.PUBLIC_TWITTER} aria-label="Twitter" class={social}><Twitter /></Link></li>
-          <li><Link href={env.PUBLIC_LINKEDIN} aria-label="LinkedIn" class={social}><Linkedin /></Link></li>
-          <li><Link href={`mailto:${env.PUBLIC_EMAIL}`} aria-label="Email" class={social}><Mail /></Link></li>
+          <li><Link href={env.GITHUB} aria-label="Github" class={social}><Github /></Link></li>
+          <li><Link href={env.TWITTER} aria-label="Twitter" class={social}><Twitter /></Link></li>
+          <li><Link href={env.LINKEDIN} aria-label="LinkedIn" class={social}><Linkedin /></Link></li>
+          <li><Link href={`mailto:${env.EMAIL}`} aria-label="Email" class={social}><Mail /></Link></li>
           <li><Link href={new URL('rss.xml', Astro.site)} aria-label="RSS" class={social}><Rss /></Link></li>
         </ul>
       </div>

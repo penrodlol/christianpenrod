@@ -45,7 +45,7 @@ const {
     <meta property="og:image:width" content="1280" />
     <meta property="og:image:height" content="675" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:creator" content={`@${env.PUBLIC_USERNAME}`} />
+    <meta name="twitter:creator" content={`@${env.USERNAME}`} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(og, Astro.site)} />
@@ -65,12 +65,12 @@ const {
         <NavigationMenu.Dropdown>
           <NavigationMenu.DropdownTrigger>Socials</NavigationMenu.DropdownTrigger>
           <NavigationMenu.DropdownLinks class="[&_svg:first-child]:size-3.5 [&_svg:last-child]:ml-auto">
-            <NavigationMenu.Link href={env.PUBLIC_GITHUB}><Github /> Github</NavigationMenu.Link>
-            <NavigationMenu.Link href={env.PUBLIC_TWITTER}><Twitter /> Twitter/X</NavigationMenu.Link>
-            <NavigationMenu.Link href={env.PUBLIC_LINKEDIN}> <Linkedin />LinkedIn</NavigationMenu.Link>
+            <NavigationMenu.Link href={env.GITHUB}><Github /> Github</NavigationMenu.Link>
+            <NavigationMenu.Link href={env.TWITTER}><Twitter /> Twitter/X</NavigationMenu.Link>
+            <NavigationMenu.Link href={env.LINKEDIN}> <Linkedin />LinkedIn</NavigationMenu.Link>
             <Separator />
-            <NavigationMenu.Link href={`mailto:${env.PUBLIC_EMAIL}`} class="p-0" tabindex="-1" @click.prevent>
-              <Clipboard class="w-full" content={env.PUBLIC_EMAIL}>Copy Email</Clipboard>
+            <NavigationMenu.Link href={`mailto:${env.EMAIL}`} class="p-0" tabindex="-1" @click.prevent>
+              <Clipboard class="w-full" content={env.EMAIL}>Copy Email</Clipboard>
             </NavigationMenu.Link>
           </NavigationMenu.DropdownLinks>
         </NavigationMenu.Dropdown>

@@ -1,6 +1,6 @@
 ---
 import octokit from '@/libs/octokit';
-import { PUBLIC_USERNAME } from 'astro:env/server';
+import { USERNAME } from 'astro:env/server';
 import { Book, Eye, GitFork, Star } from 'lucide-astro';
 import Link from './ui/link.astro';
 import Separator from './ui/separator.astro';
@@ -8,7 +8,7 @@ import Text from './ui/text.astro';
 
 type Props = { project: string };
 
-const repo = await octokit.repos.get({ owner: PUBLIC_USERNAME, repo: Astro.props.project }).then((res) => res.data);
+const repo = await octokit.repos.get({ owner: USERNAME, repo: Astro.props.project }).then((res) => res.data);
 ---
 
 <div class="h-full rounded border shadow">
