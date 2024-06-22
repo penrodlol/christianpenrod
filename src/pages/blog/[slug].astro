@@ -26,7 +26,7 @@ type Post = CollectionEntry<'posts'>;
 type Props = { post: Post; prev: Post; next: Post };
 
 const social = buttonVariants({ size: 'icon', color: 'ghost', class: '[&_svg]:size-3.5 size-6' });
-const text = tv({ base: '[&>p]:text-1/85 [&_:not(h2)_a]:underline' });
+const text = tv({ base: '[&>p]:text-1/85 [&_:where(p,aside)_a]:underline' });
 const list = tv({ base: '[&_ol]:list-decimal [&_ol]:list-inside [&_li]:list-disc [&_li]:list-inside' });
 
 export const getStaticPaths: GetStaticPaths = async () =>

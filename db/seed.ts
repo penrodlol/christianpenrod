@@ -12,7 +12,7 @@ export default async function () {
   await db.batch([
     db.insert(PostView).values(posts.map((post) => ({ post: post.slug }))),
     db.run(sql`drop table if exists PostSearch`),
-    db.run(sql`create virtual table PostSearch using fts5(slug, body)`),
+    db.run(sql`create virtual table PostSearch using fts5(slug unindexed, body)`),
     db.run(sql.join([sql`insert into PostSearch (slug, body) values `, sql.join(postsSearches, sql`,`)])),
   ]);
 }
