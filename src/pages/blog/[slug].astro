@@ -26,8 +26,8 @@ type Post = CollectionEntry<'posts'>;
 type Props = { post: Post; prev: Post; next: Post };
 
 const social = buttonVariants({ size: 'icon', color: 'ghost', class: '[&_svg]:size-3.5 size-6' });
-const text = tv({ base: '[&>p]:text-1/85 [&_p_a]:underline' });
-const orderedList = tv({ base: '[&_ol]:list-decimal [&_ol]:list-inside' });
+const text = tv({ base: '[&>p]:text-1/85 [&_:not(h2)_a]:underline' });
+const list = tv({ base: '[&_ol]:list-decimal [&_ol]:list-inside [&_li]:list-disc [&_li]:list-inside' });
 
 export const getStaticPaths: GetStaticPaths = async () =>
   getCollection('posts').then((posts) =>
@@ -75,7 +75,7 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
       </TableOfContents.Root>
     </Collapsible>
     <Separator class="my-4 lg:hidden" />
-    <div class={twJoin('flex max-w-[70ch] flex-col gap-8 leading-7', text(), orderedList())}>
+    <div class={twJoin('flex max-w-[70ch] flex-col gap-8 leading-7', text(), list())}>
       <Content
         components={{
           h2: PostSubheader,

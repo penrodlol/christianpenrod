@@ -1,0 +1,60 @@
+---
+title: Full-Text Search with Astro DB
+description: Integrate full-text search into your Astro DB queries using SQLite's FTS5 extension.
+published: 2024-05-29
+topics: [Astro, SQL]
+---
+
+import * as Stepper from '@/components/ui/stepper';
+
+[Astro DB][astrojs-db] is a SQL database service created specifically for Astro (`v4.5` or later). One of its goals is
+to provide an API for directly interacting with a SQL database inside an Astro project. This opens up serveral use-cases
+which include full-text search (FTS).
+
+> This guide assumes you have added the [@astrojs/db integration][astrojs-db] within your Astro project.
+
+## Creating a Virtual Table
+
+Internally, Astro DB partnered with [Turso][turso] as their DB hosting provider. The underlying SQL language used by
+Turso is a fork of SQLite called: [libSQL][libSQL]. For the context of this guide, this basically means that we can
+leverage existing SQLite features including [FTS5][fts5]. This feature allows us to perform full-text search queries and
+is enabled by default through Turso's [Extensions][turso-extensions].
+
+Lets start by creating a [Virtual Table][virtual-table] using the FTS5 virtual table module. We can place this logic
+within `db/seed.ts` so it is run automatically when Astro is started locally:
+
+<Stepper.Root>
+  <Stepper.Step>
+
+    Prepare the data we want to `INSERT` into the Virtual Table. The following example will be working with a
+    collection of blog posts.
+
+    > The following are recommended to help reduce the Markdown to just the text content:
+    > - [mdast-util-from-markdown][mdast-util-from-markdown] - Parse Markdown content into an AST.
+    > - [mdast-util-to-string][mdast-util-to-string] - Convert an AST back into a string.
+
+    ```ts title="db/seed.ts"
+      import { getCollection } from 'astro:content';
+      import { sql } from 'astro:db';
+      import { fromMarkdown } from 'mdast-util-from-markdown';
+      import { toString } from 'mdast-util-to-string';
+
+      export default async function () {
+        const posts = (await getCollection('posts')).map((post) => {
+          const content = toString(fromMarkdown(post.body), { includeHtml: false }).replaceAll('\n', ' ');
+          return sql`(${post.slug}, ${post.data.title}, ${content})`;
+        });
+      }
+    ```
+
+  </Stepper.Step>
+</Stepper.Root>
+
+[astrojs-db]: https://docs.astro.build/en/guides/astro-db/
+[turso]: https://turso.tech/
+[turso-extensions]: https://docs.turso.tech/extensions#default-extensions
+[libSQL]: https://docs.turso.tech/libsql
+[fts5]: https://www.sqlite.org/fts5.html
+[virtual-table]: https://www.sqlite.org/vtab.html
+[mdast-util-from-markdown]: https://github.com/syntax-tree/mdast-util-from-markdown
+[mdast-util-to-string]: https://github.com/syntax-tree/mdast-util-to-string
