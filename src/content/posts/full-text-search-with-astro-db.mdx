@@ -25,17 +25,16 @@ within `db/seed.ts` so it is run automatically when Astro is started locally:
 
 <Stepper.Root>
   <Stepper.Step>
+    Prepare the data we want to `INSERT` into the Virtual Table. The following example will be working with a collection
+    of blog posts.
 
-    Prepare the data we want to `INSERT` into the Virtual Table. The following example will be working with a
-    collection of blog posts.
-
-    > The following are recommended to help reduce the Markdown to just the text content:
-    > - [mdast-util-from-markdown][mdast-util-from-markdown] - Parse Markdown content into an AST.
-    > - [mdast-util-to-string][mdast-util-to-string] - Convert an AST back into a string.
+    > The following are recommended to help minify the Markdown content:
+    > - [mdast-util-from-markdown][mdast-util-from-markdown]
+    > - [mdast-util-to-string][mdast-util-to-string]
 
     ```ts title="db/seed.ts"
       import { getCollection } from 'astro:content';
-      import { sql } from 'astro:db';
+      import { sql, db } from 'astro:db';
       import { fromMarkdown } from 'mdast-util-from-markdown';
       import { toString } from 'mdast-util-to-string';
 
@@ -48,9 +47,129 @@ within `db/seed.ts` so it is run automatically when Astro is started locally:
     ```
 
   </Stepper.Step>
+  <Stepper.Step>
+    Create the Virtual Table using the FTS5 virtual table module and insert the data we prepared in the previous step.
+
+    We `DROP` the table initially to ensure a clean slate and prevent duplicate entries during local development.
+    Columns `slug` and `title` are `unindexed` as we only care to preform full-text searches against `content`.
+
+    ```ts title="db/seed.ts"
+      // . . .
+      export default async function () {
+        // . . .
+        await db.batch([
+          db.run(sql`drop table if exists PostSearch`),
+          db.run(sql`create virtual table PostSearch using fts5(slug unindexed, title unindexed, content)`),
+          db.run(sql.join([sql`insert into PostSearch(slug, title body) values `, sql.join(posts, sql`,`)])),
+        ]);
+      }
+    ```
+
+  </Stepper.Step>
+</Stepper.Root>
+
+## Preparing the Page
+
+Now that we have our FTS5 Virtual Table setup, we can create a page that will allow us to perform full-text searches.
+This Astro project will be using [SSR][astro-ssr] to handle form submissions and to re-render the page with search
+results.
+
+We can create a simple search form with submission validation via [Zod][zod]. Within the Zod schema, we wrap the raw
+query with double quotes to allow special characters. Without this, SQLite will throw an error when trying to perform a
+full-text search.
+
+{/* prettier-ignore */}
+```astro title="pages/index.astro"
+---
+import { z } from 'astro/zod';
+import { db, sql } from 'astro:db';
+
+const query = Astro.url.searchParams.get('query');
+const querySchema = z.string().trim().min(1).transform((v) => `"${v.replaceAll('"', '""')}"*`);
+---
+
+<form>
+  <input name="query" type="text" spellcheck="false" autocomplete="off" value={query} />
+  <button type="submit">Search</button>
+</form>
+```
+
+## Performing Full-Text Search
+
+With the search form in place, we can now perform a full-text search against the `PostSearch` FTS5 Virtual Table:
+
+<Stepper.Root>
+  <Stepper.Step>
+    Some Zod schemas can be created to validate and provide type-safety for the response from the database. We
+    check the validity of the query string and if it passes, we can proceed with the full-text search using
+    the `MATCH` operator:
+
+    > The `highlight` function (_[Section 5.1.2][fts5]_) is **optional**. It wraps matched text in the response
+    > with HTML tags. For this example, we are using `<mark>` tags which will highlight the text.
+
+    ```astro title="pages/index.astro"
+    ---
+    // . . .
+    const rowSchema = z.object({ slug: z.string(), title: z.string(), content: z.string() });
+    const rowsSchema = z.object({ rows: z.array(rowSchema) }).transform((v) => v.rows);
+
+    if (query) {
+      const safeQuery = querySchema.safeParse(query);
+
+      if (safeParse.success) {
+        const payload = await rowsSchema.safeParseAsync(
+          await db.run(
+            sql`
+              select slug, title, highlight(PostSearch, 2, '<mark>', '</mark>') as content
+              from PostSearch
+              where content match ${safeQuery.data}
+              order by rank
+            `
+          )
+        );
+      }
+    }
+    ---
+
+    <!-- . . .  -->
+    ```
+
+  </Stepper.Step>
+  <Stepper.Step>
+    Finally, we can render the search results on the page:
+
+    ```astro title="pages/index.astro"
+    ---
+    // . . .
+    const results: Array<z.infer<typeof rowSchema>> = [];
+
+    if (query) {
+      // . . .
+      if (safeParse.success) {
+        const payload = await rowsSchema.safeParseAsync(/* . . .*/);
+        if (payload.success) results.push(...payload.data);
+      }
+    }
+    ---
+
+    <!-- . . .  -->
+    <ul>
+      {
+        results.map((result) => (
+          <li>
+            <a href={`/posts/${result.slug}`}>{result.title}</a>
+            <p>{result.content}</p>
+          </li>
+        ))
+      }
+    </ul>
+    ```
+
+  </Stepper.Step>
 </Stepper.Root>
 
 [astrojs-db]: https://docs.astro.build/en/guides/astro-db/
+[astro-ssr]: https://docs.astro.build/en/guides/server-side-rendering/
 [turso]: https://turso.tech/
 [turso-extensions]: https://docs.turso.tech/extensions#default-extensions
 [libSQL]: https://docs.turso.tech/libsql
@@ -58,3 +177,4 @@ within `db/seed.ts` so it is run automatically when Astro is started locally:
 [virtual-table]: https://www.sqlite.org/vtab.html
 [mdast-util-from-markdown]: https://github.com/syntax-tree/mdast-util-from-markdown
 [mdast-util-to-string]: https://github.com/syntax-tree/mdast-util-to-string
+[zod]: https://zod.dev/
