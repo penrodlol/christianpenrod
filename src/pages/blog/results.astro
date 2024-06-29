@@ -21,7 +21,7 @@ let posts = (await getCollection('posts')).sort((a, b) => b.data.published.value
 if (Astro.request.method === 'POST') {
   const formData = await Astro.request.formData();
   // prettier-ignore
-  const query = z.string().trim().min(1).safeParse(formData.get('query'));
+  const query = z.string().trim().min(1).transform(v => `"${v.replaceAll('"', '""')}"*`).safeParse(formData.get('query'));
   const topics = z.array(z.string().trim().min(1)).min(1).safeParse(formData.getAll('topics'));
 
   if (topics.success) posts = posts.filter((post) => post.data.topics.some((topic) => topics.data.includes(topic)));
