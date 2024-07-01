@@ -2,7 +2,6 @@ name: Astro DB
 
 env:
   ASTRO_STUDIO_APP_TOKEN: ${{secrets.ASTRO_STUDIO_APP_TOKEN }}
-  ASTRO_STUDIO_EXECUTE_SEED: ${{github.event_name == 'push' && github.ref == 'refs/heads/main'}}
 
 on:
   push:
@@ -25,5 +24,5 @@ jobs:
           node-version: 20
       - uses: jaid/action-npm-install@v1.2.1
       - uses: withastro/action-studio@main
-      - if: ${{ env.ASTRO_STUDIO_EXECUTE_SEED }}
+      - if: ${{github.event_name == 'push' && github.ref == 'refs/heads/main'}}
         run: npx astro db execute db/seed.prod.ts --remote
