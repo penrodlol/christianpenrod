@@ -46,7 +46,7 @@ export default {
             '0.3px 0.5px 0.7px hsl(0 0% 70%/0.45),0.9px 1.8px 2.3px -0.8px hsl(0 0% 70%/0.45),' +
             '2.3px 4.6px 5.8px -1.7px hsl(0 0% 70%/0.45),5.6px 11.3px 14.2px -2.5px hsl(0 0% 70%/0.45)',
 
-          '--shiki-color-text': 'hsl(0 23% 9%)',
+          '--shiki-color-text': 'hsl(0 0% 9%)',
           '--shiki-color-background': 'hsl(0 0% 100%)',
           '--shiki-token-constant': 'hsl(0 0% 41%)',
           '--shiki-token-string': 'hsl(0 0% 30%)',
@@ -70,11 +70,11 @@ export default {
             '0.3px 0.5px 0.7px hsl(0 0% 0%/ 0.45),0.9px 1.8px 2.3px -0.8px hsl(0 0% 0%/ 0.45),' +
             '2.3px 4.6px 5.8px -1.7px hsl(0 0% 0%/ 0.45),5.6px 11.3px 14.2px -2.5px hsl(0 0% 0%/ 0.45)',
 
-          '--shiki-color-text': 'hsl(0 23% 91%)',
+          '--shiki-color-text': 'hsl(0 0% 91%)',
           '--shiki-color-background': 'hsl(0 0% 2%)',
           '--shiki-token-constant': 'hsl(0 0% 59%)',
           '--shiki-token-string': 'hsl(0 0% 70%)',
-          '--shiki-token-comment': 'hsl(0 0% 50%)',
+          '--shiki-token-comment': 'hsl(0 0% 43%)',
           '--shiki-token-keyword': 'hsl(0 0% 59%)',
           '--shiki-token-parameter': 'hsl(0 0% 100%)',
           '--shiki-token-function': 'hsl(0 0% 100%)',

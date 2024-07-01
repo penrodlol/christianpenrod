@@ -1,0 +1,267 @@
+---
+title: Full-Text Search with Astro DB
+description: Leverage Astro DB and SQLite's FTS5 to perform full-text search queries within an Astro project.
+published: 2024-05-29
+topics: [Astro, SQL]
+repo: full-text-search-with-astro-db
+---
+
+import * as Stepper from '@/components/ui/stepper';
+
+[Astro DB][astrojs-db] is a SQL database service created specifically for Astro (`v4.5` or later). One of its goals is
+to provide an API for directly interacting with a SQL database inside an Astro project. This opens up serveral use-cases
+which include full-text search (FTS).
+
+> This guide assumes you have added the [@astrojs/db integration][astrojs-db] within your Astro project.
+
+## Creating a Virtual Table
+
+Internally, Astro DB partnered with [Turso][turso] as their DB hosting provider. The underlying SQL language used by
+Turso is a fork of SQLite called: [libSQL][libSQL]. For the context of this guide, this basically means that we can
+leverage existing SQLite features including [FTS5][fts5]. This feature allows us to perform full-text search queries and
+is enabled by default through Turso's [Extensions][turso-extensions].
+
+Lets start by creating a [Virtual Table][virtual-table] using the FTS5 virtual table module. We can place this logic
+within `db/seed.ts` so it is run automatically when Astro is started locally:
+
+<Stepper.Root>
+  <Stepper.Step>
+    Prepare the data we want to `INSERT` into the Virtual Table. The following example will be working with a collection
+    of blog posts.
+
+    > The following are recommended to help minify the Markdown content:
+    > - [mdast-util-from-markdown][mdast-util-from-markdown]
+    > - [mdast-util-to-string][mdast-util-to-string]
+
+    ```ts title="db/seed.ts"
+      import { getCollection } from 'astro:content';
+      import { sql, db } from 'astro:db';
+      import { fromMarkdown } from 'mdast-util-from-markdown';
+      import { toString } from 'mdast-util-to-string';
+
+      export default async function () {
+        const posts = (await getCollection('posts')).map((post) => {
+          const content = toString(fromMarkdown(post.body), { includeHtml: false }).replaceAll('\n', ' ');
+          return sql`(${post.slug}, ${post.data.title}, ${content})`;
+        });
+      }
+    ```
+
+  </Stepper.Step>
+  <Stepper.Step>
+    Create the Virtual Table using the FTS5 virtual table module and insert the data we prepared in the previous step.
+
+    We `DROP` the table initially to ensure a clean slate and prevent duplicate entries during local development.
+    Columns `slug` and `title` are `unindexed` as we only care to preform full-text searches against `content`.
+
+    ```ts title="db/seed.ts"
+      // . . .
+      export default async function () {
+        // . . .
+        await db.batch([
+          db.run(sql`drop table if exists PostSearch`),
+          db.run(sql`create virtual table PostSearch using fts5(slug unindexed, title unindexed, content)`),
+          db.run(sql.join([sql`insert into PostSearch(slug, title, content) values `, sql.join(posts, sql`,`)])),
+        ]);
+      }
+    ```
+
+  </Stepper.Step>
+</Stepper.Root>
+
+## Configuring Type-Safe SQL
+
+When working with Astro DB, table schemas are defined within `db/config.ts` and will automatically generate TypeScript
+types for each table. Unfortunately, this does not apply to Virtual Tables. For that, we must manually define schemas
+using [Zod][zod]. We can set this up within `db/config.ts` to keep our schema definitions centralized:
+
+```ts title="db/config.ts"
+import { z } from 'astro/zod';
+
+export type PostSearchTable = z.infer<typeof PostSearchTableSchema>;
+export type PostSearchQuery = z.infer<typeof PostSeachQuerySchema>;
+export const PostSearchTableSchema = z.object({ slug: z.string(), title: z.string(), content: z.string() });
+export const PostSeachQuerySchema = z.object({ rows: z.array(PostSearchTableSchema) }).transform((v) => v.rows);
+// . . .
+```
+
+## Preparing the Page
+
+Now that we have our FTS5 Virtual Table setup with proper type-safety, we can create a page that will allow us to
+perform full-text searches.
+
+This example will be using [SSR][astrojs-ssr] to handle form submissions and to re-render the page with search results.
+This can also be achieved using [Hybrid Mode][astrojs-hybrid] in combination with [Page Partials][astrojs-partial]. The
+attached repository below explores the latter approach.
+
+We can create a simple search form with submission validation via Zod. Within the Zod schema, we wrap the raw query with
+double quotes to allow special characters. Without this, SQLite will throw an error when trying to perform a full-text
+search. Also, note the `*` character at the end of the schema which allows for partial or fuzzy matching.
+
+{/* prettier-ignore */}
+```astro title="pages/index.astro"
+---
+import { z } from 'astro/zod';
+import { db, sql } from 'astro:db';
+
+const query = Astro.url.searchParams.get('query');
+const querySchema = z.string().trim().min(1).transform((v) => `"${v.replaceAll('"', '""')}"*`);
+---
+
+<form>
+  <input name="query" type="text" spellcheck="false" autocomplete="off" value={query} />
+  <button type="submit">Search</button>
+</form>
+```
+
+## Performing Full-Text Search
+
+With the search form in place, we can now perform a full-text search against the `PostSearch` FTS5 Virtual Table. We
+check the validity of the query string and if it passes, we can proceed with the full-text search using the `MATCH`
+operator:
+
+> The `highlight` function (_[Section 5.1.2][fts5]_) is **optional**. It wraps matched text in the response with HTML
+> tags. For this example, we are using `<mark>` tags which will highlight the text.
+
+{/* prettier-ignore */}
+```astro title="pages/index.astro"
+---
+// . . .
+import { PostSeachQuerySchema, type PostSearchQuery } from 'db/config.ts';
+
+const results: PostSearchQuery = [];
+
+if (query) {
+  const safeQuery = querySchema.safeParse(query);
+
+  if (safeParse.success) {
+    const payload = await PostSeachQuerySchema.safeParseAsync(
+      await db.run(
+        sql`
+          select slug, title, highlight(PostSearch, 2, '<mark>', '</mark>') as content
+          from PostSearch
+          where content match ${safeQuery.data}
+          order by rank
+        `,
+      ),
+    );
+
+    if (payload.success) results.push(...payload.data);
+  }
+}
+---
+
+<!-- . . .  -->
+<ul>{results.map((post) => (<li><a href={`/posts/${post.slug}`} aria-label={post.title}>{post.content}</a></li>))}</ul>
+```
+
+## Pushing to Production
+
+To this point, we have setup full-text search in our Astro project for local development. We need to account for pushing
+this FTS5 Virtual Table to production and populating it with data:
+
+<Stepper.Root>
+  <Stepper.Step>
+    Similar to the non-production seed file, we need to prepare the data we want to `INSERT` or `UPDATE` into the
+    Virtual Table. We can place this logic within `db/seed.prod.ts`:
+
+    > Unfortunately, we **cannot** leverage Astro's `getCollection` API. At the time of writing this article, there
+    > remains an open issue with Astro which can be tracked [here][astrojs-bug].
+
+    ```ts title="db/seed.prod.ts"
+      import { sql, db } from 'astro:db';
+      import { fromMarkdown } from 'mdast-util-from-markdown';
+      import { toString } from 'mdast-util-to-string';
+      import { readFile, readdir } from 'node:fs/promises';
+
+      export default async function () {
+        const posts = await Promise.all(
+          (await readdir('src/content/posts')).map(async (file) => {
+            const post = await readFile(`src/content/posts/${file}`, 'utf-8');
+            const slug = file.replace(/\.mdx$/, '');
+            const title = post.match(/^title:\s*(['"])?(.*?)\1?$/m)?.[2]?.replace(/^['"]|['"]$/g, '').trim();
+            const content = toString(fromMarkdown(post.replace(/---[\s\S]*?---/, '')), { includeHtml: false }).replaceAll('\n', ' ');
+
+            return sql`(${slug}, ${title}, ${content})`;
+          }),
+        );
+      }
+    ```
+
+  </Stepper.Step>
+  <Stepper.Step>
+    Compose a batch of SQL queries to do the following:
+    - Create the Virtual Table if it does not exist.
+    - `UPDATE` existing rows if their content has changed.
+    - `INSERT` new rows if they do not exist.
+
+    ```ts title="db/seed.prod.ts"
+      // . . .
+      export default async function () {
+        // . . .
+        await db.batch([
+          db.run(sql`create virtual table if not exists PostSearch using fts5(slug unindexed, title unindexed, content)`),
+          db.run(sql`
+            with target(slug, title, content) as (values ${sql.join(posts, sql`, `)})
+            update PostSearch
+            set content = target.content
+            from target
+            where target.slug = PostSearch.slug
+            and target.content != PostSearch.content;
+          `),
+          db.run(sql`
+            with target(slug, title, content) as (values ${sql.join(posts, sql`, `)})
+            insert into PostSearch (slug, content)
+            select slug, title, content from target
+            where not exists (select 1 from PostSearch where slug = target.slug);
+          `),
+        ]);
+      }
+    ```
+
+  </Stepper.Step>
+  <Stepper.Step>
+    Finally, we need a way of executing the `db/seed.prod.ts` file. This can be done manually by running:
+    `npx astro db execute db/seed.prod.ts --remote`. However, it is recommended to automate this process by baking
+    it into a CI/CD pipeline.
+
+    Here is an example using the `_studio.yml` action that Astro automatically generates when connecting a project
+    to Astro DB:
+
+    ```yaml title=".github/workflows/_studio.yml"
+    # . . .
+    - if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+      run: npx astro db execute db/seed.prod.ts --remote
+    ```
+
+  </Stepper.Step>
+</Stepper.Root>
+
+## Considerations
+
+By no means is this the only way to implement full-text search within an Astro project. This guide is meant to provide a
+starting point for those looking to leverage Astro DB and SQLite's FTS5 virtual table module. Here are a few additional
+libraries to consider which accomplish the same goal:
+
+- **[Pagefind][pagefind]**: Fully static search library that aims to perform well on large sites.
+- **[Fuse.js][fusejs]**: Powerful, lightweight fuzzy-search library, with zero dependencies.
+- **[Orama][orama]**: Full-text search engine entirely written in TypeScript, with zero dependencies.
+- **[DocSearch][docsearch]**: Algolia Search for developer docs.
+
+[astrojs-db]: https://docs.astro.build/en/guides/astro-db/
+[astrojs-ssr]: https://docs.astro.build/en/guides/server-side-rendering/
+[astrojs-hybrid]: https://docs.astro.build/en/guides/server-side-rendering/#opting-out-of-pre-rendering-in-hybrid-mode
+[astrojs-partial]: https://docs.astro.build/en/basics/astro-pages/#page-partials
+[astrojs-bug]: https://github.com/withastro/astro/issues/11214
+[turso]: https://turso.tech/
+[turso-extensions]: https://docs.turso.tech/extensions#default-extensions
+[libSQL]: https://docs.turso.tech/libsql
+[fts5]: https://www.sqlite.org/fts5.html
+[virtual-table]: https://www.sqlite.org/vtab.html
+[mdast-util-from-markdown]: https://github.com/syntax-tree/mdast-util-from-markdown
+[mdast-util-to-string]: https://github.com/syntax-tree/mdast-util-to-string
+[zod]: https://zod.dev/
+[pagefind]: https://github.com/shishkin/astro-pagefind
+[fusejs]: https://github.com/johnny-mh/blog2/tree/main/packages/astro-fuse
+[orama]: https://docs.askorama.ai/open-source/plugins/plugin-astro
+[docsearch]: https://docsearch.algolia.com/
