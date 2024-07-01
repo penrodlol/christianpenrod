@@ -1,8 +1,9 @@
 ---
 title: Full-Text Search with Astro DB
-description: Integrate full-text search into your Astro DB queries using SQLite's FTS5 extension.
+description: Leverage Astro DB and SQLite's FTS5 to perform full-text search queries within an Astro project.
 published: 2024-05-29
 topics: [Astro, SQL]
+repo: full-text-search-with-astro-db
 ---
 
 import * as Stepper from '@/components/ui/stepper';
@@ -81,6 +82,7 @@ export type PostSearchTable = z.infer<typeof PostSearchTableSchema>;
 export type PostSearchQuery = z.infer<typeof PostSeachQuerySchema>;
 export const PostSearchTableSchema = z.object({ slug: z.string(), title: z.string(), content: z.string() });
 export const PostSeachQuerySchema = z.object({ rows: z.array(PostSearchTableSchema) }).transform((v) => v.rows);
+// . . .
 ```
 
 ## Preparing the Page
@@ -89,7 +91,8 @@ Now that we have our FTS5 Virtual Table setup with proper type-safety, we can cr
 perform full-text searches.
 
 This example will be using [SSR][astrojs-ssr] to handle form submissions and to re-render the page with search results.
-This can also be achieved using [Hybrid Mode][astrojs-hybrid] in combination with [Page Partials][astrojs-partial].
+This can also be achieved using [Hybrid Mode][astrojs-hybrid] in combination with [Page Partials][astrojs-partial]. The
+attached repository below explores the latter approach.
 
 We can create a simple search form with submission validation via Zod. Within the Zod schema, we wrap the raw query with
 double quotes to allow special characters. Without this, SQLite will throw an error when trying to perform a full-text
@@ -124,7 +127,7 @@ operator:
 ```astro title="pages/index.astro"
 ---
 // . . .
-import { type PostSearchQuery, PostSeachQuerySchema } from 'db/config.ts';
+import { PostSeachQuerySchema, type PostSearchQuery } from 'db/config.ts';
 
 const results: PostSearchQuery = [];
 
