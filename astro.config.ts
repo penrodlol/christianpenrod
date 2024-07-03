@@ -13,6 +13,7 @@ import { createCssVariablesTheme } from 'shiki';
 
 export default defineConfig({
   site: 'https://christianpenrod.com',
+  trailingSlash: 'never',
   output: 'hybrid',
   adapter: vercel({ webAnalytics: { enabled: true }, imageService: true }),
   markdown: {

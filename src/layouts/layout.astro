@@ -38,7 +38,7 @@ const {
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:site_name" content={Astro.site} />
+    <meta property="og:site_name" content={String(Astro.site).replace(/\/+$/, '')} />
     <meta property="og:url" content={new URL(og, Astro.site)} />
     <meta property="og:image" content={new URL(og, Astro.site)} />
     <meta property="og:image:alt" content={title} />
@@ -51,7 +51,7 @@ const {
     <meta name="twitter:image" content={new URL(og, Astro.site)} />
     <link rel="icon" type="image/svg+xml" href={favicon.src} />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <link href={new URL(Astro.url.pathname, Astro.site)} rel="canonical" />
+    <link href={String(new URL(Astro.url.pathname, Astro.site)).replace(/\/+$/, '')} rel="canonical" />
     <script is:inline set:text="document.documentElement.classList.add('[&_[x-cloak]]:hidden')" />
     <ViewTransitions />
   </head>

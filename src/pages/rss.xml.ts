@@ -5,6 +5,7 @@ import { getCollection } from 'astro:content';
 export const GET: APIRoute = async (context) =>
   rss({
     title: 'Blog | Christian Penrod',
+    trailingSlash: false,
     description: 'A blog tailoring to Web Development.',
     site: String(context.site),
     items: (await getCollection('posts')).map((post) => ({
