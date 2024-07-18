@@ -28,6 +28,7 @@ export default defineConfig({
     ],
   },
   experimental: {
+    serverIslands: true,
     env: {
       schema: {
         LOCATION: envField.string({ context: 'server', access: 'public' }),
