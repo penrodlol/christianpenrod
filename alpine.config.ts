@@ -17,7 +17,14 @@ export default (Alpine: Alpine) => {
       this.submission = new FormData(form);
       this.loading = true;
 
-      fetch(url, { method: 'POST', body: this.submission }).then(async (response) => {
+      // TODO: REMOVE THIS!!!
+      const query = this.submission.get('query');
+      const topics = this.submission.getAll('topics');
+
+      fetch(url, {
+        method: 'POST',
+        body: JSON.stringify({ componentExport: 'default', props: { query, topics } }),
+      }).then(async (response) => {
         const newHTML = new DOMParser().parseFromString(await response.text(), 'text/html');
         this.loading = false;
         this.failed = !response.ok;

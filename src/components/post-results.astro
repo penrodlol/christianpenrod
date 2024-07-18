@@ -1,35 +1,31 @@
 ---
 export const prerender = false;
-export const partial = true;
 
-import Button from '@/components/ui/button.astro';
-import Date from '@/components/ui/date.astro';
-import If from '@/components/ui/if.astro';
-import Separator from '@/components/ui/separator.astro';
-import Skeleton from '@/components/ui/skeleton.astro';
-import Text from '@/components/ui/text.astro';
 import { z } from 'astro/zod';
 import { getCollection } from 'astro:content';
 import { db, sql } from 'astro:db';
 import { Dot, RefreshCw } from 'lucide-astro';
 import { twJoin } from 'tailwind-merge';
+import Button from './ui/button.astro';
+import Date from './ui/date.astro';
+import If from './ui/if.astro';
+import Separator from './ui/separator.astro';
+import Skeleton from './ui/skeleton.astro';
+import Text from './ui/text.astro';
 
-import.meta.glob('/src/content/posts/**/*.mdx', { eager: true });
+type Props = { query?: string; topics?: Array<string> };
+
+// prettier-ignore
+const query = z.string().trim().min(1).transform(v => `"${v.replaceAll('"', '""')}"*`).safeParse(Astro.props.query);
+const topics = z.array(z.string().trim().min(1)).min(1).safeParse(Astro.props.topics);
 
 let posts = (await getCollection('posts')).sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 
-if (Astro.request.method === 'POST') {
-  const formData = await Astro.request.formData();
-  // prettier-ignore
-  const query = z.string().trim().min(1).transform(v => `"${v.replaceAll('"', '""')}"*`).safeParse(formData.get('query'));
-  const topics = z.array(z.string().trim().min(1)).min(1).safeParse(formData.getAll('topics'));
+if (topics.success) posts = posts.filter((post) => post.data.topics.some((topic) => topics.data.includes(topic)));
 
-  if (topics.success) posts = posts.filter((post) => post.data.topics.some((topic) => topics.data.includes(topic)));
-
-  if (query.success) {
-    const payload = await db.run(sql`select slug from PostSearch where body match ${query.data}`);
-    posts = posts.filter((post) => payload.rows.some((row) => row.slug === post.slug));
-  }
+if (query.success) {
+  const payload = await db.run(sql`select slug from PostSearch where body match ${query.data}`);
+  posts = posts.filter((post) => payload.rows.some((row) => row.slug === post.slug));
 }
 ---
 

@@ -1,5 +1,6 @@
 ---
 import PostCard from '@/components/post-card.astro';
+import PostResults from '@/components/post-results.astro';
 import Button from '@/components/ui/button.astro';
 import Chip from '@/components/ui/chip.astro';
 import Command from '@/components/ui/command.astro';
@@ -10,7 +11,6 @@ import Layout from '@/layouts/layout.astro';
 import { getCollection } from 'astro:content';
 import { PostView, db, sum } from 'astro:db';
 import { Dot, Search } from 'lucide-astro';
-import PostResults from './results.astro';
 
 const [rs] = await db.select({ views: sum(PostView.views) }).from(PostView);
 const views = Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 }).format(Number(rs?.views ?? 0));
@@ -36,7 +36,7 @@ const topics = [...new Set(posts.flatMap((post) => post.data.topics))].sort();
           <Text>{posts.length} Posts</Text>
         </div>
       </div>
-      <div x-data="partial('/blog/results')" class="flex flex-col gap-6">
+      <div x-data="partial('/_server-islands/PostResults')" class="flex flex-col gap-6">
         <form
           method="post"
           class="flex flex-col gap-4 rounded border p-4 shadow text-xs"
@@ -53,7 +53,7 @@ const topics = [...new Set(posts.flatMap((post) => post.data.topics))].sort();
             {topics.map((value) => <Chip name="topics" x-on:click="submit" {value} />)}
           </fieldset>
         </form>
-        <PostResults />
+        <PostResults server:defer />
       </div>
     </section>
     <section class="hidden flex-col gap-6 lg:flex">
