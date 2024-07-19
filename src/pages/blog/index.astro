@@ -53,7 +53,9 @@ const topics = [...new Set(posts.flatMap((post) => post.data.topics))].sort();
             {topics.map((value) => <Chip name="topics" x-on:click="submit" {value} />)}
           </fieldset>
         </form>
-        <PostResults server:defer />
+        <PostResults server:defer>
+          <PostResults slot="fallback" />
+        </PostResults>
       </div>
     </section>
     <section class="hidden flex-col gap-6 lg:flex">
