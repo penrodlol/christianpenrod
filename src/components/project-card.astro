@@ -1,33 +1,32 @@
 ---
-import octokit from '@/libs/octokit';
-import { USERNAME } from 'astro:env/server';
+import type { CollectionEntry } from 'astro:content';
 import { Book, Eye, GitFork, Star } from 'lucide-astro';
 import Link from './ui/link.astro';
 import Separator from './ui/separator.astro';
 import Text from './ui/text.astro';
 
-type Props = { project: string };
+type Props = { project: CollectionEntry<'projects'> };
 
-const repo = await octokit.repos.get({ owner: USERNAME, repo: Astro.props.project }).then((res) => res.data);
+const { project } = Astro.props;
 ---
 
 <div class="h-full rounded border shadow">
   <div class="flex items-center gap-2 rounded-t border-b bg-2 px-2 py-1">
     <Book class="size-3 shrink-0 text-2" aria-hidden />
-    <Text class="text-sm">{repo.name}</Text>
+    <Text class="text-sm">{project.data.name}</Text>
   </div>
   <div class="flex flex-col gap-3 p-3 text-2">
-    <Text as="p" class="text-xs">{repo.description}</Text>
+    <Text as="p" class="text-xs">{project.data.description}</Text>
     <Separator />
     <div class="flex items-center justify-between gap-2 text-xs">
       <div class="flex items-center gap-3">
-        <div class="flex items-center gap-1"><Star class="size-3 shrink-0" />{repo.stargazers_count}</div>
-        <div class="flex items-center gap-1"><GitFork class="size-3 shrink-0" />{repo.forks_count}</div>
-        <div class="flex items-center gap-1"><Eye class="size-3 shrink-0" />{repo.watchers_count}</div>
+        <div class="flex items-center gap-1"><Star class="size-3 shrink-0" />{project.data.stars}</div>
+        <div class="flex items-center gap-1"><GitFork class="size-3 shrink-0" />{project.data.forks}</div>
+        <div class="flex items-center gap-1"><Eye class="size-3 shrink-0" />{project.data.watchers}</div>
       </div>
       <div class="flex gap-4">
-        <Link href={repo.html_url}>Github</Link>
-        <Link href={repo.homepage}>Site</Link>
+        <Link href={project.data.githubUrl}>Github</Link>
+        <Link href={project.data.websiteUrl}>Site</Link>
       </div>
     </div>
   </div>

@@ -3,6 +3,7 @@ import Me from '@/assets/me.webp';
 import PostCard from '@/components/post-card.astro';
 import PostGithub from '@/components/post-github.astro';
 import PostSubheader from '@/components/post-subheader.astro';
+import PostViews from '@/components/post-views.astro';
 import Badge from '@/components/ui/badge.astro';
 import Button, { buttonVariants } from '@/components/ui/button.astro';
 import * as Code from '@/components/ui/code';
@@ -18,7 +19,7 @@ import type { GetStaticPaths } from 'astro';
 import { Image } from 'astro:assets';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import * as env from 'astro:env/server';
-import { Calendar, ChevronRight, Clock4, Eye, Github, Linkedin, Mail, Rss, Twitter } from 'lucide-astro';
+import { Calendar, ChevronRight, Clock4, Github, Linkedin, Mail, Rss, Twitter } from 'lucide-astro';
 import { twJoin } from 'tailwind-merge';
 import { tv } from 'tailwind-variants';
 
@@ -55,11 +56,7 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
     <div class="mt-4 flex flex-wrap items-center gap-4">
       <Badge><Calendar aria-hidden /><Date value={post.data.published} /></Badge>
       <Badge><Clock4 aria-hidden />{remarkPluginFrontmatter.readingTime}</Badge>
-      <!-- prettier-ignore -->
-      <Badge x-data={`{ views: $fetch("/blog/views", ${JSON.stringify({ method: 'PUT', body: { slug: post.slug } })})}`}>
-        <Eye aria-hidden />
-        <Text x-text="(await views)?.toString().padStart(6, '0')">000000</Text  >
-      </Badge>
+      <PostViews server:defer slug={post.slug} />
     </div>
     <Separator class="my-4 lg:my-8" />
     <Collapsible class="lg:hidden">

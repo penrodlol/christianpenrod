@@ -1,4 +1,6 @@
+import octokit from '@/libs/octokit';
 import { defineCollection, z } from 'astro:content';
+import { USERNAME } from 'astro:env/server';
 
 const posts = defineCollection({
   schema: () =>
@@ -11,4 +13,33 @@ const posts = defineCollection({
     }),
 });
 
-export const collections = { posts };
+const projects = defineCollection({
+  schema: () =>
+    z.object({
+      id: z.string(),
+      name: z.string(),
+      description: z.string(),
+      stars: z.number(),
+      forks: z.number(),
+      watchers: z.number(),
+      githubUrl: z.string(),
+      websiteUrl: z.string(),
+    }),
+  loader: async () =>
+    Promise.all(
+      ['feedjoy', 'christianpenrod'].map(async (repo) =>
+        octokit.repos.get({ owner: USERNAME, repo }).then((response) => ({
+          id: response.data.id.toString(),
+          name: response.data.name,
+          description: response.data.description,
+          stars: response.data.stargazers_count,
+          forks: response.data.forks_count,
+          watchers: response.data.watchers_count,
+          githubUrl: response.data.html_url,
+          websiteUrl: response.data.homepage,
+        })),
+      ),
+    ),
+});
+
+export const collections = { posts, projects };

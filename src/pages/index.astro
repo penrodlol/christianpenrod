@@ -12,7 +12,7 @@ import { getCollection } from 'astro:content';
 import * as env from 'astro:env/server';
 import { ArrowRight } from 'lucide-astro';
 
-const projects = ['feedjoy', 'christianpenrod'];
+const projects = await getCollection('projects');
 const posts = (await getCollection('posts'))
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
   .slice(0, 3);

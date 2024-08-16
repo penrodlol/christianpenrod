@@ -6,12 +6,6 @@ import focus from '@alpinejs/focus';
 
 export default (Alpine: Alpine) => {
   Alpine.plugin([collapse, focus]);
-
-  Alpine.magic('fetch', () => async (...props: Parameters<typeof fetch>) => {
-    if (props[1]?.body) props[1].body = JSON.stringify(props[1].body);
-    return await fetch(...props).then((res) => res.json());
-  });
-
   Alpine.data('partial', (url: string) => ({
     loading: false,
     failed: false,

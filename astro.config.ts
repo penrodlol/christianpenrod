@@ -28,6 +28,9 @@ export default defineConfig({
     ],
   },
   experimental: {
+    contentLayer: true,
+    contentIntellisense: true,
+    serverIslands: true,
     env: {
       schema: {
         LOCATION: envField.string({ context: 'server', access: 'public' }),
