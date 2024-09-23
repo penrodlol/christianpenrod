@@ -13,17 +13,17 @@
   "dependencies": {
     "@alpinejs/collapse": "^3.14.1",
     "@alpinejs/focus": "^3.14.1",
-    "@astrojs/db": "^0.13.1",
+    "@astrojs/db": "0.14.0-beta.1",
     "alpinejs": "^3.14.1",
-    "astro": "^4.14.2"
+    "astro": "5.0.0-beta.1"
   },
   "devDependencies": {
     "@astrojs/alpinejs": "^0.4.0",
-    "@astrojs/mdx": "^3.1.3",
+    "@astrojs/mdx": "4.0.0-beta.1",
     "@astrojs/rss": "^4.0.7",
     "@astrojs/sitemap": "^3.1.6",
-    "@astrojs/tailwind": "^5.1.0",
-    "@astrojs/vercel": "^7.7.2",
+    "@astrojs/tailwind": "^5.1.1",
+    "@astrojs/vercel": "8.0.0-beta.2",
     "@fontsource/inter": "^5.0.20",
     "@octokit/rest": "^21.0.1",
     "@types/alpinejs": "^3.13.10",
