@@ -1,5 +1,5 @@
 ---
-import type { CollectionEntry } from 'astro:content';
+import { type CollectionEntry, render } from 'astro:content';
 import { Calendar, Clock4 } from 'lucide-astro';
 import { twJoin } from 'tailwind-merge';
 import Date from './ui/date.astro';
@@ -9,11 +9,11 @@ import Text from './ui/text.astro';
 type Props = { post: CollectionEntry<'posts'> };
 
 const { post } = Astro.props;
-const { remarkPluginFrontmatter } = await post.render();
+const { remarkPluginFrontmatter } = await render(post);
 ---
 
 <a
-  href={`/blog/${post.slug}`}
+  href={`/blog/${post.id}`}
   aria-label={`${post.data.title}. ${post.data.description}`}
   class={twJoin(
     'group flex h-full select-none flex-col overflow-hidden rounded border shadow',

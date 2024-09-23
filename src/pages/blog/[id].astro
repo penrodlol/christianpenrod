@@ -17,7 +17,7 @@ import Text from '@/components/ui/text.astro';
 import Layout from '@/layouts/layout.astro';
 import type { GetStaticPaths } from 'astro';
 import { Image } from 'astro:assets';
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
 import * as env from 'astro:env/server';
 import { Calendar, ChevronRight, Clock4, Github, Linkedin, Mail, Rss, Twitter } from 'lucide-astro';
 import { twJoin } from 'tailwind-merge';
@@ -37,18 +37,18 @@ export const getStaticPaths: GetStaticPaths = async () =>
       .map((post, index, _posts) => {
         const prev = _posts[index + 1] ?? _posts[0];
         const next = _posts[index - 1] ?? _posts[_posts.length - 1];
-        return { params: { slug: post.slug }, props: { post, prev, next } };
+        return { params: { id: post.id }, props: { post, prev, next } };
       }),
   );
 
 const { post, prev, next } = Astro.props;
-const { remarkPluginFrontmatter, headings, Content } = await post.render();
+const { remarkPluginFrontmatter, headings, Content } = await render(post);
 ---
 
 <Layout
   title={post.data.title}
   description={post.data.description}
-  og={`open-graph/src/content/posts/${post.slug}.png`}
+  og={`open-graph/src/content/posts/${post.id}.png`}
   class="mx-auto max-w-2xl lg:grid lg:max-w-screen-xl lg:grid-cols-[1fr,18rem] lg:gap-16 lg:px-16"
 >
   <article>
@@ -56,7 +56,7 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
     <div class="mt-4 flex flex-wrap items-center gap-4">
       <Badge><Calendar aria-hidden /><Date value={post.data.published} /></Badge>
       <Badge><Clock4 aria-hidden />{remarkPluginFrontmatter.readingTime}</Badge>
-      <PostViews server:defer slug={post.slug} />
+      <PostViews server:defer id={post.id} />
     </div>
     <Separator class="my-4 lg:my-8" />
     <Collapsible class="lg:hidden">

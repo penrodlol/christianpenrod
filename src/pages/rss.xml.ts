@@ -9,7 +9,7 @@ export const GET: APIRoute = async (context) =>
     description: 'A blog tailoring to Web Development.',
     site: String(context.site),
     items: (await getCollection('posts')).map((post) => ({
-      link: `blog/${post.slug}`,
+      link: `blog/${post.id}`,
       title: post.data.title,
       pubDate: post.data.published,
     })),

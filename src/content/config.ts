@@ -1,13 +1,15 @@
 import octokit from '@/libs/octokit';
+import { glob } from 'astro/loaders';
 import { defineCollection, z } from 'astro:content';
 import { USERNAME } from 'astro:env/server';
 
 const posts = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/data/posts/' }),
   schema: () =>
     z.object({
       title: z.string(),
       description: z.string(),
-      published: z.date(),
+      published: z.coerce.date(),
       topics: z.array(z.string()),
       repo: z.string().optional(),
     }),
