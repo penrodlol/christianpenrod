@@ -1,6 +1,6 @@
 ---
-import { Link } from 'lucide-astro';
 import { twJoin } from 'tailwind-merge';
+import Icon from './ui/icon.astro';
 import Separator from './ui/separator.astro';
 import Text from './ui/text.astro';
 
@@ -19,7 +19,7 @@ const hash = slot.toLowerCase().replace(/ /g, '-');
   >
     <Text as="h2" class="flex items-center gap-2 uppercase text-lg">
       {slot}
-      <Link class="hidden size-4 animate-in group-hover:block motion-safe:fade-in-0 motion-safe:zoom-in-75" />
+      <Icon name="link" class="hidden animate-in group-hover:block motion-safe:fade-in-0 motion-safe:zoom-in-75" />
     </Text>
   </a>
   <Separator />

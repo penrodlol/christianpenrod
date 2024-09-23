@@ -1,8 +1,8 @@
 ---
 import { type CollectionEntry } from 'astro:content';
 import { db, eq, PostView, sql } from 'astro:db';
-import { Eye } from 'lucide-astro';
 import Badge from './ui/badge.astro';
+import Icon from './ui/icon.astro';
 import Text from './ui/text.astro';
 
 type Props = { id: CollectionEntry<'posts'>['id'] };
@@ -18,6 +18,6 @@ const views = await db
 ---
 
 <Badge>
-  <Eye aria-hidden />
+  <Icon name="eye" />
   <Text>{views}</Text>
 </Badge>

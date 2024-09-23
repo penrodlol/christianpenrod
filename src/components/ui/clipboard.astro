@@ -1,7 +1,7 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
-import { Check, Clipboard as ClipboardIcon } from 'lucide-astro';
 import { twMerge } from 'tailwind-merge';
+import Icon from './icon.astro';
 
 type Props = HTMLAttributes<'button'> & { content?: string; target?: string };
 
@@ -25,6 +25,6 @@ const { class: className, 'aria-label': ariaLabel, content, target, ...props } =
   )}
 >
   <slot />
-  <ClipboardIcon x-show="!copied" x-transition:enter="animate-in motion-safe:zoom-in-0" class="size-3.5" aria-hidden />
-  <Check x-show="copied" x-cloak x-transition:enter="animate-in motion-safe:zoom-in-0" class="size-3.5" aria-hidden />
+  <Icon x-show="!copied" x-transition:enter="animate-in motion-safe:zoom-in-0" name="clipboard" class="size-3.5" />
+  <Icon x-show="copied" x-cloak x-transition:enter="animate-in motion-safe:zoom-in-0" name="check" class="size-3.5" />
 </button>

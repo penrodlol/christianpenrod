@@ -4,6 +4,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import vercel from '@astrojs/vercel/serverless';
+import icon from 'astro-icon';
 import robotsTxt from 'astro-robots-txt';
 import { defineConfig, envField } from 'astro/config';
 import { toString } from 'mdast-util-to-string';
@@ -46,6 +47,7 @@ export default defineConfig({
     tailwind(),
     mdx(),
     db(),
+    icon(),
     alpine({ entrypoint: '/alpine.config.ts' }),
     sitemap({ changefreq: 'daily', lastmod: new Date(), filter: (page) => !/\/blog\/results/.test(page) }),
     robotsTxt({ policy: [{ userAgent: '*', disallow: ['/404', '/blog/results'] }] }),

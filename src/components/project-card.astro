@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { Book, Eye, GitFork, Star } from 'lucide-astro';
+import Icon from './ui/icon.astro';
 import Link from './ui/link.astro';
 import Separator from './ui/separator.astro';
 import Text from './ui/text.astro';
@@ -12,7 +12,7 @@ const { project } = Astro.props;
 
 <div class="h-full rounded border shadow">
   <div class="flex items-center gap-2 rounded-t border-b bg-2 px-2 py-1">
-    <Book class="size-3 shrink-0 text-2" aria-hidden />
+    <Icon name="book" class="size-3 text-2" />
     <Text class="text-sm">{project.data.name}</Text>
   </div>
   <div class="flex flex-col gap-3 p-3 text-2">
@@ -20,9 +20,9 @@ const { project } = Astro.props;
     <Separator />
     <div class="flex items-center justify-between gap-2 text-xs">
       <div class="flex items-center gap-3">
-        <div class="flex items-center gap-1"><Star class="size-3 shrink-0" />{project.data.stars}</div>
-        <div class="flex items-center gap-1"><GitFork class="size-3 shrink-0" />{project.data.forks}</div>
-        <div class="flex items-center gap-1"><Eye class="size-3 shrink-0" />{project.data.watchers}</div>
+        <div class="flex items-center gap-1"><Icon name="star" class="size-3" />{project.data.stars}</div>
+        <div class="flex items-center gap-1"><Icon name="git-fork" class="size-3" />{project.data.forks}</div>
+        <div class="flex items-center gap-1"><Icon name="eye" class="size-3" />{project.data.watchers}</div>
       </div>
       <div class="flex gap-4">
         <Link href={project.data.githubUrl}>Github</Link>

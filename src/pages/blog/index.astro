@@ -3,13 +3,13 @@ import PostCard from '@/components/post-card.astro';
 import Button from '@/components/ui/button.astro';
 import Chip from '@/components/ui/chip.astro';
 import Command from '@/components/ui/command.astro';
+import Icon from '@/components/ui/icon.astro';
 import Separator from '@/components/ui/separator.astro';
 import Text from '@/components/ui/text.astro';
 import Textfield from '@/components/ui/textfield.astro';
 import Layout from '@/layouts/layout.astro';
 import { getCollection } from 'astro:content';
 import { PostView, db, sum } from 'astro:db';
-import { Dot, Search } from 'lucide-astro';
 import PostResults from './results.astro';
 
 const [rs] = await db.select({ views: sum(PostView.views) }).from(PostView);
@@ -32,7 +32,7 @@ const topics = [...new Set(posts.flatMap((post) => post.data.topics))].sort();
         <Separator class="flex-1" />
         <div class="flex items-center text-2 text-xs">
           <Text>{views} Views</Text>
-          <Dot aria-hidden class="size-4 shrink-0" />
+          <Icon name="dot" />
           <Text>{posts.length} Posts</Text>
         </div>
       </div>
@@ -44,10 +44,10 @@ const topics = [...new Set(posts.flatMap((post) => post.data.topics))].sort();
         >
           <div class="flex gap-2">
             <Textfield name="query" placeholder="Search Posts" aria-label="Search Posts" class="flex-1">
-              <Search slot="prefix" aria-hidden class="size-3.5" />
+              <Icon slot="prefix" name="search" class="size-3.5" />
               <Command slot="suffix" key="/" @keyup.window.slash="$el.parentElement.previousElementSibling.focus()" />
             </Textfield>
-            <Button type="submit" size="icon" aria-label="Search" :disabled="loading"><Search /></Button>
+            <Button type="submit" size="icon" aria-label="Search" icon="search" :disabled="loading" />
           </div>
           <fieldset class="flex flex-wrap gap-2">
             {topics.map((value) => <Chip name="topics" x-on:click="submit" {value} />)}
