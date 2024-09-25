@@ -4,19 +4,21 @@ export const partial = true;
 
 import Button from '@/components/ui/button.astro';
 import Date from '@/components/ui/date.astro';
+import Icon from '@/components/ui/icon.astro';
 import If from '@/components/ui/if.astro';
 import Separator from '@/components/ui/separator.astro';
 import Skeleton from '@/components/ui/skeleton.astro';
 import Text from '@/components/ui/text.astro';
 import { z } from 'astro/zod';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import { db, sql } from 'astro:db';
-import { Dot, RefreshCw } from 'lucide-astro';
 import { twJoin } from 'tailwind-merge';
 
-import.meta.glob('/src/content/posts/**/*.mdx', { eager: true });
-
-let posts = (await getCollection('posts')).sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+let posts = await Promise.all(
+  (await getCollection('posts'))
+    .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
+    .map(async (post) => ({ ...post, ...(await render(post)) })),
+);
 
 if (Astro.request.method === 'POST') {
   const formData = await Astro.request.formData();
@@ -28,7 +30,7 @@ if (Astro.request.method === 'POST') {
 
   if (query.success) {
     const payload = await db.run(sql`select slug from PostSearch where body match ${query.data}`);
-    posts = posts.filter((post) => payload.rows.some((row) => row.slug === post.slug));
+    posts = posts.filter((post) => payload.rows.some((row) => row.slug === post.id));
   }
 }
 ---
@@ -39,7 +41,7 @@ if (Astro.request.method === 'POST') {
       posts.map((post) => (
         <li>
           <a
-            href={`/blog/${post.slug}`}
+            href={`/blog/${post.id}`}
             aria-label={post.data.title}
             class={twJoin([
               'group flex flex-col rounded py-2 text-xs',
@@ -51,8 +53,8 @@ if (Astro.request.method === 'POST') {
             <Separator class="flex-1" />
             <div class="flex items-center text-2">
               <Date value={post.data.published} />
-              <Dot aria-hidden class="shrink-4 size-4" />
-              <Text>{post.render().then((data) => data.remarkPluginFrontmatter.readingTime)}</Text>
+              <Icon name="dot" />
+              <Text>{post.remarkPluginFrontmatter.readingTime}</Text>
             </div>
           </a>
           <Separator class="my-2 sm:hidden" />
@@ -76,7 +78,7 @@ if (Astro.request.method === 'POST') {
         <Text as="p">No posts matched the search criteria.</Text>
       </div>
       <Button class="group mt-6" @click="$root.querySelector('form')?.reset(); submit()">
-        <RefreshCw aria-hidden class="size-3 group-hover:rotate-180 motion-safe:transition-transform" /> Reset Filters
+        <Icon name="refresh-cw" class="size-3 group-hover:rotate-180 motion-safe:transition-transform" /> Reset Filters
       </Button>
     </div>
   </If>

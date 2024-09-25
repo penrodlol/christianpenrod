@@ -3,11 +3,13 @@ import Me from '@/assets/me.webp';
 import PostCard from '@/components/post-card.astro';
 import PostGithub from '@/components/post-github.astro';
 import PostSubheader from '@/components/post-subheader.astro';
+import PostViews from '@/components/post-views.astro';
 import Badge from '@/components/ui/badge.astro';
 import Button, { buttonVariants } from '@/components/ui/button.astro';
 import * as Code from '@/components/ui/code';
 import Collapsible from '@/components/ui/collapsible.astro';
 import Date from '@/components/ui/date.astro';
+import Icon from '@/components/ui/icon.astro';
 import Link from '@/components/ui/link.astro';
 import Note from '@/components/ui/note.astro';
 import Separator from '@/components/ui/separator.astro';
@@ -16,9 +18,8 @@ import Text from '@/components/ui/text.astro';
 import Layout from '@/layouts/layout.astro';
 import type { GetStaticPaths } from 'astro';
 import { Image } from 'astro:assets';
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
 import * as env from 'astro:env/server';
-import { Calendar, ChevronRight, Clock4, Eye, Github, Linkedin, Mail, Rss, Twitter } from 'lucide-astro';
 import { twJoin } from 'tailwind-merge';
 import { tv } from 'tailwind-variants';
 
@@ -36,35 +37,31 @@ export const getStaticPaths: GetStaticPaths = async () =>
       .map((post, index, _posts) => {
         const prev = _posts[index + 1] ?? _posts[0];
         const next = _posts[index - 1] ?? _posts[_posts.length - 1];
-        return { params: { slug: post.slug }, props: { post, prev, next } };
+        return { params: { id: post.id }, props: { post, prev, next } };
       }),
   );
 
 const { post, prev, next } = Astro.props;
-const { remarkPluginFrontmatter, headings, Content } = await post.render();
+const { remarkPluginFrontmatter, headings, Content } = await render(post);
 ---
 
 <Layout
   title={post.data.title}
   description={post.data.description}
-  og={`open-graph/src/content/posts/${post.slug}.png`}
+  og={`open-graph/src/content/posts/${post.id}.png`}
   class="mx-auto max-w-2xl lg:grid lg:max-w-screen-xl lg:grid-cols-[1fr,18rem] lg:gap-16 lg:px-16"
 >
   <article>
     <Text as="h1" class="uppercase text-3xl">{post.data.title}</Text>
     <div class="mt-4 flex flex-wrap items-center gap-4">
-      <Badge><Calendar aria-hidden /><Date value={post.data.published} /></Badge>
-      <Badge><Clock4 aria-hidden />{remarkPluginFrontmatter.readingTime}</Badge>
-      <!-- prettier-ignore -->
-      <Badge x-data={`{ views: $fetch("/blog/views", ${JSON.stringify({ method: 'PUT', body: { slug: post.slug } })})}`}>
-        <Eye aria-hidden />
-        <Text x-text="(await views)?.toString().padStart(6, '0')">000000</Text  >
-      </Badge>
+      <Badge><Icon name="calendar" /><Date value={post.data.published} /></Badge>
+      <Badge><Icon name="clock-4" />{remarkPluginFrontmatter.readingTime}</Badge>
+      <PostViews server:defer id={post.id} />
     </div>
     <Separator class="my-4 lg:my-8" />
     <Collapsible class="lg:hidden">
       <Button slot="collapsible-trigger" color="ghost" id="table-of-contents-mobile">
-        <ChevronRight class="size-4 motion-safe:transition-transform" :class="expanded && 'rotate-90'" aria-hidden />
+        <Icon name="chevron-right" class="motion-safe:transition-transform" :class="expanded && 'rotate-90'" />
         <Text>TABLE OF CONTENTS</Text>
       </Button>
       <TableOfContents.Root class="px-10 py-2" aria-labelledby="table-of-contents-mobile">
@@ -118,11 +115,11 @@ const { remarkPluginFrontmatter, headings, Content } = await post.render();
           <Text class="text-2">Front-End Web Developer</Text>
         </div>
         <ul class="flex text-2 [&_[data-external-icon]]:hidden">
-          <li><Link href={env.GITHUB} aria-label="Github" class={social}><Github /></Link></li>
-          <li><Link href={env.TWITTER} aria-label="Twitter" class={social}><Twitter /></Link></li>
-          <li><Link href={env.LINKEDIN} aria-label="LinkedIn" class={social}><Linkedin /></Link></li>
-          <li><Link href={`mailto:${env.EMAIL}`} aria-label="Email" class={social}><Mail /></Link></li>
-          <li><Link href={new URL('rss.xml', Astro.site)} aria-label="RSS" class={social}><Rss /></Link></li>
+          <li><Link href={env.GITHUB} aria-label="Github" icon="github" class={social} /></li>
+          <li><Link href={env.TWITTER} aria-label="Twitter" icon="twitter" class={social} /></li>
+          <li><Link href={env.LINKEDIN} aria-label="LinkedIn" icon="linkedin" class={social} /></li>
+          <li><Link href={`mailto:${env.EMAIL}`} aria-label="Email" icon="mail" class={social} /></li>
+          <li><Link href={new URL('rss.xml', Astro.site)} aria-label="RSS" icon="rss" class={social} /></li>
         </ul>
       </div>
     </div>

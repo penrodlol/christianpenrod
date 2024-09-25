@@ -3,6 +3,7 @@ import Me from '@/assets/me.webp';
 import PostCard from '@/components/post-card.astro';
 import ProjectCard from '@/components/project-card.astro';
 import * as DataList from '@/components/ui/datalist';
+import Icon from '@/components/ui/icon.astro';
 import Link from '@/components/ui/link.astro';
 import Separator from '@/components/ui/separator.astro';
 import Text from '@/components/ui/text.astro';
@@ -10,9 +11,8 @@ import Layout from '@/layouts/layout.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import * as env from 'astro:env/server';
-import { ArrowRight } from 'lucide-astro';
 
-const projects = ['feedjoy', 'christianpenrod'];
+const projects = await getCollection('projects');
 const posts = (await getCollection('posts'))
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
   .slice(0, 3);
@@ -58,6 +58,6 @@ const posts = (await getCollection('posts'))
     <Text as="h3" class="text-2">RECENT POSTS</Text>
     <!-- prettier-ignore -->
     <ul class="gap-10 grid lg:grid-cols-3">{posts.map((post) => <li><PostCard {post} /></li>)}</ul>
-    <Link href="/blog" class="self-end">View all posts <ArrowRight class="size-3" /></Link>
+    <Link href="/blog" class="self-end">View all posts <Icon name="arrow-right" class="size-3" /></Link>
   </section>
 </Layout>

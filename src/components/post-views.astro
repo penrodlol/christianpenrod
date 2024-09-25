@@ -1,0 +1,23 @@
+---
+import { type CollectionEntry } from 'astro:content';
+import { db, eq, PostView, sql } from 'astro:db';
+import Badge from './ui/badge.astro';
+import Icon from './ui/icon.astro';
+import Text from './ui/text.astro';
+
+type Props = { id: CollectionEntry<'posts'>['id'] };
+
+const views = await db
+  .update(PostView)
+  .set({ views: sql`${PostView.views} + 1` })
+  .where(eq(PostView.post, Astro.props.id))
+  .returning({ views: PostView.views })
+  .get()
+  .then((res) => res.views.toString().padStart(6, '0'))
+  .catch(() => '000000');
+---
+
+<Badge>
+  <Icon name="eye" />
+  <Text>{views}</Text>
+</Badge>

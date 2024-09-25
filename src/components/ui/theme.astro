@@ -1,6 +1,6 @@
 ---
-import { MoonStar, Sun } from 'lucide-astro';
 import Button from './button.astro';
+import Icon from './icon.astro';
 ---
 
 <Button
@@ -14,14 +14,16 @@ import Button from './button.astro';
     theme = localStorage.theme;
 `}
 >
-  <Sun
+  <Icon
     x-show="theme === 'dark'"
     x-transition:enter="animate-in duration-300 motion-safe:fade-in-0 motion-safe:zoom-in-0"
+    name="sun"
     class="hidden dark:block"
   />
-  <MoonStar
+  <Icon
     x-show="theme === 'light'"
     x-transition:enter="animate-in duration-300 motion-safe:fade-in-0 motion-safe:zoom-in-0"
+    name="moon-star"
     class="dark:hidden"
   />
 </Button>

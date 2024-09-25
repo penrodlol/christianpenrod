@@ -2,7 +2,7 @@
 import type { HTMLTag, Polymorphic } from 'astro/types';
 import { tv } from 'tailwind-variants';
 
-type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }>;
+type Props<Tag extends HTMLTag = 'p'> = Polymorphic<{ as: Tag }>;
 
 const variants = tv({
   variants: {

@@ -2,7 +2,7 @@ import { OGImageRoute } from 'astro-og-canvas';
 
 export const { getStaticPaths, GET } = OGImageRoute({
   param: 'slug',
-  pages: import.meta.glob('/src/content/posts/**/*.mdx', { eager: true }),
+  pages: import.meta.glob('/src/data/posts/**/*.mdx', { eager: true }),
   getImageOptions: (_, post) => {
     const published = new Date(post.frontmatter.published).toDateString();
     const readingTime = `${post.frontmatter.readingTime}`;

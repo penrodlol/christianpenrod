@@ -1,7 +1,7 @@
 ---
 import { type HTMLAttributes } from 'astro/types';
-import { ChevronDown } from 'lucide-astro';
 import { twMerge } from 'tailwind-merge';
+import Icon from '../../icon.astro';
 
 type Props = HTMLAttributes<'button'>;
 
@@ -28,5 +28,5 @@ const { class: className, ...props } = Astro.props;
   )}
 >
   <slot />
-  <ChevronDown aria-hidden class="size-4 motion-safe:transition-transform" />
+  <Icon name="chevron-down" class="motion-safe:transition-transform" />
 </button>

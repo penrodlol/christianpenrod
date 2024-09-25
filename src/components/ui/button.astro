@@ -1,6 +1,7 @@
 ---
 import { type HTMLAttributes } from 'astro/types';
 import { tv, type VariantProps } from 'tailwind-variants';
+import Icon from './icon.astro';
 
 export const buttonVariants = tv({
   base: [
@@ -15,9 +16,12 @@ export const buttonVariants = tv({
   },
 });
 
-type Props = HTMLAttributes<'button'> & VariantProps<typeof buttonVariants>;
+type Props = HTMLAttributes<'button'> & VariantProps<typeof buttonVariants> & { icon?: string };
 
-const { class: className, color, size, ...props } = Astro.props;
+const { class: className, color, size, icon, ...props } = Astro.props;
 ---
 
-<button {...props} class={buttonVariants({ color, size, className })}><slot /></button>
+<button {...props} class={buttonVariants({ color, size, className })}>
+  <slot />
+  {size === 'icon' && icon && <Icon name={icon} />}
+</button>

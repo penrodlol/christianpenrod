@@ -1,19 +1,19 @@
 ---
-import type { CollectionEntry } from 'astro:content';
-import { Calendar, Clock4 } from 'lucide-astro';
+import { type CollectionEntry, render } from 'astro:content';
 import { twJoin } from 'tailwind-merge';
 import Date from './ui/date.astro';
+import Icon from './ui/icon.astro';
 import Separator from './ui/separator.astro';
 import Text from './ui/text.astro';
 
 type Props = { post: CollectionEntry<'posts'> };
 
 const { post } = Astro.props;
-const { remarkPluginFrontmatter } = await post.render();
+const { remarkPluginFrontmatter } = await render(post);
 ---
 
 <a
-  href={`/blog/${post.slug}`}
+  href={`/blog/${post.id}`}
   aria-label={`${post.data.title}. ${post.data.description}`}
   class={twJoin(
     'group flex h-full select-none flex-col overflow-hidden rounded border shadow',
@@ -27,11 +27,11 @@ const { remarkPluginFrontmatter } = await post.render();
     <Separator class="my-1.5" />
     <div class="flex justify-between gap-4 text-2 text-xs">
       <div class="flex items-center gap-2">
-        <Calendar class="size-3.5 shrink-0" aria-hidden />
+        <Icon name="calendar" class="size-3.5" />
         <Date value={post.data.published} />
       </div>
       <div class="flex items-center gap-2">
-        <Clock4 class="size-3.5 shrink-0" aria-hidden />
+        <Icon name="clock-4" class="size-3.5" />
         <Text>{remarkPluginFrontmatter.readingTime}</Text>
       </div>
     </div>

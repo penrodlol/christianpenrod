@@ -5,8 +5,8 @@ import { readFile, readdir } from 'node:fs/promises';
 
 export default async function () {
   const posts = await Promise.all(
-    (await readdir('src/content/posts', { withFileTypes: true })).map(async (file) => {
-      const post = (await readFile(`src/content/posts/${file.name}`, 'utf-8')).replace(/---[\s\S]*?---/, '');
+    (await readdir('src/data/posts', { withFileTypes: true })).map(async (file) => {
+      const post = (await readFile(`src/data/posts/${file.name}`, 'utf-8')).replace(/---[\s\S]*?---/, '');
       const body = toString(fromMarkdown(post), { includeHtml: false }).replaceAll('\n', ' ');
       return sql`(${file.name.replace(/\.mdx$/, '')}, ${body})`;
     }),

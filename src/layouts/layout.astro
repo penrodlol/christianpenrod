@@ -3,6 +3,7 @@ import favicon from '@/assets/favicon.webp';
 import ogDefault from '@/assets/og.webp';
 import { buttonVariants } from '@/components/ui/button.astro';
 import Clipboard from '@/components/ui/clipboard.astro';
+import Icon from '@/components/ui/icon.astro';
 import Link from '@/components/ui/link.astro';
 import * as NavigationMenu from '@/components/ui/navigation-menu';
 import Separator from '@/components/ui/separator.astro';
@@ -14,7 +15,6 @@ import '@fontsource/inter/700.css';
 import type { HTMLAttributes } from 'astro/types';
 import * as env from 'astro:env/server';
 import { ViewTransitions } from 'astro:transitions';
-import { Github, Home, Linkedin, Twitter } from 'lucide-astro';
 import { twMerge } from 'tailwind-merge';
 
 type Props = HTMLAttributes<'main'> & { title?: string; description?: string; og?: string };
@@ -57,17 +57,20 @@ const {
   </head>
   <body class="mx-auto flex min-h-[calc(100dvh-2rem)] max-w-screen-xl flex-col bg-1 shadow sm:rounded sm:border">
     <header class="sticky top-0 z-50 flex h-12 w-full items-center rounded-t border-b bg-1 px-4 text-xs">
-      <Link href="/" aria-label="Home" class={buttonVariants({ color: 'ghost', size: 'icon', class: 'mr-auto' })}>
-        <Home class="size-3.5" />
-      </Link>
+      <Link
+        href="/"
+        aria-label="Home"
+        icon="home"
+        class={buttonVariants({ color: 'ghost', size: 'icon', class: 'mr-auto' })}
+      />
       <NavigationMenu.Root>
         <NavigationMenu.Link href="/blog">Blog</NavigationMenu.Link>
         <NavigationMenu.Dropdown>
           <NavigationMenu.DropdownTrigger>Socials</NavigationMenu.DropdownTrigger>
           <NavigationMenu.DropdownLinks class="[&_svg:first-child]:size-3.5 [&_svg:last-child]:ml-auto">
-            <NavigationMenu.Link href={env.GITHUB}><Github /> Github</NavigationMenu.Link>
-            <NavigationMenu.Link href={env.TWITTER}><Twitter /> Twitter/X</NavigationMenu.Link>
-            <NavigationMenu.Link href={env.LINKEDIN}> <Linkedin />LinkedIn</NavigationMenu.Link>
+            <NavigationMenu.Link href={env.GITHUB}><Icon name="github" /> Github</NavigationMenu.Link>
+            <NavigationMenu.Link href={env.TWITTER}><Icon name="twitter" /> Twitter/X</NavigationMenu.Link>
+            <NavigationMenu.Link href={env.LINKEDIN}> <Icon name="linkedin" />LinkedIn</NavigationMenu.Link>
             <Separator />
             <NavigationMenu.Link href={`mailto:${env.EMAIL}`} class="p-0" tabindex="-1" @click.prevent>
               <Clipboard class="w-full" content={env.EMAIL}>Copy Email</Clipboard>
