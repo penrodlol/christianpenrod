@@ -15,7 +15,7 @@ import { createCssVariablesTheme } from 'shiki';
 export default defineConfig({
   site: 'https://christianpenrod.com',
   trailingSlash: 'never',
-  output: 'static',
+  output: 'hybrid',
   adapter: vercel({ webAnalytics: { enabled: true }, imageService: true }),
   markdown: {
     syntaxHighlight: false,
@@ -28,19 +28,23 @@ export default defineConfig({
       },
     ],
   },
-  env: {
-    schema: {
-      LOCATION: envField.string({ context: 'server', access: 'public' }),
-      EMAIL: envField.string({ context: 'server', access: 'public' }),
-      USERNAME: envField.string({ context: 'server', access: 'public' }),
-      GITHUB: envField.string({ context: 'server', access: 'public', url: true }),
-      TWITTER: envField.string({ context: 'server', access: 'public', url: true }),
-      LINKEDIN: envField.string({ context: 'server', access: 'public', url: true }),
-      JOB_LINK: envField.string({ context: 'server', access: 'public', url: true }),
-      JOB_NAME: envField.string({ context: 'server', access: 'public' }),
-      COLLEGE_LINK: envField.string({ context: 'server', access: 'public', url: true }),
-      COLLEGE_NAME: envField.string({ context: 'server', access: 'public' }),
-      GITHUB_TOKEN: envField.string({ context: 'server', access: 'secret' }),
+  experimental: {
+    serverIslands: true,
+    contentLayer: true,
+    env: {
+      schema: {
+        LOCATION: envField.string({ context: 'server', access: 'public' }),
+        EMAIL: envField.string({ context: 'server', access: 'public' }),
+        USERNAME: envField.string({ context: 'server', access: 'public' }),
+        GITHUB: envField.string({ context: 'server', access: 'public', url: true }),
+        TWITTER: envField.string({ context: 'server', access: 'public', url: true }),
+        LINKEDIN: envField.string({ context: 'server', access: 'public', url: true }),
+        JOB_LINK: envField.string({ context: 'server', access: 'public', url: true }),
+        JOB_NAME: envField.string({ context: 'server', access: 'public' }),
+        COLLEGE_LINK: envField.string({ context: 'server', access: 'public', url: true }),
+        COLLEGE_NAME: envField.string({ context: 'server', access: 'public' }),
+        GITHUB_TOKEN: envField.string({ context: 'server', access: 'secret' }),
+      },
     },
   },
   integrations: [
