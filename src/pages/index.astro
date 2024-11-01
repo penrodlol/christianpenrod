@@ -1,63 +1,46 @@
 ---
 import Me from '@/assets/me.webp';
-import PostCard from '@/components/post-card.astro';
-import ProjectCard from '@/components/project-card.astro';
-import * as DataList from '@/components/ui/datalist';
+import { buttonVariants } from '@/components/ui/button.astro';
 import Icon from '@/components/ui/icon.astro';
 import Link from '@/components/ui/link.astro';
-import Separator from '@/components/ui/separator.astro';
 import Text from '@/components/ui/text.astro';
 import Layout from '@/layouts/layout.astro';
 import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
 import * as env from 'astro:env/server';
-
-const projects = await getCollection('projects');
-const posts = (await getCollection('posts'))
-  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
-  .slice(0, 3);
 ---
 
-<Layout class="mx-auto flex w-full max-w-xl flex-col gap-14 lg:max-w-screen-xl lg:gap-20 lg:px-20">
-  <section class="flex items-center justify-between gap-24">
+<Layout>
+  <section class="flex items-end justify-between gap-20">
     <div>
-      <Text as="h1" class="leading-none">CHRISTIAN PENROD</Text>
-      <Text as="h2" class="text-2">Front-End Web Developer</Text>
-      <Text as="p" class="mb-10 mt-4 text-2">
+      <Text as="h1" size="9" weight="semibold">CHRISTIAN PENROD</Text>
+      <Text as="h2" size="6">Front-End Web Developer</Text>
+      <div class="my-6 flex items-center gap-1 text-xs [&_p_svg]:-translate-y-px">
+        <div class="flex items-center gap-1">
+          <Text size="1" class="flex items-center gap-2"><Icon name="briefcase-business" />Web Developer</Text>
+          <Link href={env.JOB_LINK}>McKesson</Link>
+        </div>
+        <Icon name="dot" class="size-6 text-gray-11" />
+        <div class="flex items-center gap-1">
+          <Text size="1" class="flex items-center gap-2"><Icon name="graduation-cap" />Computer Science</Text>
+          <Link href={env.COLLEGE_LINK}>LaRoche</Link>
+        </div>
+        <Icon name="dot" class="size-6 text-gray-11" />
+        <Text size="1" class="flex items-center gap-2"><Icon name="map-pin" />{env.LOCATION}</Text>
+      </div>
+      <Text class="mb-8 text-gray-11">
         Working on the web since 2018. I enjoy developing efficient web experiences through code and design. I'm equally
-        driven to sharing knowledge with others.
+        driven to sharing knowledge with others. I'm currently working as a Full-Stack Web Developer at McKesson.
       </Text>
-      <DataList.Root class="text-xs">
-        <DataList.Item>
-          <DataList.Key>Location</DataList.Key>
-          <DataList.Value>{env.LOCATION}</DataList.Value>
-        </DataList.Item>
-        <Separator class="my-2" aria-hidden />
-        <DataList.Item>
-          <DataList.Key>Occupation</DataList.Key>
-          <DataList.Value><Link href={env.JOB_LINK}>@{env.JOB_NAME}</Link> </DataList.Value>
-        </DataList.Item>
-        <Separator class="my-2" aria-hidden />
-        <DataList.Item>
-          <DataList.Key>Education</DataList.Key>
-          <DataList.Value><Link href={env.COLLEGE_LINK}>@{env.COLLEGE_NAME}</Link> </DataList.Value>
-        </DataList.Item>
-        <Separator class="mt-2" aria-hidden />
-      </DataList.Root>
+      <!-- prettier-ignore -->
+      <div class="-ml-2 flex gap-2">
+        <Link href={env.GITHUB} icon="github" aria-label="Github" class={buttonVariants({ color: 'ghost', size: 'icon' })} />
+        <Link href={env.TWITTER} icon="twitter" aria-label="Twitter/X" class={buttonVariants({ color: 'ghost', size: 'icon' })} />
+        <Link href={env.LINKEDIN} icon="linkedin" aria-label="LinkedIn" class={buttonVariants({ color: 'ghost', size: 'icon' })} />
+        <Link href={`mailto:${env.EMAIL}`} icon="mail" aria-label="Email" class={buttonVariants({ color: 'ghost', size: 'icon' })} />
+      </div>
     </div>
-    <div class="hidden size-[320px] shrink-0 overflow-hidden rounded border-2 opacity-80 shadow lg:block">
-      <Image src={Me} alt="Me" class="brightness-150 grayscale dark:brightness-100" />
+    <div class="hidden size-96 shrink-0 -translate-y-6 lg:block">
+      <Image src={Me} alt="Me" width={2048} height={2046} />
     </div>
-  </section>
-  <section class="flex flex-col gap-6">
-    <Text as="h3" class="text-2">PROJECTS</Text>
-    <!-- prettier-ignore -->
-    <ul class="grid lg:grid-cols-2 gap-x-10 gap-y-6">{projects.map((project) => <li><ProjectCard {project} /></li>)}</ul>
-  </section>
-  <section class="flex flex-col gap-6">
-    <Text as="h3" class="text-2">RECENT POSTS</Text>
-    <!-- prettier-ignore -->
-    <ul class="gap-10 grid lg:grid-cols-3">{posts.map((post) => <li><PostCard {post} /></li>)}</ul>
-    <Link href="/blog" class="self-end">View all posts <Icon name="arrow-right" class="size-3" /></Link>
   </section>
 </Layout>

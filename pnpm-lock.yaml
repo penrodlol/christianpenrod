@@ -40,7 +40,10 @@ devDependencies:
   '@astrojs/vercel':
     specifier: 8.0.0-beta.3
     version: 8.0.0-beta.3(astro@5.0.0-beta.6)
-  '@fontsource/inter':
+  '@fontsource-variable/inter':
+    specifier: ^5.1.0
+    version: 5.1.0
+  '@fontsource/monaspace-neon':
     specifier: ^5.1.0
     version: 5.1.0
   '@iconify-json/lucide':
@@ -736,8 +739,12 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@fontsource/inter@5.1.0:
-    resolution: {integrity: sha512-zKZR3kf1G0noIes1frLfOHP5EXVVm0M7sV/l9f/AaYf+M/DId35FO4LkigWjqWYjTJZGgplhdv4cB+ssvCqr5A==}
+  /@fontsource-variable/inter@5.1.0:
+    resolution: {integrity: sha512-Wj2dUGP0vUpxRGQTXQTCNJO+aLcFcQm+gUPXfj/aS877bQkEPBPv9JvZJpwdm2vzelt8NTZ+ausKlBCJjh2XIg==}
+    dev: true
+
+  /@fontsource/monaspace-neon@5.1.0:
+    resolution: {integrity: sha512-nW56kEvbPwNHHYfouTEI6KR2BAcXhqjGc/KkQdDvC+bcpRFc9olZTBd+Jw+l8MhcbnFwX+GWE5VP8EUrAcshew==}
     dev: true
 
   /@iconify-json/lucide@1.2.11:

@@ -1,21 +1,32 @@
 ---
 import type { HTMLTag, Polymorphic } from 'astro/types';
-import { tv } from 'tailwind-variants';
+import { tv, type VariantProps } from 'tailwind-variants';
 
-type Props<Tag extends HTMLTag = 'p'> = Polymorphic<{ as: Tag }>;
+type Props<Tag extends HTMLTag = 'p'> = Polymorphic<{ as: Tag }> & VariantProps<typeof textVariants>;
 
-const variants = tv({
+export const textVariants = tv({
+  base: 'max-w-prose [&:where(h1,h2,h3,h4,h5,h6)]:leading-none',
+  defaultVariants: { size: '2' },
   variants: {
-    Tag: {
-      p: 'max-w-prose',
-      h1: 'text-4xl font-medium',
-      h2: 'text-2xl font-medium',
-      h3: 'text-base font-medium',
+    weight: { normal: 'font-normal', semibold: 'font-semibold', bold: 'font-bold' },
+    size: {
+      '1': 'text-xs',
+      '2': 'text-sm',
+      '3': 'text-base',
+      '4': 'text-lg',
+      '5': 'text-xl',
+      '6': 'text-2xl',
+      '7': 'text-3xl',
+      '8': 'text-4xl',
+      '9': 'text-5xl',
+      '10': 'text-6xl',
+      '11': 'text-7xl',
+      '12': 'text-8xl',
     },
   },
 });
 
-const { as: Tag = 'p', class: className, ...props } = Astro.props;
+const { as: Tag = 'p', class: className, size, weight, ...props } = Astro.props;
 ---
 
-<Tag {...props} class={variants({ Tag, className })}><slot /></Tag>
+<Tag {...props} class={textVariants({ size, weight, className })}><slot /></Tag>
