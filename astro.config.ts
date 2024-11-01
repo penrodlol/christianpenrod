@@ -3,7 +3,7 @@ import db from '@astrojs/db';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
-import vercel from '@astrojs/vercel/serverless';
+import vercel from '@astrojs/vercel/static';
 import icon from 'astro-icon';
 import robotsTxt from 'astro-robots-txt';
 import { defineConfig, envField } from 'astro/config';
@@ -15,7 +15,6 @@ import { createCssVariablesTheme } from 'shiki';
 export default defineConfig({
   site: 'https://christianpenrod.com',
   trailingSlash: 'never',
-  output: 'hybrid',
   adapter: vercel({ webAnalytics: { enabled: true }, imageService: true }),
   markdown: {
     syntaxHighlight: false,
@@ -28,23 +27,19 @@ export default defineConfig({
       },
     ],
   },
-  experimental: {
-    serverIslands: true,
-    contentLayer: true,
-    env: {
-      schema: {
-        LOCATION: envField.string({ context: 'server', access: 'public' }),
-        EMAIL: envField.string({ context: 'server', access: 'public' }),
-        USERNAME: envField.string({ context: 'server', access: 'public' }),
-        GITHUB: envField.string({ context: 'server', access: 'public', url: true }),
-        TWITTER: envField.string({ context: 'server', access: 'public', url: true }),
-        LINKEDIN: envField.string({ context: 'server', access: 'public', url: true }),
-        JOB_LINK: envField.string({ context: 'server', access: 'public', url: true }),
-        JOB_NAME: envField.string({ context: 'server', access: 'public' }),
-        COLLEGE_LINK: envField.string({ context: 'server', access: 'public', url: true }),
-        COLLEGE_NAME: envField.string({ context: 'server', access: 'public' }),
-        GITHUB_TOKEN: envField.string({ context: 'server', access: 'secret' }),
-      },
+  env: {
+    schema: {
+      LOCATION: envField.string({ context: 'server', access: 'public' }),
+      EMAIL: envField.string({ context: 'server', access: 'public' }),
+      USERNAME: envField.string({ context: 'server', access: 'public' }),
+      GITHUB: envField.string({ context: 'server', access: 'public', url: true }),
+      TWITTER: envField.string({ context: 'server', access: 'public', url: true }),
+      LINKEDIN: envField.string({ context: 'server', access: 'public', url: true }),
+      JOB_LINK: envField.string({ context: 'server', access: 'public', url: true }),
+      JOB_NAME: envField.string({ context: 'server', access: 'public' }),
+      COLLEGE_LINK: envField.string({ context: 'server', access: 'public', url: true }),
+      COLLEGE_NAME: envField.string({ context: 'server', access: 'public' }),
+      GITHUB_TOKEN: envField.string({ context: 'server', access: 'secret' }),
     },
   },
   integrations: [
@@ -53,7 +48,7 @@ export default defineConfig({
     db(),
     icon(),
     alpine({ entrypoint: '/alpine.config.ts' }),
-    sitemap({ changefreq: 'daily', lastmod: new Date(), filter: (page) => !/\/blog\/results/.test(page) }),
-    robotsTxt({ policy: [{ userAgent: '*', disallow: ['/404', '/blog/results'] }] }),
+    sitemap({ changefreq: 'daily', lastmod: new Date() }),
+    robotsTxt({ policy: [{ userAgent: '*', disallow: ['/404'] }] }),
   ],
 });

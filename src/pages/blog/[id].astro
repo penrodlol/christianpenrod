@@ -3,7 +3,6 @@ import Me from '@/assets/me.webp';
 import PostCard from '@/components/post-card.astro';
 import PostGithub from '@/components/post-github.astro';
 import PostSubheader from '@/components/post-subheader.astro';
-import PostViews from '@/components/post-views.astro';
 import Badge from '@/components/ui/badge.astro';
 import Button, { buttonVariants } from '@/components/ui/button.astro';
 import * as Code from '@/components/ui/code';
@@ -56,7 +55,6 @@ const { remarkPluginFrontmatter, headings, Content } = await render(post);
     <div class="mt-4 flex flex-wrap items-center gap-4">
       <Badge><Icon name="calendar" /><Date value={post.data.published} /></Badge>
       <Badge><Icon name="clock-4" />{remarkPluginFrontmatter.readingTime}</Badge>
-      <PostViews server:defer id={post.id} />
     </div>
     <Separator class="my-4 lg:my-8" />
     <Collapsible class="lg:hidden">
@@ -114,7 +112,7 @@ const { remarkPluginFrontmatter, headings, Content } = await render(post);
           <Text class="font-medium leading-none">CHRISTIAN PENROD</Text>
           <Text class="text-2">Front-End Web Developer</Text>
         </div>
-        <ul class="flex text-2 [&_[data-external-icon]]:hidden">
+        <ul class="text-2 flex [&_[data-external-icon]]:hidden">
           <li><Link href={env.GITHUB} aria-label="Github" icon="github" class={social} /></li>
           <li><Link href={env.TWITTER} aria-label="Twitter" icon="twitter" class={social} /></li>
           <li><Link href={env.LINKEDIN} aria-label="LinkedIn" icon="linkedin" class={social} /></li>
