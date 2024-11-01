@@ -1,27 +1,38 @@
 ---
-import { type HTMLAttributes } from 'astro/types';
+import type { HTMLAttributes } from 'astro/types';
 import { tv, type VariantProps } from 'tailwind-variants';
 import Icon from './icon.astro';
 
+type Props = HTMLAttributes<'button'> & VariantProps<typeof buttonVariants> & { icon?: string };
+
 export const buttonVariants = tv({
   base: [
-    'inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded',
+    'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded font-normal',
     'disabled:opacity-50 disabled:cursor-not-allowed motion-safe:transition-colors',
-    'focus-visible:outline-none focus-visible:ring-1',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-8',
   ],
-  defaultVariants: { color: 'neutral', size: 'sm' },
+  defaultVariants: { variant: 'solid', size: 'md' },
   variants: {
-    color: { neutral: 'bg-3 enabled:hover:text-brand', ghost: 'enabled:hover:text-brand hover:bg-3' },
-    size: { sm: 'h-8 px-3 text-xs', icon: 'size-8 [&_svg]:size-4' },
+    variant: {
+      solid: 'bg-accent-9 text-accent-contrast hover:bg-accent-10',
+      soft: 'bg-accent-3 text-accent-11 hover:bg-accent-4',
+      'soft-outline': 'bg-accent-3 text-accent-11 border border-accent-7 hover:border-accent-8',
+      outline: 'bg-transparent text-accent-11 border border-accent-7 hover:bg-accent-3',
+      ghost: 'bg-transparent text-accent-11 hover:bg-accent-3 hover:text-accent-12',
+    },
+    size: {
+      sm: 'h-8 px-4 text-xs',
+      md: 'h-10 px-6 text-sm',
+      lg: 'h-12 px-8 text-base',
+      icon: 'size-8 [&_svg]:size-4',
+    },
   },
 });
 
-type Props = HTMLAttributes<'button'> & VariantProps<typeof buttonVariants> & { icon?: string };
-
-const { class: className, color, size, icon, ...props } = Astro.props;
+const { class: className, type, variant, size, icon, ...props } = Astro.props;
 ---
 
-<button {...props} class={buttonVariants({ color, size, className })}>
+<button {...props} type={type ?? 'button'} class={buttonVariants({ variant, size, className })}>
   <slot />
   {size === 'icon' && icon && <Icon name={icon} />}
 </button>

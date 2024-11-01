@@ -17,7 +17,7 @@ const {
 } = Astro.props;
 ---
 
-<html lang="en" class="p-4 scrollbar-thin">
+<html lang="en" class="scrollbar-thin sm:p-4">
   <head>
     <title>{title}</title>
     <meta charset="utf-8" />
@@ -46,12 +46,12 @@ const {
   </head>
   <body
     class:list={[
-      'mx-auto flex min-h-[calc(100dvh-2rem)] max-w-screen-xl flex-col rounded border',
+      'mx-auto flex min-h-[calc(100dvh-3rem)] max-w-screen-xl flex-col sm:rounded sm:border',
       'bg-gray-1 font-mono tracking-tight text-gray-12',
     ]}
   >
     <header class="sticky top-0 z-50 h-12 rounded-t border-b bg-gray-1"></header>
-    <main {...props} class:list={['flex-1 px-14 py-10', className]}><slot /></main>
+    <main {...props} class:list={['flex-1 overflow-hidden px-6 py-14 sm:p-14', className]}><slot /></main>
     <footer class="border-t"></footer>
     <!-- <header class="bg-1 sticky top-0 z-50 flex h-12 w-full items-center rounded-t border-b px-4 text-xs">
       <Link

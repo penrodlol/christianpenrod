@@ -1,46 +1,33 @@
 ---
 import Me from '@/assets/me.webp';
 import { buttonVariants } from '@/components/ui/button.astro';
-import Icon from '@/components/ui/icon.astro';
 import Link from '@/components/ui/link.astro';
 import Text from '@/components/ui/text.astro';
-import Layout from '@/layouts/layout.astro';
+import Layout from '@/layouts/index.astro';
 import { Image } from 'astro:assets';
 import * as env from 'astro:env/server';
 ---
 
 <Layout>
-  <section class="flex items-end justify-between gap-20">
+  <section class="relative flex min-h-96 lg:items-center lg:justify-between">
     <div>
       <Text as="h1" size="9" weight="semibold">CHRISTIAN PENROD</Text>
       <Text as="h2" size="6">Front-End Web Developer</Text>
-      <div class="my-6 flex items-center gap-1 text-xs [&_p_svg]:-translate-y-px">
-        <div class="flex items-center gap-1">
-          <Text size="1" class="flex items-center gap-2"><Icon name="briefcase-business" />Web Developer</Text>
-          <Link href={env.JOB_LINK}>McKesson</Link>
-        </div>
-        <Icon name="dot" class="size-6 text-gray-11" />
-        <div class="flex items-center gap-1">
-          <Text size="1" class="flex items-center gap-2"><Icon name="graduation-cap" />Computer Science</Text>
-          <Link href={env.COLLEGE_LINK}>LaRoche</Link>
-        </div>
-        <Icon name="dot" class="size-6 text-gray-11" />
-        <Text size="1" class="flex items-center gap-2"><Icon name="map-pin" />{env.LOCATION}</Text>
-      </div>
-      <Text class="mb-8 text-gray-11">
-        Working on the web since 2018. I enjoy developing efficient web experiences through code and design. I'm equally
-        driven to sharing knowledge with others. I'm currently working as a Full-Stack Web Developer at McKesson.
+      <Text class="my-6 text-gray-11">
+        Working on the web since 2018. I enjoy developing efficient web experiences through code and design. Equally
+        driven to sharing knowledge with others. {env.JOB_TITLE} at <Link href={env.JOB_LINK}>{env.JOB_NAME}</Link>.
+        {env.COLLEGE_TITLE} graduate from <Link href={env.COLLEGE_LINK}>{env.COLLEGE_NAME}</Link>.
       </Text>
       <!-- prettier-ignore -->
-      <div class="-ml-2 flex gap-2">
-        <Link href={env.GITHUB} icon="github" aria-label="Github" class={buttonVariants({ color: 'ghost', size: 'icon' })} />
-        <Link href={env.TWITTER} icon="twitter" aria-label="Twitter/X" class={buttonVariants({ color: 'ghost', size: 'icon' })} />
-        <Link href={env.LINKEDIN} icon="linkedin" aria-label="LinkedIn" class={buttonVariants({ color: 'ghost', size: 'icon' })} />
-        <Link href={`mailto:${env.EMAIL}`} icon="mail" aria-label="Email" class={buttonVariants({ color: 'ghost', size: 'icon' })} />
+      <div>
+        <Link href={env.GITHUB} icon="github" aria-label="Github" class={buttonVariants({ variant: 'ghost', size: 'icon' })} />
+        <Link href={env.TWITTER} icon="twitter" aria-label="Twitter/X" class={buttonVariants({ variant: 'ghost', size: 'icon' })} />
+        <Link href={env.LINKEDIN} icon="linkedin" aria-label="LinkedIn" class={buttonVariants({ variant: 'ghost', size: 'icon' })} />
+        <Link href={`mailto:${env.EMAIL}`} icon="mail" aria-label="Email" class={buttonVariants({ variant: 'ghost', size: 'icon' })} />
       </div>
     </div>
-    <div class="hidden size-96 shrink-0 -translate-y-6 lg:block">
-      <Image src={Me} alt="Me" width={2048} height={2046} />
+    <div class="absolute -right-28 -top-20 -z-10 size-96 shrink-0 opacity-40 lg:right-0 lg:top-0 lg:opacity-100">
+      <Image src={Me} alt="Me" loading="eager" width={2048} height={1936} />
     </div>
   </section>
 </Layout>

@@ -1,0 +1,33 @@
+---
+import { type ComponentProps } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+import Icon from './icon.astro';
+
+type Props = Omit<ComponentProps<typeof Icon>, 'name'> & { name: 'right' | 'up-right' };
+
+const { class: className, name, ...props } = Astro.props;
+---
+
+<span class="relative size-5 shrink-0">
+  <Icon
+    {...props}
+    name={`arrow-${name}`}
+    class={twMerge(
+      'absolute left-1/2 top-1/2 size-3 -translate-x-1/2 -translate-y-1/2 transition-all',
+      name === 'right' && 'motion-safe:group-hover:left-1/4 motion-safe:group-hover:translate-x-1/4',
+      name === 'up-right' && [
+        'motion-safe:group-hover:translate-x-0 motion-safe:group-hover:translate-y-0',
+        'motion-safe:group-hover:right-px motion-safe:group-hover:top-px',
+        'motion-safe:group-hover:left-[calc(100%-0.875rem+1px)]',
+      ],
+      className,
+    )}
+  />
+  <Icon
+    name="minus"
+    class={twMerge(
+      'absolute left-1/2 top-1/2 size-3 -translate-x-1/2 -translate-y-1/2',
+      name === 'up-right' && '-rotate-45',
+    )}
+  />
+</span>
