@@ -1,15 +1,19 @@
 ---
 import { type HTMLAttributes } from 'astro/types';
 import { twMerge } from 'tailwind-merge';
+import type { VariantProps } from 'tailwind-variants';
 import Icon from '../../icon.astro';
+import type { textVariants } from '../../text.astro';
+import Text from '../../text.astro';
 
-type Props = HTMLAttributes<'button'>;
+type Props = HTMLAttributes<'button'> & VariantProps<typeof textVariants>;
 
-const { class: className, ...props } = Astro.props;
+const { class: className, size, weight, ...props } = Astro.props;
 ---
 
-<button
+<Text
   {...props}
+  as="button"
   :aria-expanded="open"
   :aria-controls="$id('navigation-menu-dropdown')"
   x-ref="navigationMenuDropdownTrigger"
@@ -17,16 +21,18 @@ const { class: className, ...props } = Astro.props;
   @keydown.enter.prevent.stop="open = !open"
   @keydown.space.prevent.stop="open = !open"
   @touchstart="open = !open"
+  size={size ?? '1'}
+  weight={weight ?? 'semibold'}
   class={twMerge(
-    'flex items-center gap-2 rounded px-3 py-1.5',
+    'flex items-center gap-2 rounded px-3 py-1.5 text-accent-11',
     'focus:outline-none focus:ring-1 motion-safe:transition-colors',
-    'group-hover:bg-3 group-hover:text-brand group-hover:[&_svg]:rotate-180',
-    'group-focus-within:[&:not([aria-expanded=false])]:bg-3',
-    'group-focus-within:[&:not([aria-expanded=false])]:text-brand',
+    'group-hover:bg-accent-3 group-hover:text-accent-12 group-hover:[&_svg]:rotate-180',
+    'group-focus-within:[&:not([aria-expanded=false])]:bg-accent-3',
+    'group-focus-within:[&:not([aria-expanded=false])]:text-accent-12',
     'group-focus-within:[&:not([aria-expanded=false])_svg]:rotate-180',
     className,
   )}
 >
   <slot />
   <Icon name="chevron-down" class="motion-safe:transition-transform" />
-</button>
+</Text>

@@ -1,0 +1,11 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import type { VariantProps } from 'tailwind-variants';
+import { textVariants } from '../../text.astro';
+
+type Props = HTMLAttributes<'div'> & VariantProps<typeof textVariants>;
+
+const { class: className, size, weight, ...props } = Astro.props;
+---
+
+<div {...props} class={textVariants({ size, weight, className })}><slot /></div>

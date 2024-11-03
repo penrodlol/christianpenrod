@@ -1,14 +1,13 @@
 ---
-type Props = { value: Date };
+import type { HTMLAttributes } from 'astro/types';
+import type { VariantProps } from 'tailwind-variants';
+import { textVariants } from './text.astro';
+
+type Props = HTMLAttributes<'time'> & VariantProps<typeof textVariants> & { value: Date };
+
+const { class: className, value, size, weight, ...props } = Astro.props;
 ---
 
-<time datetime={Astro.props.value.toISOString()}>
-  {
-    Astro.props.value.toLocaleDateString('en-US', {
-      month: '2-digit',
-      day: '2-digit',
-      year: 'numeric',
-      timeZone: 'UTC',
-    })
-  }
+<time {...props} datetime={value.toISOString()} class={textVariants({ size, weight, className })}>
+  {value.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric', timeZone: 'UTC' })}
 </time>

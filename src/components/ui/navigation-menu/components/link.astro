@@ -5,11 +5,18 @@ import { twMerge } from 'tailwind-merge';
 
 type Props = ComponentProps<typeof Component>;
 
-const { class: className, ...props } = Astro.props;
+const { class: className, size, ...props } = Astro.props;
 ---
 
 <li>
-  <Component {...props} class={twMerge('w-full gap-2 rounded px-2 py-1.5 hover:bg-3', className)}>
+  <Component
+    {...props}
+    size={size ?? '1'}
+    class={twMerge(
+      'w-full justify-start gap-2 rounded px-2 py-1.5 not-italic hover:bg-accent-3 hover:text-accent-12',
+      className,
+    )}
+  >
     <slot />
   </Component>
 </li>

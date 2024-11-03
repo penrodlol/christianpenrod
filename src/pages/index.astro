@@ -1,17 +1,24 @@
 ---
 import Me from '@/assets/me.webp';
+import Arrow from '@/components/ui/arrow.astro';
 import { buttonVariants } from '@/components/ui/button.astro';
+import * as Card from '@/components/ui/card';
+import Date from '@/components/ui/date.astro';
+import Icon from '@/components/ui/icon.astro';
 import Link from '@/components/ui/link.astro';
 import Text from '@/components/ui/text.astro';
 import Layout from '@/layouts/index.astro';
 import { Image } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
 import * as env from 'astro:env/server';
+
+const posts = await getCollection('posts');
 ---
 
-<Layout>
+<Layout class="flex flex-col gap-28">
   <section class="relative flex min-h-96 lg:items-center lg:justify-between">
     <div>
-      <Text as="h1" size="9" weight="semibold">CHRISTIAN PENROD</Text>
+      <Text as="h1" size="8" weight="semibold">CHRISTIAN PENROD</Text>
       <Text as="h2" size="6">Front-End Web Developer</Text>
       <Text class="my-6 text-gray-11">
         Working on the web since 2018. I enjoy developing efficient web experiences through code and design. Equally
@@ -20,7 +27,7 @@ import * as env from 'astro:env/server';
       </Text>
       <!-- prettier-ignore -->
       <div>
-        <Link href={env.GITHUB} icon="github" aria-label="Github" class={buttonVariants({ variant: 'ghost', size: 'icon' })} />
+        <Link href={env.GITHUB} icon="github" aria-label="Github" class={buttonVariants({ variant: 'ghost', size: 'icon', class: '-ml-2' })} />
         <Link href={env.TWITTER} icon="twitter" aria-label="Twitter/X" class={buttonVariants({ variant: 'ghost', size: 'icon' })} />
         <Link href={env.LINKEDIN} icon="linkedin" aria-label="LinkedIn" class={buttonVariants({ variant: 'ghost', size: 'icon' })} />
         <Link href={`mailto:${env.EMAIL}`} icon="mail" aria-label="Email" class={buttonVariants({ variant: 'ghost', size: 'icon' })} />
@@ -30,4 +37,38 @@ import * as env from 'astro:env/server';
       <Image src={Me} alt="Me" loading="eager" width={2048} height={1936} />
     </div>
   </section>
+  <div class="grid grid-cols-2 gap-10">
+    <section></section>
+    <section class="flex flex-col gap-6">
+      <div class="flex items-center gap-2">
+        <Icon name="notebook-pen" class="size-5 -translate-y-0.5 text-gray-11" />
+        <Text as="h3" size="4" weight="semibold">RECENT POSTS</Text>
+      </div>
+      <ul class="flex flex-col gap-8">
+        {
+          posts
+            .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
+            .slice(0, 3)
+            .map((post) => (
+              <li>
+                <Card.Root as="a" href={`/blog/${post.id}`}>
+                  <Card.Body>
+                    <Card.Title>{post.data.title}</Card.Title>
+                    <Card.Description>{post.data.description}</Card.Description>
+                  </Card.Body>
+                  <Card.Footer>
+                    <Date size="1" value={post.data.published} />
+                    <Icon name="dot" class="size-6 text-gray-11" />
+                    <Text size="1">{render(post).then((res) => res.remarkPluginFrontmatter.readingTime)}</Text>
+                    <Icon name="dot" class="size-6 text-gray-11" />
+                    <Text size="1">2.3K Views</Text>
+                  </Card.Footer>
+                </Card.Root>
+              </li>
+            ))
+        }
+      </ul>
+      <Link href="/blog" size="1" class="self-end">View All Posts <Arrow name="right" /></Link>
+    </section>
+  </div>
 </Layout>

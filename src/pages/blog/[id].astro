@@ -1,6 +1,5 @@
 ---
 import Me from '@/assets/me.webp';
-import PostCard from '@/components/post-card.astro';
 import PostGithub from '@/components/post-github.astro';
 import PostSubheader from '@/components/post-subheader.astro';
 import Badge from '@/components/ui/badge.astro';
@@ -14,7 +13,7 @@ import Note from '@/components/ui/note.astro';
 import Separator from '@/components/ui/separator.astro';
 import * as TableOfContents from '@/components/ui/table-of-contents';
 import Text from '@/components/ui/text.astro';
-import Layout from '@/layouts/layout.astro';
+import Layout from '@/layouts/index.astro';
 import type { GetStaticPaths } from 'astro';
 import { Image } from 'astro:assets';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
@@ -25,7 +24,7 @@ import { tv } from 'tailwind-variants';
 type Post = CollectionEntry<'posts'>;
 type Props = { post: Post; prev: Post; next: Post };
 
-const social = buttonVariants({ size: 'icon', color: 'ghost', class: '[&_svg]:size-3.5 size-6' });
+const social = buttonVariants({ size: 'icon', variant: 'ghost', class: '[&_svg]:size-3.5 size-6' });
 const text = tv({ base: '[&>p]:text-1/85 [&_:where(p,aside)_a]:underline' });
 const list = tv({ base: '[&_ol]:list-decimal [&_ol]:list-inside [&_li]:list-disc [&_li]:list-inside' });
 
@@ -51,7 +50,7 @@ const { remarkPluginFrontmatter, headings, Content } = await render(post);
   class="mx-auto max-w-2xl lg:grid lg:max-w-screen-xl lg:grid-cols-[1fr,18rem] lg:gap-16 lg:px-16"
 >
   <article>
-    <Text as="h1" class="uppercase text-3xl">{post.data.title}</Text>
+    <Text as="h1" class="text-3xl uppercase">{post.data.title}</Text>
     <div class="mt-4 flex flex-wrap items-center gap-4">
       <Badge><Icon name="calendar" /><Date value={post.data.published} /></Badge>
       <Badge><Icon name="clock-4" />{remarkPluginFrontmatter.readingTime}</Badge>
@@ -89,8 +88,8 @@ const { remarkPluginFrontmatter, headings, Content } = await render(post);
     <div class="flex flex-col gap-6">
       <Text as="h3">MORE POSTS</Text>
       <ul class="grid gap-x-10 gap-y-6 md:grid-cols-2">
-        <li><PostCard post={prev} /></li>
-        <li><PostCard post={next} /></li>
+        <!-- <li><PostCard post={prev} /></li>
+        <li><PostCard post={next} /></li> -->
       </ul>
     </div>
   </article>

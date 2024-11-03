@@ -1,6 +1,9 @@
 ---
 import favicon from '@/assets/favicon.webp';
 import ogDefault from '@/assets/og.webp';
+import Icon from '@/components/ui/icon.astro';
+import * as NavigationMenu from '@/components/ui/navigation-menu';
+import Separator from '@/components/ui/separator.astro';
 import '@fontsource/monaspace-neon';
 import type { HTMLAttributes } from 'astro/types';
 import * as env from 'astro:env/server';
@@ -10,7 +13,7 @@ type Props = HTMLAttributes<'main'> & { title?: string; description?: string; og
 
 const {
   title = 'Christian Penrod | Front-End Web Developer',
-  description = 'Developing for the web since 2015, based in Pittsburgh PA.',
+  description = 'Developing for the web since 2018.',
   og = ogDefault.src,
   class: className,
   ...props
@@ -50,40 +53,23 @@ const {
       'bg-gray-1 font-mono tracking-tight text-gray-12',
     ]}
   >
-    <header class="sticky top-0 z-50 h-12 rounded-t border-b bg-gray-1"></header>
-    <main {...props} class:list={['flex-1 overflow-hidden px-6 py-14 sm:p-14', className]}><slot /></main>
-    <footer class="border-t"></footer>
-    <!-- <header class="bg-1 sticky top-0 z-50 flex h-12 w-full items-center rounded-t border-b px-4 text-xs">
-      <Link
-        href="/"
-        aria-label="Home"
-        icon="home"
-        class={buttonVariants({ color: 'ghost', size: 'icon', class: 'mr-auto' })}
-      />
+    <header class="sticky top-0 z-50 flex h-12 items-center justify-between rounded-t border-b bg-gray-1 px-4">
+      <a href="/"></a>
       <NavigationMenu.Root>
         <NavigationMenu.Link href="/blog">Blog</NavigationMenu.Link>
         <NavigationMenu.Dropdown>
           <NavigationMenu.DropdownTrigger>Socials</NavigationMenu.DropdownTrigger>
-          <NavigationMenu.DropdownLinks class="[&_svg:first-child]:size-3.5 [&_svg:last-child]:ml-auto">
+          <NavigationMenu.DropdownLinks class="[&_a_span:last-child]:hidden [&_a_svg]:-translate-y-0.5">
             <NavigationMenu.Link href={env.GITHUB}><Icon name="github" /> Github</NavigationMenu.Link>
             <NavigationMenu.Link href={env.TWITTER}><Icon name="twitter" /> Twitter/X</NavigationMenu.Link>
-            <NavigationMenu.Link href={env.LINKEDIN}> <Icon name="linkedin" />LinkedIn</NavigationMenu.Link>
-            <Separator />
-            <NavigationMenu.Link href={`mailto:${env.EMAIL}`} class="p-0" tabindex="-1" @click.prevent>
-              <Clipboard class="w-full" content={env.EMAIL}>Copy Email</Clipboard>
-            </NavigationMenu.Link>
+            <NavigationMenu.Link href={env.LINKEDIN}><Icon name="linkedin" />LinkedIn</NavigationMenu.Link>
+            <Separator class="my-1" />
+            <NavigationMenu.Link href={`mailto:${env.EMAIL}`}><Icon name="mail" />Copy Email</NavigationMenu.Link>
           </NavigationMenu.DropdownLinks>
         </NavigationMenu.Dropdown>
       </NavigationMenu.Root>
-      <Theme />
     </header>
-    <main {...props} class={twMerge('flex-1 px-6 py-10 sm:px-8 sm:py-14', className)}><slot /></main>
-    <footer class="text-2 flex items-center justify-between gap-3 rounded-b border-t px-6 py-4 text-xs">
-      <Text as="p">©{new Date().getFullYear()} Christian Penrod - All Rights Reserved</Text>
-      <NavigationMenu.Root>
-        <NavigationMenu.Link href="/">Home</NavigationMenu.Link>
-        <NavigationMenu.Link href="/blog" class="mr-2">Blog</NavigationMenu.Link>
-      </NavigationMenu.Root>
-    </footer> -->
+    <main {...props} class:list={['flex-1 overflow-hidden px-6 py-14 sm:p-14', className]}><slot /></main>
+    <footer class="border-t"></footer>
   </body>
 </html>

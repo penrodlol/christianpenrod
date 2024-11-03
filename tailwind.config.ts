@@ -7,7 +7,21 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
-      fontFamily: { mono: ['Monaspace Neon', ...theme.fontFamily.sans] },
+      fontFamily: { mono: ['Monaspace Neon', ...theme.fontFamily.mono] },
+      fontSize: {
+        xs: 'var(--font-size-xs)',
+        sm: 'var(--font-size-sm)',
+        base: 'var(--font-size-base)',
+        lg: 'var(--font-size-lg)',
+        xl: 'var(--font-size-xl)',
+        '2xl': 'var(--font-size-2xl)',
+        '3xl': 'var(--font-size-3xl)',
+        '4xl': 'var(--font-size-4xl)',
+        '5xl': 'var(--font-size-5xl)',
+        '6xl': 'var(--font-size-6xl)',
+        '7xl': 'var(--font-size-7xl)',
+        '8xl': 'var(--font-size-8xl)',
+      },
       colors: {
         gray: {
           '1': 'oklch(var(--gray-1) / <alpha-value>)',
@@ -46,20 +60,24 @@ export default {
     },
   },
   future: { hoverOnlyWhenSupported: true },
-  corePlugins: { fontSize: false },
   plugins: [
     require('tailwindcss-animate'),
-    require('tailwindcss-fluid-type'),
     require('tailwind-scrollbar')({ nocompatible: true }),
     plugin(({ addBase }) => {
       addBase({
         ':root': {
-          '--scrollbar-thumb': 'oklch(53.3% 0 none)',
-          '--scrollbar-thumb-radius': '0.25rem',
-          '--scrollbar-track-radius': '0.25rem',
-          '--scrollbar-track': 'transparent',
-
-          '--radius': '0.25rem',
+          '--font-size-xs': 'clamp(0.7813rem, 0.7747rem + 0.0326vw, 0.8rem)',
+          '--font-size-sm': 'clamp(0.9375rem, 0.9158rem + 0.1087vw, 1rem)',
+          '--font-size-base': 'clamp(1.125rem, 1.0815rem + 0.2174vw, 1.25rem)',
+          '--font-size-lg': 'clamp(1.35rem, 1.2761rem + 0.3696vw, 1.5625rem)',
+          '--font-size-xl': 'clamp(1.62rem, 1.5041rem + 0.5793vw, 1.9531rem)',
+          '--font-size-2xl': 'clamp(1.944rem, 1.771rem + 0.8651vw, 2.4414rem)',
+          '--font-size-3xl': 'clamp(2.3328rem, 2.0827rem + 1.2504vw, 3.0518rem)',
+          '--font-size-4xl': 'clamp(2.7994rem, 2.4462rem + 1.7658vw, 3.8147rem)',
+          '--font-size-5xl': 'clamp(3.3592rem, 2.8691rem + 2.4507vw, 4.7684rem)',
+          '--font-size-6xl': 'clamp(4.0311rem, 3.36rem + 3.3555vw, 5.9605rem)',
+          '--font-size-7xl': 'clamp(4.8373rem, 3.9283rem + 4.5448vw, 7.4506rem)',
+          '--font-size-8xl': 'clamp(5.8048rem, 4.5844rem + 6.1017vw, 9.3132rem)',
 
           '--gray-1': '0% 0 none',
           '--gray-2': '18.1% 0 none',
@@ -87,7 +105,14 @@ export default {
           '--accent-10': '92.7% 0 none',
           '--accent-11': '77% 0 none',
           '--accent-12': '94.9% 0 none',
-          '--accent-contrast': '24.9% 0 none',
+          '--accent-contrast': '0% 0 none',
+
+          '--scrollbar-thumb': 'oklch(53.3% 0 none)',
+          '--scrollbar-thumb-radius': '0.25rem',
+          '--scrollbar-track-radius': '0.25rem',
+          '--scrollbar-track': 'transparent',
+
+          '--radius': '0.25rem',
         },
       });
     }),

@@ -1,18 +1,25 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
-import { twMerge } from 'tailwind-merge';
+import { tv, type VariantProps } from 'tailwind-variants';
+import Icon from './icon.astro';
 
-type Props = Omit<HTMLAttributes<'input'>, 'type'> & { value: string };
+type Props = HTMLAttributes<'button'> & VariantProps<typeof chipVariants> & { value?: string; icon?: string };
 
-const { class: className, value, ...props } = Astro.props;
+export const chipVariants = tv({
+  base: 'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-xs py-1 px-2',
+  defaultVariants: { variant: 'solid' },
+  variants: {
+    variant: {
+      solid: 'bg-accent-9 text-accent-contrast',
+      soft: 'bg-accent-3 text-accent-11',
+      'soft-outline': 'bg-accent-3 text-gray-11 border border-accent-7',
+      outline: 'bg-transparent text-accent-11 border border-accent-7',
+      ghost: 'bg-transparent text-accent-11',
+    },
+  },
+});
+
+const { class: className, variant, value, icon, ...props } = Astro.props;
 ---
 
-<label class={twMerge('relative flex rounded border bg-3 px-2 text-2', className)}>
-  <input
-    {...props}
-    {value}
-    type="checkbox"
-    class="peer absolute inset-0 cursor-pointer appearance-none rounded checked:ring-1 focus-visible:outline-none focus-visible:ring-1"
-  />
-  <div class="text-xs peer-checked:text-brand peer-hover:text-brand motion-safe:transition-colors">{value}</div>
-</label>
+<div {...props} class={chipVariants({ variant, className })}>{icon && <Icon name={icon} class="size-3" />}{value}</div>

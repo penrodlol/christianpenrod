@@ -19,8 +19,9 @@ const external = href?.toString().startsWith('https://');
   target={external ? '_blank' : target}
   weight={weight ?? 'semibold'}
   class={twMerge([
-    'group inline-flex items-center justify-center rounded italic text-accent-11',
+    'group inline-flex items-center justify-center rounded text-accent-11 motion-safe:transition-colors',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-8',
+    external && 'italic',
     className,
   ])}
 >

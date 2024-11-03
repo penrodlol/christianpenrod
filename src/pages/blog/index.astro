@@ -1,5 +1,4 @@
 ---
-import PostCard from '@/components/post-card.astro';
 import Button from '@/components/ui/button.astro';
 import Chip from '@/components/ui/chip.astro';
 import Command from '@/components/ui/command.astro';
@@ -7,7 +6,7 @@ import Icon from '@/components/ui/icon.astro';
 import Separator from '@/components/ui/separator.astro';
 import Text from '@/components/ui/text.astro';
 import Textfield from '@/components/ui/textfield.astro';
-import Layout from '@/layouts/layout.astro';
+import Layout from '@/layouts/index.astro';
 import { getCollection } from 'astro:content';
 import { PostView, db, sum } from 'astro:db';
 
@@ -38,7 +37,7 @@ const topics = [...new Set(posts.flatMap((post) => post.data.topics))].sort();
       <div x-data="partial('/blog/results')" class="flex flex-col gap-6">
         <form
           method="post"
-          class="flex flex-col gap-4 rounded border p-4 shadow text-xs"
+          class="flex flex-col gap-4 rounded border p-4 text-xs shadow"
           @submit.prevent="!loading && (submission.get('query')?.trim() ?? '') !== $el.query.value?.trim() && submit()"
         >
           <div class="flex gap-2">
@@ -56,8 +55,7 @@ const topics = [...new Set(posts.flatMap((post) => post.data.topics))].sort();
     </section>
     <section class="hidden flex-col gap-6 lg:flex">
       <Text as="h3" class="text-2">RECENT POSTS</Text>
-      <!-- prettier-ignore -->
-      <ul class="flex flex-col gap-6">{posts.slice(0, 3).map((post) => <li><PostCard {post} /></li>)}</ul>
+      <!-- <ul class="flex flex-col gap-6">{posts.slice(0, 3).map((post) => <li><PostCard {post} /></li>)}</ul> -->
     </section>
   </div>
 </Layout>
