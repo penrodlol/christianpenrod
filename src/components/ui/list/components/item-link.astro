@@ -1,0 +1,19 @@
+---
+import type { ComponentProps } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+import Link from '../../link.astro';
+
+type Props = ComponentProps<typeof Link>;
+
+const { class: className, weight, ...props } = Astro.props;
+---
+
+<li class="group">
+  <Link
+    {...props}
+    weight={weight ?? 'normal'}
+    class={twMerge('w-full p-3 text-gray-12 hover:bg-accent-3 hover:text-accent-12', className)}
+  >
+    <slot />
+  </Link>
+</li>

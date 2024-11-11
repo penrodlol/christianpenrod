@@ -1,9 +1,10 @@
 import type { Alpine } from 'alpinejs';
-// @ts-ignore\
+// @ts-expect-error
 import collapse from '@alpinejs/collapse';
-// @ts-ignore
+// @ts-expect-error
 import focus from '@alpinejs/focus';
 
-export default (Alpine: Alpine) => {
-  Alpine.plugin([collapse, focus]);
-};
+const _pagefind = await import(/* @vite-ignore */ '.vercel/output/static/pagefind/pagefind');
+const pagefind = (Alpine: Alpine) => Alpine.data('pagefind', () => ({ ..._pagefind, data: [] }));
+
+export default (Alpine: Alpine) => Alpine.plugin([collapse, focus, pagefind]);

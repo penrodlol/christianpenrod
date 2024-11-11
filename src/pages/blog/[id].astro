@@ -1,32 +1,11 @@
 ---
-import Me from '@/assets/me.webp';
-import PostGithub from '@/components/post-github.astro';
-import PostSubheader from '@/components/post-subheader.astro';
-import Badge from '@/components/ui/badge.astro';
-import Button, { buttonVariants } from '@/components/ui/button.astro';
-import * as Code from '@/components/ui/code';
-import Collapsible from '@/components/ui/collapsible.astro';
-import Date from '@/components/ui/date.astro';
-import Icon from '@/components/ui/icon.astro';
-import Link from '@/components/ui/link.astro';
-import Note from '@/components/ui/note.astro';
-import Separator from '@/components/ui/separator.astro';
-import * as TableOfContents from '@/components/ui/table-of-contents';
 import Text from '@/components/ui/text.astro';
 import Layout from '@/layouts/index.astro';
 import type { GetStaticPaths } from 'astro';
-import { Image } from 'astro:assets';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
-import * as env from 'astro:env/server';
-import { twJoin } from 'tailwind-merge';
-import { tv } from 'tailwind-variants';
 
 type Post = CollectionEntry<'posts'>;
 type Props = { post: Post; prev: Post; next: Post };
-
-const social = buttonVariants({ size: 'icon', variant: 'ghost', class: '[&_svg]:size-3.5 size-6' });
-const text = tv({ base: '[&>p]:text-1/85 [&_:where(p,aside)_a]:underline' });
-const list = tv({ base: '[&_ol]:list-decimal [&_ol]:list-inside [&_li]:list-disc [&_li]:list-inside' });
 
 export const getStaticPaths: GetStaticPaths = async () =>
   getCollection('posts').then((posts) =>
@@ -39,86 +18,13 @@ export const getStaticPaths: GetStaticPaths = async () =>
       }),
   );
 
-const { post, prev, next } = Astro.props;
-const { remarkPluginFrontmatter, headings, Content } = await render(post);
+const { post } = Astro.props;
+const { Content } = await render(post);
 ---
 
-<Layout
-  title={post.data.title}
-  description={post.data.description}
-  og={`open-graph/src/content/posts/${post.id}.png`}
-  class="mx-auto max-w-2xl lg:grid lg:max-w-screen-xl lg:grid-cols-[1fr,18rem] lg:gap-16 lg:px-16"
->
-  <article>
-    <Text as="h1" class="text-3xl uppercase">{post.data.title}</Text>
-    <div class="mt-4 flex flex-wrap items-center gap-4">
-      <Badge><Icon name="calendar" /><Date value={post.data.published} /></Badge>
-      <Badge><Icon name="clock-4" />{remarkPluginFrontmatter.readingTime}</Badge>
-    </div>
-    <Separator class="my-4 lg:my-8" />
-    <Collapsible class="lg:hidden">
-      <Button slot="collapsible-trigger" color="ghost" id="table-of-contents-mobile">
-        <Icon name="chevron-right" class="motion-safe:transition-transform" :class="expanded && 'rotate-90'" />
-        <Text>TABLE OF CONTENTS</Text>
-      </Button>
-      <TableOfContents.Root class="px-10 py-2" aria-labelledby="table-of-contents-mobile">
-        <TableOfContents.Links>
-          <TableOfContents.Link {...{ slug: 'introduction', text: 'Introduction' }} />
-          {headings.map((heading) => <TableOfContents.Link {...heading} />)}
-        </TableOfContents.Links>
-      </TableOfContents.Root>
-    </Collapsible>
-    <Separator class="my-4 lg:hidden" />
-    <div class={twJoin('flex max-w-[70ch] flex-col gap-8 leading-7', text(), list())}>
-      <Content
-        components={{
-          h2: PostSubheader,
-          a: Link,
-          blockquote: Note,
-          figure: Code.Root,
-          figcaption: Code.Header,
-          pre: Code.Content,
-          code: Code.Block,
-        }}
-      />
-      {post.data.repo && <PostGithub repo={post.data.repo} />}
-      <Text as="h2" id="introduction" class="sr-only">Introduction</Text>
-    </div>
-    <Separator class="mb-8 mt-16" />
-    <div class="flex flex-col gap-6">
-      <Text as="h3">MORE POSTS</Text>
-      <ul class="grid gap-x-10 gap-y-6 md:grid-cols-2">
-        <!-- <li><PostCard post={prev} /></li>
-        <li><PostCard post={next} /></li> -->
-      </ul>
-    </div>
+<Layout title={post.data.title} description={post.data.description} og={`open-graph/src/content/posts/${post.id}.png`}>
+  <article data-pagefind-body data-pagefind-meta={`slug:/blog/${post.id}`}>
+    <Text as="h1" data-pagefind-meta="title">{post.data.title}</Text>
+    <Content />
   </article>
-  <aside class="sticky top-20 hidden h-max rounded border p-4 shadow lg:block">
-    <TableOfContents.Root aria-labelledby="table-of-contents-desktop">
-      <TableOfContents.Title id="table-of-contents-desktop">TABLE OF CONTENTS</TableOfContents.Title>
-      <TableOfContents.Links>
-        <TableOfContents.Link {...{ slug: 'introduction', text: 'Introduction' }} />
-        {headings.map((heading) => <TableOfContents.Link {...heading} />)}
-      </TableOfContents.Links>
-    </TableOfContents.Root>
-    <Separator class="my-4" />
-    <div class="flex items-center gap-4">
-      <div class="size-14 shrink-0 rounded border shadow">
-        <Image src={Me} alt="Me" loading="eager" class="brightness-150 grayscale dark:brightness-100" />
-      </div>
-      <div class="flex flex-col gap-px">
-        <div class="flex flex-col pl-2 text-xs">
-          <Text class="font-medium leading-none">CHRISTIAN PENROD</Text>
-          <Text class="text-2">Front-End Web Developer</Text>
-        </div>
-        <ul class="text-2 flex [&_[data-external-icon]]:hidden">
-          <li><Link href={env.GITHUB} aria-label="Github" icon="github" class={social} /></li>
-          <li><Link href={env.TWITTER} aria-label="Twitter" icon="twitter" class={social} /></li>
-          <li><Link href={env.LINKEDIN} aria-label="LinkedIn" icon="linkedin" class={social} /></li>
-          <li><Link href={`mailto:${env.EMAIL}`} aria-label="Email" icon="mail" class={social} /></li>
-          <li><Link href={new URL('rss.xml', Astro.site)} aria-label="RSS" icon="rss" class={social} /></li>
-        </ul>
-      </div>
-    </div>
-  </aside>
 </Layout>

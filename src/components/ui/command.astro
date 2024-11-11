@@ -1,16 +1,31 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
 import { twMerge } from 'tailwind-merge';
+import Icon from './icon.astro';
 
-type Props = HTMLAttributes<'kbd'> & { key: string };
+type Props = HTMLAttributes<'kbd'> & { key?: string; icon?: string };
 
-const { class: className, key, ...props } = Astro.props;
+const { class: className, key, icon, ...props } = Astro.props;
 ---
 
 <kbd
   {...props}
   x-data
-  class={twMerge('bg-2 text-1 rounded-sm border px-2 py-0.5 font-sans !text-xs leading-none', className)}
+  style={{
+    boxShadow:
+      'inset 0 -0.05em 0.5em oklch(var(--gray-3)),' +
+      'inset 0 0.125em oklch(var(--gray-11)),' +
+      'inset 0 0.25em 0.5em oklch(var(--gray-2)),' +
+      'inset 0 -0.1em oklch(var(--gray-1)),' +
+      '0 0 0 0.075em oklch(var(--gray-7)),' +
+      '0 0.08em 0.17em oklch(var(--gray-1))',
+  }}
+  class={twMerge(
+    'flex items-center justify-center whitespace-nowrap rounded bg-gray-1',
+    'px-2 py-1 text-[12px] leading-none text-gray-12',
+    className,
+  )}
 >
   {key}
+  {icon && <Icon name={icon} class="size-[12px]" />}
 </kbd>

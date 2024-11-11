@@ -6,9 +6,9 @@ import Arrow from './arrow.astro';
 import Icon from './icon.astro';
 import Text, { textVariants } from './text.astro';
 
-type Props = HTMLAttributes<'a'> & VariantProps<typeof textVariants> & { icon?: string };
+type Props = HTMLAttributes<'a'> & VariantProps<typeof textVariants> & { icon?: string; iconInternal?: boolean };
 
-const { class: className, href, target, weight, icon, ...props } = Astro.props;
+const { class: className, href, target, weight, icon, iconInternal, ...props } = Astro.props;
 const external = href?.toString().startsWith('https://');
 ---
 
@@ -25,6 +25,6 @@ const external = href?.toString().startsWith('https://');
     className,
   ])}
 >
-  {icon ? <Icon name={icon} /> : <slot />}
+  {icon ? <Icon name={icon} internal={iconInternal ?? false} /> : <slot />}
   {external && !icon && <Arrow name="up-right" />}
 </Text>

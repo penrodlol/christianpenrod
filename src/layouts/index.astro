@@ -20,7 +20,7 @@ const {
 } = Astro.props;
 ---
 
-<html lang="en" class="scrollbar-thin sm:p-4">
+<html lang="en" class="antialiased scrollbar-thin sm:py-4">
   <head>
     <title>{title}</title>
     <meta charset="utf-8" />
@@ -59,7 +59,7 @@ const {
         <NavigationMenu.Link href="/blog">Blog</NavigationMenu.Link>
         <NavigationMenu.Dropdown>
           <NavigationMenu.DropdownTrigger>Socials</NavigationMenu.DropdownTrigger>
-          <NavigationMenu.DropdownLinks class="[&_a_span:last-child]:hidden [&_a_svg]:-translate-y-0.5">
+          <NavigationMenu.DropdownLinks class="[&_a_span:last-child]:hidden">
             <NavigationMenu.Link href={env.GITHUB}><Icon name="github" /> Github</NavigationMenu.Link>
             <NavigationMenu.Link href={env.TWITTER}><Icon name="twitter" /> Twitter/X</NavigationMenu.Link>
             <NavigationMenu.Link href={env.LINKEDIN}><Icon name="linkedin" />LinkedIn</NavigationMenu.Link>

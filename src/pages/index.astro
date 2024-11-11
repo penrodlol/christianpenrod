@@ -6,6 +6,7 @@ import * as Card from '@/components/ui/card';
 import Date from '@/components/ui/date.astro';
 import Icon from '@/components/ui/icon.astro';
 import Link from '@/components/ui/link.astro';
+import * as List from '@/components/ui/list';
 import Text from '@/components/ui/text.astro';
 import Layout from '@/layouts/index.astro';
 import { Image } from 'astro:assets';
@@ -37,20 +38,20 @@ const posts = await getCollection('posts');
       <Image src={Me} alt="Me" loading="eager" width={2048} height={1936} />
     </div>
   </section>
-  <div class="grid grid-cols-2 gap-10">
+  <div class="lg:grid lg:grid-cols-2 lg:gap-10">
     <section></section>
     <section class="flex flex-col gap-6">
       <div class="flex items-center gap-2">
         <Icon name="notebook-pen" class="size-5 -translate-y-0.5 text-gray-11" />
         <Text as="h3" size="4" weight="semibold">RECENT POSTS</Text>
       </div>
-      <ul class="flex flex-col gap-8">
+      <List.Root class="gap-8">
         {
           posts
             .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
             .slice(0, 3)
             .map((post) => (
-              <li>
+              <List.Item>
                 <Card.Root as="a" href={`/blog/${post.id}`}>
                   <Card.Body>
                     <Card.Title>{post.data.title}</Card.Title>
@@ -64,10 +65,10 @@ const posts = await getCollection('posts');
                     <Text size="1">2.3K Views</Text>
                   </Card.Footer>
                 </Card.Root>
-              </li>
+              </List.Item>
             ))
         }
-      </ul>
+      </List.Root>
       <Link href="/blog" size="1" class="self-end">View All Posts <Arrow name="right" /></Link>
     </section>
   </div>
