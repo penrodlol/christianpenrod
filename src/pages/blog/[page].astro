@@ -1,0 +1,10 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Template from './_template.astro';
+import { getSortedPosts, POSTS_PAGE_SIZE } from './_utils';
+
+export const getStaticPaths = (async ({ paginate }) =>
+  paginate(await getSortedPosts(), { pageSize: POSTS_PAGE_SIZE })) satisfies GetStaticPaths;
+---
+
+<Template posts={Astro.props.page} />

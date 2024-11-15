@@ -1,10 +1,21 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
-import { twMerge } from 'tailwind-merge';
+import { tv, type VariantProps } from 'tailwind-variants';
 
-type Props = HTMLAttributes<'ul'>;
+type Props = HTMLAttributes<'ul'> & VariantProps<typeof variants>;
 
-const { class: className, ...props } = Astro.props;
+const variants = tv({
+  base: [
+    'relative flex list-none flex-col has-[a:is(:focus-visible,:hover)]:[--opacity:1]',
+    'before:fixed before:-z-10 before:rounded before:bg-gray-3 before:opacity-[--opacity,0] before:content-[""]',
+    'before:transition-[top_0.18s,left_0.18s,height_0.18s,opacity_0.18s,color_0.18s,width_0.1s]',
+    'before:left-[anchor(--anchor_left)] before:top-[anchor(--anchor_top)] before:h-[anchor-size(--anchor_height)] before:w-[anchor-size(--anchor_width)]',
+  ],
+  defaultVariants: { orientation: 'vertical' },
+  variants: { orientation: { horizontal: 'flex-row', vertical: 'flex-col' } },
+});
+
+const { class: className, orientation, ...props } = Astro.props;
 ---
 
-<ul {...props} class={twMerge('flex list-inside flex-col', className)}><slot /></ul>
+<ul {...props} class={variants({ orientation, className })}><slot /></ul>

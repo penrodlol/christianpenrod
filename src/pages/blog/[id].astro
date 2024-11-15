@@ -2,21 +2,15 @@
 import Text from '@/components/ui/text.astro';
 import Layout from '@/layouts/index.astro';
 import type { GetStaticPaths } from 'astro';
-import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { render } from 'astro:content';
+import { getSortedPosts } from './_utils';
 
-type Post = CollectionEntry<'posts'>;
-type Props = { post: Post; prev: Post; next: Post };
-
-export const getStaticPaths: GetStaticPaths = async () =>
-  getCollection('posts').then((posts) =>
-    posts
-      .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
-      .map((post, index, _posts) => {
-        const prev = _posts[index + 1] ?? _posts[0];
-        const next = _posts[index - 1] ?? _posts[_posts.length - 1];
-        return { params: { id: post.id }, props: { post, prev, next } };
-      }),
-  );
+export const getStaticPaths = (async () =>
+  (await getSortedPosts()).map((post, index, _posts) => {
+    const prev = _posts[index + 1] ?? _posts[0];
+    const next = _posts[index - 1] ?? _posts[_posts.length - 1];
+    return { params: { id: post.id }, props: { post, prev, next } };
+  })) satisfies GetStaticPaths;
 
 const { post } = Astro.props;
 const { Content } = await render(post);

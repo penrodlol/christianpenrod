@@ -27,12 +27,12 @@ const posts = await getCollection('posts');
         {env.COLLEGE_TITLE} graduate from <Link href={env.COLLEGE_LINK}>{env.COLLEGE_NAME}</Link>.
       </Text>
       <!-- prettier-ignore -->
-      <div>
-        <Link href={env.GITHUB} icon="github" aria-label="Github" class={buttonVariants({ variant: 'ghost', size: 'icon', class: '-ml-2' })} />
-        <Link href={env.TWITTER} icon="twitter" aria-label="Twitter/X" class={buttonVariants({ variant: 'ghost', size: 'icon' })} />
-        <Link href={env.LINKEDIN} icon="linkedin" aria-label="LinkedIn" class={buttonVariants({ variant: 'ghost', size: 'icon' })} />
-        <Link href={`mailto:${env.EMAIL}`} icon="mail" aria-label="Email" class={buttonVariants({ variant: 'ghost', size: 'icon' })} />
-      </div>
+      <List.Root orientation="horizontal">
+        <List.ItemLink href={env.GITHUB} icon="github" aria-label="Github" class={buttonVariants({ variant: 'ghost', size: 'icon', class: '-ml-2' })} />
+        <List.ItemLink href={env.TWITTER} icon="twitter" aria-label="Twitter/X" class={buttonVariants({ variant: 'ghost', size: 'icon' })} />
+        <List.ItemLink href={env.LINKEDIN} icon="linkedin" aria-label="LinkedIn" class={buttonVariants({ variant: 'ghost', size: 'icon' })} />
+        <List.ItemLink href={`mailto:${env.EMAIL}`} icon="mail" aria-label="Email" class={buttonVariants({ variant: 'ghost', size: 'icon' })} />
+      </List.Root>
     </div>
     <div class="absolute -right-28 -top-20 -z-10 size-96 shrink-0 opacity-40 lg:right-0 lg:top-0 lg:opacity-100">
       <Image src={Me} alt="Me" loading="eager" width={2048} height={1936} />

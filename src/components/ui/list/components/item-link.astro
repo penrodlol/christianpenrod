@@ -8,11 +8,11 @@ type Props = ComponentProps<typeof Link>;
 const { class: className, weight, ...props } = Astro.props;
 ---
 
-<li class="group">
+<li class="has-[a:is(:hover,:focus-visible)]:[anchor-name:--anchor]">
   <Link
     {...props}
     weight={weight ?? 'normal'}
-    class={twMerge('w-full p-3 text-gray-12 hover:bg-accent-3 hover:text-accent-12', className)}
+    class={twMerge('w-full p-3 text-gray-12 target:[anchor-name:--target]', className)}
   >
     <slot />
   </Link>

@@ -1,0 +1,156 @@
+---
+import Button from '@/components/ui/button.astro';
+import Chip from '@/components/ui/chip.astro';
+import Command from '@/components/ui/command.astro';
+import Date from '@/components/ui/date.astro';
+import * as Dialog from '@/components/ui/dialog';
+import Icon from '@/components/ui/icon.astro';
+import Input from '@/components/ui/input.astro';
+import Link from '@/components/ui/link.astro';
+import * as List from '@/components/ui/list';
+import Number from '@/components/ui/number.astro';
+import Separator from '@/components/ui/separator.astro';
+import Text from '@/components/ui/text.astro';
+import Layout from '@/layouts/index.astro';
+import type { Page } from 'astro';
+import { z } from 'astro/zod';
+import type { CollectionEntry } from 'astro:content';
+import { PostView, db, sum } from 'astro:db';
+import { PAGEFIND_LINK } from 'astro:env/server';
+import { getAllTopics, getSortedPosts } from './_utils';
+
+type Props = { posts: Page<CollectionEntry<'posts'>>; topic?: CollectionEntry<'posts'>['data']['topics'][0] };
+
+const posts = await getSortedPosts();
+const topics = await getAllTopics();
+const readindTime = posts.reduce((a, p) => a + z.coerce.number().parse(p.data.readingTime.replace(/\D/g, '')), 0);
+const wordCount = posts.reduce((a, p) => a + (p.body?.split(/\s+/).length ?? 0), 0);
+const [{ views } = {}] = await db.select({ views: sum(PostView.views) }).from(PostView);
+
+const { topic: activeTopic } = Astro.props;
+---
+
+<Layout title="Blog | Christian Penrod">
+  <section>
+    <Text as="h1" size="7" weight="semibold">BLOG POSTS</Text>
+    <Text as="h2" size="2" class="mb-20">Explore various sofware-related posts.</Text>
+  </section>
+  <div x-data="pagefind" class="grid grid-cols-[1fr_40%] gap-10">
+    <section class="flex flex-col gap-10">
+      <div class="flex items-center gap-1">
+        <Text as="h3" size="3">ALL POSTS</Text>
+        <Separator class="mx-2 flex-1" />
+        <div class="flex items-center gap-1 text-gray-11">
+          <div class="flex items-center gap-1">
+            <Icon name="eye" />
+            <Number size="1" value={z.coerce.number().parse(views)} />
+          </div>
+          <Icon name="dot" />
+          <div class="flex items-center gap-1">
+            <Icon name="clock-2" />
+            <Text size="1">{(readindTime / 60).toFixed(1)} Hrs</Text>
+          </div>
+          <Icon name="dot" />
+          <div class="flex items-center gap-1">
+            <Icon name="notebook-text" />
+            <Number size="1" value={wordCount} />
+            <Text size="1"> Words</Text>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col gap-6 rounded border p-6">
+        <Dialog.Root @close="data = []; $refs.query.value = ''">
+          <Button slot="dialog-trigger" variant="soft-outline" class="w-full justify-start gap-4">
+            <Icon name="search" />
+            <Text>Search Posts</Text>
+            <Command key="/" class="ml-auto" />
+          </Button>
+          <Dialog.Header>
+            <Input
+              x-ref="query"
+              class="w-full"
+              placeholder="Search posts..."
+              autocorrect="off"
+              autocapitalize="off"
+              @keyup="data = await Promise.all((await search($event.target.value)).results.map((item) => item.data()))"
+            >
+              <Icon slot="prefix" name="search" />
+              <Button
+                slot="suffix"
+                size="icon"
+                variant="ghost"
+                icon="x"
+                aria-label="Reset"
+                @click="$dispatch('close')"
+              />
+            </Input>
+          </Dialog.Header>
+          <Dialog.Body>
+            <div x-cloak>
+              <Text x-show="!data.length && $refs.query.value.length">No Results Found</Text>
+              <List.Root
+                class:list={[
+                  '[&_mark]:rounded [&_mark]:border [&_mark]:border-dotted [&_mark]:border-accent-9',
+                  '[&_mark]:bg-transparent [&_mark]:p-0.5 [&_mark]:text-gray-12',
+                ]}
+              >
+                <template x-for="post in data">
+                  <List.ItemLink
+                    :href="post.meta.slug"
+                    :aria-label="post.meta.title"
+                    class="flex max-w-none flex-col items-start gap-1 p-6"
+                  >
+                    <Text weight="semibold" x-text="post.meta.title" class="text-gray-12" />
+                    <Text size="1" x-html="post.excerpt + '...'" class="max-w-none text-gray-11" />
+                  </List.ItemLink>
+                </template>
+              </List.Root>
+            </div>
+          </Dialog.Body>
+          <Dialog.Footer>
+            <div class="flex items-center gap-2 text-gray-11">
+              <Command icon="corner-down-left" aria-label="Enter key" />
+              <Text size="1">to select</Text>
+            </div>
+            <div class="flex items-center gap-1 text-gray-11">
+              <Command icon="move-down" aria-label="Arrow up key" />
+              <Command icon="move-up" aria-label="Arrow down key" />
+              <Text size="1" class="ml-1">to navigate</Text>
+            </div>
+            <div class="flex items-center gap-2 text-gray-11">
+              <Command key="esc" aria-label="Escape key" />
+              <Text size="1">to close</Text>
+            </div>
+            <div class="ml-auto flex items-center gap-2">
+              <Text size="1">Search by</Text>
+              <Link href={PAGEFIND_LINK} iconInternal icon="pagefind" aria-label="Pagefind" class="[&_svg]:size-auto" />
+            </div>
+          </Dialog.Footer>
+        </Dialog.Root>
+        <div class="flex flex-wrap gap-2">
+          {
+            topics.map(({ id, value }) => (
+              <Chip as="a" {value} href={`${id}/1`} variant={activeTopic === id ? 'solid' : 'outline'} />
+            ))
+          }
+        </div>
+      </div>
+      <List.Root>
+        {
+          posts.map((post) => (
+            <List.ItemLink href={post.id} class="flex max-w-none items-center justify-between gap-2">
+              <Text size="1">{post.data.title}</Text>
+              <Separator class="flex-1" />
+              <div class="flex items-center gap-1 text-gray-11">
+                <Date value={post.data.published} size="1" />
+                <Icon name="dot" />
+                <Text size="1">{post.data.readingTime}</Text>
+              </div>
+            </List.ItemLink>
+          ))
+        }
+      </List.Root>
+    </section>
+    <section></section>
+  </div>
+</Layout>

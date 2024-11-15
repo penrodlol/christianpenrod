@@ -1,0 +1,13 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import type { VariantProps } from 'tailwind-variants';
+import { textVariants } from './text.astro';
+
+type Props = HTMLAttributes<'p'> & VariantProps<typeof textVariants> & { value: number };
+
+const { class: className, value, size, weight, ...props } = Astro.props;
+---
+
+<p {...props} class={textVariants({ size, weight, className })}>
+  {Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 }).format(value)}
+</p>

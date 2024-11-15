@@ -4,7 +4,7 @@ import ogDefault from '@/assets/og.webp';
 import Icon from '@/components/ui/icon.astro';
 import * as NavigationMenu from '@/components/ui/navigation-menu';
 import Separator from '@/components/ui/separator.astro';
-import '@fontsource/monaspace-neon';
+import '@fontsource/geist-mono';
 import type { HTMLAttributes } from 'astro/types';
 import * as env from 'astro:env/server';
 import { ClientRouter } from 'astro:transitions';
@@ -50,13 +50,13 @@ const {
   <body
     class:list={[
       'mx-auto flex min-h-[calc(100dvh-3rem)] max-w-screen-xl flex-col sm:rounded sm:border',
-      'bg-gray-1 font-mono tracking-tight text-gray-12',
+      'bg-gray-1 font-mono text-gray-12',
     ]}
   >
     <header class="sticky top-0 z-50 flex h-12 items-center justify-between rounded-t border-b bg-gray-1 px-4">
       <a href="/"></a>
       <NavigationMenu.Root>
-        <NavigationMenu.Link href="/blog">Blog</NavigationMenu.Link>
+        <NavigationMenu.Link href="/blog/1">Blog</NavigationMenu.Link>
         <NavigationMenu.Dropdown>
           <NavigationMenu.DropdownTrigger>Socials</NavigationMenu.DropdownTrigger>
           <NavigationMenu.DropdownLinks class="[&_a_span:last-child]:hidden">
