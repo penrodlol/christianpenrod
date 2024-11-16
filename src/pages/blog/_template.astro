@@ -130,7 +130,14 @@ const { topic: activeTopic } = Astro.props;
         <div class="flex flex-wrap gap-2">
           {
             topics.map(({ id, value }) => (
-              <Chip as="a" {value} href={`${id}/1`} variant={activeTopic === id ? 'solid' : 'outline'} />
+              <Chip
+                {value}
+                as="a"
+                href={id === activeTopic ? '/blog/1' : `/blog/${id}/1`}
+                variant={id === activeTopic ? 'solid' : 'soft'}
+                icon={id === activeTopic ? 'x' : undefined}
+                transition:name={`chip-${value}`}
+              />
             ))
           }
         </div>
@@ -138,7 +145,7 @@ const { topic: activeTopic } = Astro.props;
       <List.Root>
         {
           posts.map((post) => (
-            <List.ItemLink href={post.id} class="flex max-w-none items-center justify-between gap-2">
+            <List.ItemLink href={`/blog/${post.id}`} class="flex max-w-none items-center justify-between gap-2">
               <Text size="1">{post.data.title}</Text>
               <Separator class="flex-1" />
               <div class="flex items-center gap-1 text-gray-11">
