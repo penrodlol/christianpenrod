@@ -63,7 +63,7 @@ export default {
   plugins: [
     require('tailwindcss-animate'),
     require('tailwind-scrollbar')({ nocompatible: true }),
-    plugin(({ addBase }) => {
+    plugin(({ addBase, addUtilities }) => {
       addBase({
         ':root': {
           '--font-size-xs': 'clamp(0.7813rem, 0.7747rem + 0.0326vw, 0.8rem)',
@@ -114,6 +114,30 @@ export default {
 
           '--radius': '0.25rem',
         },
+      });
+
+      addUtilities({
+        '.anchor-root': {
+          position: 'relative',
+          '&:has(.anchor-target:is(:focus-visible, :hover))': { '--opacity': '1' },
+          '::before': {
+            position: 'fixed',
+            content: '""',
+            zIndex: '-10',
+            top: 'anchor(--anchor top)',
+            left: 'anchor(--anchor left)',
+            height: 'anchor-size(--anchor height)',
+            width: 'anchor-size(--anchor width)',
+            borderRadius: 'var(--radius)',
+            background: 'oklch(var(--gray-3))',
+            opacity: 'var(--opacity, 0)',
+            transitionProperty: 'top 0.18s, left 0.18s, height 0.18s, opacity 0.18s, color 0.18s, width 0.1s',
+            transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+            transitionDuration: '200ms',
+          },
+        },
+        '.anchor-source': { '&:has(.anchor-target:is(:hover, :focus-visible))': { 'anchor-name': '--anchor' } },
+        '.anchor-target': { '&:target': { 'anchor-name': '--target' } },
       });
     }),
   ],

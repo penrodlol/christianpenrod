@@ -1,0 +1,13 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import type { VariantProps } from 'tailwind-variants';
+import { textVariants } from '../../text.astro';
+
+type Props = HTMLAttributes<'li'> & VariantProps<typeof textVariants> & { current: number; max: number };
+
+const { class: className, current, max, size, weight, ...props } = Astro.props;
+---
+
+<li {...props} class={textVariants({ size, weight, className: ['px-2 select-none', className] })}>
+  {current} of {max}
+</li>

@@ -1,7 +1,8 @@
 ---
-import type { HTMLAttributes } from 'astro/types';
+import type { ComponentProps } from 'astro/types';
+import Text from '../../text.astro';
 
-type Props = HTMLAttributes<'li'>;
+type Props = ComponentProps<typeof Text>;
 ---
 
-<li {...Astro.props}><slot /></li>
+<Text as="li" {...Astro.props}><slot /></Text>

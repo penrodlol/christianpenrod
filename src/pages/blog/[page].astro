@@ -7,4 +7,4 @@ export const getStaticPaths = (async ({ paginate }) =>
   paginate(await getSortedPosts(), { pageSize: POSTS_PAGE_SIZE })) satisfies GetStaticPaths;
 ---
 
-<Template posts={Astro.props.page} />
+<Template {...Astro.props.page} />

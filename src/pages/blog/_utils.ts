@@ -3,6 +3,9 @@ import { getCollection, render } from 'astro:content';
 
 export const POSTS_PAGE_SIZE = 10;
 
+export type GetSortedPosts = Awaited<ReturnType<typeof getSortedPosts>>;
+export type GetAllTopics = Awaited<ReturnType<typeof getAllTopics>>;
+
 export const getSortedPosts = async () =>
   await Promise.all(
     (await getCollection('posts'))

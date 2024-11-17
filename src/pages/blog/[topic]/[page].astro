@@ -13,4 +13,4 @@ export const getStaticPaths = (async ({ paginate }) => {
 }) satisfies GetStaticPaths;
 ---
 
-<Template posts={Astro.props.page} topic={Astro.params.topic} />
+<Template {...Astro.props.page} topic={Astro.params.topic} />

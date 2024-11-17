@@ -10,17 +10,17 @@ import Input from '@/components/ui/input.astro';
 import Link from '@/components/ui/link.astro';
 import * as List from '@/components/ui/list';
 import Number from '@/components/ui/number.astro';
+import * as Paginator from '@/components/ui/paginator';
 import Separator from '@/components/ui/separator.astro';
 import Text from '@/components/ui/text.astro';
 import Layout from '@/layouts/index.astro';
 import type { Page } from 'astro';
 import { z } from 'astro/zod';
-import type { CollectionEntry } from 'astro:content';
 import { PostView, db, sum } from 'astro:db';
 import { PAGEFIND_LINK } from 'astro:env/server';
-import { getAllTopics, getSortedPosts } from './_utils';
+import { getAllTopics, getSortedPosts, type GetAllTopics, type GetSortedPosts } from './_utils';
 
-type Props = { posts: Page<CollectionEntry<'posts'>>; topic?: CollectionEntry<'posts'>['data']['topics'][0] };
+type Props = Page<GetSortedPosts[0]> & { topic?: GetAllTopics[0]['id'] };
 
 const posts = await getSortedPosts();
 const topics = await getAllTopics();
@@ -28,7 +28,7 @@ const readindTime = posts.reduce((a, p) => a + z.coerce.number().parse(p.data.re
 const wordCount = posts.reduce((a, p) => a + (p.body?.split(/\s+/).length ?? 0), 0);
 const [{ views } = {}] = await db.select({ views: sum(PostView.views) }).from(PostView);
 
-const { topic: activeTopic } = Astro.props;
+const { data: activePosts, topic: activeTopic, url, currentPage, lastPage } = Astro.props;
 ---
 
 <Layout title="Blog | Christian Penrod">
@@ -143,26 +143,35 @@ const { topic: activeTopic } = Astro.props;
           }
         </div>
       </div>
-      <List.Root>
-        {
-          posts.map((post) => (
-            <List.ItemLink href={`/blog/${post.id}`} class="flex max-w-none items-center justify-between gap-2">
-              <Text size="1">{post.data.title}</Text>
-              <Separator class="flex-1" />
-              <div class="flex items-center gap-1 text-gray-11">
-                <Date value={post.data.published} size="1" />
-                <Icon name="dot" />
-                <Text size="1">{post.data.readingTime}</Text>
-              </div>
-            </List.ItemLink>
-          ))
-        }
-      </List.Root>
+      <div class="flex flex-col gap-6">
+        <List.Root>
+          {
+            activePosts.map((post) => (
+              <List.ItemLink href={`/blog/${post.id}`} class="flex max-w-none items-center justify-between gap-2">
+                <Text size="1">{post.data.title}</Text>
+                <Separator class="flex-1" />
+                <div class="flex items-center gap-1 text-gray-11">
+                  <Date value={post.data.published} size="1" />
+                  <Icon name="dot" />
+                  <Text size="1">{post.data.readingTime}</Text>
+                </div>
+              </List.ItemLink>
+            ))
+          }
+        </List.Root>
+        <Paginator.Root class="justify-self-end">
+          <Paginator.Start href={url.first} disabled={!url.first} />
+          <Paginator.Previous href={url.prev} disabled={!url.prev} />
+          <Paginator.Page size="1" current={currentPage} max={lastPage} />
+          <Paginator.Next href={url.next} disabled={!url.next} />
+          <Paginator.End href={url.last} disabled={!url.last} />
+        </Paginator.Root>
+      </div>
     </section>
     <section class="flex flex-col gap-6">
       <div class="flex items-center gap-2">
         <Icon name="notebook-pen" class="size-5 -translate-y-0.5 text-gray-11" />
-        <Text as="h3" size="4" weight="semibold">RECENT POSTS</Text>
+        <Text as="h3" size="3" weight="semibold">RECENT POSTS</Text>
       </div>
       <List.Root class="gap-8">
         {

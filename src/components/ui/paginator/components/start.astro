@@ -1,0 +1,25 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import type { VariantProps } from 'tailwind-variants';
+import { buttonVariants } from '../../button.astro';
+import Icon from '../../icon.astro';
+
+type Props = HTMLAttributes<'a'> & VariantProps<typeof buttonVariants> & { disabled?: boolean };
+
+const { class: className, variant, disabled, ...props } = Astro.props;
+---
+
+<li class="anchor-source">
+  <a
+    {...props}
+    aria-disabled={disabled}
+    aria-label="First page"
+    class={buttonVariants({
+      variant: 'ghost',
+      size: 'icon',
+      className: [className, 'anchor-target cursor-default', disabled && 'opacity-70 pointer-events-none'],
+    })}
+  >
+    <Icon name="chevrons-left" />
+  </a>
+</li>
