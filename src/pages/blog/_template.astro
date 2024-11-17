@@ -1,5 +1,6 @@
 ---
 import Button from '@/components/ui/button.astro';
+import * as Card from '@/components/ui/card';
 import Chip from '@/components/ui/chip.astro';
 import Command from '@/components/ui/command.astro';
 import Date from '@/components/ui/date.astro';
@@ -35,7 +36,7 @@ const { topic: activeTopic } = Astro.props;
     <Text as="h1" size="7" weight="semibold">BLOG POSTS</Text>
     <Text as="h2" size="2" class="mb-20">Explore various sofware-related posts.</Text>
   </section>
-  <div x-data="pagefind" class="grid grid-cols-[1fr_40%] gap-10">
+  <div x-data="pagefind" class="grid grid-cols-[1fr_35%] gap-20">
     <section class="flex flex-col gap-10">
       <div class="flex items-center gap-1">
         <Text as="h3" size="3">ALL POSTS</Text>
@@ -98,7 +99,7 @@ const { topic: activeTopic } = Astro.props;
                   <List.ItemLink
                     :href="post.meta.slug"
                     :aria-label="post.meta.title"
-                    class="flex max-w-none flex-col items-start gap-1 p-6"
+                    class="flex max-w-none flex-col items-start gap-1 rounded-b-none border-b p-6"
                   >
                     <Text weight="semibold" x-text="post.meta.title" class="text-gray-12" />
                     <Text size="1" x-html="post.excerpt + '...'" class="max-w-none text-gray-11" />
@@ -158,6 +159,35 @@ const { topic: activeTopic } = Astro.props;
         }
       </List.Root>
     </section>
-    <section></section>
+    <section class="flex flex-col gap-6">
+      <div class="flex items-center gap-2">
+        <Icon name="notebook-pen" class="size-5 -translate-y-0.5 text-gray-11" />
+        <Text as="h3" size="4" weight="semibold">RECENT POSTS</Text>
+      </div>
+      <List.Root class="gap-8">
+        {
+          posts
+            .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
+            .slice(0, 3)
+            .map((post) => (
+              <List.Item>
+                <Card.Root as="a" href={`/blog/${post.id}`}>
+                  <Card.Body>
+                    <Card.Title>{post.data.title}</Card.Title>
+                    <Card.Description>{post.data.description}</Card.Description>
+                  </Card.Body>
+                  <Card.Footer>
+                    <Date size="1" value={post.data.published} />
+                    <Icon name="dot" class="size-6 text-gray-11" />
+                    <Text size="1">{post.data.readingTime}</Text>
+                    <Icon name="dot" class="size-6 text-gray-11" />
+                    <Text size="1">2.3K Views</Text>
+                  </Card.Footer>
+                </Card.Root>
+              </List.Item>
+            ))
+        }
+      </List.Root>
+    </section>
   </div>
 </Layout>
