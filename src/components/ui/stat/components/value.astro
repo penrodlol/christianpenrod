@@ -1,0 +1,11 @@
+---
+import type { ComponentProps } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+import Number from '../../number.astro';
+
+type Props = ComponentProps<typeof Number>;
+
+const { class: className, size, ...props } = Astro.props;
+---
+
+<Number {...props} size={size ?? '3'} class={twMerge('text-accent-9', className)} />

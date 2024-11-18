@@ -1,23 +1,30 @@
 ---
 import Me from '@/assets/me.webp';
 import Arrow from '@/components/ui/arrow.astro';
+import * as BarChart from '@/components/ui/bar-chart';
 import { buttonVariants } from '@/components/ui/button.astro';
 import * as Card from '@/components/ui/card';
 import Date from '@/components/ui/date.astro';
 import Icon from '@/components/ui/icon.astro';
 import Link from '@/components/ui/link.astro';
 import * as List from '@/components/ui/list';
+import Separator from '@/components/ui/separator.astro';
+import * as Stat from '@/components/ui/stat';
 import Text from '@/components/ui/text.astro';
 import Layout from '@/layouts/index.astro';
 import { Image } from 'astro:assets';
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 import * as env from 'astro:env/server';
+import { getSortedPosts } from './blog/_utils';
 
-const posts = await getCollection('posts');
+const stats = await getCollection('stats');
+const languages = await getCollection('languages');
+const topics = await getCollection('topics');
+const posts = await getSortedPosts();
 ---
 
-<Layout class="flex flex-col gap-28">
-  <section class="relative flex min-h-96 lg:items-center lg:justify-between">
+<Layout>
+  <section class="relative flex min-h-96 border-b pb-10 lg:items-center lg:justify-between">
     <div>
       <Text as="h1" size="8" weight="semibold">CHRISTIAN PENROD</Text>
       <Text as="h2" size="6">Front-End Web Developer</Text>
@@ -34,39 +41,87 @@ const posts = await getCollection('posts');
         <List.ItemLink href={`mailto:${env.EMAIL}`} icon="mail" aria-label="Email" class={buttonVariants({ variant: 'ghost', size: 'icon' })} />
       </List.Root>
     </div>
-    <div class="absolute -right-28 -top-20 -z-10 size-96 shrink-0 opacity-40 lg:right-0 lg:top-0 lg:opacity-100">
+    <div class="absolute -right-28 -top-20 z-10 size-96 shrink-0 opacity-40 lg:-top-10 lg:right-0 lg:opacity-100">
       <Image src={Me} alt="Me" loading="eager" width={2048} height={1936} />
     </div>
   </section>
-  <div class="lg:grid lg:grid-cols-2 lg:gap-10">
-    <section></section>
-    <section class="flex flex-col gap-6">
-      <div class="flex items-center gap-2">
-        <Icon name="notebook-pen" class="size-5 -translate-y-0.5 text-gray-11" />
-        <Text as="h3" size="4" weight="semibold">RECENT POSTS</Text>
+  <div class="lg:grid lg:grid-cols-[minmax(0,50%)_auto_minmax(0,50%)]">
+    <section class="flex flex-col gap-10 pr-16 pt-10">
+      <div class="flex flex-col gap-2">
+        <Text as="h3" size="4" weight="semibold">STATISTICS</Text>
+        <Text size="1" class="text-gray-11">
+          Statistics about personal work and contributions to the open-source community. As well as most used
+          technologies and tools.
+        </Text>
       </div>
-      <List.Root class="gap-8">
+      <List.Root orientation="horizontal" class="gap-4">
         {
-          posts
-            .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
-            .slice(0, 3)
-            .map((post) => (
-              <List.Item>
-                <Card.Root as="a" href={`/blog/${post.id}`}>
-                  <Card.Body>
-                    <Card.Title>{post.data.title}</Card.Title>
-                    <Card.Description>{post.data.description}</Card.Description>
-                  </Card.Body>
-                  <Card.Footer>
-                    <Date size="1" value={post.data.published} />
-                    <Icon name="dot" class="size-6 text-gray-11" />
-                    <Text size="1">{render(post).then((res) => res.remarkPluginFrontmatter.readingTime)}</Text>
-                    <Icon name="dot" class="size-6 text-gray-11" />
-                    <Text size="1">2.3K Views</Text>
-                  </Card.Footer>
-                </Card.Root>
-              </List.Item>
+          stats.map((stat) => (
+            <List.Item class="basis-full">
+              <Stat.Root icon={stat.data.icon}>
+                <Stat.Key>{stat.data.label}</Stat.Key>
+                <Stat.Value value={stat.data.value} />
+              </Stat.Root>
+            </List.Item>
+          ))
+        }
+      </List.Root>
+      <div>
+        <Text>PROGRAMMING LANGUAGES</Text>
+        <Text size="1" class="mb-4 text-gray-11">Most common across recent projects.</Text>
+        <BarChart.Root data={languages.map((language) => language.data)}>
+          {
+            languages.map((language) => (
+              <BarChart.Bar key={language.data.name}>
+                <BarChart.BarKey>{language.data.name}</BarChart.BarKey>
+                <BarChart.BarValue>{language.data.count}</BarChart.BarValue>
+              </BarChart.Bar>
             ))
+          }
+        </BarChart.Root>
+      </div>
+      <div>
+        <Text>FRAMEWORKS/LIBRARIES</Text>
+        <Text size="1" class="mb-4 text-gray-11">Most common across recent projects.</Text>
+        <BarChart.Root data={topics.map((topic) => topic.data)}>
+          {
+            topics.map((topic) => (
+              <BarChart.Bar key={topic.data.name}>
+                <BarChart.BarKey>{topic.data.name}</BarChart.BarKey>
+                <BarChart.BarValue>{topic.data.count}</BarChart.BarValue>
+              </BarChart.Bar>
+            ))
+          }
+        </BarChart.Root>
+      </div>
+    </section>
+    <Separator orientation="vertical" />
+    <section class="flex flex-col gap-10 pl-16 pt-10">
+      <div class="flex flex-col gap-2">
+        <Text as="h3" size="4" weight="semibold">RECENT POSTS</Text>
+        <Text size="1" class="text-gray-11">
+          I write about various sortware-related topics. Focusing on web development and developer experience tooling.
+        </Text>
+      </div>
+      <List.Root class="gap-10">
+        {
+          posts.slice(0, 3).map((post) => (
+            <List.Item>
+              <Card.Root as="a" href={`/blog/${post.id}`}>
+                <Card.Body>
+                  <Card.Title>{post.data.title}</Card.Title>
+                  <Card.Description>{post.data.description}</Card.Description>
+                </Card.Body>
+                <Card.Footer>
+                  <Date size="1" value={post.data.published} />
+                  <Icon name="dot" class="size-6 text-gray-11" />
+                  <Text size="1">{post.data.readingTime}</Text>
+                  <Icon name="dot" class="size-6 text-gray-11" />
+                  <Text size="1">2.3K Views</Text>
+                </Card.Footer>
+              </Card.Root>
+            </List.Item>
+          ))
         }
       </List.Root>
       <Link href="/blog/1" size="1" class="self-end">View All Posts <Arrow name="right" /></Link>

@@ -1,0 +1,11 @@
+---
+import type { ComponentProps } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+import Text from '../../text.astro';
+
+type Props = ComponentProps<typeof Text>;
+
+const { class: className, size, ...props } = Astro.props;
+---
+
+<Text {...props} size={size ?? '1'} class={twMerge('text-gray-11', className)}><slot /></Text>

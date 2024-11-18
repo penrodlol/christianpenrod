@@ -2,6 +2,7 @@
 import favicon from '@/assets/favicon.webp';
 import ogDefault from '@/assets/og.webp';
 import Icon from '@/components/ui/icon.astro';
+import Link from '@/components/ui/link.astro';
 import * as NavigationMenu from '@/components/ui/navigation-menu';
 import Separator from '@/components/ui/separator.astro';
 import '@fontsource/geist-mono';
@@ -20,7 +21,7 @@ const {
 } = Astro.props;
 ---
 
-<html lang="en" class="antialiased scrollbar-thin sm:py-4">
+<html lang="en" class="bg-gray-2 antialiased scrollbar-thin sm:py-4">
   <head>
     <title>{title}</title>
     <meta charset="utf-8" />
@@ -54,7 +55,7 @@ const {
     ]}
   >
     <header class="sticky top-0 z-50 flex h-12 items-center justify-between rounded-t border-b bg-gray-1 px-4">
-      <a href="/"></a>
+      <Link href="/" size="1">Home</Link>
       <NavigationMenu.Root>
         <NavigationMenu.Link href="/blog/1">Blog</NavigationMenu.Link>
         <NavigationMenu.Dropdown>

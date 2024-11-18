@@ -1,0 +1,35 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+
+type Props = HTMLAttributes<'div'> & { data: Array<{ name: string; count: number }> };
+
+const { class: className, data, ...props } = Astro.props;
+const size = data.length;
+const total = data.reduce((acc, { count }) => acc + count, 0);
+const variables = data.reduce((a, d, i) => ({ ...a, [`--${d.name}`]: `oklch(var(--accent-11)/${1 - i / size})` }), {});
+const barBackground =
+  data.reduce(
+    (acc, item, index) => {
+      const color = `oklch(var(--accent-11)/${1 - index / size})`;
+      const stopPercentage = acc.percentage + (item.count / total) * 100;
+      acc.result += `${color} ${acc.percentage}%, ${color} ${stopPercentage}% ${index < size - 1 ? ', ' : ''}`;
+      acc.percentage = stopPercentage;
+      return acc;
+    },
+    { result: 'linear-gradient(to right, ', percentage: 0 },
+  ).result + ')';
+---
+
+<div style={variables} class="flex flex-col gap-4">
+  <div
+    {...props}
+    role="progressbar"
+    aria-valuemin={data[data.length - 1]?.count ?? 0}
+    aria-valuemax={data[0]?.count ?? 100}
+    style={{ background: barBackground }}
+    class="h-4 rounded-full border"
+  >
+  </div>
+  <div class={twMerge('grid grid-cols-4 gap-x-4', className)}><slot /></div>
+</div>

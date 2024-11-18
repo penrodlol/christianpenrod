@@ -1,0 +1,16 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+import Icon from '../../icon.astro';
+
+type Props = HTMLAttributes<'div'> & { icon: string };
+
+const { class: className, icon, ...props } = Astro.props;
+---
+
+<div {...props} class={twMerge('relative flex h-full flex-col rounded border bg-gray-2/50 p-4', className)}>
+  <slot />
+  <div class="absolute bottom-0 right-0 flex size-12 items-center justify-center rounded-tl-full border-t bg-gray-1">
+    <Icon name={icon} class="translate-x-1.5 translate-y-0.5 text-gray-11" />
+  </div>
+</div>
