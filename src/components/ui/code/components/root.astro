@@ -10,7 +10,7 @@ const { class: className, ...props } = Astro.props;
 <figure
   {...props}
   class={twMerge(
-    'relative rounded border bg-gray-2/50',
+    'bg-gray-2/50 border-gray-6 relative rounded-sm border',
     '[&_[data-line]::before]:mr-2 [&_[data-line]::before]:[content:counter(line)]',
     '[&_[data-line]::before]:inline-block [&_[data-line]::before]:[counter-increment:line]',
     '[&_[data-line]::before]:w-5 [&_[data-line]::before]:opacity-50',

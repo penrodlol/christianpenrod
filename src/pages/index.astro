@@ -26,11 +26,11 @@ const posts = await getSortedPosts();
 ---
 
 <Layout>
-  <section class="relative flex min-h-96 border-b pb-10 lg:items-center lg:justify-between">
+  <section class="border-gray-6 relative flex min-h-96 border-b pb-10 lg:items-center lg:justify-between">
     <div>
       <Text as="h1" size="8" weight="semibold">CHRISTIAN PENROD</Text>
       <Text as="h2" size="6">Front-End Web Developer</Text>
-      <Text class="my-6 text-gray-11">
+      <Text class="text-gray-11 my-6">
         Working on the web since 2018. I enjoy developing efficient web experiences through code and design. Equally
         driven to sharing knowledge with others. {env.JOB_TITLE} at <Link href={env.JOB_LINK}>{env.JOB_NAME}</Link>.
         {env.COLLEGE_TITLE} graduate from <Link href={env.COLLEGE_LINK}>{env.COLLEGE_NAME}</Link>.
@@ -43,12 +43,12 @@ const posts = await getSortedPosts();
         <List.ItemLink href={`mailto:${env.EMAIL}`} icon="mail" aria-label="Email" class={buttonVariants({ variant: 'ghost', size: 'icon' })} />
       </List.Root>
     </div>
-    <div class="absolute -right-28 -top-20 z-10 size-96 shrink-0 opacity-40 lg:-top-10 lg:right-0 lg:opacity-100">
+    <div class="absolute -top-20 -right-28 z-10 size-96 shrink-0 opacity-40 lg:-top-10 lg:right-0 lg:opacity-100">
       <Image src={Me} alt="Me" loading="eager" width={2048} height={1936} />
     </div>
   </section>
   <div class="lg:grid lg:grid-cols-[50%_auto_50%]">
-    <section class="flex flex-col gap-10 pr-16 pt-10">
+    <section class="flex flex-col gap-10 pt-10 pr-16">
       <div class="flex flex-col gap-2">
         <Text as="h3" size="4" weight="semibold">STATISTICS</Text>
         <Text size="1" class="text-gray-11">
@@ -70,7 +70,7 @@ const posts = await getSortedPosts();
       </List.Root>
       <div>
         <Text>PROGRAMMING LANGUAGES</Text>
-        <Text size="1" class="mb-4 text-gray-11">Most common across recent projects.</Text>
+        <Text size="1" class="text-gray-11 mb-4">Most common across recent projects.</Text>
         <BarChart.Root data={languages.map((language) => language.data)}>
           {
             languages.map((language) => (
@@ -84,7 +84,7 @@ const posts = await getSortedPosts();
       </div>
       <div>
         <Text>FRAMEWORKS/LIBRARIES</Text>
-        <Text size="1" class="mb-4 text-gray-11">Most common across recent projects.</Text>
+        <Text size="1" class="text-gray-11 mb-4">Most common across recent projects.</Text>
         <BarChart.Root data={topics.map((topic) => topic.data)}>
           {
             topics.map((topic) => (
@@ -99,7 +99,7 @@ const posts = await getSortedPosts();
       <Link href={GITHUB} size="1" class="self-end not-italic">View Github Profile</Link>
     </section>
     <Separator orientation="vertical" />
-    <section class="flex flex-col gap-10 pl-16 pt-10">
+    <section class="flex flex-col gap-10 pt-10 pl-16">
       <div class="flex flex-col gap-2">
         <Text as="h3" size="4" weight="semibold">RECENT POSTS</Text>
         <Text size="1" class="text-gray-11">
@@ -124,9 +124,9 @@ const posts = await getSortedPosts();
                 </Card.Body>
                 <Card.Footer>
                   <Date size="1" value={post.data.published} />
-                  <Icon name="dot" class="size-6 text-gray-11" />
+                  <Icon name="dot" class="text-gray-11 size-6" />
                   <Text size="1">{post.data.readingTime}</Text>
-                  <Icon name="dot" class="size-6 text-gray-11" />
+                  <Icon name="dot" class="text-gray-11 size-6" />
                   <Text size="1">2.3K Views</Text>
                 </Card.Footer>
               </Card.Root>

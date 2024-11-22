@@ -13,7 +13,7 @@ const { class: className, size, ...props } = Astro.props;
     {...props}
     size={size ?? '1'}
     class={twMerge(
-      'w-full justify-start gap-2 rounded px-2 py-1.5 not-italic hover:bg-accent-3 hover:text-accent-12',
+      'hover:bg-accent-3 hover:text-accent-12 w-full justify-start gap-2 rounded-sm px-2 py-1.5 not-italic',
       className,
     )}
   >

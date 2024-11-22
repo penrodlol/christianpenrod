@@ -8,6 +8,6 @@ const { class: className, key, ...props } = Astro.props;
 ---
 
 <div {...props} class={twMerge('flex items-center gap-2', className)}>
-  <div style={{ background: `var(--${key})` }} class="size-3 shrink-0 rounded-full border border-gray-6"></div>
+  <div style={{ background: `var(--${key})` }} class="border-gray-6 size-3 shrink-0 rounded-full border"></div>
   <slot />
 </div>

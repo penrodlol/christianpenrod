@@ -7,7 +7,7 @@ type Props = HTMLAttributes<'button'> & VariantProps<typeof buttonVariants> & { 
 
 export const buttonVariants = tv({
   base: [
-    'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded font-normal',
+    'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-sm font-normal',
     'disabled:opacity-50 disabled:cursor-not-allowed motion-safe:transition-colors',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-8',
   ],

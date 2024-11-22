@@ -17,13 +17,13 @@ const { class: className, ...props } = Astro.props;
   @keydown.up.prevent.stop="$focus.wrap().prev()"
   @keydown.down.prevent.stop="$focus.wrap().next()"
   class={twMerge(
-    'mx-auto mt-32 max-h-[70dvh] w-full max-w-3xl overflow-hidden rounded border bg-gray-1 text-gray-12 outline-none',
+    'bg-gray-1 text-gray-12 border-gray-6 mx-auto mt-32 max-h-[70dvh] w-full max-w-3xl overflow-hidden rounded-sm border outline-none',
     'animate-in motion-safe:fade-in-0 motion-safe:zoom-in-90',
-    'backdrop:bg-gray-1/80 backdrop:backdrop-blur-sm backdrop:animate-in backdrop:motion-safe:fade-in-0',
+    'backdrop:bg-gray-1/80 backdrop:animate-in backdrop:motion-safe:fade-in-0 backdrop:backdrop-blur-sm',
     className,
   )}
 >
-  <div class="size-full rounded"><slot /></div>
+  <div class="size-full rounded-sm"><slot /></div>
 </dialog>
 
 <slot name="dialog-trigger" />

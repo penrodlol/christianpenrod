@@ -28,7 +28,7 @@ const barBackground =
     aria-valuemin={data[data.length - 1]?.count ?? 0}
     aria-valuemax={data[0]?.count ?? 100}
     style={{ background: barBackground }}
-    class="h-4 rounded-full border"
+    class="border-gray-6 h-4 rounded-full border"
   >
   </div>
   <div class={twMerge('grid grid-cols-4 gap-x-4', className)}><slot /></div>

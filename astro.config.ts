@@ -2,8 +2,8 @@ import alpine from '@astrojs/alpinejs';
 import db from '@astrojs/db';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-import tailwind from '@astrojs/tailwind';
 import vercel from '@astrojs/vercel';
+import tailwindcss from '@tailwindcss/vite';
 import icon from 'astro-icon';
 import robotsTxt from 'astro-robots-txt';
 import { defineConfig, envField } from 'astro/config';
@@ -46,7 +46,6 @@ export default defineConfig({
     },
   },
   integrations: [
-    tailwind(),
     mdx(),
     db(),
     icon({ iconDir: 'src/assets' }),
@@ -54,4 +53,6 @@ export default defineConfig({
     sitemap({ changefreq: 'daily', lastmod: new Date() }),
     robotsTxt({ policy: [{ userAgent: '*', disallow: ['/404'] }] }),
   ],
+  // @ts-expect-error
+  vite: { plugins: [tailwindcss()] },
 });

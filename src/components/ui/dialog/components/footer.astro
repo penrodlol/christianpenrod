@@ -7,6 +7,9 @@ type Props = HTMLAttributes<'div'>;
 const { class: className, ...props } = Astro.props;
 ---
 
-<div {...props} class={twMerge('flex h-14 items-center gap-4 rounded-b border-t bg-gray-2 px-6', className)}>
+<div
+  {...props}
+  class={twMerge('bg-gray-2 border-gray-6 flex h-14 items-center gap-4 rounded-b-sm border-t px-6', className)}
+>
   <slot />
 </div>

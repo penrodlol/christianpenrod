@@ -29,7 +29,7 @@ const { Content } = await render(post);
 
 <Layout title={post.data.title} description={post.data.description} og={`open-graph/src/content/posts/${post.id}.png`}>
   <article class="flex flex-col items-center gap-14">
-    <div class="flex max-w-3xl flex-col gap-2 text-gray-11">
+    <div class="text-gray-11 flex max-w-3xl flex-col gap-2">
       <List.Root orientation="horizontal" class="gap-6">
         <List.Item class="flex items-center gap-2">
           <Icon name="calendar" />
@@ -44,9 +44,9 @@ const { Content } = await render(post);
           <Text><Number value={23000} /> Views</Text>
         </List.Item>
       </List.Root>
-      <Text as="h1" size="7" weight="semibold" class="uppercase text-gray-12">{post.data.title}</Text>
+      <Text as="h1" size="7" weight="semibold" class="text-gray-12 uppercase">{post.data.title}</Text>
       <div class="mt-2 flex items-center gap-2">
-        <div class="size-6 overflow-hidden rounded-full border brightness-200">
+        <div class="border-gray-6 size-6 overflow-hidden rounded-full border brightness-200">
           <Image src={Me} alt="Me" loading="eager" width={2048} height={1936} />
         </div>
         <Text size="1">CHRISTIAN PENROD</Text>
@@ -56,7 +56,7 @@ const { Content } = await render(post);
     <div
       data-pagefind-body
       data-pagefind-meta={`slug:/blog/${post.id}`}
-      class="flex max-w-prose flex-col gap-10 leading-8 text-gray-12/90"
+      class="text-gray-12/90 flex max-w-prose flex-col gap-10 leading-8"
     >
       <Content
         components={{

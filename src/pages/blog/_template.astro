@@ -41,7 +41,7 @@ const { data: activePosts, topic: activeTopic, url, currentPage, lastPage } = As
       <div class="flex items-center gap-1">
         <Text as="h3" size="3">ALL POSTS</Text>
         <Separator class="mx-2 flex-1" />
-        <div class="flex items-center gap-1 text-gray-11">
+        <div class="text-gray-11 flex items-center gap-1">
           <div class="flex items-center gap-1">
             <Icon name="eye" />
             <Number size="1" value={z.coerce.number().parse(views)} />
@@ -59,7 +59,7 @@ const { data: activePosts, topic: activeTopic, url, currentPage, lastPage } = As
           </div>
         </div>
       </div>
-      <div class="flex flex-col gap-6 rounded border p-6">
+      <div class="border-gray-6 flex flex-col gap-6 rounded-sm border p-6">
         <Dialog.Root @close="data = []; $refs.query.value = ''">
           <Button slot="dialog-trigger" variant="soft-outline" class="w-full justify-start gap-4">
             <Icon name="search" />
@@ -91,34 +91,34 @@ const { data: activePosts, topic: activeTopic, url, currentPage, lastPage } = As
               <Text x-show="!data.length && $refs.query.value.length">No Results Found</Text>
               <List.Root
                 class:list={[
-                  '[&_mark]:rounded [&_mark]:border [&_mark]:border-dotted [&_mark]:border-accent-9',
-                  '[&_mark]:bg-transparent [&_mark]:p-0.5 [&_mark]:text-gray-12',
+                  '[&_mark]:border-accent-9 [&_mark]:rounded-sm [&_mark]:border [&_mark]:border-dotted',
+                  '[&_mark]:text-gray-12 [&_mark]:bg-transparent [&_mark]:p-0.5',
                 ]}
               >
                 <template x-for="post in data">
                   <List.ItemLink
                     :href="post.meta.slug"
                     :aria-label="post.meta.title"
-                    class="flex max-w-none flex-col items-start gap-1 rounded-b-none border-b p-6"
+                    class="border-gray-6 flex max-w-none flex-col items-start gap-1 rounded-b-none border-b p-6"
                   >
                     <Text weight="semibold" x-text="post.meta.title" class="text-gray-12" />
-                    <Text size="1" x-html="post.excerpt + '...'" class="max-w-none text-gray-11" />
+                    <Text size="1" x-html="post.excerpt + '...'" class="text-gray-11 max-w-none" />
                   </List.ItemLink>
                 </template>
               </List.Root>
             </div>
           </Dialog.Body>
           <Dialog.Footer>
-            <div class="flex items-center gap-2 text-gray-11">
+            <div class="text-gray-11 flex items-center gap-2">
               <Command icon="corner-down-left" aria-label="Enter key" />
               <Text size="1">to select</Text>
             </div>
-            <div class="flex items-center gap-1 text-gray-11">
+            <div class="text-gray-11 flex items-center gap-1">
               <Command icon="move-down" aria-label="Arrow up key" />
               <Command icon="move-up" aria-label="Arrow down key" />
               <Text size="1" class="ml-1">to navigate</Text>
             </div>
-            <div class="flex items-center gap-2 text-gray-11">
+            <div class="text-gray-11 flex items-center gap-2">
               <Command key="esc" aria-label="Escape key" />
               <Text size="1">to close</Text>
             </div>
@@ -150,7 +150,7 @@ const { data: activePosts, topic: activeTopic, url, currentPage, lastPage } = As
               <List.ItemLink href={`/blog/${post.id}`} class="flex max-w-none items-center justify-between gap-2">
                 <Text size="1">{post.data.title}</Text>
                 <Separator class="flex-1" />
-                <div class="flex items-center gap-1 text-gray-11">
+                <div class="text-gray-11 flex items-center gap-1">
                   <Date value={post.data.published} size="1" />
                   <Icon name="dot" />
                   <Text size="1">{post.data.readingTime}</Text>
@@ -170,7 +170,7 @@ const { data: activePosts, topic: activeTopic, url, currentPage, lastPage } = As
     </section>
     <section class="flex flex-col gap-6">
       <div class="flex items-center gap-2">
-        <Icon name="notebook-pen" class="size-5 -translate-y-0.5 text-gray-11" />
+        <Icon name="notebook-pen" class="text-gray-11 size-5 -translate-y-0.5" />
         <Text as="h3" size="3" weight="semibold">RECENT POSTS</Text>
       </div>
       <List.Root class="gap-8">
@@ -194,9 +194,9 @@ const { data: activePosts, topic: activeTopic, url, currentPage, lastPage } = As
                   </Card.Body>
                   <Card.Footer>
                     <Date size="1" value={post.data.published} />
-                    <Icon name="dot" class="size-6 text-gray-11" />
+                    <Icon name="dot" class="text-gray-11 size-6" />
                     <Text size="1">{post.data.readingTime}</Text>
-                    <Icon name="dot" class="size-6 text-gray-11" />
+                    <Icon name="dot" class="text-gray-11 size-6" />
                     <Text size="1">2.3K Views</Text>
                   </Card.Footer>
                 </Card.Root>

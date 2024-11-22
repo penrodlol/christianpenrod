@@ -24,8 +24,8 @@ const { class: className, size, weight, ...props } = Astro.props;
   size={size ?? '1'}
   weight={weight ?? 'semibold'}
   class={twMerge(
-    'flex items-center gap-2 rounded px-3 py-1.5 text-accent-11',
-    'focus:outline-none focus:ring-1 motion-safe:transition-colors',
+    'text-accent-11 flex items-center gap-2 rounded-sm px-3 py-1.5',
+    'focus:ring-1 focus:outline-none motion-safe:transition-colors',
     'group-hover:bg-accent-3 group-hover:text-accent-12 group-hover:[&_svg]:rotate-180',
     'group-focus-within:[&:not([aria-expanded=false])]:bg-accent-3',
     'group-focus-within:[&:not([aria-expanded=false])]:text-accent-12',

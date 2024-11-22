@@ -14,11 +14,14 @@ const { class: className, size, id, ...props } = Astro.props;
   {id}
   href={`#${id}`}
   size={size ?? '4'}
-  class={twMerge('group flex items-center justify-start gap-2 border-b pb-2 uppercase text-gray-12', className)}
+  class={twMerge(
+    'group border-gray-6 text-gray-12 flex items-center justify-start gap-2 border-b pb-2 uppercase',
+    className,
+  )}
 >
   <h2><slot /></h2>
   <Icon
     name="link"
-    class="hidden text-accent-11 animate-in group-hover:block group-hover:fade-in-0 group-hover:zoom-in-0"
+    class="text-accent-11 animate-in group-hover:fade-in-0 group-hover:zoom-in-0 hidden group-hover:block"
   />
 </Link>

@@ -1,0 +1,49 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Geist Sans', 'sans-serif';
+
+  --text-xs: clamp(0.7813rem, 0.7747rem + 0.0326vw, 0.8rem);
+  --text-sm: clamp(0.9375rem, 0.9158rem + 0.1087vw, 1rem);
+  --text-base: clamp(1.125rem, 1.0815rem + 0.2174vw, 1.25rem);
+  --text-lg: clamp(1.35rem, 1.2761rem + 0.3696vw, 1.5625rem);
+  --text-xl: clamp(1.62rem, 1.5041rem + 0.5793vw, 1.9531rem);
+  --text-2xl: clamp(1.944rem, 1.771rem + 0.8651vw, 2.4414rem);
+  --text-3xl: clamp(2.3328rem, 2.0827rem + 1.2504vw, 3.0518rem);
+  --text-4xl: clamp(2.7994rem, 2.4462rem + 1.7658vw, 3.8147rem);
+  --text-5xl: clamp(3.3592rem, 2.8691rem + 2.4507vw, 4.7684rem);
+  --text-6xl: clamp(4.0311rem, 3.36rem + 3.3555vw, 5.9605rem);
+  --text-7xl: clamp(4.8373rem, 3.9283rem + 4.5448vw, 7.4506rem);
+  --text-8xl: clamp(5.8048rem, 4.5844rem + 6.1017vw, 9.3132rem);
+  --text-9xl: clamp(6.9658rem, 5.328rem + 8.1131vw, 11.548rem);
+
+  --color-gray-1: oklch(0% 0 0);
+  --color-gray-2: oklch(18.1% 0 0);
+  --color-gray-3: oklch(23.7% 0 0);
+  --color-gray-4: oklch(27.3% 0 0);
+  --color-gray-5: oklch(30.6% 0 0);
+  --color-gray-6: oklch(34.5% 0 0);
+  --color-gray-7: oklch(39.8% 0 0);
+  --color-gray-8: oklch(48.8% 0 0);
+  --color-gray-9: oklch(53.3% 0 0);
+  --color-gray-10: oklch(57.9% 0 0);
+  --color-gray-11: oklch(76.6% 0 0);
+  --color-gray-12: oklch(94.7% 0 0);
+  --color-gray-contrast: oklch(100% 0 0);
+
+  --color-accent-1: oklch(0% 0 none);
+  --color-accent-2: oklch(18.4% 0 none);
+  --color-accent-3: oklch(23.9% 0 none);
+  --color-accent-4: oklch(27.6% 0 none);
+  --color-accent-5: oklch(30.9% 0 none);
+  --color-accent-6: oklch(34.7% 0 none);
+  --color-accent-7: oklch(40.1% 0 none);
+  --color-accent-8: oklch(48.7% 0 none);
+  --color-accent-9: oklch(95.5% 0 none);
+  --color-accent-10: oklch(92.7% 0 none);
+  --color-accent-11: oklch(77% 0 none);
+  --color-accent-12: oklch(94.9% 0 none);
+  --color-accent-contrast: oklch(0% 0 none);
+
+  --default-transition-duration: 200ms;
+}

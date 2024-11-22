@@ -7,17 +7,17 @@ type Props = HTMLAttributes<'input'>;
 const { class: className, type, spellcheck, autocomplete, ...props } = Astro.props;
 ---
 
-<div class={twMerge('relative rounded border bg-gray-3', className)}>
-  <div class="absolute left-3 top-1/2 z-10 -translate-y-1/2 text-gray-11/70"><slot name="prefix" /></div>
+<div class={twMerge('bg-gray-3 border-gray-6 relative rounded-sm border', className)}>
+  <div class="text-gray-11/70 absolute top-1/2 left-3 z-10 -translate-y-1/2"><slot name="prefix" /></div>
   <input
     {...props}
     type={type ?? 'text'}
     spellcheck={spellcheck ?? false}
     autocomplete={autocomplete ?? 'off'}
     class:list={[
-      'relative z-20 w-full rounded bg-transparent px-10 py-2',
+      'relative z-20 w-full rounded-sm bg-transparent px-10 py-2',
       'placeholder:text-gray-11/70 focus-visible:outline-none',
     ]}
   />
-  <div class="absolute right-3 top-1/2 z-30 -translate-y-1/2 text-gray-11/70"><slot name="suffix" /></div>
+  <div class="text-gray-11/70 absolute top-1/2 right-3 z-30 -translate-y-1/2"><slot name="suffix" /></div>
 </div>

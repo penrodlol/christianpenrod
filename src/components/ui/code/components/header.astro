@@ -7,6 +7,9 @@ type Props = HTMLAttributes<'figcaption'>;
 const { class: className, ...props } = Astro.props;
 ---
 
-<figcaption {...props} class={twMerge('rounded-t border-b bg-gray-2 px-4 py-1 text-xs text-gray-11', className)}>
+<figcaption
+  {...props}
+  class={twMerge('bg-gray-2 text-gray-11 border-gray-6 rounded-t-sm border-b px-4 py-1 text-xs', className)}
+>
   <slot />
 </figcaption>
