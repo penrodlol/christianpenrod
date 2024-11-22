@@ -45,6 +45,18 @@
   --color-accent-12: oklch(94.9% 0 0);
   --color-accent-contrast: oklch(0% 0 0);
 
+  --color-code-background: oklch(0% 0 0);
+  --color-code-foreground: oklch(94.7% 0 0);
+  --color-code-token-constant: oklch(67.3% 0 0);
+  --color-code-token-string: oklch(76.7% 0 0);
+  --color-code-token-comment: oklch(53.8% 0 0);
+  --color-code-token-keyword: oklch(67.3%% 0 0);
+  --color-code-token-parameter: oklch(100% 0 0);
+  --color-code-token-function: oklch(100% 0 0);
+  --color-code-token-string-expression: oklch(76.7% 0 0);
+  --color-code-token-punctuation: oklch(100% 0 0);
+  --color-code-token-link: oklch(100% 0 0);
+
   --default-transition-duration: 200ms;
 }
 

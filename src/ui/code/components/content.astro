@@ -1,4 +1,5 @@
 ---
+import Clipboard from '@/ui/clipboard.astro';
 import type { HTMLAttributes } from 'astro/types';
 
 type Props = HTMLAttributes<'pre'>;
@@ -6,4 +7,5 @@ type Props = HTMLAttributes<'pre'>;
 const { class: className, tabindex, ...props } = Astro.props;
 ---
 
-<pre {...props} class="scrollbar overflow-auto p-4"><slot /></pre>
+<Clipboard class="absolute top-0.5 right-1" value="$el.nextElementSibling.textContent.trim()" />
+<pre {...props} class="scrollbar overflow-auto rounded-sm p-4"><slot /></pre>

@@ -9,7 +9,7 @@ const { class: className, ...props } = Astro.props;
 
 <figcaption
   {...props}
-  class={twMerge('bg-gray-2 text-gray-11 border-gray-6 rounded-t-sm border-b px-4 py-1 text-xs', className)}
+  class={twMerge('bg-gray-2 text-gray-11 border-gray-6 rounded-t-sm border-b px-4 py-2.5 text-xs', className)}
 >
   <slot />
 </figcaption>

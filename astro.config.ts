@@ -9,7 +9,7 @@ import robotsTxt from 'astro-robots-txt';
 import { defineConfig, envField } from 'astro/config';
 import { toString } from 'mdast-util-to-string';
 import readingTime from 'reading-time';
-import rehypePrettyCode from 'rehype-pretty-code';
+import prettyCode from 'rehype-pretty-code';
 import { createCssVariablesTheme } from 'shiki';
 
 export default defineConfig({
@@ -19,7 +19,7 @@ export default defineConfig({
   markdown: {
     syntaxHighlight: false,
     rehypePlugins: [
-      [rehypePrettyCode, { theme: createCssVariablesTheme({ name: 'css-variables' }) }],
+      [prettyCode, { theme: createCssVariablesTheme({ name: 'css-variables', variablePrefix: '--color-code-' }) }],
       () => (tree, vfile) => {
         const data = vfile.data as { astro: { frontmatter: Record<string, unknown> } };
         const payload = Math.round(readingTime(toString(tree)).minutes);
