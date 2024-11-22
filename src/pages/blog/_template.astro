@@ -182,6 +182,13 @@ const { data: activePosts, topic: activeTopic, url, currentPage, lastPage } = As
               <List.Item>
                 <Card.Root as="a" href={`/blog/${post.id}`}>
                   <Card.Body>
+                    <List.Root orientation="horizontal" class="-ml-1 gap-1">
+                      {post.data.topics.map((value) => (
+                        <List.Item>
+                          <Chip {value} variant="soft" />
+                        </List.Item>
+                      ))}
+                    </List.Root>
                     <Card.Title>{post.data.title}</Card.Title>
                     <Card.Description>{post.data.description}</Card.Description>
                   </Card.Body>

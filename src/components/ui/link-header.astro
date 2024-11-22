@@ -1,0 +1,24 @@
+---
+import type { ComponentProps } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+import Icon from './icon.astro';
+import Link from './link.astro';
+
+type Props = ComponentProps<typeof Link>;
+
+const { class: className, size, id, ...props } = Astro.props;
+---
+
+<Link
+  {...props}
+  {id}
+  href={`#${id}`}
+  size={size ?? '4'}
+  class={twMerge('group flex items-center justify-start gap-2 border-b pb-2 uppercase text-gray-12', className)}
+>
+  <h2><slot /></h2>
+  <Icon
+    name="link"
+    class="hidden text-accent-11 animate-in group-hover:block group-hover:fade-in-0 group-hover:zoom-in-0"
+  />
+</Link>

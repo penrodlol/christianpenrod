@@ -40,7 +40,7 @@ devDependencies:
   '@astrojs/vercel':
     specifier: 8.0.0-beta.3
     version: 8.0.0-beta.3(astro@5.0.0-beta.6)
-  '@fontsource/geist-mono':
+  '@fontsource/geist-sans':
     specifier: ^5.1.0
     version: 5.1.0
   '@iconify-json/lucide':
@@ -734,8 +734,8 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@fontsource/geist-mono@5.1.0:
-    resolution: {integrity: sha512-MDFgmKUdDbV357vD2bOZAro597Nd2md01GAdr3GSZteCJQdPT/UhHUBCAxl9KUiH03aMPFM9Rx7x8/EtrJmpKg==}
+  /@fontsource/geist-sans@5.1.0:
+    resolution: {integrity: sha512-4AI/UxIcZiYgK6/cTo4R9oM4VHHLcFdHVv7m2+M42VyY16hhKJADrGe4HPjTxvolmce2IZX/jc6sFJ+GkLB64w==}
     dev: true
 
   /@iconify-json/lucide@1.2.15:

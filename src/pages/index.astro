@@ -4,6 +4,7 @@ import Arrow from '@/components/ui/arrow.astro';
 import * as BarChart from '@/components/ui/bar-chart';
 import { buttonVariants } from '@/components/ui/button.astro';
 import * as Card from '@/components/ui/card';
+import Chip from '@/components/ui/chip.astro';
 import Date from '@/components/ui/date.astro';
 import Icon from '@/components/ui/icon.astro';
 import Link from '@/components/ui/link.astro';
@@ -15,6 +16,7 @@ import Layout from '@/layouts/index.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import * as env from 'astro:env/server';
+import { GITHUB } from 'astro:env/server';
 import { getSortedPosts } from './blog/_utils';
 
 const stats = await getCollection('stats');
@@ -45,7 +47,7 @@ const posts = await getSortedPosts();
       <Image src={Me} alt="Me" loading="eager" width={2048} height={1936} />
     </div>
   </section>
-  <div class="lg:grid lg:grid-cols-[minmax(0,50%)_auto_minmax(0,50%)]">
+  <div class="lg:grid lg:grid-cols-[50%_auto_50%]">
     <section class="flex flex-col gap-10 pr-16 pt-10">
       <div class="flex flex-col gap-2">
         <Text as="h3" size="4" weight="semibold">STATISTICS</Text>
@@ -54,7 +56,7 @@ const posts = await getSortedPosts();
           technologies and tools.
         </Text>
       </div>
-      <List.Root orientation="horizontal" class="gap-4">
+      <List.Root orientation="horizontal" class="mb-2 gap-4">
         {
           stats.map((stat) => (
             <List.Item class="basis-full">
@@ -94,6 +96,7 @@ const posts = await getSortedPosts();
           }
         </BarChart.Root>
       </div>
+      <Link href={GITHUB} size="1" class="self-end not-italic">View Github Profile</Link>
     </section>
     <Separator orientation="vertical" />
     <section class="flex flex-col gap-10 pl-16 pt-10">
@@ -103,12 +106,19 @@ const posts = await getSortedPosts();
           I write about various sortware-related topics. Focusing on web development and developer experience tooling.
         </Text>
       </div>
-      <List.Root class="gap-10">
+      <List.Root class="gap-6">
         {
           posts.slice(0, 3).map((post) => (
             <List.Item>
               <Card.Root as="a" href={`/blog/${post.id}`}>
                 <Card.Body>
+                  <List.Root orientation="horizontal" class="-ml-1 gap-1">
+                    {post.data.topics.map((value) => (
+                      <List.Item>
+                        <Chip {value} variant="soft" />
+                      </List.Item>
+                    ))}
+                  </List.Root>
                   <Card.Title>{post.data.title}</Card.Title>
                   <Card.Description>{post.data.description}</Card.Description>
                 </Card.Body>

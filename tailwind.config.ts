@@ -7,7 +7,7 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
-      fontFamily: { mono: ['Geist Mono', ...theme.fontFamily.mono] },
+      fontFamily: { sans: ['Geist Sans', ...theme.fontFamily.sans], mono: ['Geist Mono', ...theme.fontFamily.mono] },
       fontSize: {
         xs: 'var(--font-size-xs)',
         sm: 'var(--font-size-sm)',

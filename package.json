@@ -24,7 +24,7 @@
     "@astrojs/sitemap": "^3.2.1",
     "@astrojs/tailwind": "^5.1.2",
     "@astrojs/vercel": "8.0.0-beta.3",
-    "@fontsource/geist-mono": "^5.1.0",
+    "@fontsource/geist-sans": "^5.1.0",
     "@iconify-json/lucide": "^1.2.11",
     "@octokit/rest": "^21.0.2",
     "@types/alpinejs": "^3.13.10",

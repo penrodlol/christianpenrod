@@ -1,7 +1,18 @@
 ---
+import Me from '@/assets/me.webp';
+import Callout from '@/components/ui/callout.astro';
+import * as Code from '@/components/ui/code';
+import Date from '@/components/ui/date.astro';
+import Icon from '@/components/ui/icon.astro';
+import LinkHeader from '@/components/ui/link-header.astro';
+import Link from '@/components/ui/link.astro';
+import * as List from '@/components/ui/list';
+import Number from '@/components/ui/number.astro';
+import Separator from '@/components/ui/separator.astro';
 import Text from '@/components/ui/text.astro';
 import Layout from '@/layouts/index.astro';
 import type { GetStaticPaths } from 'astro';
+import { Image } from 'astro:assets';
 import { render } from 'astro:content';
 import { getSortedPosts } from './_utils';
 
@@ -17,8 +28,47 @@ const { Content } = await render(post);
 ---
 
 <Layout title={post.data.title} description={post.data.description} og={`open-graph/src/content/posts/${post.id}.png`}>
-  <article data-pagefind-body data-pagefind-meta={`slug:/blog/${post.id}`}>
-    <Text as="h1" data-pagefind-meta="title">{post.data.title}</Text>
-    <Content />
+  <article class="flex flex-col items-center gap-14">
+    <div class="flex max-w-3xl flex-col gap-2 text-gray-11">
+      <List.Root orientation="horizontal" class="gap-6">
+        <List.Item class="flex items-center gap-2">
+          <Icon name="calendar" />
+          <Date value={post.data.published} />
+        </List.Item>
+        <List.Item class="flex items-center gap-2">
+          <Icon name="clock-2" />
+          <Text>{post.data.readingTime}</Text>
+        </List.Item>
+        <List.Item class="flex items-center gap-1">
+          <Icon name="eye" />
+          <Text><Number value={23000} /> Views</Text>
+        </List.Item>
+      </List.Root>
+      <Text as="h1" size="7" weight="semibold" class="uppercase text-gray-12">{post.data.title}</Text>
+      <div class="mt-2 flex items-center gap-2">
+        <div class="size-6 overflow-hidden rounded-full border brightness-200">
+          <Image src={Me} alt="Me" loading="eager" width={2048} height={1936} />
+        </div>
+        <Text size="1">CHRISTIAN PENROD</Text>
+      </div>
+    </div>
+    <Separator />
+    <div
+      data-pagefind-body
+      data-pagefind-meta={`slug:/blog/${post.id}`}
+      class="flex max-w-prose flex-col gap-10 leading-8 text-gray-12/90"
+    >
+      <Content
+        components={{
+          a: Link,
+          h2: LinkHeader,
+          blockquote: Callout,
+          figure: Code.Root,
+          figcaption: Code.Header,
+          pre: Code.Content,
+          code: Code.Block,
+        }}
+      />
+    </div>
   </article>
 </Layout>
