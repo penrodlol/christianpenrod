@@ -7,29 +7,23 @@ type Props = HTMLAttributes<'div'> & { data: Array<{ name: string; count: number
 const { class: className, data, ...props } = Astro.props;
 const size = data.length;
 const total = data.reduce((acc, { count }) => acc + count, 0);
-const variables = data.reduce((a, d, i) => ({ ...a, [`--${d.name}`]: `oklch(var(--accent-11)/${1 - i / size})` }), {});
-const barBackground =
-  data.reduce(
-    (acc, item, index) => {
-      const color = `oklch(var(--accent-11)/${1 - index / size})`;
-      const stopPercentage = acc.percentage + (item.count / total) * 100;
-      acc.result += `${color} ${acc.percentage}%, ${color} ${stopPercentage}% ${index < size - 1 ? ', ' : ''}`;
-      acc.percentage = stopPercentage;
-      return acc;
-    },
-    { result: 'linear-gradient(to right, ', percentage: 0 },
-  ).result + ')';
+const opacities = data.reduce((a, d, i) => ({ ...a, [`--${d.name}`]: (1 - i / size).toFixed(2) }), {});
+const items = data.map((item, index) => {
+  const width = (item.count / total) * 100;
+  const marginLeft = index === 0 ? 0 : (data[index - 1]!.count / total) * 100;
+  return { width: `${width}%`, left: `${marginLeft}%`, opacity: 1 - index / size };
+});
 ---
 
-<div style={variables} class="flex flex-col gap-4">
+<div style={opacities} class="flex flex-col gap-4">
   <div
     {...props}
     role="progressbar"
     aria-valuemin={data[data.length - 1]?.count ?? 0}
     aria-valuemax={data[0]?.count ?? 100}
-    style={{ background: barBackground }}
-    class="border-gray-6 h-4 rounded-full border"
+    class="border-gray-6 flex h-4 gap-px overflow-hidden rounded-full border"
   >
+    {items.map((style) => <div {style} class="bg-accent-11" />)}
   </div>
   <div class={twMerge('grid grid-cols-4 gap-x-4', className)}><slot /></div>
 </div>

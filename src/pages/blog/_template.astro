@@ -102,7 +102,7 @@ const { data: activePosts, topic: activeTopic, url, currentPage, lastPage } = As
                     class="border-gray-6 flex max-w-none flex-col items-start gap-1 rounded-b-none border-b p-6"
                   >
                     <Text weight="semibold" x-text="post.meta.title" class="text-gray-12" />
-                    <Text size="1" x-html="post.excerpt + '...'" class="text-gray-11 max-w-none" />
+                    <Text size="1" x-html="post.excerpt + '...'" class="text-gray-11 max-w-none leading-8" />
                   </List.ItemLink>
                 </template>
               </List.Root>

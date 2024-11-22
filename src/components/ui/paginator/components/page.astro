@@ -8,6 +8,6 @@ type Props = HTMLAttributes<'li'> & VariantProps<typeof textVariants> & { curren
 const { class: className, current, max, size, weight, ...props } = Astro.props;
 ---
 
-<li {...props} class={textVariants({ size, weight, className: ['px-2 select-none', className] })}>
+<li {...props} class={textVariants({ size, weight, className: ['px-2 select-none -translate-y-0.5', className] })}>
   {current} of {max}
 </li>

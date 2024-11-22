@@ -13,10 +13,10 @@ const { class: className, ...props } = Astro.props;
   x-show="open"
   x-ref="navigationMenuDropdownLinks"
   class={twMerge(
-    'bg-gray-2 border-gray-6 absolute top-full right-0 z-50 mt-1 hidden min-w-[10rem] rounded-sm p-2 shadow',
+    'bg-gray-2 border-gray-6 absolute top-full right-0 z-50 mt-1 hidden min-w-[10rem] rounded-sm border p-2 shadow',
     'before:absolute before:-top-2 before:h-2 before:w-full before:content-[""]',
     'group-focus-within:block group-hover:block',
-    'animate-in motion-safe:fade-in-0 motion-safe:zoom-in-90',
+    'scale-100 opacity-100 motion-safe:transition-all starting:scale-90 starting:opacity-0',
     '[&_a:hover]:bg-accent-9 [&_a:hover]:text-accent-contrast',
     className,
   )}

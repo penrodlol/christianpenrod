@@ -31,19 +31,39 @@
   --color-gray-12: oklch(94.7% 0 0);
   --color-gray-contrast: oklch(100% 0 0);
 
-  --color-accent-1: oklch(0% 0 none);
-  --color-accent-2: oklch(18.4% 0 none);
-  --color-accent-3: oklch(23.9% 0 none);
-  --color-accent-4: oklch(27.6% 0 none);
-  --color-accent-5: oklch(30.9% 0 none);
-  --color-accent-6: oklch(34.7% 0 none);
-  --color-accent-7: oklch(40.1% 0 none);
-  --color-accent-8: oklch(48.7% 0 none);
-  --color-accent-9: oklch(95.5% 0 none);
-  --color-accent-10: oklch(92.7% 0 none);
-  --color-accent-11: oklch(77% 0 none);
-  --color-accent-12: oklch(94.9% 0 none);
-  --color-accent-contrast: oklch(0% 0 none);
+  --color-accent-1: oklch(0% 0 0);
+  --color-accent-2: oklch(18.4% 0 0);
+  --color-accent-3: oklch(23.9% 0 0);
+  --color-accent-4: oklch(27.6% 0 0);
+  --color-accent-5: oklch(30.9% 0 0);
+  --color-accent-6: oklch(34.7% 0 0);
+  --color-accent-7: oklch(40.1% 0 0);
+  --color-accent-8: oklch(48.7% 0 0);
+  --color-accent-9: oklch(95.5% 0 0);
+  --color-accent-10: oklch(92.7% 0 0);
+  --color-accent-11: oklch(77% 0 0);
+  --color-accent-12: oklch(94.9% 0 0);
+  --color-accent-contrast: oklch(0% 0 0);
 
   --default-transition-duration: 200ms;
+}
+
+@utility scrollbar {
+  @apply [scrollbar-color:var(--color-gray-9)_transparent] [scrollbar-width:thin];
+}
+
+@utility anchor-root {
+  @apply relative has-[.anchor-target:is(:hover,:focus-visible)]:[--opacity:1];
+  @apply before:bg-gray-3 relative before:fixed before:-z-10 before:opacity-[var(--opacity,0)] before:content-[""];
+  @apply before:top-[anchor(--anchor_top)] before:left-[anchor(--anchor_left)];
+  @apply before:h-[anchor-size(--anchor_height)] before:w-[anchor-size(--anchor_width)];
+  @apply before:transition-[top_0.18s,left_0.18s,height_0.18s,opacity_0.18s,color_0.18s,width_0.1s];
+}
+
+@utility anchor-source {
+  @apply has-[.anchor-target:is(:hover,:focus-visible)]:[anchor-name:--anchor];
+}
+
+@utility anchor-target {
+  @apply target:[anchor-name:--target];
 }

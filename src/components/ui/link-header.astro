@@ -22,6 +22,9 @@ const { class: className, size, id, ...props } = Astro.props;
   <h2><slot /></h2>
   <Icon
     name="link"
-    class="text-accent-11 animate-in group-hover:fade-in-0 group-hover:zoom-in-0 hidden group-hover:block"
+    class:list={[
+      'text-accent-11 scale-50 opacity-0 motion-safe:transition-all',
+      'group-hover:scale-100 group-hover:opacity-100 group-hover:starting:scale-50 group-hover:starting:opacity-0',
+    ]}
   />
 </Link>
