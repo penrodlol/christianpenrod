@@ -15,7 +15,10 @@ const { class: className, size, id, ...props } = Astro.props;
   href={`#${id}`}
   size={size ?? '4'}
   class={twMerge(
-    'group border-gray-6 text-gray-12 flex items-center justify-start gap-2 border-b pb-2 uppercase',
+    'group text-gray-12 flex max-w-max items-center justify-start gap-2 uppercase',
+    'before:content-[counter(link-header)_"."] before:[counter-increment:link-header]',
+    'before:border-accent-9 before:size-6 before:rounded-sm before:border before:border-dotted',
+    'before:flex before:items-center before:justify-center before:p-1 before:text-xs',
     className,
   )}
 >

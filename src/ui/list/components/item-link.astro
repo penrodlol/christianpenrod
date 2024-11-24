@@ -9,7 +9,7 @@ const { class: className, weight, ...props } = Astro.props;
 ---
 
 <li class="anchor-source">
-  <Link {...props} weight={weight ?? 'normal'} class={twMerge('anchor-target w-full p-3 text-gray-12', className)}>
+  <Link {...props} weight={weight ?? 'normal'} class={twMerge('anchor-target text-gray-12 w-full p-3', className)}>
     <slot />
   </Link>
 </li>

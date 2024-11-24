@@ -1,6 +1,7 @@
 ---
 import Me from '@/assets/me.webp';
 import Layout from '@/layouts/index.astro';
+import { buttonVariants } from '@/ui/button.astro';
 import Callout from '@/ui/callout.astro';
 import * as Code from '@/ui/code';
 import Date from '@/ui/date.astro';
@@ -9,11 +10,11 @@ import LinkHeader from '@/ui/link-header.astro';
 import Link from '@/ui/link.astro';
 import * as List from '@/ui/list';
 import Number from '@/ui/number.astro';
-import Separator from '@/ui/separator.astro';
 import Text from '@/ui/text.astro';
 import type { GetStaticPaths } from 'astro';
 import { Image } from 'astro:assets';
 import { render } from 'astro:content';
+import * as env from 'astro:env/server';
 import { getSortedPosts } from './_utils';
 
 export const getStaticPaths = (async () =>
@@ -28,9 +29,9 @@ const { Content } = await render(post);
 ---
 
 <Layout title={post.data.title} description={post.data.description} og={`open-graph/src/content/posts/${post.id}.png`}>
-  <article class="flex flex-col items-center gap-14">
-    <div class="text-gray-11 flex max-w-prose flex-col gap-2">
-      <List.Root orientation="horizontal" class="gap-6">
+  <article data-pagefind-body data-pagefind-meta={`slug:/blog/${post.id}`} class="flex flex-col items-center gap-14">
+    <div data-pagefind-ignore class="border-gray-6 flex max-w-prose flex-col gap-2 border-b pb-10">
+      <List.Root orientation="horizontal" class="text-gray-11 gap-6">
         <List.Item class="flex items-center gap-2">
           <Icon name="calendar" />
           <Date size="1" value={post.data.published} />
@@ -45,20 +46,26 @@ const { Content } = await render(post);
           <Text size="1" class="-ml-1">Views</Text>
         </List.Item>
       </List.Root>
-      <Text as="h1" size="6" weight="semibold" class="text-gray-12 uppercase">{post.data.title}</Text>
-      <div class="mt-2 flex items-center gap-2">
-        <div class="border-gray-6 size-6 overflow-hidden rounded-full border brightness-159">
+      <Text as="h1" size="7" weight="semibold" class="uppercase">{post.data.title}</Text>
+      <div class="mx-auto mt-4 flex w-full items-center justify-center gap-2">
+        <div class="border-gray-6 size-8 overflow-hidden rounded-full border brightness-130">
           <Image src={Me} alt="Me" loading="eager" width={2048} height={1936} />
         </div>
-        <Text size="1">CHRISTIAN PENROD</Text>
+        <div class="mr-auto">
+          <Text size="1">CHRISTIAN PENROD</Text>
+          <Text size="1" class="text-gray-11">Front-End Web Developer</Text>
+        </div>
+        <!-- prettier-ignore -->
+        <List.Root orientation="horizontal">
+          <List.ItemLink href={env.GITHUB} icon="github" aria-label="Github" class={buttonVariants({ variant: 'ghost', size: 'icon', class: '-ml-2' })} />
+          <List.ItemLink href={env.TWITTER} icon="twitter" aria-label="Twitter/X" class={buttonVariants({ variant: 'ghost', size: 'icon' })} />
+          <List.ItemLink href={env.LINKEDIN} icon="linkedin" aria-label="LinkedIn" class={buttonVariants({ variant: 'ghost', size: 'icon' })} />
+          <List.ItemLink href={`mailto:${env.EMAIL}`} icon="mail" aria-label="Email" class={buttonVariants({ variant: 'ghost', size: 'icon' })} />
+          <List.ItemLink href={new URL('rss.xml', Astro.site)} icon="rss" aria-label="RSS" class={buttonVariants({ variant: 'ghost', size: 'icon' })} />
+        </List.Root>
       </div>
     </div>
-    <Separator />
-    <div
-      data-pagefind-body
-      data-pagefind-meta={`slug:/blog/${post.id}`}
-      class="text-gray-12/90 flex max-w-prose flex-col gap-10 leading-8"
-    >
+    <div class="text-gray-12/80 flex max-w-prose flex-col gap-10 leading-7 [counter-reset:link-header]">
       <Content
         components={{
           a: Link,
