@@ -7,4 +7,4 @@ type Props = HTMLAttributes<'div'>;
 const { class: className, ...props } = Astro.props;
 ---
 
-<div {...props} class={twMerge('flex flex-col gap-1', className)}><slot /></div>
+<div {...props} class={twMerge('flex flex-1 flex-col gap-1', className)}><slot /></div>
