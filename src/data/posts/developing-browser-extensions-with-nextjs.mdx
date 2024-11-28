@@ -8,6 +8,8 @@ topics: [Next.js]
 repo: demo-nextjs-browser-extension
 ---
 
+import * as Tabs from '@/ui/tabs';
+
 Although modern browsers offer a plethora of tooling to help assist web development and general productivity, there will
 always be some niche solution(s) not offered. How do we solve this? _Extensions!_
 
@@ -72,6 +74,39 @@ Within all extensions, there exists a `manifest.json` file. Think of this file a
 the extension's metadata and security permissions as well as a pointer to our Next.js application. Let's now add this
 file to our Next.js app's `/public` directory:
 
+<Tabs.Root defaultValue="chrome">
+  <Tabs.TabList>
+    <Tabs.Tab for="chrome" aria-selected>Chrome</Tabs.Tab>
+    <Tabs.Tab for="other">Firefox/Edge/Opera/Brave</Tabs.Tab>
+  </Tabs.TabList>
+  <Tabs.TabPanel value="chrome" aria-hidden="false">
+    ```json title="public/manifest.json"    
+    {
+      "name": "Next.js Browser Extension Demo",
+      "version": "1.0.0",
+      "manifest_version": 3,
+      "action": {
+        "default_title": "Next.js Browser Extension Demo",
+        "default_popup": "index.html"
+      }
+    }
+    ```
+  </Tabs.TabPanel>
+  <Tabs.TabPanel value="other">
+    ```json title="public/manifest.json"    
+    {
+      "name": "Next.js Browser Extension Demo",
+      "version": "1.0.0",
+      "manifest_version": 2,
+      "browser_action": {
+        "default_title": "Next.js Browser Extension Demo",
+        "default_popup": "index.html"
+      }
+    }
+    ```
+  </Tabs.TabPanel>
+</Tabs.Root>
+
 Before moving further, lets break down the contents of the manifest.json file. To begin, we have the `name` and
 `version`. Each are simply metadata for the extension and are required.
 
@@ -122,6 +157,55 @@ import it into the browser to test:
 
 > Please note, we will _not_ cover publishing an extension to the browser's marketplace. However, there are plenty of
 > resources available on this subject.
+
+<Tabs.Root defaultValue="chrome">
+  <Tabs.TabList>
+    <Tabs.Tab for="chrome" aria-selected>Chrome</Tabs.Tab>
+    <Tabs.Tab for="firefox">Firefox</Tabs.Tab>
+    <Tabs.Tab for="edge">Edge</Tabs.Tab>
+    <Tabs.Tab for="opera">Opera</Tabs.Tab>
+    <Tabs.Tab for="brave">Brave</Tabs.Tab>
+  </Tabs.TabList>
+  <Tabs.TabPanel value="chrome" aria-hidden="false">
+    
+    1. Navigate to: chrome://extensions
+    2. Toggle on 'Developer Mode' in the top right corner.
+    3. Click the 'Load Unpacked' button.
+    4. Select your /out directory.
+
+  </Tabs.TabPanel>
+  <Tabs.TabPanel value="firefox">
+  
+    1. Navigate to: about:debugging#/runtime/this-firefox
+    2. Click the 'Load Temporary Add-on...' button.
+    3. Select your manifest.json file.
+
+  </Tabs.TabPanel>
+  <Tabs.TabPanel value="edge">
+  
+    1. Navigate to: edge://extensions/
+    2. Toggle on 'Developer Mode' in the left panel.
+    3. Click the 'Load Unpacked' button.
+    4. Select your /out directory.
+  
+  </Tabs.TabPanel>
+  <Tabs.TabPanel value="opera">
+
+    1. Navigate to: opera://extensions
+    2. Toggle on 'Developer Mode' in the top right corner.
+    3. Click the 'Load Unpacked' button.
+    4. Select your /out directory.
+
+  </Tabs.TabPanel>
+  <Tabs.TabPanel value="brave">
+  
+    1. Navigate to: brave://extensions
+    2. Toggle on 'Developer Mode' in the top right corner.
+    3. Click the 'Load Unpacked' button.
+    4. Select your /out directory.
+  
+  </Tabs.TabPanel>
+</Tabs.Root>
 
 ## Remarks
 

@@ -12,7 +12,7 @@ const { class: className, id = crypto.randomUUID(), ...props } = Astro.props;
   {...props}
   aria-labelledby={id}
   class={twMerge(
-    'bg-accent-2 text-accent-11 flex items-start gap-2 rounded-sm px-4 py-2.5 tracking-wide **:text-xs',
+    'bg-accent-2 text-accent-11 flex items-start gap-2 rounded-sm px-4 py-2.5 tracking-wide **:text-xs/6',
     'border-accent-6 border border-l-8 leading-normal',
     className,
   )}
