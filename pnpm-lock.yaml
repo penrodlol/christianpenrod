@@ -37,7 +37,7 @@ devDependencies:
   '@astrojs/vercel':
     specifier: 7.8.1
     version: 7.8.1(astro@4.15.9)(svelte@5.2.11)
-  '@fontsource/inter':
+  '@fontsource/geist-sans':
     specifier: ^5.1.0
     version: 5.1.0
   '@iconify-json/lucide':
@@ -677,8 +677,8 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@fontsource/inter@5.1.0:
-    resolution: {integrity: sha512-zKZR3kf1G0noIes1frLfOHP5EXVVm0M7sV/l9f/AaYf+M/DId35FO4LkigWjqWYjTJZGgplhdv4cB+ssvCqr5A==}
+  /@fontsource/geist-sans@5.1.0:
+    resolution: {integrity: sha512-4AI/UxIcZiYgK6/cTo4R9oM4VHHLcFdHVv7m2+M42VyY16hhKJADrGe4HPjTxvolmce2IZX/jc6sFJ+GkLB64w==}
     dev: true
 
   /@iconify-json/lucide@1.2.17:

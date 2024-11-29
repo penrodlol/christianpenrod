@@ -3,7 +3,7 @@
 @variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: 'Inter', 'sans-serif';
+  --default-font-family: 'Geist Sans';
 
   --text-xs: clamp(0.87rem, calc(0.87rem + (0.02 * (100vw - 20rem) / 76)), 0.889rem);
   --text-sm: clamp(1rem, calc(1rem + (0.0417 * (100vw - 20rem) / 76)), 1.042rem);
