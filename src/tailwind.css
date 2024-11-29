@@ -41,7 +41,7 @@
   --color-border: var(--_color-border);
   --color-ring: var(--_color-ring);
 
-  --color-code-text: var(--_color-code-text);
+  --color-code-foreground: var(--_color-code-foreground);
   --color-code-background: var(--_color-code-background);
   --color-code-token-constant: var(--_color-code-token-constant);
   --color-code-token-string: var(--_color-code-token-string);
@@ -70,7 +70,7 @@
     --_color-border: hsl(0 0% 64%);
     --_color-ring: hsl(0 0% 10%);
 
-    --_color-code-text: hsl(0 0% 9%);
+    --_color-code-foreground: hsl(0 0% 9%);
     --_color-code-background: hsl(0 0% 100%);
     --_color-code-token-constant: hsl(0 0% 41%);
     --_color-code-token-string: hsl(0 0% 30%);
@@ -97,7 +97,7 @@
     --_color-border: hsl(0 0% 24%);
     --_color-ring: hsl(0 0% 50%);
 
-    --_color-code-text: hsl(0 0% 91%);
+    --_color-code-foreground: hsl(0 0% 91%);
     --_color-code-background: hsl(0 0% 2%);
     --_color-code-token-constant: hsl(0 0% 59%);
     --_color-code-token-string: hsl(0 0% 70%);
