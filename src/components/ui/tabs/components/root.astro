@@ -11,7 +11,7 @@ const { class: className, defaultValue, ...props } = Astro.props;
   {...props}
   x-data={`{ active: "${defaultValue}" }`}
   x-id="['tabs']"
-  class={twMerge('grid w-full rounded border', className)}
+  class={twMerge('border-border grid w-full rounded border', className)}
 >
   <slot />
 </div>

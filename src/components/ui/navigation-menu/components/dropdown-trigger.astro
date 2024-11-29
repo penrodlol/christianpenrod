@@ -19,9 +19,9 @@ const { class: className, ...props } = Astro.props;
   @touchstart="open = !open"
   class={twMerge(
     'flex items-center gap-2 rounded px-3 py-1.5',
-    'focus:outline-none focus:ring-1 motion-safe:transition-colors',
-    'group-hover:bg-3 group-hover:text-brand group-hover:[&_svg]:rotate-180',
-    'group-focus-within:[&:not([aria-expanded=false])]:bg-3',
+    'focus:ring-1 focus:outline-none motion-safe:transition-colors',
+    'group-hover:bg-surface-3 group-hover:text-brand group-hover:[&_svg]:rotate-180',
+    'group-focus-within:[&:not([aria-expanded=false])]:bg-surface-3',
     'group-focus-within:[&:not([aria-expanded=false])]:text-brand',
     'group-focus-within:[&:not([aria-expanded=false])_svg]:rotate-180',
     className,

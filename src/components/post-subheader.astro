@@ -13,13 +13,20 @@ const hash = slot.toLowerCase().replace(/ /g, '-');
     id={hash}
     href={`#${hash}`}
     class={twJoin(
-      'group max-w-max rounded hover:text-brand',
-      'focus-visible:outline-none focus-visible:ring motion-safe:transition-colors',
+      'group hover:text-brand max-w-max rounded',
+      'focus-visible:ring-ring focus-visible:ring focus-visible:outline-none motion-safe:transition-colors',
     )}
   >
-    <Text as="h2" class="flex items-center gap-2 uppercase text-lg">
+    <Text as="h2" class="flex items-center gap-2 text-lg uppercase">
       {slot}
-      <Icon name="link" class="hidden animate-in group-hover:block motion-safe:fade-in-0 motion-safe:zoom-in-75" />
+      <Icon
+        name="link"
+        class={twJoin(
+          'scale-50 opacity-0 motion-safe:transition-all',
+          'group-hover:scale-100 group-hover:opacity-100',
+          'group-hover:starting:scale-50 group-hover:starting:opacity-0',
+        )}
+      />
     </Text>
   </a>
   <Separator />

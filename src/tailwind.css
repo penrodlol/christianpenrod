@@ -1,0 +1,61 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', 'sans-serif';
+
+  --text-xs: clamp(0.87rem, calc(0.87rem + (0.02 * (100vw - 20rem) / 76)), 0.889rem);
+  --text-sm: clamp(1rem, calc(1rem + (0.0417 * (100vw - 20rem) / 76)), 1.042rem);
+  --text-base: clamp(1.125rem, calc(1.125rem + (0.125 * (100vw - 20rem) / 76)), 1.25rem);
+  --text-lg: clamp(1.266rem, calc(1.266rem + (0.2344 * (100vw - 20rem) / 76)), 1.5rem);
+  --text-xl: clamp(1.424rem, calc(1.424rem + (0.3762 * (100vw - 20rem) / 76)), 1.8rem);
+  --text-2xl: clamp(1.602rem, calc(1.602rem + (0.5582 * (100vw - 20rem) / 76)), 2.16rem);
+  --text-3xl: clamp(1.802rem, calc(1.802rem + (0.79 * (100vw - 20rem) / 76)), 2.592rem);
+  --text-4xl: clamp(2.027rem, calc(2.027rem + (1.0831 * (100vw - 20rem) / 76)), 3.11rem);
+  --text-5xl: clamp(2.281rem, calc(2.281rem + (1.4518 * (100vw - 20rem) / 76)), 3.732rem);
+  --text-6xl: clamp(2.566rem, calc(2.566rem + (1.9132 * (100vw - 20rem) / 76)), 4.479rem);
+  --text-7xl: clamp(2.887rem, calc(2.887rem + (2.4883 * (100vw - 20rem) / 76)), 5.375rem);
+  --text-8xl: clamp(3.247rem, calc(3.247rem + (3.2024 * (100vw - 20rem) / 76)), 6.45rem);
+  --text-9xl: clamp(3.653rem, calc(3.653rem + (4.0864 * (100vw - 20rem) / 76)), 7.74rem);
+  --text-xs--line-height: 1.6;
+  --text-sm--line-height: 1.6;
+  --text-base--line-height: 1.6;
+  --text-lg--line-height: 1.6;
+  --text-xl--line-height: 1.2;
+  --text-2xl--line-height: 1.2;
+  --text-3xl--line-height: 1.2;
+  --text-4xl--line-height: 1.1;
+  --text-5xl--line-height: 1.1;
+  --text-6xl--line-height: 1.1;
+  --text-7xl--line-height: 1;
+  --text-8xl--line-height: 1;
+  --text-9xl--line-height: 1;
+
+  --color-surface-1: hsl(0 0% 3%);
+  --color-surface-2: hsl(0 0% 10%);
+  --color-surface-3: hsl(0 0% 20%);
+  --color-foreground-1: hsl(0 0% 90%);
+  --color-foreground-2: hsl(0 0% 66%);
+  --color-brand: hsl(0 0% 100%);
+  --color-border: hsl(0 0% 24%);
+  --color-ring: hsl(0 0% 50%);
+
+  --color-code-text: hsl(0 0% 91%);
+  --color-code-background: hsl(0 0% 2%);
+  --color-code-token-constant: hsl(0 0% 59%);
+  --color-code-token-string: hsl(0 0% 70%);
+  --color-code-token-comment: hsl(0 0% 43%);
+  --color-code-token-keyword: hsl(0 0% 59%);
+  --color-code-token-parameter: hsl(0 0% 100%);
+  --color-code-token-function: hsl(0 0% 100%);
+  --color-code-token-string-expression: hsl(0, 0%, 70%);
+  --color-code-token-punctuation: hsl(0 0% 100%);
+
+  --shadow-sm: 0.3px 0.5px 0.7px hsl(0 0% 0%/ 0.45), 0.9px 1.8px 2.3px -0.8px hsl(0 0% 0%/ 0.45),
+    2.3px 4.6px 5.8px -1.7px hsl(0 0% 0%/ 0.45), 5.6px 11.3px 14.2px -2.5px hsl(0 0% 0%/ 0.45);
+
+  --default-transition-duration: 200ms;
+}
+
+@utility scrollbar {
+  @apply [scrollbar-color:var(--color-surface-3)_transparent] [scrollbar-width:thin];
+}

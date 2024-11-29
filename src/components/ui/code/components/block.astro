@@ -10,10 +10,10 @@ const { class: className, ...props } = Astro.props;
 <code
   {...props}
   class={twMerge(
-    'font-sans [counter-reset:line] [font-size:--shiki-font-size]',
-    'bg-[--shiki-color-background] [&:not(&:has(span))]:text-[--shiki-color-text]',
-    '[&:not(&:has(span))]:inline-flex [&:not(&:has(span))]:rounded [&:not(&:has(span))]:border',
-    '[&:not(&:has(span))]:mx-0.5 [&:not(&:has(span))]:whitespace-nowrap [&:not(&:has(span))]:px-1',
+    'font-sans [font-size:0.85rem] [counter-reset:line]',
+    'bg-code-background [&:not(&:has(span))]:text-code-text',
+    '[&:not(&:has(span))]:border-border [&:not(&:has(span))]:inline-flex [&:not(&:has(span))]:rounded [&:not(&:has(span))]:border',
+    '[&:not(&:has(span))]:mx-0.5 [&:not(&:has(span))]:px-1 [&:not(&:has(span))]:whitespace-nowrap',
     '[&:not(&:has(span))]:decoration-clone [&:not(&:has(span))]:leading-normal',
     className,
   )}

@@ -16,16 +16,16 @@ const { remarkPluginFrontmatter } = await render(post);
   href={`/blog/${post.id}`}
   aria-label={`${post.data.title}. ${post.data.description}`}
   class={twJoin(
-    'group flex h-full select-none flex-col overflow-hidden rounded border shadow',
-    'focus-visible:outline-none focus-visible:ring-1',
+    'group border-border flex h-full flex-col overflow-hidden rounded border shadow-sm select-none',
+    'focus-visible:ring-ring focus-visible:ring-1 focus-visible:outline-none',
   )}
 >
-  <div class="h-8 rounded-t bg-2"></div>
-  <div class="z-20 flex flex-1 flex-col gap-2 border-t bg-1 p-4">
-    <Text class="text-sm group-hover:text-brand motion-safe:transition-colors">{post.data.title}</Text>
-    <Text as="p" class="flex-1 text-2 text-xs">{post.data.description}</Text>
+  <div class="bg-surface-2 h-8 rounded-t"></div>
+  <div class="bg-1 border-border z-20 flex flex-1 flex-col gap-2 border-t p-4">
+    <Text class="group-hover:text-brand text-sm motion-safe:transition-colors">{post.data.title}</Text>
+    <Text as="p" class="text-foreground-2 flex-1 text-xs">{post.data.description}</Text>
     <Separator class="my-1.5" />
-    <div class="flex justify-between gap-4 text-2 text-xs">
+    <div class="text-foreground-2 flex justify-between gap-4 text-xs">
       <div class="flex items-center gap-2">
         <Icon name="calendar" class="size-3.5" />
         <Date value={post.data.published} />

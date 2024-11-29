@@ -2,14 +2,14 @@ import alpine from '@astrojs/alpinejs';
 import db from '@astrojs/db';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-import tailwind from '@astrojs/tailwind';
 import vercel from '@astrojs/vercel/serverless';
+import tailwindcss from '@tailwindcss/vite';
 import icon from 'astro-icon';
 import robotsTxt from 'astro-robots-txt';
 import { defineConfig, envField } from 'astro/config';
 import { toString } from 'mdast-util-to-string';
 import readingTime from 'reading-time';
-import rehypePrettyCode from 'rehype-pretty-code';
+import prettyCode from 'rehype-pretty-code';
 import { createCssVariablesTheme } from 'shiki';
 
 export default defineConfig({
@@ -20,7 +20,7 @@ export default defineConfig({
   markdown: {
     syntaxHighlight: false,
     rehypePlugins: [
-      [rehypePrettyCode, { theme: createCssVariablesTheme({ name: 'css-variables' }) }],
+      [prettyCode, { theme: createCssVariablesTheme({ name: 'css-variables', variablePrefix: '--color-code-' }) }],
       () => (tree, vfile) => {
         const data = vfile.data as { astro: { frontmatter: Record<string, unknown> } };
         const payload = Math.round(readingTime(toString(tree)).minutes);
@@ -47,8 +47,8 @@ export default defineConfig({
       },
     },
   },
+  vite: { plugins: [tailwindcss()] },
   integrations: [
-    tailwind(),
     mdx(),
     db(),
     icon(),

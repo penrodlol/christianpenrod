@@ -7,4 +7,4 @@ type Props = HTMLAttributes<'ul'>;
 const { class: className, ...props } = Astro.props;
 ---
 
-<ul {...props} class={twMerge('flex flex-col text-2 text-xs', className)}><slot /></ul>
+<ul {...props} class={twMerge('text-foreground-2 flex flex-col text-xs', className)}><slot /></ul>

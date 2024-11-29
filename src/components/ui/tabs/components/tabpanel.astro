@@ -15,7 +15,10 @@ const { class: className, value, ...props } = Astro.props;
   :id={`$id('tabs') + '-tabpanel-${value}'`}
   :aria-labelledby={`$id('tabs') + '-tab-${value}'`}
   :aria-hidden={`active !== "${value}"`}
-  class={twMerge('p-6 aria-hidden:hidden focus-visible:outline-none focus-visible:ring-1', className)}
+  class={twMerge(
+    'focus-visible:ring-ring p-6 focus-visible:ring-1 focus-visible:outline-none aria-hidden:hidden',
+    className,
+  )}
 >
   <slot />
 </div>
