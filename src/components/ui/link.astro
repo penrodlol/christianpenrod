@@ -16,10 +16,10 @@ const external = href?.toString().startsWith('https://');
   rel={external ? 'nofollow noopener noreferrer' : rel}
   class={twMerge(
     'inline-flex items-center justify-center gap-1 rounded motion-safe:transition-colors',
-    'hover:text-brand focus-visible:outline-none focus-visible:ring-1',
+    'hover:text-brand focus-visible:ring-ring focus-visible:ring-1 focus-visible:outline-none',
     className,
   )}
 >
   {icon ? <Icon name={icon} /> : <slot />}
-  {external && !icon && <Icon name="arrow-up-right" data-external-icon class="size-3 text-2" />}
+  {external && !icon && <Icon name="arrow-up-right" data-external-icon class="text-foreground-2 size-3" />}
 </a>

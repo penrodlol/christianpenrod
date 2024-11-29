@@ -14,7 +14,7 @@ const { class: className, ...props } = Astro.props;
   @keydown.left.prevent.stop="$focus.wrap().prev()"
   @keydown.home.prevent.stop="$focus.first()"
   @keydown.end.prevent.stop="$focus.last()"
-  class={twMerge('flex gap-2 overflow-auto rounded border-b bg-2 p-1 scrollbar-thin', className)}
+  class={twMerge('bg-surface-2 scrollbar border-border flex gap-2 overflow-auto rounded border-b', className)}
 >
   <slot />
 </div>

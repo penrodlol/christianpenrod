@@ -11,9 +11,9 @@ const { class: className, ...props } = Astro.props;
   {...props}
   class={twMerge(
     'relative flex flex-col gap-6 pb-10 pl-10 last-of-type:pb-0',
-    'before:absolute before:left-0 before:z-10 before:rounded-full before:bg-3',
-    'before:flex before:size-6 before:items-center before:justify-center before:border before:text-xs',
-    'after:absolute after:left-3 after:top-0 after:z-0 after:h-full after:w-px after:rounded after:bg-[hsl(var(--border))]',
+    'before:bg-surface-3 before:absolute before:left-0 before:z-10 before:rounded-full',
+    'before:border-border before:flex before:size-6 before:items-center before:justify-center before:border before:text-xs',
+    'after:bg-border after:absolute after:top-0 after:left-3 after:z-0 after:h-full after:w-px after:rounded',
     className,
   )}
 >

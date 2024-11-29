@@ -10,7 +10,7 @@ const { class: className, ...props } = Astro.props;
 <div
   {...props}
   class={twMerge(
-    'flex items-center justify-center gap-1.5 rounded bg-3 px-2 py-0.5 text-xs',
+    'bg-surface-3 flex items-center justify-center gap-1.5 rounded px-2 py-0.5 text-xs',
     '[&_svg]:size-3.5 [&_svg]:shrink-0',
     className,
   )}

@@ -9,9 +9,8 @@ import * as NavigationMenu from '@/components/ui/navigation-menu';
 import Separator from '@/components/ui/separator.astro';
 import Text from '@/components/ui/text.astro';
 import Theme from '@/components/ui/theme.astro';
-import '@fontsource/inter/400.css';
-import '@fontsource/inter/500.css';
-import '@fontsource/inter/700.css';
+import '@/tailwind.css';
+import '@fontsource/geist-sans';
 import type { HTMLAttributes } from 'astro/types';
 import * as env from 'astro:env/server';
 import { ViewTransitions } from 'astro:transitions';
@@ -28,7 +27,7 @@ const {
 } = Astro.props;
 ---
 
-<html lang="en" class="ml-[calc(100vw-100%)] scroll-pt-20 bg-2 text-1 antialiased scrollbar-thin sm:p-4">
+<html lang="en" class="bg-surface-2 text-foreground-1 scrollbar ml-[calc(100vw-100%)] scroll-pt-20 antialiased sm:p-4">
   <head>
     <title>{title}</title>
     <meta charset="utf-8" />
@@ -55,8 +54,12 @@ const {
     <script is:inline set:text="document.documentElement.classList.add('[&_[x-cloak]]:hidden')" />
     <ViewTransitions />
   </head>
-  <body class="mx-auto flex min-h-[calc(100dvh-2rem)] max-w-screen-xl flex-col bg-1 shadow sm:rounded sm:border">
-    <header class="sticky top-0 z-50 flex h-12 w-full items-center rounded-t border-b bg-1 px-4 text-xs">
+  <body
+    class="bg-surface-1 sm:border-border mx-auto flex min-h-[calc(100dvh-2rem)] max-w-screen-xl flex-col shadow-sm sm:rounded sm:border"
+  >
+    <header
+      class="bg-surface-1 border-border sticky top-0 z-50 flex h-12 w-full items-center rounded-t border-b px-4 text-xs"
+    >
       <Link
         href="/"
         aria-label="Home"
@@ -81,7 +84,9 @@ const {
       <Theme />
     </header>
     <main {...props} class={twMerge('flex-1 px-6 py-10 sm:px-8 sm:py-14', className)}><slot /></main>
-    <footer class="flex items-center justify-between gap-3 rounded-b border-t px-6 py-4 text-2 text-xs">
+    <footer
+      class="text-foreground-2 border-border flex items-center justify-between gap-3 rounded-b border-t px-6 py-4 text-xs"
+    >
       <Text as="p">©{new Date().getFullYear()} Christian Penrod - All Rights Reserved</Text>
       <NavigationMenu.Root>
         <NavigationMenu.Link href="/">Home</NavigationMenu.Link>

@@ -1,0 +1,118 @@
+@import 'tailwindcss';
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --default-font-family: 'Geist Sans';
+
+  --text-xs: clamp(0.87rem, calc(0.87rem + (0.02 * (100vw - 20rem) / 76)), 0.889rem);
+  --text-sm: clamp(1rem, calc(1rem + (0.0417 * (100vw - 20rem) / 76)), 1.042rem);
+  --text-base: clamp(1.125rem, calc(1.125rem + (0.125 * (100vw - 20rem) / 76)), 1.25rem);
+  --text-lg: clamp(1.266rem, calc(1.266rem + (0.2344 * (100vw - 20rem) / 76)), 1.5rem);
+  --text-xl: clamp(1.424rem, calc(1.424rem + (0.3762 * (100vw - 20rem) / 76)), 1.8rem);
+  --text-2xl: clamp(1.602rem, calc(1.602rem + (0.5582 * (100vw - 20rem) / 76)), 2.16rem);
+  --text-3xl: clamp(1.802rem, calc(1.802rem + (0.79 * (100vw - 20rem) / 76)), 2.592rem);
+  --text-4xl: clamp(2.027rem, calc(2.027rem + (1.0831 * (100vw - 20rem) / 76)), 3.11rem);
+  --text-5xl: clamp(2.281rem, calc(2.281rem + (1.4518 * (100vw - 20rem) / 76)), 3.732rem);
+  --text-6xl: clamp(2.566rem, calc(2.566rem + (1.9132 * (100vw - 20rem) / 76)), 4.479rem);
+  --text-7xl: clamp(2.887rem, calc(2.887rem + (2.4883 * (100vw - 20rem) / 76)), 5.375rem);
+  --text-8xl: clamp(3.247rem, calc(3.247rem + (3.2024 * (100vw - 20rem) / 76)), 6.45rem);
+  --text-9xl: clamp(3.653rem, calc(3.653rem + (4.0864 * (100vw - 20rem) / 76)), 7.74rem);
+  --text-xs--line-height: 1.6;
+  --text-sm--line-height: 1.6;
+  --text-base--line-height: 1.6;
+  --text-lg--line-height: 1.6;
+  --text-xl--line-height: 1.2;
+  --text-2xl--line-height: 1.2;
+  --text-3xl--line-height: 1.2;
+  --text-4xl--line-height: 1.1;
+  --text-5xl--line-height: 1.1;
+  --text-6xl--line-height: 1.1;
+  --text-7xl--line-height: 1;
+  --text-8xl--line-height: 1;
+  --text-9xl--line-height: 1;
+
+  --color-surface-1: var(--_color-surface-1);
+  --color-surface-2: var(--_color-surface-2);
+  --color-surface-3: var(--_color-surface-3);
+  --color-foreground-1: var(--_color-foreground-1);
+  --color-foreground-2: var(--_color-foreground-2);
+  --color-brand: var(--_color-brand);
+  --color-border: var(--_color-border);
+  --color-ring: var(--_color-ring);
+
+  --color-code-foreground: var(--_color-code-foreground);
+  --color-code-background: var(--_color-code-background);
+  --color-code-token-constant: var(--_color-code-token-constant);
+  --color-code-token-string: var(--_color-code-token-string);
+  --color-code-token-comment: var(--_color-code-token-comment);
+  --color-code-token-keyword: var(--_color-code-token-keyword);
+  --color-code-token-parameter: var(--_color-code-token-parameter);
+  --color-code-token-function: var(--_color-code-token-function);
+  --color-code-token-string-expression: var(--_color-code-token-string-expression);
+  --color-code-token-punctuation: var(--_color-code-token-punctuation);
+
+  --shadow-sm: var(--_shadow-sm);
+
+  --default-transition-duration: 200ms;
+}
+
+@layer base {
+  html:not(.dark) {
+    @apply scheme-only-light;
+
+    --_color-surface-1: hsl(0 0% 95%);
+    --_color-surface-2: hsl(0 0% 90%);
+    --_color-surface-3: hsl(0 0% 82%);
+    --_color-foreground-1: hsl(0 0% 12%);
+    --_color-foreground-2: hsl(0 0% 34%);
+    --_color-brand: hsl(0 0% 0%);
+    --_color-border: hsl(0 0% 64%);
+    --_color-ring: hsl(0 0% 10%);
+
+    --_color-code-foreground: hsl(0 0% 9%);
+    --_color-code-background: hsl(0 0% 100%);
+    --_color-code-token-constant: hsl(0 0% 41%);
+    --_color-code-token-string: hsl(0 0% 30%);
+    --_color-code-token-comment: hsl(0 0% 69%);
+    --_color-code-token-keyword: hsl(0 0% 41%);
+    --_color-code-token-parameter: hsl(0 0% 0%);
+    --_color-code-token-function: hsl(0 0% 0%);
+    --_color-code-token-string-expression: hsl(0, 0%, 30%);
+    --_color-code-token-punctuation: hsl(0 0% 0%);
+
+    --_shadow-sm: 0.3px 0.5px 0.7px hsl(0 0% 70%/0.45), 0.9px 1.8px 2.3px -0.8px hsl(0 0% 70%/0.45),
+      2.3px 4.6px 5.8px -1.7px hsl(0 0% 70%/0.45), 5.6px 11.3px 14.2px -2.5px hsl(0 0% 70%/0.45);
+  }
+
+  html.dark {
+    @apply scheme-only-dark;
+
+    --_color-surface-1: hsl(0 0% 3%);
+    --_color-surface-2: hsl(0 0% 10%);
+    --_color-surface-3: hsl(0 0% 20%);
+    --_color-foreground-1: hsl(0 0% 90%);
+    --_color-foreground-2: hsl(0 0% 66%);
+    --_color-brand: hsl(0 0% 100%);
+    --_color-border: hsl(0 0% 24%);
+    --_color-ring: hsl(0 0% 50%);
+
+    --_color-code-foreground: hsl(0 0% 91%);
+    --_color-code-background: hsl(0 0% 2%);
+    --_color-code-token-constant: hsl(0 0% 59%);
+    --_color-code-token-string: hsl(0 0% 70%);
+    --_color-code-token-comment: hsl(0 0% 43%);
+    --_color-code-token-keyword: hsl(0 0% 59%);
+    --_color-code-token-parameter: hsl(0 0% 100%);
+    --_color-code-token-function: hsl(0 0% 100%);
+    --_color-code-token-string-expression: hsl(0, 0%, 70%);
+    --_color-code-token-punctuation: hsl(0 0% 100%);
+
+    --_shadow-sm: 0.3px 0.5px 0.7px hsl(0 0% 0%/ 0.45), 0.9px 1.8px 2.3px -0.8px hsl(0 0% 0%/ 0.45),
+      2.3px 4.6px 5.8px -1.7px hsl(0 0% 0%/ 0.45), 5.6px 11.3px 14.2px -2.5px hsl(0 0% 0%/ 0.45);
+  }
+}
+
+@utility scrollbar {
+  @apply [scrollbar-color:var(--color-surface-3)_transparent] [scrollbar-width:thin];
+}

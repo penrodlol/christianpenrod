@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
-import { twMerge } from 'tailwind-merge';
+import { twJoin, twMerge } from 'tailwind-merge';
 import Icon from './icon.astro';
 
 type Props = HTMLAttributes<'button'> & { content?: string; target?: string };
@@ -10,21 +10,38 @@ const { class: className, 'aria-label': ariaLabel, content, target, ...props } =
 
 <button
   {...props}
-  x-data="{ copied: false }"
-  x-cloak
+  x-data
   aria-label={ariaLabel ?? 'Copy to clipboard'}
-  @click={`navigator.clipboard.writeText(${target} ? ${target}?.textContent?.trim() : "${content}").then(() => copied = true)`}
+  @click={`
+    if ($el.getAttribute('data-checked')) return;
+    navigator.clipboard.writeText(${target} ? ${target}?.textContent?.trim() : "${content}").then(() => copied = true);
+    $el.setAttribute('data-checked', 'true');
+    $el.firstElementChild.classList.add('starting:scale-0', 'starting:opacity-0');
+    setTimeout(() => $el.removeAttribute('data-checked'), 2500);
+  `}
   @mouseleave.debounce.1000ms="copied && (copied = false)"
   @keydown.enter.debounce.1000ms="copied && (copied = false)"
   @keydown.space.debounce.1000ms="copied && (copied = false)"
   @touchstart.debounce.1000ms="copied && (copied = false)"
   class={twMerge(
-    'group flex select-none items-center justify-between gap-2 rounded p-2',
-    'hover:bg-3 hover:text-brand focus-visible:outline-none focus-visible:ring-1 motion-safe:transition-colors',
+    'group flex items-center justify-between gap-2 rounded p-2 select-none',
+    'hover:bg-surface-3 hover:text-brand focus-visible:ring-ring focus-visible:ring-1 focus-visible:outline-none motion-safe:transition-colors',
     className,
   )}
 >
   <slot />
-  <Icon x-show="!copied" x-transition:enter="animate-in motion-safe:zoom-in-0" name="clipboard" class="size-3.5" />
-  <Icon x-show="copied" x-cloak x-transition:enter="animate-in motion-safe:zoom-in-0" name="check" class="size-3.5" />
+  <Icon
+    name="clipboard"
+    class={twJoin(
+      'size-3.5 group-data-checked:hidden motion-safe:transition-all',
+      'duration-300 group-data-checked:scale-100 group-data-checked:opacity-100',
+    )}
+  />
+  <Icon
+    name="check"
+    class={twJoin(
+      'size-3.5 group-not-data-checked:hidden motion-safe:transition-all starting:scale-0 starting:opacity-0',
+      'duration-300 group-not-data-checked:scale-100 group-not-data-checked:opacity-100',
+    )}
+  />
 </button>

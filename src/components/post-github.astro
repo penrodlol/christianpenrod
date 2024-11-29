@@ -13,15 +13,17 @@ const { repo } = Astro.props;
   target="_blank"
   rel="nofollow noopener noreferrer"
   aria-label={`Check out the github repo: ${repo.name}. ${repo.description}`}
-  class="group flex flex-col gap-1 rounded border px-4 py-3 shadow focus-visible:outline-none focus-visible:ring-1"
+  class="group border-border focus-visible:ring-ring flex flex-col gap-1 rounded border px-4 py-3 shadow-sm focus-visible:ring-1 focus-visible:outline-none"
 >
-  <div class="flex items-center gap-2 group-hover:text-brand motion-safe:transition-colors">
-    <Icon name="book" class="size-3.5 text-2" />
+  <div class="group-hover:text-brand flex items-center gap-2 motion-safe:transition-colors">
+    <Icon name="book" class="text-foreground-2 size-3.5" />
     <Text class="text-sm">{repo.name}</Text>
   </div>
-  <Text as="p" class="text-2 text-xs">{repo.description}</Text>
-  <div class="mt-1.5 flex items-center gap-4 text-2 text-xs">
-    <div class="mr-1 flex items-center gap-1"><div class="size-4 rounded-full border bg-3"></div>{repo.language}</div>
+  <Text as="p" class="text-foreground-2 text-xs">{repo.description}</Text>
+  <div class="text-foreground-2 mt-1.5 flex items-center gap-4 text-xs">
+    <div class="mr-1 flex items-center gap-1">
+      <div class="bg-surface-3 border-border size-4 rounded-full border"></div>{repo.language}
+    </div>
     <div class="flex items-center gap-1"><Icon name="star" />{repo.stargazers}</div>
     <div class="flex items-center gap-1"><Icon name="git-fork" />{repo.forks}</div>
   </div>

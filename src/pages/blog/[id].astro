@@ -27,7 +27,7 @@ type Post = CollectionEntry<'posts'>;
 type Props = { post: Post; prev: Post; next: Post };
 
 const social = buttonVariants({ size: 'icon', color: 'ghost', class: '[&_svg]:size-3.5 size-6' });
-const text = tv({ base: '[&>p]:text-1/85 [&_:where(p,aside)_a]:underline' });
+const text = tv({ base: '[&>p]:text-foreground-1/85 [&_:where(p,aside)_a]:underline' });
 const list = tv({ base: '[&_ol]:list-decimal [&_ol]:list-inside [&_li]:list-disc [&_li]:list-inside' });
 
 export const getStaticPaths: GetStaticPaths = async () =>
@@ -49,10 +49,10 @@ const { remarkPluginFrontmatter, headings, Content } = await render(post);
   title={post.data.title}
   description={post.data.description}
   og={`open-graph/src/content/posts/${post.id}.png`}
-  class="mx-auto max-w-2xl lg:grid lg:max-w-screen-xl lg:grid-cols-[1fr,18rem] lg:gap-16 lg:px-16"
+  class="mx-auto max-w-2xl lg:grid lg:max-w-screen-xl lg:gap-16 lg:px-16 xl:grid-cols-[1fr_18rem]"
 >
   <article>
-    <Text as="h1" class="uppercase text-3xl">{post.data.title}</Text>
+    <Text as="h1" class="text-3xl uppercase">{post.data.title}</Text>
     <div class="mt-4 flex flex-wrap items-center gap-4">
       <Badge><Icon name="calendar" /><Date value={post.data.published} /></Badge>
       <Badge><Icon name="clock-4" />{remarkPluginFrontmatter.readingTime}</Badge>
@@ -87,7 +87,7 @@ const { remarkPluginFrontmatter, headings, Content } = await render(post);
       {post.data.repo && <PostGithub repo={post.data.repo} />}
       <Text as="h2" id="introduction" class="sr-only">Introduction</Text>
     </div>
-    <Separator class="mb-8 mt-16" />
+    <Separator class="mt-16 mb-8" />
     <div class="flex flex-col gap-6">
       <Text as="h3">MORE POSTS</Text>
       <ul class="grid gap-x-10 gap-y-6 md:grid-cols-2">
@@ -96,7 +96,7 @@ const { remarkPluginFrontmatter, headings, Content } = await render(post);
       </ul>
     </div>
   </article>
-  <aside class="sticky top-20 hidden h-max rounded border p-4 shadow lg:block">
+  <aside class="border-border sticky top-20 hidden h-max rounded border p-4 shadow-sm lg:block">
     <TableOfContents.Root aria-labelledby="table-of-contents-desktop">
       <TableOfContents.Title id="table-of-contents-desktop">TABLE OF CONTENTS</TableOfContents.Title>
       <TableOfContents.Links>
@@ -106,15 +106,15 @@ const { remarkPluginFrontmatter, headings, Content } = await render(post);
     </TableOfContents.Root>
     <Separator class="my-4" />
     <div class="flex items-center gap-4">
-      <div class="size-14 shrink-0 rounded border shadow">
+      <div class="border-border size-14 shrink-0 rounded border shadow-sm">
         <Image src={Me} alt="Me" loading="eager" class="brightness-150 grayscale dark:brightness-100" />
       </div>
       <div class="flex flex-col gap-px">
         <div class="flex flex-col pl-2 text-xs">
-          <Text class="font-medium leading-none">CHRISTIAN PENROD</Text>
-          <Text class="text-2">Front-End Web Developer</Text>
+          <Text class="leading-none font-medium">CHRISTIAN PENROD</Text>
+          <Text class="text-foreground-2">Front-End Web Developer</Text>
         </div>
-        <ul class="flex text-2 [&_[data-external-icon]]:hidden">
+        <ul class="text-foreground-2 flex [&_[data-external-icon]]:hidden">
           <li><Link href={env.GITHUB} aria-label="Github" icon="github" class={social} /></li>
           <li><Link href={env.TWITTER} aria-label="Twitter" icon="twitter" class={social} /></li>
           <li><Link href={env.LINKEDIN} aria-label="LinkedIn" icon="linkedin" class={social} /></li>

@@ -11,7 +11,7 @@ const { class: className, ...props } = Astro.props;
 <figure
   {...props}
   class={twMerge(
-    'relative grid rounded border bg-[--shiki-color-background]',
+    'bg-code-background border-border relative grid rounded border',
     '[&_[data-line]::before]:mr-2 [&_[data-line]::before]:[content:counter(line)]',
     '[&_[data-line]::before]:inline-block [&_[data-line]::before]:[counter-increment:line]',
     '[&_[data-highlighted-line]_span]:opacity-30 [&_[data-line]::before]:w-5 [&_[data-line]::before]:opacity-30',
@@ -19,5 +19,5 @@ const { class: className, ...props } = Astro.props;
   )}
 >
   <slot />
-  <Clipboard class="absolute right-0 top-0 text-2" target="$el.parentElement.querySelector('pre')" />
+  <Clipboard class="text-foreground-2 absolute top-0 right-0" target="$el.parentElement.querySelector('pre')" />
 </figure>
