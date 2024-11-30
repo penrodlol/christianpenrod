@@ -61,55 +61,56 @@
   html:not(.dark) {
     @apply scheme-only-light;
 
-    --_color-surface-1: hsl(0 0% 95%);
-    --_color-surface-2: hsl(0 0% 90%);
-    --_color-surface-3: hsl(0 0% 82%);
-    --_color-foreground-1: hsl(0 0% 12%);
-    --_color-foreground-2: hsl(0 0% 34%);
-    --_color-brand: hsl(0 0% 0%);
-    --_color-border: hsl(0 0% 64%);
-    --_color-ring: hsl(0 0% 10%);
+    --_color-surface-1: oklch(96.3% 0 0);
+    --_color-surface-2: oklch(88.5% 0 0);
+    --_color-surface-3: oklch(84.9% 0 0);
+    --_color-foreground-1: oklch(12.3% 0 0);
+    --_color-foreground-2: oklch(35.8% 0 0);
+    --_color-brand: oklch(0% 0 0);
+    --_color-border: oklch(64% 0 0);
+    --_color-ring: oklch(10% 0 0);
 
-    --_color-code-foreground: hsl(0 0% 9%);
-    --_color-code-background: hsl(0 0% 100%);
-    --_color-code-token-constant: hsl(0 0% 41%);
-    --_color-code-token-string: hsl(0 0% 30%);
-    --_color-code-token-comment: hsl(0 0% 69%);
-    --_color-code-token-keyword: hsl(0 0% 41%);
-    --_color-code-token-parameter: hsl(0 0% 0%);
-    --_color-code-token-function: hsl(0 0% 0%);
-    --_color-code-token-string-expression: hsl(0, 0%, 30%);
-    --_color-code-token-punctuation: hsl(0 0% 0%);
+    --_color-code-foreground: oklch(9% 0 0);
+    --_color-code-background: oklch(100% 0 0);
+    --_color-code-token-constant: oklch(41% 0 0);
+    --_color-code-token-string: oklch(30% 0 0);
+    --_color-code-token-comment: oklch(69% 0 0);
+    --_color-code-token-keyword: oklch(41% 0 0);
+    --_color-code-token-parameter: oklch(0% 0 0);
+    --_color-code-token-function: oklch(0% 0 0);
+    --_color-code-token-string-expression: oklch(30% 0 0);
+    --_color-code-token-punctuation: oklch(0% 0 0);
 
-    --_shadow-sm: 0.3px 0.5px 0.7px hsl(0 0% 70%/0.45), 0.9px 1.8px 2.3px -0.8px hsl(0 0% 70%/0.45),
-      2.3px 4.6px 5.8px -1.7px hsl(0 0% 70%/0.45), 5.6px 11.3px 14.2px -2.5px hsl(0 0% 70%/0.45);
+    --_shadow-sm: 0.3px 0.5px 0.7px oklch(80% 0 0), 0.9px 1.8px 2.3px -0.8px oklch(80% 0 0),
+      2.3px 4.6px 5.8px -1.7px oklch(80% 0 0), 5.6px 11.3px 14.2px -2.5px oklch(80% 0 0);
   }
 
   html.dark {
     @apply scheme-only-dark;
 
-    --_color-surface-1: hsl(0 0% 3%);
-    --_color-surface-2: hsl(0 0% 10%);
-    --_color-surface-3: hsl(0 0% 20%);
-    --_color-foreground-1: hsl(0 0% 90%);
-    --_color-foreground-2: hsl(0 0% 66%);
-    --_color-brand: hsl(0 0% 100%);
-    --_color-border: hsl(0 0% 24%);
-    --_color-ring: hsl(0 0% 50%);
+    --_color-surface-1: oklch(0% 0 0);
+    --_color-surface-2: oklch(18.1% 0 0);
+    --_color-surface-3: oklch(23.7% 0 0);
+    --_color-foreground-1: oklch(94.7% 0 0);
+    --_color-foreground-2: oklch(76.6% 0 0);
+    --_color-brand: oklch(95.5% 0 0);
+    --_color-border: oklch(34.5% 0 0);
+    --_color-ring: oklch(48.8% 0 0);
 
-    --_color-code-foreground: hsl(0 0% 91%);
-    --_color-code-background: hsl(0 0% 2%);
-    --_color-code-token-constant: hsl(0 0% 59%);
-    --_color-code-token-string: hsl(0 0% 70%);
-    --_color-code-token-comment: hsl(0 0% 43%);
-    --_color-code-token-keyword: hsl(0 0% 59%);
-    --_color-code-token-parameter: hsl(0 0% 100%);
-    --_color-code-token-function: hsl(0 0% 100%);
-    --_color-code-token-string-expression: hsl(0, 0%, 70%);
-    --_color-code-token-punctuation: hsl(0 0% 100%);
+    --_color-code-foreground: oklch(94.7% 0 0);
+    --_color-code-background: oklch(0% 0 0);
+    --_color-code-token-constant: oklch(67.3% 0 0);
+    --_color-code-token-string: oklch(76.7% 0 0);
+    --_color-code-token-comment: oklch(53.8% 0 0);
+    --_color-code-token-keyword: oklch(67.3%% 0 0);
+    --_color-code-token-parameter: oklch(100% 0 0);
+    --_color-code-token-function: oklch(100% 0 0);
+    --_color-code-token-string-expression: oklch(76.7% 0 0);
+    --_color-code-token-punctuation: oklch(100% 0 0);
+    --_color-code-token-link: oklch(100% 0 0);
 
-    --_shadow-sm: 0.3px 0.5px 0.7px hsl(0 0% 0%/ 0.45), 0.9px 1.8px 2.3px -0.8px hsl(0 0% 0%/ 0.45),
-      2.3px 4.6px 5.8px -1.7px hsl(0 0% 0%/ 0.45), 5.6px 11.3px 14.2px -2.5px hsl(0 0% 0%/ 0.45);
+    --_shadow-sm: 0.3px 0.5px 0.7px oklch(0% 0 0), 0.9px 1.8px 2.3px -0.8px oklch(0% 0 0),
+      2.3px 4.6px 5.8px -1.7px oklch(0% 0 0), 5.6px 11.3px 14.2px -2.5px oklch(0% 0 0);
   }
 }
 
