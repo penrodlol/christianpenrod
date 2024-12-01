@@ -1,6 +1,5 @@
 ---
 import { type CollectionEntry, render } from 'astro:content';
-import { twJoin } from 'tailwind-merge';
 import Date from './ui/date.astro';
 import Icon from './ui/icon.astro';
 import Separator from './ui/separator.astro';
@@ -15,10 +14,10 @@ const { remarkPluginFrontmatter } = await render(post);
 <a
   href={`/blog/${post.id}`}
   aria-label={`${post.data.title}. ${post.data.description}`}
-  class={twJoin(
+  class:list={[
     'group border-border flex h-full flex-col overflow-hidden rounded border shadow-sm select-none',
     'focus-visible:ring-ring focus-visible:ring-1 focus-visible:outline-none',
-  )}
+  ]}
 >
   <div class="bg-surface-2 h-8 rounded-t"></div>
   <div class="bg-1 border-border z-20 flex flex-1 flex-col gap-2 border-t p-4">

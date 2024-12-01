@@ -20,7 +20,6 @@ import type { GetStaticPaths } from 'astro';
 import { Image } from 'astro:assets';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import * as env from 'astro:env/server';
-import { twJoin } from 'tailwind-merge';
 import { tv } from 'tailwind-variants';
 
 type Post = CollectionEntry<'posts'>;
@@ -72,7 +71,7 @@ const { remarkPluginFrontmatter, headings, Content } = await render(post);
       </TableOfContents.Root>
     </Collapsible>
     <Separator class="my-4 lg:hidden" />
-    <div class={twJoin('flex max-w-[70ch] flex-col gap-8 leading-7', text(), list())}>
+    <div class:list={['flex max-w-[70ch] flex-col gap-8 leading-7', text(), list()]}>
       <Content
         components={{
           h2: PostSubheader,

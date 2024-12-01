@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
-import { twJoin, twMerge } from 'tailwind-merge';
+import { twMerge } from 'tailwind-merge';
 
 type Props = HTMLAttributes<'input'>;
 
@@ -14,13 +14,13 @@ const { class: className, type, spellcheck, autocomplete, ...props } = Astro.pro
     type={type ?? 'text'}
     spellcheck={spellcheck ?? false}
     autocomplete={autocomplete ?? 'off'}
-    class={twJoin(
+    class:list={[
       'relative z-20 w-full flex-1 shrink-0 rounded bg-transparent px-3 py-1',
       'placeholder:text-foreground-2/50 focus-visible:ring-ring focus-visible:ring-1 focus-visible:outline-none',
       'disabled:pointer-events-none disabled:opacity-50',
       Astro.slots.has('prefix') && 'pl-7',
       Astro.slots.has('suffix') && 'pr-10',
-    )}
+    ]}
   />
   <div class="text-foreground-2/50 absolute top-1/2 right-2 z-10 shrink-0 -translate-y-1/2"><slot name="suffix" /></div>
 </div>
