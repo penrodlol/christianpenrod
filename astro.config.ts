@@ -47,13 +47,16 @@ export default defineConfig({
       },
     },
   },
-  vite: { plugins: [tailwindcss()] },
   integrations: [
     mdx(),
     db(),
     icon(),
     alpine({ entrypoint: '/alpine.config.ts' }),
-    sitemap({ changefreq: 'daily', lastmod: new Date(), filter: (page) => !/\/blog\/results/.test(page) }),
-    robotsTxt({ policy: [{ userAgent: '*', disallow: ['/404', '/blog/results'] }] }),
+    sitemap({ changefreq: 'daily', lastmod: new Date() }),
+    robotsTxt({ policy: [{ userAgent: '*', disallow: ['/404'] }] }),
   ],
+  vite: {
+    plugins: [tailwindcss()],
+    build: { rollupOptions: { external: ['.vercel/output/static/pagefind/pagefind'] } },
+  },
 });

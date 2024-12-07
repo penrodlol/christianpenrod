@@ -1,0 +1,169 @@
+---
+import PostCard from '@/components/post-card.astro';
+import Button from '@/components/ui/button.astro';
+import Chip from '@/components/ui/chip.astro';
+import Command from '@/components/ui/command.astro';
+import Date from '@/components/ui/date.astro';
+import * as Dialog from '@/components/ui/dialog';
+import Icon from '@/components/ui/icon.astro';
+import Separator from '@/components/ui/separator.astro';
+import Text from '@/components/ui/text.astro';
+import Textfield from '@/components/ui/textfield.astro';
+import Layout from '@/layouts/layout.astro';
+import { render } from 'astro:content';
+import { PostView, db, sum } from 'astro:db';
+import { getAllTopics, getSortedPosts, type GetAllTopics, type GetSortedPosts } from './_utils';
+
+type Props = { posts?: GetSortedPosts; topic?: GetAllTopics[0]['id'] };
+
+const [rs] = await db.select({ views: sum(PostView.views) }).from(PostView);
+const views = Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 }).format(Number(rs?.views ?? 0));
+
+const posts = await getSortedPosts();
+const topics = await getAllTopics();
+---
+
+<Layout title="Blog | Christian Penrod" class="mx-auto lg:max-w-screen-xl lg:px-20">
+  <section>
+    <Text as="h1">BLOG POSTS</Text>
+    <Text as="h2" class="text-foreground-2 text-sm">Explore various sofware-related posts.</Text>
+  </section>
+  <Separator class="mt-4 mb-8 lg:mb-12" />
+  <div x-data="pagefind" class="grid gap-10 lg:grid-cols-[1fr_30%] xl:gap-20">
+    <section class="flex flex-col gap-6">
+      <div class="flex items-center gap-4">
+        <Text as="h3" class="text-foreground-2">ALL POSTS</Text>
+        <Separator class="flex-1" />
+        <div class="text-foreground-2 flex items-center text-xs">
+          <Text>{views} Views</Text>
+          <Icon name="dot" />
+          <Text>{posts.length} Posts</Text>
+        </div>
+      </div>
+      <div class="flex flex-col gap-6">
+        <div class="border-border flex flex-col gap-4 rounded border p-4 text-xs shadow-sm">
+          <Dialog.Root @close="data = []; $refs.query.value = ''">
+            <Button slot="dialog-trigger" class="w-full justify-start gap-4">
+              <Icon name="search" />
+              <Text>Search Posts</Text>
+              <Command key="/" class="ml-auto" />
+            </Button>
+            <Dialog.Header>
+              <Textfield
+                x-ref="query"
+                class="bg-surface-3 w-full"
+                placeholder="Search posts..."
+                @keyup="data = await Promise.all((await search($event.target.value)).results.map((item) => item.data()))"
+              >
+                <Icon slot="prefix" name="search" />
+                <Button
+                  slot="suffix"
+                  size="icon"
+                  color="ghost"
+                  icon="x"
+                  aria-label="Reset"
+                  @click="$dispatch('close')"
+                />
+              </Textfield>
+            </Dialog.Header>
+            <Dialog.Body>
+              <div x-cloak>
+                <Text x-show="!data.length && $refs.query.value.length">No Results Found</Text>
+                <ul
+                  class:list={[
+                    '[&_mark]:border-border [&_mark]:font-semiboold [&_mark]:rounded [&_mark]:border',
+                    '[&_mark]:text-foreground-1 [&_mark]:bg-surface-3 [&_mark]:p-0.5',
+                  ]}
+                >
+                  <template x-for="post in data">
+                    <li class="group">
+                      <a
+                        :href="post.meta.slug"
+                        :aria-label="post.meta.title"
+                        class:list={[
+                          'border-border flex max-w-none flex-col items-start gap-1 rounded-b-none border-b p-6',
+                          'group-first-of-type:pt-0 group-last-of-type:border-0 group-last-of-type:pb-0',
+                        ]}
+                      >
+                        <Text x-text="post.meta.title" class="text-sm font-semibold" />
+                        <Text x-html="post.excerpt + '...'" class="text-foreground-2 max-w-none text-xs" />
+                      </a>
+                    </li>
+                  </template>
+                </ul>
+              </div>
+            </Dialog.Body>
+            <Dialog.Footer>
+              <div class="text-gray-11 flex items-center gap-2">
+                <Command icon="corner-down-left" aria-label="Enter key" class="bg-surface-1" />
+                <Text class="text-xs">to select</Text>
+              </div>
+              <div class="text-gray-11 flex items-center gap-1">
+                <Command icon="move-down" aria-label="Arrow up key" class="bg-surface-1" />
+                <Command icon="move-up" aria-label="Arrow down key" class="bg-surface-1" />
+                <Text class="text-xs" class="ml-1">to navigate</Text>
+              </div>
+              <div class="text-gray-11 flex items-center gap-2">
+                <Command key="esc" aria-label="Escape key" class="bg-surface-1" />
+                <Text class="text-xs">to close</Text>
+              </div>
+              <div class="ml-auto flex items-center gap-2">
+                <Text class="text-xs">Search by</Text>
+                <!-- <Link
+                  href={'PAGEFIND_LINK'}
+                  iconInternal
+                  icon="pagefind"
+                  aria-label="Pagefind"
+                  class="[&_svg]:size-auto"
+                /> -->
+              </div>
+            </Dialog.Footer>
+          </Dialog.Root>
+          <fieldset class="flex flex-wrap gap-2">
+            {
+              topics.map(({ id, value }) => (
+                <Chip
+                  name="topics"
+                  {value}
+                  href={id === Astro.props.topic ? '/blog' : `/blog/${id}`}
+                  icon={id === Astro.props.topic ? 'x' : undefined}
+                />
+              ))
+            }
+          </fieldset>
+        </div>
+        <ul>
+          {
+            (Astro.props.posts ?? posts).map((post) => (
+              <li>
+                <a
+                  href={`/blog/${post.id}`}
+                  aria-label={post.data.title}
+                  class:list={[
+                    'group flex flex-col rounded py-2 text-xs',
+                    'sm:flex-row sm:items-center sm:justify-between sm:gap-2',
+                    'focus-visible:ring-ring focus-visible:ring-1 focus-visible:outline-none',
+                  ]}
+                >
+                  <Text class="group-hover:text-brand motion-safe:transition-colors">{post.data.title}</Text>
+                  <Separator class="flex-1" />
+                  <div class="text-foreground-2 flex items-center">
+                    <Date value={post.data.published} />
+                    <Icon name="dot" />
+                    <Text>{render(post).then((res) => res.remarkPluginFrontmatter.readingTime)}</Text>
+                  </div>
+                </a>
+                <Separator class="my-2 sm:hidden" />
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+    <section class="hidden flex-col gap-6 lg:flex">
+      <Text as="h3" class="text-foreground-2">RECENT POSTS</Text>
+      <!-- prettier-ignore -->
+      <ul class="flex flex-col gap-6">{posts.slice(0, 3).map((post) => <li><PostCard {post} /></li>)}</ul>
+    </section>
+  </div>
+</Layout>
