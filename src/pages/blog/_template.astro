@@ -6,13 +6,14 @@ import Icon from '@/components/ui/icon.astro';
 import Separator from '@/components/ui/separator.astro';
 import Text from '@/components/ui/text.astro';
 import Layout from '@/layouts/layout.astro';
+import { db, PostView, sum } from 'astro:db';
 import PostsSearch from './_search.astro';
 import { getAllTopics, getSortedPosts, type GetAllTopics, type GetSortedPosts } from './_utils';
 
 type Props = { posts?: GetSortedPosts; topic?: GetAllTopics[0]['id'] };
 
-// const [rs] = await db.select({ views: sum(PostView.views) }).from(PostView);
-// const views = Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 }).format(Number(rs?.views ?? 0));
+const [rs] = await db.select({ views: sum(PostView.views) }).from(PostView);
+const views = Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 }).format(Number(rs?.views ?? 0));
 
 const posts = await getSortedPosts();
 const topics = await getAllTopics();
@@ -30,7 +31,7 @@ const topics = await getAllTopics();
         <Text as="h3" class="text-foreground-2">ALL POSTS</Text>
         <Separator class="flex-1" />
         <div class="text-foreground-2 flex items-center text-xs">
-          <!-- <Text>{views} Views</Text> -->
+          <Text>{views} Views</Text>
           <Icon name="dot" />
           <Text>{posts.length} Posts</Text>
         </div>
