@@ -7,4 +7,9 @@ type Props = HTMLAttributes<'div'>;
 const { class: className, ...props } = Astro.props;
 ---
 
-<div {...props} class={twMerge('scrollbar max-h-[calc(70dvh-9rem)] overflow-y-auto p-6', className)}><slot /></div>
+<div
+  {...props}
+  class={twMerge('scrollbar max-h-[calc(95dvh-9rem)] overflow-y-auto p-6 lg:max-h-[calc(70dvh-9rem)]', className)}
+>
+  <slot />
+</div>

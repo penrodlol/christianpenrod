@@ -1,0 +1,64 @@
+---
+import Button from '@/components/ui/button.astro';
+import Command from '@/components/ui/command.astro';
+import * as Dialog from '@/components/ui/dialog';
+import Icon from '@/components/ui/icon.astro';
+import Text from '@/components/ui/text.astro';
+import Textfield from '@/components/ui/textfield.astro';
+---
+
+<Dialog.Root x-data="{ data: [] }">
+  <Button slot="dialog-trigger" class="w-full justify-start gap-4">
+    <Icon name="search" />
+    <Text>Search Posts</Text>
+    <Command key="/" class="ml-auto" />
+  </Button>
+  <Dialog.Header>
+    <Textfield
+      x-ref="query"
+      class="bg-surface-3 w-full"
+      placeholder="Search posts..."
+      @keyup="data = await Promise.all((await pagefind.search($event.target.value)).results.map((item) => item.data()))"
+    >
+      <Icon slot="prefix" name="search" />
+      <Button slot="suffix" size="icon" color="ghost" icon="x" aria-label="Reset" @click="$dispatch('close')" />
+    </Textfield>
+  </Dialog.Header>
+  <Dialog.Body>
+    <div x-cloak>
+      <Text class="text-center text-sm" x-show="!data.length && $refs.query.value.length">No Results Found</Text>
+      <ul
+        class:list={[
+          '[&_mark]:border-border [&_mark]:font-semiboold [&_mark]:rounded [&_mark]:border',
+          '[&_mark]:text-foreground-1 [&_mark]:bg-surface-3 [&_mark]:p-0.5',
+        ]}
+      >
+        <template x-for="post in data">
+          <li class="group">
+            <a
+              :href="post.meta.slug"
+              :aria-label="post.meta.title"
+              class:list={[
+                'group border-border flex max-w-none flex-col items-start gap-1 rounded-b-none border-b p-6',
+                'group-first-of-type:pt-0 group-last-of-type:border-0 group-last-of-type:pb-0',
+                'focus-visible:ring-ring focus-visible:ring-1 focus-visible:outline-none',
+              ]}
+            >
+              <Text
+                x-text="post.meta.title"
+                class="group-hover:text-brand text-sm font-semibold motion-safe:transition-colors"
+              />
+              <Text x-html="post.excerpt + '...'" class="text-foreground-2 max-w-none text-xs" />
+            </a>
+          </li>
+        </template>
+      </ul>
+    </div>
+  </Dialog.Body>
+  <Dialog.Footer>
+    <div class="ml-auto flex items-center gap-2 [&_svg]:size-auto">
+      <Text class="text-xs">Search by</Text>
+      <!-- <Link href={PAGEFIND_LINK} iconInternal icon="pagefind" aria-label="Pagefind" /> -->
+    </div>
+  </Dialog.Footer>
+</Dialog.Root>
