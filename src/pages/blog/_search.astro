@@ -3,11 +3,13 @@ import Button from '@/components/ui/button.astro';
 import Command from '@/components/ui/command.astro';
 import * as Dialog from '@/components/ui/dialog';
 import Icon from '@/components/ui/icon.astro';
+import Link from '@/components/ui/link.astro';
 import Text from '@/components/ui/text.astro';
 import Textfield from '@/components/ui/textfield.astro';
+import { PAGEFIND_LINK } from 'astro:env/server';
 ---
 
-<Dialog.Root x-data="{ data: [] }">
+<Dialog.Root x-data="{ data: [] }" @close.debounce.200ms="data = []; $refs.query.value = ''">
   <Button slot="dialog-trigger" class="w-full justify-start gap-4">
     <Icon name="search" />
     <Text>Search Posts</Text>
@@ -18,6 +20,7 @@ import Textfield from '@/components/ui/textfield.astro';
       x-ref="query"
       class="bg-surface-3 w-full"
       placeholder="Search posts..."
+      enterkeyhint="search"
       @keyup="data = await Promise.all((await pagefind.search($event.target.value)).results.map((item) => item.data()))"
     >
       <Icon slot="prefix" name="search" />
@@ -26,7 +29,7 @@ import Textfield from '@/components/ui/textfield.astro';
   </Dialog.Header>
   <Dialog.Body>
     <div x-cloak>
-      <Text class="text-center text-sm" x-show="!data.length && $refs.query.value.length">No Results Found</Text>
+      <Text class="mx-auto max-w-max text-xs" x-show="!data.length && $refs.query.value.length">No Results Found</Text>
       <ul
         class:list={[
           '[&_mark]:border-border [&_mark]:font-semiboold [&_mark]:rounded [&_mark]:border',
@@ -39,7 +42,7 @@ import Textfield from '@/components/ui/textfield.astro';
               :href="post.meta.slug"
               :aria-label="post.meta.title"
               class:list={[
-                'group border-border flex max-w-none flex-col items-start gap-1 rounded-b-none border-b p-6',
+                'group border-border flex max-w-none flex-col items-start gap-1 rounded-b-none border-b py-6 sm:px-4',
                 'group-first-of-type:pt-0 group-last-of-type:border-0 group-last-of-type:pb-0',
                 'focus-visible:ring-ring focus-visible:ring-1 focus-visible:outline-none',
               ]}
@@ -56,9 +59,22 @@ import Textfield from '@/components/ui/textfield.astro';
     </div>
   </Dialog.Body>
   <Dialog.Footer>
+    <div class="text-gray-11 flex items-center gap-2 not-lg:hidden">
+      <Command icon="corner-down-left" aria-label="Enter key" />
+      <Text class="text-foreground-2 text-xs">to select</Text>
+    </div>
+    <div class="text-gray-11 flex items-center gap-1 not-lg:hidden">
+      <Command icon="move-down" aria-label="Arrow up key" />
+      <Command icon="move-up" aria-label="Arrow down key" />
+      <Text class="text-foreground-2 ml-1 text-xs">to navigate</Text>
+    </div>
+    <div class="text-gray-11 flex items-center gap-2 not-lg:hidden">
+      <Command key="esc" aria-label="Escape key" />
+      <Text class="text-foreground-2 text-xs">to close</Text>
+    </div>
     <div class="ml-auto flex items-center gap-2 [&_svg]:size-auto">
-      <Text class="text-xs">Search by</Text>
-      <!-- <Link href={PAGEFIND_LINK} iconInternal icon="pagefind" aria-label="Pagefind" /> -->
+      <Text class="text-xs">Search by:</Text>
+      <Link href={PAGEFIND_LINK} class="font-semibold">Pagefind</Link>
     </div>
   </Dialog.Footer>
 </Dialog.Root>
