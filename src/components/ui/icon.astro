@@ -3,9 +3,14 @@ import { Icon as AstroIcon } from 'astro-icon/components';
 import { type ComponentProps } from 'astro/types';
 import { twMerge } from 'tailwind-merge';
 
-type Props = ComponentProps<typeof AstroIcon>;
+type Props = ComponentProps<typeof AstroIcon> & { internal?: boolean };
 
-const { class: className, name, ...props } = Astro.props;
+const { class: className, name, internal, ...props } = Astro.props;
 ---
 
-<AstroIcon {...props} name={`lucide:${name}`} aria-hidden class={twMerge('size-4 shrink-0', className)} />
+<AstroIcon
+  {...props}
+  name={internal ? name : `lucide:${name}`}
+  aria-hidden
+  class={twMerge('size-4 shrink-0', className)}
+/>

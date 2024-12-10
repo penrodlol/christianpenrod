@@ -1,0 +1,16 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Template from './_template.astro';
+import { getAllTopics, getSortedPosts } from './_utils';
+
+export const getStaticPaths = (async () => {
+  const posts = await getSortedPosts();
+  const topics = await getAllTopics();
+  return topics.flatMap(({ id, value }) => {
+    const filteredPosts = posts.filter((post) => post.data.topics.includes(value));
+    return { params: { topic: id }, props: { posts: filteredPosts } };
+  });
+}) satisfies GetStaticPaths;
+---
+
+<Template {...Astro.props} {...Astro.params} />

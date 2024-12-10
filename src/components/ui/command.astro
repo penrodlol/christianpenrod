@@ -1,10 +1,11 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
 import { twMerge } from 'tailwind-merge';
+import Icon from './icon.astro';
 
-type Props = HTMLAttributes<'kbd'> & { key: string };
+type Props = HTMLAttributes<'kbd'> & { key?: string; icon?: string };
 
-const { class: className, key, ...props } = Astro.props;
+const { class: className, key, icon, ...props } = Astro.props;
 ---
 
 <kbd
@@ -16,4 +17,5 @@ const { class: className, key, ...props } = Astro.props;
   )}
 >
   {key}
+  {icon && <Icon name={icon} class="size-3" />}
 </kbd>

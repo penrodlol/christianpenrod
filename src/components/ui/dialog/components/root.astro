@@ -1,0 +1,31 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+
+type Props = HTMLAttributes<'dialog'>;
+
+const { class: className, ...props } = Astro.props;
+---
+
+<dialog
+  {...props}
+  x-data="{ open: false }"
+  x-init="$el.nextElementSibling?.addEventListener('click', () => ($el.showModal(), open = true))"
+  @click="$event.target === $el && ($el.close(), open = false)"
+  @keydown.escape="open = false"
+  @keydown.up.prevent.stop="$focus.wrap().prev()"
+  @keydown.down.prevent.stop="$focus.wrap().next()"
+  class={twMerge(
+    'bg-surface-1 text-foreground-1 border-border overflow-hidden rounded border outline-none',
+    'mx-auto mt-7 max-h-[95dvh] w-full lg:mt-32 lg:max-h-[70dvh] lg:max-w-3xl',
+    'scale-90 opacity-0 transition-discrete open:scale-100 open:opacity-100',
+    'motion-safe:transition-all starting:open:scale-90 starting:open:opacity-0',
+    'backdrop:bg-surface-1/80 backdrop:opacity-100 backdrop:backdrop-blur-sm',
+    'backdrop:motion-safe:transition-all backdrop:starting:opacity-0',
+    className,
+  )}
+>
+  <div class="size-full rounded"><slot /></div>
+</dialog>
+
+<slot name="dialog-trigger" />

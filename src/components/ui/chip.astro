@@ -1,18 +1,24 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
 import { twMerge } from 'tailwind-merge';
+import Icon from './icon.astro';
 
-type Props = Omit<HTMLAttributes<'input'>, 'type'> & { value: string };
+type Props = Omit<HTMLAttributes<'a'>, 'type'> & { href: string; value: string; icon?: string | undefined };
 
-const { class: className, value, ...props } = Astro.props;
+const { class: className, href, value, icon, ...props } = Astro.props;
 ---
 
-<label class={twMerge('bg-surface-3 text-foreground-2 border-border relative flex rounded border px-2', className)}>
-  <input
-    {...props}
-    {value}
-    type="checkbox"
-    class="peer focus-visible:ring-ring absolute inset-0 cursor-pointer appearance-none rounded checked:ring-1 focus-visible:ring-1 focus-visible:outline-none"
-  />
-  <div class="peer-checked:text-brand peer-hover:text-brand text-xs motion-safe:transition-colors">{value}</div>
-</label>
+<a
+  {...props}
+  {href}
+  class={twMerge(
+    'text-foreground-2 bg-surface-3 inline-flex items-center justify-center gap-1 rounded-full',
+    'border-border h-6 cursor-default rounded border px-2 text-xs whitespace-nowrap select-none',
+    'focus-visible:ring-ring focus-visible:ring-1 focus-visible:outline-none',
+    icon && 'text-brand ring-ring ring-1',
+    className,
+  )}
+>
+  {value}
+  {icon && <Icon name={icon} class="size-3" />}
+</a>

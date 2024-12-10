@@ -71,7 +71,11 @@ const { remarkPluginFrontmatter, headings, Content } = await render(post);
       </TableOfContents.Root>
     </Collapsible>
     <Separator class="my-4 lg:hidden" />
-    <div class:list={['flex max-w-[70ch] flex-col gap-8 leading-7', text(), list()]}>
+    <div
+      data-pagefind-body
+      data-pagefind-meta={`slug:/blog/${post.id}`}
+      class:list={['flex max-w-[70ch] flex-col gap-8 leading-7', text(), list()]}
+    >
       <Content
         components={{
           h2: PostSubheader,

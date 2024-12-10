@@ -11,6 +11,7 @@ import { toString } from 'mdast-util-to-string';
 import readingTime from 'reading-time';
 import prettyCode from 'rehype-pretty-code';
 import { createCssVariablesTheme } from 'shiki';
+import pagefind from './pagefind.config';
 
 export default defineConfig({
   site: 'https://christianpenrod.com',
@@ -44,6 +45,7 @@ export default defineConfig({
         COLLEGE_LINK: envField.string({ context: 'server', access: 'public', url: true }),
         COLLEGE_NAME: envField.string({ context: 'server', access: 'public' }),
         GITHUB_TOKEN: envField.string({ context: 'server', access: 'secret' }),
+        PAGEFIND_LINK: envField.string({ context: 'server', access: 'public', url: true }),
       },
     },
   },
@@ -52,8 +54,9 @@ export default defineConfig({
     mdx(),
     db(),
     icon(),
+    pagefind(),
     alpine({ entrypoint: '/alpine.config.ts' }),
-    sitemap({ changefreq: 'daily', lastmod: new Date(), filter: (page) => !/\/blog\/results/.test(page) }),
-    robotsTxt({ policy: [{ userAgent: '*', disallow: ['/404', '/blog/results'] }] }),
+    sitemap({ changefreq: 'daily', lastmod: new Date() }),
+    robotsTxt({ policy: [{ userAgent: '*', disallow: ['/404'] }] }),
   ],
 });
