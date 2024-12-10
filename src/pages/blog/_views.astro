@@ -1,9 +1,9 @@
 ---
+import Badge from '@/ui/badge.astro';
+import Icon from '@/ui/icon.astro';
+import Text from '@/ui/text.astro';
 import { type CollectionEntry } from 'astro:content';
 import { db, eq, PostView, sql } from 'astro:db';
-import Badge from './ui/badge.astro';
-import Icon from './ui/icon.astro';
-import Text from './ui/text.astro';
 
 type Props = { id: CollectionEntry<'posts'>['id'] };
 

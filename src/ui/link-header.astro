@@ -1,7 +1,7 @@
 ---
-import Icon from './ui/icon.astro';
-import Separator from './ui/separator.astro';
-import Text from './ui/text.astro';
+import Icon from './icon.astro';
+import Separator from './separator.astro';
+import Text from './text.astro';
 
 const slot = await Astro.slots.render('default');
 const hash = slot.toLowerCase().replace(/ /g, '-');

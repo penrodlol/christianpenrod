@@ -1,21 +1,20 @@
 ---
 import Me from '@/assets/me.webp';
-import PostCard from '@/components/post-card.astro';
-import ProjectCard from '@/components/project-card.astro';
-import * as DataList from '@/components/ui/datalist';
-import Icon from '@/components/ui/icon.astro';
-import Link from '@/components/ui/link.astro';
-import Separator from '@/components/ui/separator.astro';
-import Text from '@/components/ui/text.astro';
 import Layout from '@/layouts/layout.astro';
+import { getSortedPosts } from '@/libs/content';
+import * as Card from '@/ui/card';
+import * as DataList from '@/ui/datalist';
+import Date from '@/ui/date.astro';
+import Icon from '@/ui/icon.astro';
+import Link from '@/ui/link.astro';
+import Separator from '@/ui/separator.astro';
+import Text from '@/ui/text.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import * as env from 'astro:env/server';
 
 const projects = await getCollection('projects');
-const posts = (await getCollection('posts'))
-  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
-  .slice(0, 3);
+const posts = (await getSortedPosts()).slice(0, 3);
 ---
 
 <Layout class="mx-auto flex w-full max-w-xl flex-col gap-14 lg:max-w-screen-xl lg:gap-20 lg:px-20">
@@ -53,13 +52,71 @@ const posts = (await getCollection('posts'))
   </section>
   <section class="flex flex-col gap-6">
     <Text as="h3" class="text-foreground-2">PROJECTS</Text>
-    <!-- prettier-ignore -->
-    <ul class="grid lg:grid-cols-2 gap-x-10 gap-y-6">{projects.map((project) => <li><ProjectCard {project} /></li>)}</ul>
+    <ul class="grid gap-x-10 gap-y-6 lg:grid-cols-2">
+      {
+        projects.map((project) => (
+          <li>
+            <Card.Root>
+              <Card.Header>
+                <Icon name="book" class="text-foreground-2 size-3" />
+                <Text class="text-sm">{project.data.name}</Text>
+              </Card.Header>
+              <Card.Body class="text-foreground-2 text-xs">
+                <Text as="p">{project.data.description}</Text>
+              </Card.Body>
+              <Card.Footer class="text-foreground-2">
+                <div class="flex items-center gap-3">
+                  <div class="flex items-center gap-1">
+                    <Icon name="star" class="size-3" />
+                    <Text>{project.data.stars}</Text>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <Icon name="git-fork" class="size-3" />
+                    <Text>{project.data.forks}</Text>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <Icon name="eye" class="size-3" />
+                    <Text>{project.data.watchers}</Text>
+                  </div>
+                </div>
+                <div class="flex gap-4">
+                  <Link href={project.data.githubUrl}>Github</Link>
+                  <Link href={project.data.websiteUrl}>Site</Link>
+                </div>
+              </Card.Footer>
+            </Card.Root>
+          </li>
+        ))
+      }
+    </ul>
   </section>
   <section class="flex flex-col gap-6">
     <Text as="h3" class="text-foreground-2">RECENT POSTS</Text>
-    <!-- prettier-ignore -->
-    <ul class="gap-10 grid lg:grid-cols-3">{posts.map((post) => <li><PostCard {post} /></li>)}</ul>
+    <ul class="grid gap-10 lg:grid-cols-3">
+      {
+        posts.map((post) => (
+          <li>
+            <Card.Root as="a" href={`/blog/${post.id}`} aria-label={`${post.data.title}. ${post.data.description}`}>
+              <Card.Header />
+              <Card.Body>
+                <Text class="group-hover:text-brand text-sm motion-safe:transition-colors">{post.data.title}</Text>
+                <Text class="text-foreground-2 flex-1 text-xs">{post.data.description}</Text>
+              </Card.Body>
+              <Card.Footer>
+                <div class="text-foreground-2 flex items-center gap-2">
+                  <Icon name="calendar" class="size-3.5" />
+                  <Date value={post.data.published} />
+                </div>
+                <div class="text-foreground-2 flex items-center gap-2">
+                  <Icon name="clock-4" class="size-3.5" />
+                  <Text>{post.data.readingTime}</Text>
+                </div>
+              </Card.Footer>
+            </Card.Root>
+          </li>
+        ))
+      }
+    </ul>
     <Link href="/blog" class="self-end">View all posts <Icon name="arrow-right" class="size-3" /></Link>
   </section>
 </Layout>

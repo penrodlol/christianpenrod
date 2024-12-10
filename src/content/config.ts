@@ -1,7 +1,9 @@
-import octokit from '@/libs/octokit';
+import { Octokit } from '@octokit/rest';
 import { glob } from 'astro/loaders';
 import { defineCollection, z } from 'astro:content';
-import { USERNAME } from 'astro:env/server';
+import { GITHUB_TOKEN, USERNAME } from 'astro:env/server';
+
+const octokit = new Octokit({ auth: GITHUB_TOKEN });
 
 export const collections = {
   posts: defineCollection({

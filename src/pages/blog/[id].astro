@@ -1,43 +1,42 @@
 ---
 import Me from '@/assets/me.webp';
-import PostCard from '@/components/post-card.astro';
-import PostGithub from '@/components/post-github.astro';
-import PostSubheader from '@/components/post-subheader.astro';
-import PostViews from '@/components/post-views.astro';
-import Badge from '@/components/ui/badge.astro';
-import Button, { buttonVariants } from '@/components/ui/button.astro';
-import * as Code from '@/components/ui/code';
-import Collapsible from '@/components/ui/collapsible.astro';
-import Date from '@/components/ui/date.astro';
-import Icon from '@/components/ui/icon.astro';
-import Link from '@/components/ui/link.astro';
-import Note from '@/components/ui/note.astro';
-import Separator from '@/components/ui/separator.astro';
-import * as TableOfContents from '@/components/ui/table-of-contents';
-import Text from '@/components/ui/text.astro';
 import Layout from '@/layouts/layout.astro';
+import { getSortedPosts } from '@/libs/content';
+import Badge from '@/ui/badge.astro';
+import Button, { buttonVariants } from '@/ui/button.astro';
+import * as Card from '@/ui/card';
+import * as Code from '@/ui/code';
+import Collapsible from '@/ui/collapsible.astro';
+import Date from '@/ui/date.astro';
+import Icon from '@/ui/icon.astro';
+import LinkHeader from '@/ui/link-header.astro';
+import Link from '@/ui/link.astro';
+import Note from '@/ui/note.astro';
+import Separator from '@/ui/separator.astro';
+import * as TableOfContents from '@/ui/table-of-contents';
+import Text from '@/ui/text.astro';
 import type { GetStaticPaths } from 'astro';
 import { Image } from 'astro:assets';
-import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { render, type CollectionEntry } from 'astro:content';
 import * as env from 'astro:env/server';
 import { tv } from 'tailwind-variants';
+import PostGithub from './_github.astro';
+import PostViews from './_views.astro';
 
 type Post = CollectionEntry<'posts'>;
 type Props = { post: Post; prev: Post; next: Post };
 
 const social = buttonVariants({ size: 'icon', color: 'ghost', class: '[&_svg]:size-3.5 size-6' });
-const text = tv({ base: '[&>p]:text-foreground-1/85 [&_:where(p,aside)_a]:underline' });
+const text = tv({ base: '[&>p]:text-foregroun_:wd-1/85 [&here(p,aside)_a]:underline' });
 const list = tv({ base: '[&_ol]:list-decimal [&_ol]:list-inside [&_li]:list-disc [&_li]:list-inside' });
 
 export const getStaticPaths: GetStaticPaths = async () =>
-  getCollection('posts').then((posts) =>
-    posts
-      .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
-      .map((post, index, _posts) => {
-        const prev = _posts[index + 1] ?? _posts[0];
-        const next = _posts[index - 1] ?? _posts[_posts.length - 1];
-        return { params: { id: post.id }, props: { post, prev, next } };
-      }),
+  getSortedPosts().then((posts) =>
+    posts.map((post, index, _posts) => {
+      const prev = _posts[index + 1] ?? _posts[0];
+      const next = _posts[index - 1] ?? _posts[_posts.length - 1];
+      return { params: { id: post.id }, props: { post, prev, next } };
+    }),
   );
 
 const { post, prev, next } = Astro.props;
@@ -78,7 +77,7 @@ const { remarkPluginFrontmatter, headings, Content } = await render(post);
     >
       <Content
         components={{
-          h2: PostSubheader,
+          h2: LinkHeader,
           a: Link,
           blockquote: Note,
           figure: Code.Root,
@@ -94,8 +93,29 @@ const { remarkPluginFrontmatter, headings, Content } = await render(post);
     <div class="flex flex-col gap-6">
       <Text as="h3">MORE POSTS</Text>
       <ul class="grid gap-x-10 gap-y-6 md:grid-cols-2">
-        <li><PostCard post={prev} /></li>
-        <li><PostCard post={next} /></li>
+        {
+          [prev, next].map((post) => (
+            <li>
+              <Card.Root as="a" href={`/blog/${post.id}`} aria-label={`${post.data.title}. ${post.data.description}`}>
+                <Card.Header />
+                <Card.Body>
+                  <Text class="group-hover:text-brand text-sm motion-safe:transition-colors">{post.data.title}</Text>
+                  <Text class="text-foreground-2 flex-1 text-xs">{post.data.description}</Text>
+                </Card.Body>
+                <Card.Footer>
+                  <div class="text-foreground-2 flex items-center gap-2">
+                    <Icon name="calendar" class="size-3.5" />
+                    <Date value={post.data.published} />
+                  </div>
+                  <div class="text-foreground-2 flex items-center gap-2">
+                    <Icon name="clock-4" class="size-3.5" />
+                    <Text>{render(post).then((res) => res.remarkPluginFrontmatter.readingTime)}</Text>
+                  </div>
+                </Card.Footer>
+              </Card.Root>
+            </li>
+          ))
+        }
       </ul>
     </div>
   </article>

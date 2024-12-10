@@ -1,14 +1,14 @@
 ---
-import PostCard from '@/components/post-card.astro';
-import Chip from '@/components/ui/chip.astro';
-import Date from '@/components/ui/date.astro';
-import Icon from '@/components/ui/icon.astro';
-import Separator from '@/components/ui/separator.astro';
-import Text from '@/components/ui/text.astro';
 import Layout from '@/layouts/layout.astro';
+import { getAllTopics, getSortedPosts, type GetAllTopics, type GetSortedPosts } from '@/libs/content';
+import * as Card from '@/ui/card';
+import Chip from '@/ui/chip.astro';
+import Date from '@/ui/date.astro';
+import Icon from '@/ui/icon.astro';
+import Separator from '@/ui/separator.astro';
+import Text from '@/ui/text.astro';
 import { db, PostView, sum } from 'astro:db';
 import PostsSearch from './_search.astro';
-import { getAllTopics, getSortedPosts, type GetAllTopics, type GetSortedPosts } from './_utils';
 
 type Props = { posts?: GetSortedPosts; topic?: GetAllTopics[0]['id'] };
 
@@ -79,8 +79,31 @@ const topics = await getAllTopics();
     </section>
     <section class="hidden flex-col gap-6 lg:flex">
       <Text as="h3" class="text-foreground-2">RECENT POSTS</Text>
-      <!-- prettier-ignore -->
-      <ul class="flex flex-col gap-6">{posts.slice(0, 3).map((post) => <li><PostCard {post} /></li>)}</ul>
+      <ul class="flex flex-col gap-6">
+        {
+          posts.slice(0, 3).map((post) => (
+            <li>
+              <Card.Root as="a" href={`/blog/${post.id}`} aria-label={`${post.data.title}. ${post.data.description}`}>
+                <Card.Header />
+                <Card.Body>
+                  <Text class="group-hover:text-brand text-sm motion-safe:transition-colors">{post.data.title}</Text>
+                  <Text class="text-foreground-2 flex-1 text-xs">{post.data.description}</Text>
+                </Card.Body>
+                <Card.Footer>
+                  <div class="text-foreground-2 flex items-center gap-2">
+                    <Icon name="calendar" class="size-3.5" />
+                    <Date value={post.data.published} />
+                  </div>
+                  <div class="text-foreground-2 flex items-center gap-2">
+                    <Icon name="clock-4" class="size-3.5" />
+                    <Text>{post.data.readingTime}</Text>
+                  </div>
+                </Card.Footer>
+              </Card.Root>
+            </li>
+          ))
+        }
+      </ul>
     </section>
   </div>
 </Layout>

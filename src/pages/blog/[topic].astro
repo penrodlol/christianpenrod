@@ -1,7 +1,7 @@
 ---
+import { getAllTopics, getSortedPosts } from '@/libs/content';
 import type { GetStaticPaths } from 'astro';
 import Template from './_template.astro';
-import { getAllTopics, getSortedPosts } from './_utils';
 
 export const getStaticPaths = (async () => {
   const posts = await getSortedPosts();
