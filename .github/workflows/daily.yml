@@ -11,5 +11,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Request Deployment to Vercel
-        run: |
-          curl -s -X GET https://api.vercel.com/v1/integrations/deploy/${{ secrets.VERCEL_DEPLOY_WEBHOOK_TOKEN }}
+        run: curl -s -X GET https://api.vercel.com/v1/integrations/deploy/${{ secrets.VERCEL_DEPLOY_WEBHOOK_TOKEN }}
