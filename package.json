@@ -46,7 +46,6 @@
     "sirv": "^3.0.0",
     "tailwind-merge": "^2.5.5",
     "tailwind-variants": "^0.3.0",
-    "tailwindcss": "4.0.0-beta.4",
-    "tailwindcss-fluid-type": "^2.0.7"
+    "tailwindcss": "4.0.0-beta.4"
   }
 }

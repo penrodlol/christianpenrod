@@ -109,9 +109,6 @@ devDependencies:
   tailwindcss:
     specifier: 4.0.0-beta.4
     version: 4.0.0-beta.4
-  tailwindcss-fluid-type:
-    specifier: ^2.0.7
-    version: 2.0.7(tailwindcss@4.0.0-beta.4)
 
 packages:
 
@@ -5106,14 +5103,6 @@ packages:
       tailwindcss: '*'
     dependencies:
       tailwind-merge: 2.5.5
-      tailwindcss: 4.0.0-beta.4
-    dev: true
-
-  /tailwindcss-fluid-type@2.0.7(tailwindcss@4.0.0-beta.4):
-    resolution: {integrity: sha512-VJEZ6O8QyeEwW3nbm6TV+okoW/CiORX1TG/ygf4yQGqfBiYWPFPUJ3bvMsV96+p3bYr7Y+NOf5nR4oDEsiMfpA==}
-    peerDependencies:
-      tailwindcss: '>=2.0.0 || >=3.0.0 || >=3.0.0-alpha.1'
-    dependencies:
       tailwindcss: 4.0.0-beta.4
     dev: true
 
