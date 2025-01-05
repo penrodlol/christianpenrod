@@ -1,0 +1,10 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+
+type Props = HTMLAttributes<'nav'>;
+
+const { class: className, ...props } = Astro.props;
+---
+
+<nav {...props}><ol class={twMerge('flex items-center', className)}><slot /></ol></nav>

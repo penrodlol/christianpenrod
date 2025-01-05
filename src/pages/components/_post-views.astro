@@ -1,0 +1,20 @@
+---
+import Number from '@/components/number.astro';
+import type { ComponentProps } from 'astro/types';
+import type { CollectionEntry } from 'astro:content';
+import { db, eq, PostView, sql } from 'astro:db';
+
+type Props = Omit<ComponentProps<typeof Number>, 'value'> & Pick<CollectionEntry<'posts'>, 'id'>;
+
+const { id, ...props } = Astro.props;
+const views = await db
+  .update(PostView)
+  .set({ views: sql`${PostView.views} + 1` })
+  .where(eq(PostView.slug, id))
+  .returning({ views: PostView.views })
+  .get()
+  .then((res) => res.views ?? 0)
+  .catch(() => 0);
+---
+
+<Number {...props} value={views}> Views</Number>

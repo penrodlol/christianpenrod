@@ -33,6 +33,22 @@ export const collections = {
       }),
   }),
   projects: defineCollection({
+    loader: async () =>
+      Promise.all(
+        ['feedjoy', 'christianpenrod'].map((repo) =>
+          octokit.repos.get({ owner: USERNAME, repo }).then((response) => ({
+            id: response.data.id.toString(),
+            name: response.data.name,
+            description: response.data.description,
+            stars: response.data.stargazers_count,
+            forks: response.data.forks_count,
+            watchers: response.data.watchers_count,
+            topics: response.data.topics,
+            githubUrl: response.data.html_url,
+            websiteUrl: response.data.homepage,
+          })),
+        ),
+      ),
     schema: () =>
       z.object({
         id: z.string(),
@@ -41,23 +57,9 @@ export const collections = {
         stars: z.number(),
         forks: z.number(),
         watchers: z.number(),
-        githubUrl: z.string(),
-        websiteUrl: z.string(),
+        topics: z.array(z.string()),
+        githubUrl: z.string().url(),
+        websiteUrl: z.string().url(),
       }),
-    loader: async () =>
-      Promise.all(
-        ['feedjoy', 'christianpenrod'].map(async (repo) =>
-          octokit.repos.get({ owner: USERNAME, repo }).then((response) => ({
-            id: response.data.id.toString(),
-            name: response.data.name,
-            description: response.data.description,
-            stars: response.data.stargazers_count,
-            forks: response.data.forks_count,
-            watchers: response.data.watchers_count,
-            githubUrl: response.data.html_url,
-            websiteUrl: response.data.homepage,
-          })),
-        ),
-      ),
   }),
 };

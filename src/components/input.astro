@@ -1,0 +1,27 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+
+type Props = HTMLAttributes<'input'>;
+
+const { class: className, type, spellcheck, autocomplete, autocorrect, autocapitalize, ...props } = Astro.props;
+---
+
+<div class={twMerge('bg-gray-3 rounded-border relative isolate flex w-full items-center justify-between', className)}>
+  <div class="text-gray-11/50 absolute top-1/2 left-2 -z-10 shrink-0 -translate-y-1/2"><slot name="prefix" /></div>
+  <input
+    {...props}
+    type={type ?? 'text'}
+    spellcheck={spellcheck ?? false}
+    autocomplete={autocomplete ?? 'off'}
+    autocorrect={autocorrect ?? 'off'}
+    autocapitalize={autocapitalize ?? 'off'}
+    class:list={[
+      'relative w-full flex-1 shrink-0 rounded bg-transparent px-3 py-2',
+      'placeholder:text-gray-11/50 focusable disabled:pointer-events-none disabled:opacity-50',
+      Astro.slots.has('prefix') && 'pl-8',
+      Astro.slots.has('suffix') && 'pr-10',
+    ]}
+  />
+  <div class="text-gray-11/50 absolute top-1/2 right-2 shrink-0 -translate-y-1/2"><slot name="suffix" /></div>
+</div>

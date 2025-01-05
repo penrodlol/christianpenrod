@@ -1,0 +1,30 @@
+---
+import type { ComponentProps } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+import Icon from './icon.astro';
+import Link from './link.astro';
+
+type Props = ComponentProps<typeof Link>;
+
+const { class: className, id, variant, size, weight, ...props } = Astro.props;
+---
+
+<Link
+  {...props}
+  {id}
+  href={`#${id}`}
+  size={size ?? '5'}
+  weight={weight ?? 'bold'}
+  class={twMerge('text-gray-12 counter-item max-w-max items-start leading-none uppercase', className)}
+>
+  <h2><slot /></h2>
+  <Icon
+    name="link"
+    variant="accent"
+    class:list={[
+      'ml-2 self-center duration-500 motion-safe:transition-all',
+      'opacity-0 group-hover:opacity-100 group-hover:starting:opacity-0',
+      '-translate-x-4 group-hover:translate-x-0 group-hover:starting:-translate-x-4',
+    ]}
+  />
+</Link>

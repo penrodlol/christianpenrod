@@ -1,0 +1,19 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+
+type Props = HTMLAttributes<'div'>;
+
+const { class: className, ...props } = Astro.props;
+---
+
+<div
+  {...props}
+  class={twMerge(
+    'scrollbar overflow-y-auto px-6 py-10',
+    'max-h-[calc(95dvh-5rem)] lg:max-h-[calc(70dvh-9rem)]',
+    className,
+  )}
+>
+  <slot />
+</div>

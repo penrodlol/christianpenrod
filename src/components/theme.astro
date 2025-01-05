@@ -1,0 +1,15 @@
+---
+import Button from '@/components/button.astro';
+import Icon from '@/components/icon.astro';
+---
+
+<Button id="theme" variant="ghost" size="icon" aria-label="Toggle Theme">
+  <Icon name="sun" class="not-dark:hidden" />
+  <Icon name="moon-star" class="dark:hidden" />
+</Button>
+
+<script>
+  import { handleToggleClick } from 'astro-theme-toggle';
+  const handle = () => document.getElementById('theme')?.addEventListener('click', handleToggleClick);
+  handle(), document.addEventListener('astro:after-swap', handle);
+</script>

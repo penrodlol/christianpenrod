@@ -1,0 +1,35 @@
+---
+import Text from '@/components/text.astro';
+import type { ComponentProps } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+
+type Props = ComponentProps<typeof Text> & { for: string };
+
+const { class: className, variant, size, for: htmlFor, ...props } = Astro.props;
+---
+
+<Text
+  {...props}
+  role="tab"
+  as="button"
+  type="button"
+  :id={`$id('tabs') + '-tab-${htmlFor}'`}
+  :tabindex={`active === "${htmlFor}" ? '0' : '-1'`}
+  :aria-selected={`active === "${htmlFor}"`}
+  :aria-controls={`$id('tabs') + '-tabpanel-${htmlFor}'`}
+  size={size ?? '2'}
+  variant={variant ?? 'subtle'}
+  @click={`active = "${htmlFor}"`}
+  @focus={`active = "${htmlFor}"`}
+  class={twMerge(
+    'aria-selected:text-accent-9 relative isolate',
+    'focusable flex-1 border-none px-3 py-2 motion-safe:transition-all',
+    'before:bg-gray-1 before:absolute before:inset-1 before:-z-10',
+    'before:rounded before:content-[""] motion-safe:before:transition-all',
+    'before:scale-90 before:opacity-0 aria-selected:before:scale-100',
+    'aria-selected:before:opacity-100',
+    className,
+  )}
+>
+  <slot />
+</Text>

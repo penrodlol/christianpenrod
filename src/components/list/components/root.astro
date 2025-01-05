@@ -1,0 +1,18 @@
+---
+import type { HTMLTag, Polymorphic } from 'astro/types';
+import { tv, type VariantProps } from 'tailwind-variants';
+
+type Props<Tag extends HTMLTag = 'ul' | 'ol'> = Polymorphic<{ as: Tag }> & ListVariants;
+
+export type ListVariants = VariantProps<typeof variants>;
+
+const variants = tv({
+  base: 'flex flex-col list-none',
+  defaultVariants: { orientation: 'vertical' },
+  variants: { orientation: { horizontal: 'flex-row', vertical: 'flex-col' } },
+});
+
+const { as: Tag = 'ul', class: className, orientation, ...props } = Astro.props;
+---
+
+<Tag {...props} class={variants({ orientation, className })}><slot /></Tag>

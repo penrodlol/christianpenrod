@@ -1,0 +1,25 @@
+---
+import type { ComponentProps } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+import Arrow from './arrow.astro';
+import Icon from './icon.astro';
+import Text from './text.astro';
+
+type Props = Omit<ComponentProps<typeof Text<'a'>>, 'as'> & { icon?: string };
+
+const { class: className, href, target, rel, variant, icon, ...props } = Astro.props;
+const external = href?.toString().startsWith('https://');
+---
+
+<Text
+  {...props}
+  {href}
+  as="a"
+  variant={variant ?? 'accent'}
+  target={external ? '_blank' : target}
+  rel={external ? 'noopener noreferrer' : rel}
+  class={twMerge('group focusable inline-flex items-center rounded', className)}
+>
+  {icon ? <Icon name={icon} /> : <slot />}
+  {external && !icon && <Arrow name="up-right" />}
+</Text>

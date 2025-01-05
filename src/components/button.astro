@@ -1,0 +1,40 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { tv, type VariantProps } from 'tailwind-variants';
+import Icon from './icon.astro';
+
+type Props = HTMLAttributes<'button'> & ButtonVariants & { icon?: string };
+
+export type ButtonVariants = VariantProps<typeof buttonVariants>;
+
+export const buttonVariants = tv({
+  base: [
+    'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded focusable',
+    'disabled:opacity-50 disabled:pointer-events-none motion-safe:transition-colors ',
+    'aria-disabled:opacity-50 aria-disabled:pointer-events-none',
+  ],
+  defaultVariants: { variant: 'solid', size: 'md' },
+  variants: {
+    variant: {
+      solid: 'bg-accent-9 text-accent-contrast border-none hover:bg-accent-10',
+      soft: 'bg-accent-3 text-accent-11 border-none hover:bg-accent-4',
+      'soft-outline': 'bg-accent-3 text-accent-11 border border-accent-7 hover:border-accent-8',
+      outline: 'bg-transparent text-accent-11 border border-accent-7 hover:bg-accent-3',
+      ghost: 'bg-transparent text-accent-11 border-none hover:bg-accent-3 hover:text-accent-12',
+    },
+    size: {
+      sm: 'h-8 px-4 text-xs',
+      md: 'h-10 px-6 text-sm',
+      lg: 'h-12 px-8 text-base',
+      icon: 'size-8',
+    },
+  },
+});
+
+const { class: className, type, variant, size, icon, ...props } = Astro.props;
+---
+
+<button {...props} type={type ?? 'button'} class={buttonVariants({ variant, size, className })}>
+  <slot />
+  {size === 'icon' && icon && <Icon name={icon} />}
+</button>

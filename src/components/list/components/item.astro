@@ -1,0 +1,11 @@
+---
+import Text from '@/components/text.astro';
+import type { ComponentProps } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+
+type Props = Omit<ComponentProps<typeof Text<'li'>>, 'as'>;
+
+const { class: className, ...props } = Astro.props;
+---
+
+<Text {...props} as="li" class={twMerge('relative', className)}><slot /></Text>

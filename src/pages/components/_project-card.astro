@@ -1,0 +1,41 @@
+---
+import * as Card from '@/components/card';
+import Chip from '@/components/chip.astro';
+import Icon from '@/components/icon.astro';
+import Link from '@/components/link.astro';
+import Number from '@/components/number.astro';
+import Text from '@/components/text.astro';
+import type { CollectionEntry } from 'astro:content';
+
+type Props = CollectionEntry<'projects'>;
+
+const project = Astro.props;
+---
+
+<Card.Root>
+  <Card.Header>
+    <div class="flex flex-wrap gap-2">{project.data?.topics.map((topic) => <Chip value={topic} variant="soft" />)}</div>
+    <Text weight="bold">{project.data.name}</Text>
+  </Card.Header>
+  <Card.Body>
+    <Text size="2" variant="subtle">{project.data.description}</Text>
+  </Card.Body>
+  <Card.Footer>
+    <div class="flex items-center gap-1">
+      <Icon name="star" variant="subtle" size="sm" />
+      <Number value={project.data.stars} size="1" variant="subtle" />
+    </div>
+    <div class="flex items-center gap-1">
+      <Icon name="git-fork" variant="subtle" size="sm" />
+      <Number value={project.data.forks} size="1" variant="subtle" />
+    </div>
+    <div class="flex items-center gap-1">
+      <Icon name="eye" variant="subtle" size="sm" />
+      <Number value={project.data.watchers} size="1" variant="subtle" />
+    </div>
+    <div class="ml-auto flex items-center gap-2">
+      <Link href={project.data.websiteUrl} size="1">Site</Link>
+      <Link href={project.data.githubUrl} size="1">Source</Link>
+    </div>
+  </Card.Footer>
+</Card.Root>

@@ -1,0 +1,90 @@
+---
+import Chip from '@/components/chip.astro';
+import Date from '@/components/date.astro';
+import Icon from '@/components/icon.astro';
+import * as List from '@/components/list';
+import * as Paginator from '@/components/paginator';
+import Separator from '@/components/separator.astro';
+import Text from '@/components/text.astro';
+import Layout from '@/layouts/index.astro';
+import { getAllTopics, getSortedPosts, type GetAllTopics, type GetSortedPosts } from '@/libs/content';
+import type { Page } from 'astro';
+import PostCard from './_post-card.astro';
+import PostsSearch from './_post-search.astro';
+
+type Props = Page<GetSortedPosts[0]> & { topic?: GetAllTopics[0]['id'] };
+
+const posts = await getSortedPosts();
+const topics = await getAllTopics();
+
+const { data: paginatedPosts, topic: activeTopic, url, currentPage, lastPage } = Astro.props;
+---
+
+<Layout
+  title="Christian Penrod | Blog"
+  class="grid grid-cols-[1fr_minmax(auto,var(--container-prose))_1fr] grid-rows-[auto_1fr] 2xl:gap-x-24"
+>
+  <section class="col-start-2 mb-10 2xl:mb-16">
+    <Text as="h1" size="9" weight="bold">BLOG POSTS</Text>
+    <Text as="h2" size="4" variant="subtle">Explore various sofware-related posts.</Text>
+  </section>
+  <section class="col-start-2 row-start-2 flex flex-col gap-10">
+    <div class="flex flex-col gap-6">
+      <PostsSearch />
+      <div class="flex flex-wrap gap-2">
+        {
+          topics.map(({ id, text }) => (
+            <Chip
+              as="a"
+              variant="soft-outline"
+              href={activeTopic === id ? '/blog' : `/blog/${id}`}
+              icon={activeTopic === id ? 'x' : undefined}
+              value={text}
+            />
+          ))
+        }
+      </div>
+    </div>
+    <List.Root class="-ml-2">
+      {
+        paginatedPosts.map((post) => (
+          <Fragment>
+            <List.ItemLink href={`/blog/${post.id}`} class="flex gap-x-4 not-sm:flex-col-reverse not-sm:items-start">
+              <Text size="2">{post.data.title}</Text>
+              <Separator class="flex-1 not-sm:hidden" />
+              <div class="flex items-center gap-1">
+                <div class="flex items-center gap-1">
+                  <Icon name="calendar" variant="subtle" size="sm" class="sm:hidden" />
+                  <Date size="1" variant="subtle" value={post.data.published} />
+                </div>
+                <Icon name="dot" variant="subtle" />
+                <div class="flex items-center gap-1">
+                  <Icon name="clock-2" variant="subtle" size="sm" class="sm:hidden" />
+                  <Text size="1" variant="subtle">
+                    {post.data.readingTime}
+                  </Text>
+                </div>
+              </div>
+            </List.ItemLink>
+            <Separator class="my-4 sm:hidden" />
+          </Fragment>
+        ))
+      }
+    </List.Root>
+    <Paginator.Root class="justify-self-end">
+      <Paginator.Control page="first" href={url.first} disabled={!url.first} />
+      <Paginator.Control page="previous" href={url.prev} disabled={!url.prev} />
+      <Paginator.Page current={currentPage} max={lastPage} />
+      <Paginator.Control page="next" href={url.next} disabled={!url.next} />
+      <Paginator.Control page="last" href={url.last} disabled={!url.last} />
+    </Paginator.Root>
+  </section>
+  <section class="col-start-3 row-start-2 flex max-w-96 flex-col not-2xl:hidden">
+    <Text as="h3" size="4" weight="bold">RECENTLY PUBLISHED</Text>
+    <Text as="h4" size="2" variant="subtle">Check out what I've been writing lately.</Text>
+    <!-- prettier-ignore -->
+    <List.Root class="mt-6 gap-6">
+      {posts.slice(0, 3).map((post) => (<List.Item><PostCard {...post} /></List.Item>))}
+    </List.Root>
+  </section>
+</Layout>

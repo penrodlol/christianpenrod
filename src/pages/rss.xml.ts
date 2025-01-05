@@ -1,16 +1,17 @@
+import { getSortedPosts } from '@/libs/content';
 import rss from '@astrojs/rss';
 import type { APIRoute } from 'astro';
-import { getCollection } from 'astro:content';
 
 export const GET: APIRoute = async (context) =>
   rss({
-    title: 'Blog | Christian Penrod',
+    title: 'Christian Penrod | Blog',
     trailingSlash: false,
     description: 'A blog tailoring to Web Development.',
     site: String(context.site),
-    items: (await getCollection('posts')).map((post) => ({
+    items: (await getSortedPosts()).map((post) => ({
       link: `blog/${post.id}`,
       title: post.data.title,
+      description: post.data.description,
       pubDate: post.data.published,
     })),
   });

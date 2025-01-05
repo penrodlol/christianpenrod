@@ -1,0 +1,11 @@
+---
+import Clipboard from '@/components/clipboard.astro';
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = HTMLAttributes<'pre'>;
+
+const { class: className, dir = 'ltr', tabindex, ...props } = Astro.props;
+---
+
+<Clipboard class="absolute top-0.5 right-0.5" value="$el.nextElementSibling.textContent.trim()" />
+<pre {...props} {dir} class="scrollbar overflow-auto rounded p-4"><slot /></pre>

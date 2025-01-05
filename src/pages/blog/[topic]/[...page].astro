@@ -1,0 +1,18 @@
+---
+import { getAllTopics, getSortedPosts, POSTS_PAGE_SIZE } from '@/libs/content';
+import PostsTemplate from '@/pages/components/_posts-template.astro';
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = await getSortedPosts();
+  const topics = await getAllTopics();
+  return topics.flatMap((topic) => {
+    const topicPosts = posts.filter((post) => post.data.topics.some(({ id }) => id === topic.id));
+    return paginate(topicPosts, { params: { topic: topic.id }, props: { topicPosts }, pageSize: POSTS_PAGE_SIZE });
+  });
+}) satisfies GetStaticPaths;
+---
+
+<PostsTemplate {...Astro.props.page} {...Astro.params} />

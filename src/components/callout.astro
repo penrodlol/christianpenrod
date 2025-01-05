@@ -1,0 +1,23 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+import Icon from './icon.astro';
+
+type Props = HTMLAttributes<'aside'>;
+
+const { class: className, id, ...props } = Astro.props;
+const idFallback = crypto.randomUUID();
+---
+
+<aside
+  {...props}
+  aria-labelledby={id ?? idFallback}
+  class={twMerge(
+    'bg-accent-2 text-accent-11 rounded-border flex items-start gap-2 px-4 py-2.5',
+    'border-accent-6 border-l-8 **:text-xs',
+    className,
+  )}
+>
+  <p id={id ?? idFallback} aria-label="Note"><Icon name="info" variant="subtle" class="translate-y-0.5" /></p>
+  <section><slot /></section>
+</aside>

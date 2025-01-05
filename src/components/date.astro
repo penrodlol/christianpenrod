@@ -1,0 +1,13 @@
+---
+import type { ComponentProps } from 'astro/types';
+import Text from './text.astro';
+
+type Props = Omit<ComponentProps<typeof Text<'time'>>, 'as'> & { value?: Date };
+
+const { value, ...props } = Astro.props;
+---
+
+<Text {...props} as="time" datetime={value?.toISOString()}>
+  {value && value.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric', timeZone: 'UTC' })}
+  <slot />
+</Text>

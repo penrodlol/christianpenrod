@@ -1,0 +1,40 @@
+---
+import * as Card from '@/components/card';
+import Icon from '@/components/icon.astro';
+import Number from '@/components/number.astro';
+import Text from '@/components/text.astro';
+import type { CollectionEntry } from 'astro:content';
+
+type Props = { repo: NonNullable<CollectionEntry<'posts'>['data']['repo']> };
+
+const { repo } = Astro.props;
+---
+
+<Card.Root
+  as="a"
+  target="_blank"
+  href={repo.websiteUrl}
+  aria-label={`Check out the github repo: ${repo.name}. ${repo.description}`}
+>
+  <Card.Header class="flex-row items-center">
+    <Icon name="book" variant="subtle" />
+    <Text weight="bold">{repo.name}</Text>
+  </Card.Header>
+  <Card.Body>
+    <Text size="2">{repo.description}</Text>
+  </Card.Body>
+  <Card.Footer>
+    <div class="flex items-center gap-1">
+      <div class="bg-accent-9/50 rounded-border size-4 rounded-full"></div>
+      <Text size="2" variant="subtle">{repo.language}</Text>
+    </div>
+    <div class="flex items-center gap-1">
+      <Icon name="star" variant="subtle" />
+      <Number size="2" variant="subtle" value={repo.stargazers} />
+    </div>
+    <div class="flex items-center gap-1">
+      <Icon name="git-fork" variant="subtle" />
+      <Number size="2" variant="subtle" value={repo.forks} />
+    </div>
+  </Card.Footer>
+</Card.Root>

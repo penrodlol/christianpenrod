@@ -1,0 +1,36 @@
+---
+import type { HTMLTag, Polymorphic } from 'astro/types';
+import { tv, type VariantProps } from 'tailwind-variants';
+
+type Props<Tag extends HTMLTag = 'p'> = Polymorphic<{ as: Tag }> & TextVariants;
+
+export type TextVariants = VariantProps<typeof textVariants>;
+
+export const textVariants = tv({
+  base: 'max-w-prose',
+  defaultVariants: { weight: 'normal', size: '3' },
+  variants: {
+    variant: { subtle: 'text-gray-11', accent: 'text-accent-11' },
+    weight: { normal: 'font-normal', bold: 'font-semibold' },
+    size: {
+      '1': 'text-2xs',
+      '2': 'text-xs',
+      '3': 'text-sm',
+      '4': 'text-base',
+      '5': 'text-lg',
+      '6': 'text-xl',
+      '7': 'text-2xl',
+      '8': 'text-3xl',
+      '9': 'text-4xl',
+      '10': 'text-5xl',
+      '11': 'text-6xl',
+      '12': 'text-7xl',
+      '13': 'text-8xl',
+    },
+  },
+});
+
+const { as: Tag = 'p', class: className, variant, size, weight, ...props } = Astro.props;
+---
+
+<Tag {...props} class={textVariants({ variant, size, weight, className })}><slot /></Tag>

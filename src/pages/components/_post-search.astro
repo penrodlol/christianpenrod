@@ -1,0 +1,73 @@
+---
+import Button from '@/components/button.astro';
+import Command from '@/components/command.astro';
+import Date from '@/components/date.astro';
+import * as Dialog from '@/components/dialog';
+import Icon from '@/components/icon.astro';
+import Input from '@/components/input.astro';
+import * as List from '@/components/list';
+import Text from '@/components/text.astro';
+---
+
+<Dialog.Root x-data="{ data: [] }" @close.debounce.200ms="data = []; $refs.query.value = ''">
+  <Button slot="dialog-trigger" variant="soft-outline">
+    <Icon name="search" />
+    <Text>Search Posts</Text>
+    <Command key="/" class="ml-auto" @keyup.window.slash="$el.parentElement.click()" />
+  </Button>
+  <Dialog.Header>
+    <Input
+      x-ref="query"
+      placeholder="Search posts..."
+      @keyup="data = await Promise.all((await pagefind.search($event.target.value)).results.map((item) => item.data()))"
+    >
+      <Icon slot="prefix" name="search" />
+      <Button slot="suffix" size="icon" variant="ghost" icon="x" aria-label="Reset" @click="$dispatch('close')" />
+    </Input>
+  </Dialog.Header>
+  <Dialog.Body>
+    <div x-cloak>
+      <Text size="2" class="mx-auto max-w-max" x-show="!data.length && $refs.query.value.length">No Results Found</Text>
+      <List.Root class="[&_mark]:rounded-border [&_mark]:text-gray-12/90 [&_mark]:bg-gray-3 [&_mark]:p-0.5">
+        <template x-for="post in data">
+          <List.ItemLink
+            :href="post.meta.slug"
+            :aria-label="post.meta.title"
+            class:list={[
+              'border-gray-6 flex flex-col items-start rounded rounded-b-none border-b py-8 sm:px-4',
+              'group-first-of-type:pt-0 group-last-of-type:border-b-0 group-last-of-type:pb-0',
+            ]}
+          >
+            <div class="flex items-center gap-4">
+              <div class="flex items-center gap-1">
+                <Icon name="calendar" variant="subtle" size="sm" />
+                <Date x-text="post.meta.published" :datetime="post.meta.publishedISO" size="1" variant="subtle" />
+              </div>
+              <div class="flex items-center gap-1">
+                <Icon name="clock-2" variant="subtle" size="sm" />
+                <Text x-text="post.meta.readingTime" size="1" variant="subtle" />
+              </div>
+            </div>
+            <Text x-text="post.meta.title" size="4" weight="bold" />
+            <Text x-html="post.excerpt + ' ...'" size="2" variant="subtle" class="mt-4 max-w-none" />
+          </List.ItemLink>
+        </template>
+      </List.Root>
+    </div>
+  </Dialog.Body>
+  <Dialog.Footer class="not-lg:hidden">
+    <div class="flex items-center gap-2">
+      <Command icon="corner-down-left" aria-label="Enter key" />
+      <Text size="2" variant="subtle">to select</Text>
+    </div>
+    <div class="flex items-center gap-1">
+      <Command icon="move-down" aria-label="Arrow up key" />
+      <Command icon="move-up" aria-label="Arrow down key" />
+      <Text size="2" variant="subtle" class="ml-1">to navigate</Text>
+    </div>
+    <div class="flex items-center gap-2">
+      <Command key="esc" aria-label="Escape key" />
+      <Text size="2" variant="subtle">to close</Text>
+    </div>
+  </Dialog.Footer>
+</Dialog.Root>

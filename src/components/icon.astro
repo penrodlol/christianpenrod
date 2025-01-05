@@ -1,0 +1,28 @@
+---
+import { Icon as Component } from 'astro-icon/components';
+import { type ComponentProps } from 'astro/types';
+import { tv, type VariantProps } from 'tailwind-variants';
+
+type Props = ComponentProps<typeof Component> & IconVariants;
+
+export type IconVariants = VariantProps<typeof variants>;
+
+const variants = tv({
+  base: 'shrink-0 stroke-4 -translate-y-px',
+  defaultVariants: { size: 'md' },
+  variants: {
+    variant: { subtle: 'text-gray-11', accent: 'text-accent-11' },
+    size: { sm: 'size-3', md: 'size-4', lg: 'size-5' },
+  },
+});
+
+const { class: className, name, variant, size, ...props } = Astro.props;
+---
+
+<Component
+  {...props}
+  aria-hidden
+  shape-rendering="crispEdges"
+  name={name.includes(':') ? name : `lucide:${name}`}
+  class={variants({ variant, size, className })}
+/>

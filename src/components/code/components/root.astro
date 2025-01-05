@@ -1,0 +1,22 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+
+type Props = HTMLAttributes<'figure'>;
+
+const { class: className, ...props } = Astro.props;
+---
+
+<figure
+  {...props}
+  class={twMerge(
+    'bg-code-background rounded-border relative grid shadow-lg',
+    '**:data-line:before:mr-4 **:data-line:before:inline-block **:data-line:before:w-4',
+    '**:data-line:before:content-[counter(code)] **:data-line:before:[counter-increment:code]',
+    '**:data-line:before:text-2xs **:data-line:before:text-right **:data-line:before:text-current/40',
+    '**:data-highlighted-line:*:opacity-30',
+    className,
+  )}
+>
+  <slot />
+</figure>

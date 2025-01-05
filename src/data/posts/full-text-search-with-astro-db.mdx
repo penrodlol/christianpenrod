@@ -6,7 +6,7 @@ topics: [Astro, SQL]
 repo: full-text-search-with-astro-db
 ---
 
-import * as Stepper from '@/ui/stepper';
+import * as Stepper from '@/components/stepper';
 
 [Astro DB][astrojs-db] is a SQL database service created specifically for Astro (`v4.5` or later). One of its goals is
 to provide an API for directly interacting with a SQL database inside an Astro project. This opens up serveral use-cases
@@ -34,17 +34,17 @@ within `db/seed.ts` so it is run automatically when Astro is started locally:
     > - [mdast-util-to-string][mdast-util-to-string]
 
     ```ts title="db/seed.ts"
-      import { getCollection } from 'astro:content';
-      import { sql, db } from 'astro:db';
-      import { fromMarkdown } from 'mdast-util-from-markdown';
-      import { toString } from 'mdast-util-to-string';
+    import { getCollection } from 'astro:content';
+    import { sql, db } from 'astro:db';
+    import { fromMarkdown } from 'mdast-util-from-markdown';
+    import { toString } from 'mdast-util-to-string';
 
-      export default async function () {
-        const posts = (await getCollection('posts')).map((post) => {
-          const content = toString(fromMarkdown(post.body), { includeHtml: false }).replaceAll('\n', ' ');
-          return sql`(${post.slug}, ${post.data.title}, ${content})`;
-        });
-      }
+    export default async function () {
+      const posts = (await getCollection('posts')).map((post) => {
+        const content = toString(fromMarkdown(post.body), { includeHtml: false }).replaceAll('\n', ' ');
+        return sql`(${post.slug}, ${post.data.title}, ${content})`;
+      });
+    }
     ```
 
   </Stepper.Step>
@@ -55,15 +55,15 @@ within `db/seed.ts` so it is run automatically when Astro is started locally:
     Columns `slug` and `title` are `unindexed` as we only care to preform full-text searches against `content`.
 
     ```ts title="db/seed.ts"
+    // . . .
+    export default async function () {
       // . . .
-      export default async function () {
-        // . . .
-        await db.batch([
-          db.run(sql`drop table if exists PostSearch`),
-          db.run(sql`create virtual table PostSearch using fts5(slug unindexed, title unindexed, content)`),
-          db.run(sql.join([sql`insert into PostSearch(slug, title, content) values `, sql.join(posts, sql`,`)])),
-        ]);
-      }
+      await db.batch([
+        db.run(sql`drop table if exists PostSearch`),
+        db.run(sql`create virtual table PostSearch using fts5(slug unindexed, title unindexed, content)`),
+        db.run(sql.join([sql`insert into PostSearch(slug, title, content) values `, sql.join(posts, sql`,`)])),
+      ]);
+    }
     ```
 
   </Stepper.Step>
@@ -169,23 +169,23 @@ this FTS5 Virtual Table to production and populating it with data:
     > remains an open issue with Astro which can be tracked [here][astrojs-bug].
 
     ```ts title="db/seed.prod.ts"
-      import { sql, db } from 'astro:db';
-      import { fromMarkdown } from 'mdast-util-from-markdown';
-      import { toString } from 'mdast-util-to-string';
-      import { readFile, readdir } from 'node:fs/promises';
+    import { sql, db } from 'astro:db';
+    import { fromMarkdown } from 'mdast-util-from-markdown';
+    import { toString } from 'mdast-util-to-string';
+    import { readFile, readdir } from 'node:fs/promises';
 
-      export default async function () {
-        const posts = await Promise.all(
-          (await readdir('src/content/posts')).map(async (file) => {
-            const post = await readFile(`src/content/posts/${file}`, 'utf-8');
-            const slug = file.replace(/\.mdx$/, '');
-            const title = post.match(/^title:\s*(['"])?(.*?)\1?$/m)?.[2]?.replace(/^['"]|['"]$/g, '').trim();
-            const content = toString(fromMarkdown(post.replace(/---[\s\S]*?---/, '')), { includeHtml: false }).replaceAll('\n', ' ');
+    export default async function () {
+      const posts = await Promise.all(
+        (await readdir('src/content/posts')).map(async (file) => {
+          const post = await readFile(`src/content/posts/${file}`, 'utf-8');
+          const slug = file.replace(/\.mdx$/, '');
+          const title = post.match(/^title:\s*(['"])?(.*?)\1?$/m)?.[2]?.replace(/^['"]|['"]$/g, '').trim();
+          const content = toString(fromMarkdown(post.replace(/---[\s\S]*?---/, '')), { includeHtml: false }).replaceAll('\n', ' ');
 
-            return sql`(${slug}, ${title}, ${content})`;
-          }),
-        );
-      }
+          return sql`(${slug}, ${title}, ${content})`;
+        }),
+      );
+    }
     ```
 
   </Stepper.Step>
@@ -196,27 +196,27 @@ this FTS5 Virtual Table to production and populating it with data:
     - `INSERT` new rows if they do not exist.
 
     ```ts title="db/seed.prod.ts"
+    // . . .
+    export default async function () {
       // . . .
-      export default async function () {
-        // . . .
-        await db.batch([
-          db.run(sql`create virtual table if not exists PostSearch using fts5(slug unindexed, title unindexed, content)`),
-          db.run(sql`
-            with target(slug, title, content) as (values ${sql.join(posts, sql`, `)})
-            update PostSearch
-            set content = target.content
-            from target
-            where target.slug = PostSearch.slug
-            and target.content != PostSearch.content;
-          `),
-          db.run(sql`
-            with target(slug, title, content) as (values ${sql.join(posts, sql`, `)})
-            insert into PostSearch (slug, content)
-            select slug, title, content from target
-            where not exists (select 1 from PostSearch where slug = target.slug);
-          `),
-        ]);
-      }
+      await db.batch([
+        db.run(sql`create virtual table if not exists PostSearch using fts5(slug unindexed, title unindexed, content)`),
+        db.run(sql`
+          with target(slug, title, content) as (values ${sql.join(posts, sql`, `)})
+          update PostSearch
+          set content = target.content
+          from target
+          where target.slug = PostSearch.slug
+          and target.content != PostSearch.content;
+        `),
+        db.run(sql`
+          with target(slug, title, content) as (values ${sql.join(posts, sql`, `)})
+          insert into PostSearch (slug, content)
+          select slug, title, content from target
+          where not exists (select 1 from PostSearch where slug = target.slug);
+        `),
+      ]);
+    }
     ```
 
   </Stepper.Step>
@@ -243,10 +243,10 @@ By no means is this the only way to implement full-text search within an Astro p
 starting point for those looking to leverage Astro DB and SQLite's FTS5 virtual table module. Here are a few additional
 libraries to consider which accomplish the same goal:
 
-- **[Pagefind][pagefind]**: Fully static search library that aims to perform well on large sites.
-- **[Fuse.js][fusejs]**: Powerful, lightweight fuzzy-search library, with zero dependencies.
-- **[Orama][orama]**: Full-text search engine entirely written in TypeScript, with zero dependencies.
-- **[DocSearch][docsearch]**: Algolia Search for developer docs.
+- [Pagefind][pagefind]: Fully static search library that aims to perform well on large sites.
+- [Fuse.js][fusejs]: Powerful, lightweight fuzzy-search library, with zero dependencies.
+- [Orama][orama]: Full-text search engine written in TypeScript, with zero dependencies.
+- [DocSearch][docsearch]: Algolia Search for developer docs.
 
 [astrojs-db]: https://docs.astro.build/en/guides/astro-db/
 [astrojs-ssr]: https://docs.astro.build/en/guides/server-side-rendering/

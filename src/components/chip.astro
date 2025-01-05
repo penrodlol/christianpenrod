@@ -1,0 +1,28 @@
+---
+import type { HTMLTag, Polymorphic } from 'astro/types';
+import { tv, type VariantProps } from 'tailwind-variants';
+import { buttonVariants } from './button.astro';
+import Icon from './icon.astro';
+
+type Props<Tag extends HTMLTag = 'p'> = Polymorphic<{ as: Tag }> &
+  ChipVariants & { value?: string; icon?: string | undefined };
+
+export type ChipVariants = Omit<VariantProps<typeof chipVariants>, 'as'>;
+
+export const chipVariants = tv({
+  base: [
+    'inline-flex items-center justify-center gap-1 whitespace-nowrap rounded-full',
+    'inset-shadow-sm inset-shadow-accent-9/20 text-2xs/none font-semibold h-6 px-2',
+    'select-none cursor-default focusable',
+  ],
+  defaultVariants: { as: 'p', variant: 'solid' },
+  variants: { variant: buttonVariants.variants.variant, as: { p: 'pointer-events-none' } },
+});
+
+const { as: Tag = 'p', class: className, variant, value, icon, ...props } = Astro.props;
+---
+
+<Tag {...props} class={chipVariants({ variant, as: Tag, className })}>
+  {value}
+  {icon && <Icon name={icon} size="sm" />}
+</Tag>

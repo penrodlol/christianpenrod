@@ -1,0 +1,25 @@
+---
+import { type HTMLAttributes } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+
+type Props = HTMLAttributes<'ul'>;
+
+const { class: className, ...props } = Astro.props;
+---
+
+<ul
+  {...props}
+  :id="$id('navigation-menu-dropdown')"
+  x-show="open"
+  x-ref="navigationMenuDropdownLinks"
+  class={twMerge(
+    'bg-gray-1 rounded-border absolute top-full right-0 z-50 mt-1 hidden min-w-40 p-2',
+    'before:absolute before:-top-2 before:h-2 before:w-full before:content-[""]',
+    'group-focus-within:block group-hover:block motion-safe:transition-all',
+    'scale-100 opacity-100 starting:scale-90 starting:opacity-0',
+    '**:data-arrow:ml-auto **:data-arrow:*:duration-0',
+    className,
+  )}
+>
+  <slot />
+</ul>

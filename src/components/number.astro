@@ -1,0 +1,13 @@
+---
+import type { ComponentProps } from 'astro/types';
+import Text from './text.astro';
+
+type Props = ComponentProps<typeof Text> & { value?: number };
+
+const { value, ...props } = Astro.props;
+---
+
+<Text {...props}>
+  {value && Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 }).format(value)}
+  <slot />
+</Text>

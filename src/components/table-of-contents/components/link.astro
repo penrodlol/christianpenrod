@@ -1,0 +1,25 @@
+---
+import Component from '@/components/link.astro';
+import type { MarkdownHeading } from 'astro';
+import type { ComponentProps } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+
+type Props = Omit<ComponentProps<typeof Component>, 'href'> & MarkdownHeading;
+
+const { class: className, size, slug, text, ...props } = Astro.props;
+---
+
+<li>
+  <Component
+    {...props}
+    href={`#${slug}`}
+    size={size ?? '2'}
+    class={twMerge(
+      'counter-item before:text-2xs max-w-max',
+      'hover:text-gray-12 motion-safe:transition-colors',
+      className,
+    )}
+  >
+    {text}
+  </Component>
+</li>

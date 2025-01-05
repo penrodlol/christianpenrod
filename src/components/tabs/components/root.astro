@@ -1,0 +1,12 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+
+type Props = HTMLAttributes<'div'> & { defaultValue: string };
+
+const { class: className, defaultValue, ...props } = Astro.props;
+---
+
+<div {...props} x-data={`{ active: "${defaultValue}" }`} x-id="['tabs']" class={twMerge('rounded-border', className)}>
+  <slot />
+</div>

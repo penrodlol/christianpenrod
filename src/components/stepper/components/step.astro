@@ -1,0 +1,22 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+
+type Props = HTMLAttributes<'li'>;
+
+const { class: className, ...props } = Astro.props;
+---
+
+<li
+  {...props}
+  class={twMerge(
+    'relative isolate flex flex-col gap-6 pb-10 pl-12 last-of-type:pb-0',
+    'before:bg-gray-2 before:rounded-border before:absolute before:left-0 before:rounded-full',
+    'before:flex before:size-8 before:items-center before:justify-center before:text-xs',
+    'before:content-[counter(stepper)] before:[counter-increment:stepper]',
+    'after:bg-gray-6 after:absolute after:top-1 after:left-4 after:-z-10 after:h-full after:w-px after:rounded',
+    className,
+  )}
+>
+  <slot />
+</li>

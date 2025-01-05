@@ -1,0 +1,23 @@
+---
+import Component from '@/components/link.astro';
+import type { ComponentProps } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+
+type Props = ComponentProps<typeof Component>;
+
+const { class: className, size, ...props } = Astro.props;
+---
+
+<li>
+  <Component
+    {...props}
+    size={size ?? '2'}
+    class={twMerge(
+      'w-full gap-2 rounded px-2 py-1.5',
+      'hover:bg-accent-3 hover:text-gray-12 motion-safe:transition-colors',
+      className,
+    )}
+  >
+    <slot />
+  </Component>
+</li>

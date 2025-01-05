@@ -1,0 +1,10 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+
+type Props = HTMLAttributes<'ol'>;
+
+const { class: className, ...props } = Astro.props;
+---
+
+<ol {...props} role="list" class={twMerge('flex flex-col [counter-reset:stepper]', className)}><slot /></ol>

@@ -1,0 +1,15 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+
+type Props = HTMLAttributes<'figcaption'>;
+
+const { class: className, ...props } = Astro.props;
+---
+
+<figcaption
+  {...props}
+  class={twMerge('bg-gray-2 text-gray-11 border-gray-6 rounded-t border-b px-4 py-1.5 text-xs', className)}
+>
+  <slot />
+</figcaption>

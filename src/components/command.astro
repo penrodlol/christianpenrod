@@ -1,0 +1,25 @@
+---
+import type { ComponentProps } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+import Icon from './icon.astro';
+import Text from './text.astro';
+
+type Props = Omit<ComponentProps<typeof Text<'kbd'>>, 'as'> & { key?: string; icon?: string };
+
+const { class: className, size, key, icon, ...props } = Astro.props;
+---
+
+<Text
+  {...props}
+  x-data
+  as="kbd"
+  size={size ?? '1'}
+  class={twMerge(
+    'bg-gray-1 rounded-border inline-flex h-max min-w-6 items-center justify-center font-sans',
+    'inset-shadow-accent-9/50 px-2 py-1 leading-none whitespace-nowrap inset-shadow-xs shadow-lg',
+    className,
+  )}
+>
+  {key}
+  {icon && <Icon name={icon} size="sm" class="translate-y-px" />}
+</Text>

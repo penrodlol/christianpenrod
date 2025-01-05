@@ -1,9 +1,0 @@
----
-import type { HTMLAttributes } from 'astro/types';
-
-type Props = HTMLAttributes<'pre'>;
-
-const { class: className, tabindex, ...props } = Astro.props;
----
-
-<pre {...props} class="scrollbar overflow-auto rounded p-4 leading-6"><slot /></pre>

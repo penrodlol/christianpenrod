@@ -1,0 +1,35 @@
+---
+import { type ComponentProps } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+import Icon from '../../icon.astro';
+import Text from '../../text.astro';
+
+type Props = Omit<ComponentProps<typeof Text<'button'>>, 'as'>;
+
+const { class: className, variant, size, ...props } = Astro.props;
+---
+
+<Text
+  {...props}
+  as="button"
+  :aria-expanded="open"
+  :aria-controls="$id('navigation-menu-dropdown')"
+  x-ref="navigationMenuDropdownTrigger"
+  @focusin.window="open = $el === $event.target || $refs.navigationMenuDropdownLinks?.contains($event.target)"
+  @keydown.enter.prevent.stop="open = !open"
+  @keydown.space.prevent.stop="open = !open"
+  @touchstart="open = !open"
+  variant={variant ?? 'accent'}
+  size={size ?? '2'}
+  class={twMerge(
+    'focusable flex items-center gap-2 rounded px-3 py-1.5 motion-safe:transition-colors',
+    'group-hover:bg-accent-3 group-hover:text-accent-12 group-hover:[&_svg]:rotate-180',
+    'group-focus-within:not-[[aria-expanded=false]]:bg-accent-3',
+    'group-focus-within:not-[[aria-expanded=false]]:text-accent-12',
+    'group-focus-within:not-[[aria-expanded=false]]:[&_svg]:rotate-180',
+    className,
+  )}
+>
+  <slot />
+  <Icon name="chevron-down" class="motion-safe:transition-transform" />
+</Text>

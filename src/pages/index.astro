@@ -1,122 +1,57 @@
 ---
-import Me from '@/assets/me.webp';
-import Layout from '@/layouts/layout.astro';
+import Arrow from '@/components/arrow.astro';
+import { buttonVariants } from '@/components/button.astro';
+import Link from '@/components/link.astro';
+import * as List from '@/components/list';
+import Separator from '@/components/separator.astro';
+import Text from '@/components/text.astro';
+import Layout from '@/layouts/index.astro';
 import { getSortedPosts } from '@/libs/content';
-import * as Card from '@/ui/card';
-import * as DataList from '@/ui/datalist';
-import Date from '@/ui/date.astro';
-import Icon from '@/ui/icon.astro';
-import Link from '@/ui/link.astro';
-import Separator from '@/ui/separator.astro';
-import Text from '@/ui/text.astro';
-import { Image } from 'astro:assets';
+import PostCard from '@/pages/components/_post-card.astro';
+import ProjectCard from '@/pages/components/_project-card.astro';
 import { getCollection } from 'astro:content';
 import * as env from 'astro:env/server';
 
+const posts = await getSortedPosts();
 const projects = await getCollection('projects');
-const posts = (await getSortedPosts()).slice(0, 3);
+const socialIconButton = buttonVariants({ variant: 'ghost', size: 'icon' });
 ---
 
-<Layout class="mx-auto flex w-full max-w-xl flex-col gap-14 lg:max-w-screen-xl lg:gap-20 lg:px-20">
-  <section class="flex items-center justify-between gap-24">
-    <div>
-      <Text as="h1" class="leading-none">CHRISTIAN PENROD</Text>
-      <Text as="h2" class="text-foreground-2">Front-End Web Developer</Text>
-      <Text as="p" class="text-foreground-2 mt-4 mb-10">
-        Working on the web since 2018. I enjoy developing efficient web experiences through code and design. I'm equally
-        driven to sharing knowledge with others.
-      </Text>
-      <DataList.Root class="text-xs">
-        <DataList.Item>
-          <DataList.Key>Location</DataList.Key>
-          <DataList.Value>{env.LOCATION}</DataList.Value>
-        </DataList.Item>
-        <Separator class="my-2" aria-hidden />
-        <DataList.Item>
-          <DataList.Key>Occupation</DataList.Key>
-          <DataList.Value><Link href={env.JOB_LINK}>@{env.JOB_NAME}</Link> </DataList.Value>
-        </DataList.Item>
-        <Separator class="my-2" aria-hidden />
-        <DataList.Item>
-          <DataList.Key>Education</DataList.Key>
-          <DataList.Value><Link href={env.COLLEGE_LINK}>@{env.COLLEGE_NAME}</Link> </DataList.Value>
-        </DataList.Item>
-        <Separator class="mt-2" aria-hidden />
-      </DataList.Root>
-    </div>
-    <div
-      class="border-border hidden size-[320px] shrink-0 overflow-hidden rounded border-2 opacity-80 shadow-sm lg:block"
-    >
-      <Image src={Me} alt="Me" class="brightness-150 grayscale dark:brightness-100" />
-    </div>
+<Layout class="counter-root mx-auto flex w-full max-w-4xl flex-col gap-20">
+  <section>
+    <Text as="h1" size="11" weight="bold" class="not-sm:text-4xl">CHRISTIAN PENROD</Text>
+    <Text as="h2" size="9" class="not-sm:text-3xl">Front-End Web Developer</Text>
+    <Text variant="subtle" class="my-6 not-sm:text-xs">
+      Working on the web since 2018. I enjoy developing efficient web experiences through code and design.
+      {env.JOB_TITLE} at <Link href={env.JOB_LINK} class="not-sm:text-xs">{env.JOB_NAME}</Link>.
+      {env.COLLEGE_TITLE} graduate from <Link href={env.COLLEGE_LINK} class="not-sm:text-xs">{env.COLLEGE_NAME}</Link>.
+    </Text>
+    <List.Root orientation="horizontal">
+      <List.ItemLink href={env.GITHUB} icon="github" aria-label="Github" class={socialIconButton} />
+      <List.ItemLink href={env.TWITTER} icon="arcticons:x-twitter" aria-label="Twitter/X" class={socialIconButton} />
+      <List.ItemLink href={env.BLUESKY} icon="arcticons:bluesky" aria-label="Bluesky" class={socialIconButton} />
+      <List.ItemLink href={env.LINKEDIN} icon="linkedin" aria-label="LinkedIn" class={socialIconButton} />
+      <List.ItemLink href={`mailto:${env.EMAIL}`} icon="mail" aria-label="Email" class={socialIconButton} />
+    </List.Root>
   </section>
-  <section class="flex flex-col gap-6">
-    <Text as="h3" class="text-foreground-2">PROJECTS</Text>
-    <ul class="grid gap-x-10 gap-y-6 lg:grid-cols-2">
-      {
-        projects.map((project) => (
-          <li>
-            <Card.Root>
-              <Card.Header>
-                <Icon name="book" class="text-foreground-2 size-3" />
-                <Text class="text-sm">{project.data.name}</Text>
-              </Card.Header>
-              <Card.Body class="text-foreground-2 text-xs">
-                <Text as="p">{project.data.description}</Text>
-              </Card.Body>
-              <Card.Footer class="text-foreground-2">
-                <div class="flex items-center gap-3">
-                  <div class="flex items-center gap-1">
-                    <Icon name="star" class="size-3" />
-                    <Text>{project.data.stars}</Text>
-                  </div>
-                  <div class="flex items-center gap-1">
-                    <Icon name="git-fork" class="size-3" />
-                    <Text>{project.data.forks}</Text>
-                  </div>
-                  <div class="flex items-center gap-1">
-                    <Icon name="eye" class="size-3" />
-                    <Text>{project.data.watchers}</Text>
-                  </div>
-                </div>
-                <div class="flex gap-4">
-                  <Link href={project.data.githubUrl}>Github</Link>
-                  <Link href={project.data.websiteUrl}>Site</Link>
-                </div>
-              </Card.Footer>
-            </Card.Root>
-          </li>
-        ))
-      }
-    </ul>
+  <section class="flex flex-col">
+    <Text as="h2" size="5" weight="bold" class="counter-item">PROJECTS SHOWCASE</Text>
+    <Text variant="subtle" class="not-sm:text-xs">I work with various web-based projects on the side.</Text>
+    <Separator class="mt-4 mb-10" />
+    <!-- prettier-ignore -->
+    <List.Root class="grid gap-6 md:grid-cols-2">
+      {projects.map((project) => (<List.Item><ProjectCard {...project} /></List.Item>))}
+    </List.Root>
+    <Link href={env.GITHUB} size="2" class="mt-8 self-end">View Github Repo</Link>
   </section>
-  <section class="flex flex-col gap-6">
-    <Text as="h3" class="text-foreground-2">RECENT POSTS</Text>
-    <ul class="grid gap-10 lg:grid-cols-3">
-      {
-        posts.map((post) => (
-          <li>
-            <Card.Root as="a" href={`/blog/${post.id}`} aria-label={`${post.data.title}. ${post.data.description}`}>
-              <Card.Header />
-              <Card.Body>
-                <Text class="group-hover:text-brand text-sm motion-safe:transition-colors">{post.data.title}</Text>
-                <Text class="text-foreground-2 flex-1 text-xs">{post.data.description}</Text>
-              </Card.Body>
-              <Card.Footer>
-                <div class="text-foreground-2 flex items-center gap-2">
-                  <Icon name="calendar" class="size-3.5" />
-                  <Date value={post.data.published} />
-                </div>
-                <div class="text-foreground-2 flex items-center gap-2">
-                  <Icon name="clock-4" class="size-3.5" />
-                  <Text>{post.data.readingTime}</Text>
-                </div>
-              </Card.Footer>
-            </Card.Root>
-          </li>
-        ))
-      }
-    </ul>
-    <Link href="/blog" class="self-end">View all posts <Icon name="arrow-right" class="size-3" /></Link>
+  <section class="flex flex-col">
+    <Text as="h2" size="5" weight="bold" class="counter-item">RECENTLY PUBLISHED</Text>
+    <Text variant="subtle" class="not-sm:text-xs">I write about web development and developer experience tooling.</Text>
+    <Separator class="mt-4 mb-10" />
+    <!-- prettier-ignore -->
+    <List.Root class="grid gap-6 md:grid-cols-3">
+      {posts.slice(0, 3).map((post) => (<List.Item><PostCard {...post} /></List.Item>))}
+    </List.Root>
+    <Link href="/blog" size="2" class="mt-8 self-end">View All Posts <Arrow name="right" /></Link>
   </section>
 </Layout>
