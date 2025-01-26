@@ -3,55 +3,54 @@ import Arrow from '@/components/arrow.astro';
 import { buttonVariants } from '@/components/button.astro';
 import Link from '@/components/link.astro';
 import * as List from '@/components/list';
-import Separator from '@/components/separator.astro';
+import Section from '@/components/section.astro';
 import Text from '@/components/text.astro';
+import { getSortedPosts } from '@/content';
 import Layout from '@/layouts/index.astro';
-import { getSortedPosts } from '@/libs/content';
-import PostCard from '@/pages/components/_post-card.astro';
-import ProjectCard from '@/pages/components/_project-card.astro';
 import { getCollection } from 'astro:content';
 import * as env from 'astro:env/server';
+import PostCard from './components/_post-card.astro';
+import ProjectCard from './components/_project-card.astro';
 
-const posts = await getSortedPosts();
 const projects = await getCollection('projects');
-const socialIconButton = buttonVariants({ variant: 'ghost', size: 'icon' });
+const posts = (await getSortedPosts()).slice(0, 3);
+const socialIconButton = buttonVariants({ variant: 'ghost', size: 'icon', className: 'sm:size-10 sm:[&_svg]:size-5' });
 ---
 
-<Layout class="counter-root mx-auto flex w-full max-w-4xl flex-col gap-20">
-  <section>
-    <Text as="h1" size="11" weight="bold" class="not-sm:text-4xl">CHRISTIAN PENROD</Text>
-    <Text as="h2" size="9" class="not-sm:text-3xl">Front-End Web Developer</Text>
-    <Text variant="subtle" class="my-6 not-sm:text-xs">
-      Working on the web since 2018. I enjoy developing efficient web experiences through code and design.
-      {env.JOB_TITLE} at <Link href={env.JOB_LINK} class="not-sm:text-xs">{env.JOB_NAME}</Link>.
-      {env.COLLEGE_TITLE} graduate from <Link href={env.COLLEGE_LINK} class="not-sm:text-xs">{env.COLLEGE_NAME}</Link>.
+<Layout class="counter-root">
+  <Section class="max-w-5xl">
+    <Text as="h1" size="12" font="henry" weight="bold" class="not-sm:text-5xl">CHRISTIAN PENROD</Text>
+    <Text as="h2" size="12" font="henry" variant="subtle" class="not-sm:text-4xl">Front-End Web Developer</Text>
+    <Text variant="subtle" class="my-6 not-sm:text-xs not-sm:**:text-xs">
+      Working on the web since 2018. I'm a web developer who enjoys creating efficient web experiences through code and
+      design. As well as educating others along the way. Currently working at
+      <Link href={env.JOB_LINK}>{env.JOB_NAME}</Link> as a {env.JOB_TITLE}. {env.COLLEGE_TITLE} graduate from
+      <Link href={env.COLLEGE_LINK}>{env.COLLEGE_NAME}</Link>.
     </Text>
-    <List.Root orientation="horizontal">
+    <List.Root orientation="horizontal" class="-ml-3">
       <List.ItemLink href={env.GITHUB} icon="github" aria-label="Github" class={socialIconButton} />
       <List.ItemLink href={env.TWITTER} icon="arcticons:x-twitter" aria-label="Twitter/X" class={socialIconButton} />
       <List.ItemLink href={env.BLUESKY} icon="arcticons:bluesky" aria-label="Bluesky" class={socialIconButton} />
       <List.ItemLink href={env.LINKEDIN} icon="linkedin" aria-label="LinkedIn" class={socialIconButton} />
       <List.ItemLink href={`mailto:${env.EMAIL}`} icon="mail" aria-label="Email" class={socialIconButton} />
     </List.Root>
-  </section>
-  <section class="flex flex-col">
-    <Text as="h2" size="5" weight="bold" class="counter-item">PROJECTS SHOWCASE</Text>
-    <Text variant="subtle" class="not-sm:text-xs">I work with various web-based projects on the side.</Text>
-    <Separator class="mt-4 mb-10" />
+  </Section>
+  <Section class="flex max-w-5xl flex-col">
+    <Text font="henry" size="6" weight="bold" class="counter-item before:text-lg">PROJECTS SHOWCASE</Text>
+    <Text variant="subtle">I work with various web-based projects on the side.</Text>
     <!-- prettier-ignore -->
-    <List.Root class="grid gap-6 md:grid-cols-2">
+    <List.Root class="grid gap-x-6 gap-y-10 md:grid-cols-2 mt-10">
       {projects.map((project) => (<List.Item><ProjectCard {...project} /></List.Item>))}
     </List.Root>
-    <Link href={env.GITHUB} size="2" class="mt-8 self-end">View Github Repo</Link>
-  </section>
-  <section class="flex flex-col">
-    <Text as="h2" size="5" weight="bold" class="counter-item">RECENTLY PUBLISHED</Text>
-    <Text variant="subtle" class="not-sm:text-xs">I write about web development and developer experience tooling.</Text>
-    <Separator class="mt-4 mb-10" />
+    <Link href={env.GITHUB} size="2" class="mt-10 self-end">View Github Profile</Link>
+  </Section>
+  <Section class="flex max-w-5xl flex-col">
+    <Text as="h2" font="henry" size="6" weight="bold" class="counter-item before:text-lg">RECENTLY PUBLISHED</Text>
+    <Text variant="subtle">I write about web development and developer experience tooling.</Text>
     <!-- prettier-ignore -->
-    <List.Root class="grid gap-6 md:grid-cols-3">
-      {posts.slice(0, 3).map((post) => (<List.Item><PostCard {...post} /></List.Item>))}
+    <List.Root class="grid gap-x-6 gap-y-10 md:grid-cols-3 my-10">
+      {posts.map((post) => (<List.Item><PostCard {...post} /></List.Item>))}
     </List.Root>
-    <Link href="/blog" size="2" class="mt-8 self-end">View All Posts <Arrow name="right" /></Link>
-  </section>
+    <Link href="/blog" size="2" class="self-end">View All Posts <Arrow name="right" /></Link>
+  </Section>
 </Layout>

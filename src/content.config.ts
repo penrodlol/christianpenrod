@@ -7,7 +7,7 @@ const octokit = new Octokit({ auth: GITHUB_TOKEN });
 
 export const collections = {
   posts: defineCollection({
-    loader: glob({ pattern: '**/*.mdx', base: './src/data/posts/' }),
+    loader: glob({ pattern: '**/*.mdx', base: './src/content' }),
     schema: () =>
       z.object({
         title: z.string(),

@@ -11,7 +11,7 @@ import '@fontsource/geist-sans';
 import { ThemeScript } from 'astro-theme-toggle';
 import type { HTMLAttributes } from 'astro/types';
 import * as env from 'astro:env/server';
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 
 type Props = HTMLAttributes<'main'> & { title?: string; description?: string; og?: string };
 
@@ -51,7 +51,7 @@ const {
     <script is:inline set:text="window.pagefind = await import('/pagefind/pagefind.js')" type="module" />
     <script is:inline set:text="document.documentElement.classList.add('[&_[x-cloak]]:hidden')" />
     <ThemeScript />
-    <ViewTransitions />
+    <ClientRouter />
   </head>
   <body class="from-gray-1 to-gray-2 text-gray-12 flex min-h-dvh flex-col bg-gradient-to-t bg-fixed">
     <header class="bg-gray-2 border-gray-6 sticky top-0 z-50 h-12 border-b">
@@ -74,7 +74,7 @@ const {
         <Link href="/rss.xml" icon="rss" aria-label="RSS" class={buttonVariants({ variant: 'ghost', size: 'icon' })} />
       </div>
     </header>
-    <main {...props} class:list={['flex-1 px-6 py-10 md:py-20', className]}><slot /></main>
+    <main {...props} class:list={['flex-1', className]}><slot /></main>
     <footer class="mx-auto flex h-12 w-full max-w-4xl items-center px-6 *:first:mr-auto *:first:pr-6">
       <Text size="2">©{new Date().getFullYear()} Christian Penrod - All Rights Reserved</Text>
       <NavigationMenu.Root>

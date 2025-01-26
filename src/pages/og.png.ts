@@ -4,7 +4,7 @@ import { satoriAstroOG } from 'satori-astro';
 import { html } from 'satori-html';
 
 export const GET: APIRoute = async () => {
-  const image = (await readFile('./src/assets/me.png')).toString('base64');
+  const image = (await readFile('./public/images/me.png')).toString('base64');
   const fontNormal = await readFile('./node_modules/@fontsource/geist-sans/files/geist-sans-latin-400-normal.woff');
   const fontBold = await readFile('./node_modules/@fontsource/geist-sans/files/geist-sans-latin-700-normal.woff');
 

@@ -4,7 +4,7 @@ import { satoriAstroOG } from 'satori-astro';
 import { html } from 'satori-html';
 
 export const GET: APIRoute = async () => {
-  const image = (await readFile('./src/assets/me.png')).toString('base64');
+  const image = (await readFile('./public/images/me.png')).toString('base64');
   const template = html`
     <div
       class="flex h-full w-full rounded-full bg-neutral-600"
