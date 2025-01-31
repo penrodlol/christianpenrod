@@ -14,20 +14,20 @@
     "@alpinejs/focus": "^3.14.8",
     "@astrojs/db": "0.14.6",
     "alpinejs": "^3.14.8",
-    "astro": "5.1.9"
+    "astro": "5.2.1"
   },
   "devDependencies": {
     "@astrojs/alpinejs": "^0.4.3",
-    "@astrojs/mdx": "4.0.7",
+    "@astrojs/mdx": "4.0.8",
     "@astrojs/rss": "^4.0.11",
     "@astrojs/sitemap": "^3.2.1",
-    "@astrojs/vercel": "8.0.4",
+    "@astrojs/vercel": "8.0.5",
     "@fontsource/geist-mono": "^5.1.1",
     "@fontsource/geist-sans": "^5.1.0",
-    "@iconify-json/arcticons": "^1.2.17",
-    "@iconify-json/lucide": "^1.2.24",
+    "@iconify-json/arcticons": "^1.2.18",
+    "@iconify-json/lucide": "^1.2.25",
     "@octokit/rest": "^21.1.0",
-    "@tailwindcss/vite": "4.0.0",
+    "@tailwindcss/vite": "4.0.1",
     "@types/alpinejs": "^3.13.11",
     "astro-icon": "^1.1.5",
     "astro-pagefind": "^1.8.0",
@@ -44,8 +44,8 @@
     "satori-html": "^0.3.2",
     "sharp": "^0.33.5",
     "shiki": "^1.3.0",
-    "tailwind-merge": "^2.6.0",
+    "tailwind-merge": "^3.0.1",
     "tailwind-variants": "^0.3.1",
-    "tailwindcss": "4.0.0"
+    "tailwindcss": "4.0.1"
   }
 }

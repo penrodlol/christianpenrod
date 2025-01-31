@@ -46,6 +46,7 @@ export default defineConfig({
       GITHUB_TOKEN: envField.string({ context: 'server', access: 'secret' }),
     },
   },
+  experimental: { responsiveImages: true },
   // @ts-ignore
   vite: { plugins: [tailwindcss()] },
   integrations: [

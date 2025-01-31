@@ -8,12 +8,14 @@ const octokit = new Octokit({ auth: GITHUB_TOKEN });
 export const collections = {
   posts: defineCollection({
     loader: glob({ pattern: '**/*.mdx', base: './src/content' }),
-    schema: () =>
+    schema: ({ image }) =>
       z.object({
         title: z.string(),
         description: z.string(),
         published: z.coerce.date(),
         topics: z.array(z.string()),
+        coverDark: image(),
+        coverLight: image(),
         repo: z
           .string()
           .optional()

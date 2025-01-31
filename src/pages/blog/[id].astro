@@ -1,5 +1,4 @@
 ---
-import Banner from '@/../public/images/banner.png';
 import Me from '@/../public/images/me.png';
 import Callout from '@/components/callout.astro';
 import * as Code from '@/components/code';
@@ -10,7 +9,7 @@ import Link from '@/components/link.astro';
 import * as List from '@/components/list';
 import Section from '@/components/section.astro';
 import Text from '@/components/text.astro';
-import { getSortedPosts, type GetSortedPosts } from '@/content';
+import { getSortedPosts, type GetSortedPosts } from '@/content.utils';
 import Layout from '@/layouts/index.astro';
 import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
 import { Image } from 'astro:assets';
@@ -33,8 +32,9 @@ const { id, data, Content, morePosts } = Astro.props;
 <Layout title={data.title} description={data.description} og={`blog/${id}.png`}>
   <article data-pagefind-body data-pagefind-meta={`slug:/blog/${id}`}>
     <Section data-pagefind-ignore as="div" class="max-w-4xl">
-      <div class="rounded-border mb-10 h-64 overflow-hidden *:rounded">
-        <Image src={Banner.src} alt="" width={Banner.width} height={Banner.height} class="-translate-y-20 scale-125" />
+      <div class="rounded-border mb-10 overflow-hidden lg:h-64">
+        <Image {...data.coverDark} alt="Cover" loading="eager" layout="full-width" class="rounded not-dark:hidden" />
+        <Image {...data.coverLight} alt="Cover" loading="eager" layout="full-width" class="rounded dark:hidden" />
       </div>
       <div class="mb-2 flex items-center gap-2">
         <Date value={data.published} size="2" variant="subtle" data-pagefind-meta="published, publishedISO[datetime]" />

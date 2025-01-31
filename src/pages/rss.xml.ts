@@ -1,4 +1,4 @@
-import { getSortedPosts } from '@/content';
+import { getSortedPosts } from '@/content.utils';
 import rss from '@astrojs/rss';
 import type { APIRoute } from 'astro';
 
