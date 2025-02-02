@@ -1,5 +1,6 @@
 ---
 import Me from '@/../public/images/me.png';
+import Button from '@/components/button.astro';
 import Callout from '@/components/callout.astro';
 import * as Code from '@/components/code';
 import Date from '@/components/date.astro';
@@ -7,7 +8,9 @@ import Icon from '@/components/icon.astro';
 import LinkHeader from '@/components/link-header.astro';
 import Link from '@/components/link.astro';
 import * as List from '@/components/list';
+import * as Popover from '@/components/popover';
 import Section from '@/components/section.astro';
+import Separator from '@/components/separator.astro';
 import Text from '@/components/text.astro';
 import { getSortedPosts, type GetSortedPosts } from '@/content.utils';
 import Layout from '@/layouts/index.astro';
@@ -26,7 +29,7 @@ export const getStaticPaths = (async () =>
     return { params: { id: post.id }, props: { ...post, morePosts: [prevPost, nextPost] } };
   })) satisfies GetStaticPaths;
 
-const { id, data, Content, morePosts } = Astro.props;
+const { id, data, headings, Content, morePosts } = Astro.props;
 ---
 
 <Layout title={data.title} description={data.description} og={`blog/${id}.png`}>
@@ -84,4 +87,29 @@ const { id, data, Content, morePosts } = Astro.props;
       {morePosts.map((post) => (<List.Item><PostCard {...post} /></List.Item>))}
     </List.Root>
   </Section>
+  <Popover.Root class="fixed right-12 bottom-8 not-2xl:hidden">
+    <Button slot="popover-trigger" variant="soft-outline" size="sm" popovertarget="table-of-contents" class="w-auto">
+      <Icon name="table-of-contents" />
+      <Text size="2">Index</Text>
+      <Icon name="chevrons-up-down" />
+      <Separator orientation="vertical" class="mx-2 not-supports-[scroll-timeline:none]:hidden" />
+      <Text size="1" class="scroll-progress-item text-gray-12 w-[4ch] not-supports-[scroll-timeline:none]:hidden" />
+    </Button>
+    <Popover.Content id="table-of-contents" class="fixed right-12 bottom-20">
+      <List.Root class="counter-root">
+        {
+          headings.map((heading) => (
+            <List.ItemLink
+              href={`#${heading.slug}`}
+              size="2"
+              class="counter-item before:text-2xs p-1"
+              x-on:click="$dispatch('close')"
+            >
+              {heading.text}
+            </List.ItemLink>
+          ))
+        }
+      </List.Root>
+    </Popover.Content>
+  </Popover.Root>
 </Layout>

@@ -1,0 +1,12 @@
+---
+import type { HTMLTag, Polymorphic } from 'astro/types';
+
+type Props<Tag extends HTMLTag = 'div'> = Polymorphic<{ as: Tag }>;
+
+const { as: Tag = 'div', ...props } = Astro.props;
+---
+
+<Tag {...props} x-data @close="$refs.popover.hidePopover()">
+  <slot name="popover-trigger" />
+  <slot />
+</Tag>

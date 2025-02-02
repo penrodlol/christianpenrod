@@ -196,3 +196,18 @@
   @apply before:content-[counter(counter,decimal-leading-zero)_"."] before:[counter-increment:counter];
   @apply before:text-gray-11 before:mr-2 before:text-sm;
 }
+
+/* prettier-ignore */
+@keyframes scroll-progress { to { --scroll-progress: 100; } }
+/* prettier-ignore */
+@property --scroll-progress { initial-value: 0; syntax: '<integer>'; inherits: true; }
+@utility scroll-progress-root {
+  @apply [counter-reset:scroll-progress_var(--scroll-progress)];
+  @apply [scroll-timeline:--scroll-progress-root] [timeline-scope:--scroll-progress-root];
+  @apply [animation:scroll-progress_both_linear] [animation-timeline:--scroll-progress-root];
+  @apply [animation-duration:1ms];
+}
+
+@utility scroll-progress-item {
+  @apply before:content-[counter(scroll-progress)_'%'];
+}
