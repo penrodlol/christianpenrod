@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build --remote && rm -rf dist",
+    "build": "astro build --remote ",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -30,11 +30,11 @@
     "@tailwindcss/vite": "4.0.1",
     "@types/alpinejs": "^3.13.11",
     "astro-icon": "^1.1.5",
-    "astro-pagefind": "^1.8.0",
     "astro-robots-txt": "^1.0.0",
     "astro-theme-toggle": "^0.5.1",
     "mdast-util-from-markdown": "^2.0.2",
     "mdast-util-to-string": "^4.0.0",
+    "pagefind": "^1.3.0",
     "prettier": "3.4.2",
     "prettier-plugin-astro": "0.14.1",
     "prettier-plugin-tailwindcss": "^0.6.11",
@@ -44,6 +44,7 @@
     "satori-html": "^0.3.2",
     "sharp": "^0.33.5",
     "shiki": "^1.3.0",
+    "sirv": "^3.0.0",
     "tailwind-merge": "^3.0.1",
     "tailwind-variants": "^0.3.1",
     "tailwindcss": "4.0.1"
