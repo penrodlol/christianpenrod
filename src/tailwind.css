@@ -2,18 +2,10 @@
 
 @variant dark (&:where(.dark, .dark *));
 
-@font-face {
-  font-family: 'Henry';
-  src: url('/fonts/Henry.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
 @theme {
-  --default-font-family: 'Geist Sans';
-  --default-mono-font-family: 'Geist Mono';
-  --font-henry: 'Henry';
+  --font-sans: 'Geist Sans', sans-serif;
+  --font-mono: 'Geist Mono', monospace;
+  --font-serif: 'EB Garamond Variable', serif;
 
   --text-2xs: clamp(0.76rem, calc(0.76rem + (0.02 * (100vw - 20rem) / 76)), 0.8rem);
   --text-xs: clamp(0.87rem, calc(0.87rem + (0.02 * (100vw - 20rem) / 76)), 0.889rem);

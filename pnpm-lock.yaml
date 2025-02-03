@@ -34,6 +34,9 @@ devDependencies:
   '@astrojs/vercel':
     specifier: 8.0.5
     version: 8.0.5(astro@5.2.1)
+  '@fontsource-variable/eb-garamond':
+    specifier: ^5.1.2
+    version: 5.1.2
   '@fontsource/geist-mono':
     specifier: ^5.1.1
     version: 5.1.1
@@ -548,6 +551,10 @@ packages:
     os: [win32]
     requiresBuild: true
     optional: true
+
+  /@fontsource-variable/eb-garamond@5.1.2:
+    resolution: {integrity: sha512-KRDV6mLLC8znoCZOQFXuA8bUL0aQtMDyJv9KGdlvlZIcM1ocpeLKG+AwJTk2EKfCZBMq1pff7d4vlFelgWCkRA==}
+    dev: true
 
   /@fontsource/geist-mono@5.1.1:
     resolution: {integrity: sha512-Rr/VXX3qyRsLgEFwFUqhDS7PORzQUBDLoQc8bONbBz+hZ+SD8U0nEzHqRFBzT3zFcsf/0bMyCQPZUktKwPt3GQ==}

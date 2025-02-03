@@ -46,7 +46,7 @@ const { id, data, headings, Content, morePosts } = Astro.props;
         <Icon name="dot" variant="subtle" />
         <PostViews server:defer {id} size="2" variant="subtle" />
       </div>
-      <Text as="h1" size="9" font="henry" weight="bold" class="text-balance uppercase">{data.title}</Text>
+      <Text as="h1" size="9" font="serif" weight="bold" class="text-balance uppercase">{data.title}</Text>
       <div class="mt-10 flex items-center gap-4">
         <div class="rounded-border bg-gray-3 size-10 overflow-hidden rounded-full">
           <Image src={Me.src} alt="Me" loading="eager" format="avif" width="2048" height="2048" />
@@ -80,7 +80,7 @@ const { id, data, headings, Content, morePosts } = Astro.props;
     </Section>
   </article>
   <Section class="max-w-4xl">
-    <Text as="h2" font="henry" size="5" weight="bold">CONTINUE READING</Text>
+    <Text as="h2" font="serif" size="5" weight="bold">CONTINUE READING</Text>
     <Text size="2" variant="subtle">Check out some other software-related blog posts I've written.</Text>
     <!-- prettier-ignore -->
     <List.Root class="grid gap-6 md:grid-cols-2 my-10">
