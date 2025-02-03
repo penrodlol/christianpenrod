@@ -4,7 +4,8 @@ import Chip from '@/components/chip.astro';
 import Date from '@/components/date.astro';
 import Icon from '@/components/icon.astro';
 import Text from '@/components/text.astro';
-import type { GetSortedPosts } from '@/libs/content';
+import type { GetSortedPosts } from '@/content.utils';
+import { Image } from 'astro:assets';
 
 type Props = GetSortedPosts[0];
 
@@ -13,8 +14,12 @@ const { id, data } = Astro.props;
 
 <Component.Root as="a" href={`/blog/${id}`}>
   <Component.Header>
-    <div class="flex flex-wrap gap-2">{data?.topics.map(({ text }) => <Chip value={text} variant="soft" />)}</div>
+    <div class="rounded-border mb-1 h-24 overflow-hidden">
+      <Image {...data.coverDark} alt="Cover" loading="eager" layout="full-width" class="rounded not-dark:hidden" />
+      <Image {...data.coverLight} alt="Cover" loading="eager" layout="full-width" class="rounded dark:hidden" />
+    </div>
     <Text weight="bold">{data.title}</Text>
+    <div class="flex flex-wrap gap-2">{data?.topics.map(({ text }) => <Chip value={text} variant="soft" />)}</div>
   </Component.Header>
   <Component.Body>
     <Text size="2" variant="subtle">{data.description}</Text>

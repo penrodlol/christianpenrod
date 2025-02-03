@@ -10,6 +10,7 @@ export const textVariants = tv({
   base: 'max-w-prose',
   defaultVariants: { weight: 'normal', size: '3' },
   variants: {
+    font: { mono: 'font-mono', serif: 'font-serif' },
     variant: { subtle: 'text-gray-11', accent: 'text-accent-11' },
     weight: { normal: 'font-normal', bold: 'font-semibold' },
     size: {
@@ -30,7 +31,7 @@ export const textVariants = tv({
   },
 });
 
-const { as: Tag = 'p', class: className, variant, size, weight, ...props } = Astro.props;
+const { as: Tag = 'p', class: className, font, variant, size, weight, ...props } = Astro.props;
 ---
 
-<Tag {...props} class={textVariants({ variant, size, weight, className })}><slot /></Tag>
+<Tag {...props} class={textVariants({ font, variant, size, weight, className })}><slot /></Tag>

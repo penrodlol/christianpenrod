@@ -1,4 +1,6 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
-  "astro.content-intellisense": true
+  "astro.content-intellisense": true,
+  "files.associations": { "*.css": "tailwindcss" },
+  "editor.quickSuggestions": { "strings": "on" }
 }

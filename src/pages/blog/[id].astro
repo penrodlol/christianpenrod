@@ -1,22 +1,24 @@
 ---
 import Me from '@/assets/me.png';
+import Button from '@/components/button.astro';
 import Callout from '@/components/callout.astro';
-import Chip from '@/components/chip.astro';
 import * as Code from '@/components/code';
 import Date from '@/components/date.astro';
 import Icon from '@/components/icon.astro';
 import LinkHeader from '@/components/link-header.astro';
 import Link from '@/components/link.astro';
+import * as List from '@/components/list';
+import * as Popover from '@/components/popover';
+import Section from '@/components/section.astro';
 import Separator from '@/components/separator.astro';
-import * as TableOfContents from '@/components/table-of-contents';
 import Text from '@/components/text.astro';
+import { getSortedPosts, type GetSortedPosts } from '@/content.utils';
 import Layout from '@/layouts/index.astro';
-import { getSortedPosts, type GetSortedPosts } from '@/libs/content';
-import PostCard from '@/pages/components/_post-card.astro';
-import PostGithub from '@/pages/components/_post-github.astro';
-import PostViews from '@/pages/components/_post-views.astro';
 import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
 import { Image } from 'astro:assets';
+import PostCard from '../components/_post-card.astro';
+import PostGithub from '../components/_post-github.astro';
+import PostViews from '../components/_post-views.astro';
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
@@ -27,40 +29,38 @@ export const getStaticPaths = (async () =>
     return { params: { id: post.id }, props: { ...post, morePosts: [prevPost, nextPost] } };
   })) satisfies GetStaticPaths;
 
-const { id, data, Content, headings, morePosts } = Astro.props;
+const { id, data, headings, Content, morePosts } = Astro.props;
 ---
 
-<Layout
-  title={data.title}
-  description={data.description}
-  og={`blog/${id}.png`}
-  class="grid grid-cols-[1fr_minmax(auto,var(--container-prose))_1fr] 2xl:gap-42"
->
-  <article data-pagefind-body data-pagefind-meta={`slug:/blog/${id}`} class="col-start-2">
-    <div data-pagefind-ignore class="flex flex-col gap-2">
-      <div class="flex items-center gap-2">
+<Layout title={data.title} description={data.description} og={`blog/${id}.png`}>
+  <article data-pagefind-body data-pagefind-meta={`slug:/blog/${id}`}>
+    <Section data-pagefind-ignore as="div" class="max-w-4xl">
+      <div class="rounded-border mb-10 overflow-hidden lg:h-64">
+        <Image {...data.coverDark} alt="Cover" loading="eager" layout="full-width" class="rounded not-dark:hidden" />
+        <Image {...data.coverLight} alt="Cover" loading="eager" layout="full-width" class="rounded dark:hidden" />
+      </div>
+      <div class="mb-2 flex items-center gap-2">
         <Date value={data.published} size="2" variant="subtle" data-pagefind-meta="published, publishedISO[datetime]" />
         <Icon name="dot" variant="subtle" />
         <Text size="2" variant="subtle" data-pagefind-meta="readingTime">{data.readingTime}</Text>
         <Icon name="dot" variant="subtle" />
         <PostViews server:defer {id} size="2" variant="subtle" />
       </div>
-      <Text as="h1" size="9" weight="bold" class="uppercase">{data.title}</Text>
-      <div class="mt-6 flex items-center gap-4">
+      <Text as="h1" size="9" font="serif" weight="bold" class="text-balance uppercase">{data.title}</Text>
+      <div class="mt-10 flex items-center gap-4">
         <div class="rounded-border bg-gray-3 size-10 overflow-hidden rounded-full">
           <Image src={Me.src} alt="Me" loading="eager" format="avif" width="2048" height="2048" />
         </div>
         <div>
-          <Text size="2" weight="bold">CHRISTIAN PENROD</Text>
-          <Text size="2" variant="subtle">Front-End Web Developer</Text>
+          <Text size="1" weight="bold">CHRISTIAN PENROD</Text>
+          <Text size="1" variant="subtle">Front-End Web Developer</Text>
         </div>
       </div>
-    </div>
-    <Separator class="my-10 lg:mb-16" />
-    <div class="flex flex-col gap-10 lg:gap-20">
+    </Section>
+    <Section as="div" class="max-w-4xl">
       <div
         class:list={[
-          'counter-root flex flex-col gap-10 text-sm/8 text-current/80',
+          'counter-root mx-auto flex w-full max-w-prose flex-col gap-10 text-sm/8 text-current/80',
           '[&_:where(ol,ul)]:list-inside [&_ol]:list-decimal [&_ul]:list-disc',
         ]}
       >
@@ -75,31 +75,41 @@ const { id, data, Content, headings, morePosts } = Astro.props;
             code: Code.Block,
           }}
         />
+        {data.repo && <PostGithub repo={data.repo} />}
       </div>
-      {data.repo && <PostGithub repo={data.repo} />}
-    </div>
-    <Separator class="my-20" />
-    <div data-pagefind-ignore>
-      <Text as="h2" size="5" weight="bold">CONTINUE READING</Text>
-      <Text size="2" variant="subtle">Check out some other software-related blog posts I've written.</Text>
-      <div class="mt-10 grid justify-between gap-6 lg:grid-cols-2">
-        {morePosts.map((post) => <PostCard {...post} />)}
-      </div>
-    </div>
+    </Section>
   </article>
-  <aside class="sticky top-42 flex max-w-96 flex-col gap-12 self-start not-2xl:hidden">
-    <TableOfContents.Root>
-      <TableOfContents.Title icon="table-of-contents">TABLE OF CONTENTS</TableOfContents.Title>
-      <TableOfContents.Links>{headings.map((heading) => <TableOfContents.Link {...heading} />)}</TableOfContents.Links>
-    </TableOfContents.Root>
-    <div class="flex flex-col gap-4">
-      <div class="flex items-center gap-2">
-        <Icon name="tag" variant="subtle" />
-        <Text as="h2" size="2" weight="bold">TOPICS</Text>
-      </div>
-      <div class="flex flex-wrap gap-2">
-        {data.topics.map(({ id, text }) => <Chip as="a" variant="soft-outline" href={`/blog/${id}`} value={text} />)}
-      </div>
-    </div>
-  </aside>
+  <Section class="max-w-4xl">
+    <Text as="h2" font="serif" size="5" weight="bold">CONTINUE READING</Text>
+    <Text size="2" variant="subtle">Check out some other software-related blog posts I've written.</Text>
+    <!-- prettier-ignore -->
+    <List.Root class="grid gap-6 md:grid-cols-2 my-10">
+      {morePosts.map((post) => (<List.Item><PostCard {...post} /></List.Item>))}
+    </List.Root>
+  </Section>
+  <Popover.Root class="fixed right-12 bottom-8 not-2xl:hidden">
+    <Button slot="popover-trigger" variant="soft-outline" size="sm" popovertarget="table-of-contents" class="w-auto">
+      <Icon name="table-of-contents" />
+      <Text size="2">Index</Text>
+      <Icon name="chevrons-up-down" />
+      <Separator orientation="vertical" class="mx-2 not-supports-[scroll-timeline:none]:hidden" />
+      <Text size="1" class="scroll-progress-item text-gray-12 w-[4ch] not-supports-[scroll-timeline:none]:hidden" />
+    </Button>
+    <Popover.Content id="table-of-contents" class="fixed right-12 bottom-20">
+      <List.Root class="counter-root">
+        {
+          headings.map((heading) => (
+            <List.ItemLink
+              href={`#${heading.slug}`}
+              size="2"
+              class="counter-item before:text-2xs p-1"
+              x-on:click="$dispatch('close')"
+            >
+              {heading.text}
+            </List.ItemLink>
+          ))
+        }
+      </List.Root>
+    </Popover.Content>
+  </Popover.Root>
 </Layout>

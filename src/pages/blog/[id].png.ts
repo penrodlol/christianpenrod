@@ -1,4 +1,4 @@
-import { getSortedPosts, type GetSortedPosts } from '@/libs/content';
+import { getSortedPosts, type GetSortedPosts } from '@/content.utils';
 import type { APIRoute, GetStaticPaths } from 'astro';
 import { readFile } from 'fs/promises';
 import { satoriAstroOG } from 'satori-astro';
