@@ -8,7 +8,7 @@ export const getStaticPaths: GetStaticPaths = async () =>
   await getSortedPosts().then((posts) => posts.map((post) => ({ params: { id: post.id }, props: post.data })));
 
 export const GET: APIRoute<GetSortedPosts[0]['data']> = async ({ props: post }) => {
-  const image = (await readFile('./public/images/me.png')).toString('base64');
+  const image = (await readFile('./src/assets/me.png')).toString('base64');
   const fontNormal = await readFile('./node_modules/@fontsource/geist-sans/files/geist-sans-latin-400-normal.woff');
   const fontBold = await readFile('./node_modules/@fontsource/geist-sans/files/geist-sans-latin-700-normal.woff');
 
