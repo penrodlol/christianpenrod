@@ -5,7 +5,7 @@ import { html } from 'satori-html';
 
 export const GET: APIRoute = async () => {
   const image = (await readFile('./src/assets/me.png')).toString('base64');
-  const font = await readFile('./node_modules/@fontsource/eb-garamond/files/eb-garamond-latin-700-normal.woff');
+  const font = await fetch('https://cdn.jsdelivr.net/fontsource/fonts/eb-garamond@latest/latin-500-normal.woff');
 
   const template = html`
     <div class="flex h-full w-full flex-col items-center justify-center bg-black p-10">
@@ -19,6 +19,6 @@ export const GET: APIRoute = async () => {
   `;
 
   return satoriAstroOG({ template, width: 1200, height: 630 }).toResponse({
-    satori: { fonts: [{ name: 'font', data: font, style: 'normal', weight: 700 }] },
+    satori: { fonts: [{ name: 'font', data: await font.arrayBuffer(), style: 'normal', weight: 500 }] },
   });
 };

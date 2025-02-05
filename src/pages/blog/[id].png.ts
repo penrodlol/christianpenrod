@@ -10,8 +10,8 @@ export const getStaticPaths: GetStaticPaths = async () =>
 export const GET: APIRoute<GetSortedPosts[0]['data']> = async ({ props: post, params: { id } }) => {
   const imageBanner = (await readFile(`./src/content/${id}.dark.png`)).toString('base64');
   const imageMe = (await readFile('./src/assets/me.png')).toString('base64');
-  const fontSans = await readFile('./node_modules/@fontsource/geist-sans/files/geist-sans-latin-400-normal.woff');
-  const fontSerif = await readFile('./node_modules/@fontsource/eb-garamond/files/eb-garamond-latin-500-normal.woff');
+  const fontSans = await fetch('https://cdn.jsdelivr.net/fontsource/fonts/geist-sans@latest/latin-400-normal.woff');
+  const fontSerif = await fetch('https://cdn.jsdelivr.net/fontsource/fonts/eb-garamond@latest/latin-500-normal.woff');
 
   const template = html`
     <div class="relative flex h-full w-full flex-col justify-center bg-black p-10">
@@ -41,8 +41,8 @@ export const GET: APIRoute<GetSortedPosts[0]['data']> = async ({ props: post, pa
   return satoriAstroOG({ template, width: 1200, height: 630 }).toResponse({
     satori: {
       fonts: [
-        { name: 'sans', data: fontSans, style: 'normal', weight: 400 },
-        { name: 'serif', data: fontSerif, style: 'normal', weight: 500 },
+        { name: 'sans', data: await fontSans.arrayBuffer(), style: 'normal', weight: 400 },
+        { name: 'serif', data: await fontSerif.arrayBuffer(), style: 'normal', weight: 500 },
       ],
     },
   });

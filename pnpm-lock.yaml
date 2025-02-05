@@ -36,7 +36,7 @@ importers:
       '@astrojs/vercel':
         specifier: 8.0.5
         version: 8.0.5(astro@5.2.1(@types/node@22.10.4)(jiti@2.4.2)(lightningcss@1.29.1)(rollup@4.29.1)(typescript@5.7.2))(rollup@4.29.1)
-      '@fontsource/eb-garamond':
+      '@fontsource-variable/eb-garamond':
         specifier: ^5.1.2
         version: 5.1.2
       '@fontsource/geist-mono':
@@ -348,8 +348,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@fontsource/eb-garamond@5.1.2':
-    resolution: {integrity: sha512-On24xvqbbC4Y0dRS+OKDlxPYtixFWEzwu7QqJ9yIzKS9pgPNxs/FgICnO7YD4GzY2obisnYHQLZILWFsIQUCrQ==}
+  '@fontsource-variable/eb-garamond@5.1.2':
+    resolution: {integrity: sha512-KRDV6mLLC8znoCZOQFXuA8bUL0aQtMDyJv9KGdlvlZIcM1ocpeLKG+AwJTk2EKfCZBMq1pff7d4vlFelgWCkRA==}
 
   '@fontsource/geist-mono@5.1.1':
     resolution: {integrity: sha512-Rr/VXX3qyRsLgEFwFUqhDS7PORzQUBDLoQc8bONbBz+hZ+SD8U0nEzHqRFBzT3zFcsf/0bMyCQPZUktKwPt3GQ==}
@@ -3326,7 +3326,7 @@ snapshots:
   '@esbuild/win32-x64@0.24.2':
     optional: true
 
-  '@fontsource/eb-garamond@5.1.2': {}
+  '@fontsource-variable/eb-garamond@5.1.2': {}
 
   '@fontsource/geist-mono@5.1.1': {}
 
