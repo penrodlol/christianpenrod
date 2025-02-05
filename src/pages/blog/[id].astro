@@ -36,8 +36,8 @@ const { id, data, headings, Content, morePosts } = Astro.props;
   <article data-pagefind-body data-pagefind-meta={`slug:/blog/${id}`}>
     <Section data-pagefind-ignore as="div" class="max-w-4xl">
       <div class="rounded-border mb-10 overflow-hidden lg:h-64">
-        <Image {...data.coverDark} alt="Cover" loading="eager" layout="full-width" class="rounded not-dark:hidden" />
-        <Image {...data.coverLight} alt="Cover" loading="eager" layout="full-width" class="rounded dark:hidden" />
+        <Image src={data.coverDark} alt="Cover" loading="eager" layout="full-width" class="rounded not-dark:hidden" />
+        <Image src={data.coverLight} alt="Cover" loading="eager" layout="full-width" class="rounded dark:hidden" />
       </div>
       <div class="mb-2 flex items-center gap-2">
         <Date value={data.published} size="2" variant="subtle" data-pagefind-meta="published, publishedISO[datetime]" />
