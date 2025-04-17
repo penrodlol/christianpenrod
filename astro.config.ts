@@ -20,7 +20,7 @@ export default defineConfig({
   markdown: {
     syntaxHighlight: false,
     rehypePlugins: [
-      [prettyCode, { theme: createCssVariablesTheme({ name: 'css-variables', variablePrefix: '--color-code-' }) }],
+      [prettyCode, { theme: createCssVariablesTheme({ name: 'css-variables', variablePrefix: '--code-' }) }],
       () => (tree, vfile) => {
         const data = vfile.data as { astro: { frontmatter: Record<string, unknown> } };
         const payload = Math.round(readingTime(toString(tree)).minutes);

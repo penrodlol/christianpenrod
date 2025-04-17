@@ -2,7 +2,7 @@
 
 @variant dark (&:where(.dark, .dark *));
 
-@theme {
+@theme inline {
   --font-sans: 'Geist Sans', sans-serif;
   --font-mono: 'Geist Mono', monospace;
   --font-serif: 'EB Garamond Variable', serif;
@@ -36,140 +36,139 @@
   --text-8xl--line-height: 1;
   --text-9xl--line-height: 1;
 
-  --color-gray-1: var(--_color-gray-1);
-  --color-gray-2: var(--_color-gray-2);
-  --color-gray-3: var(--_color-gray-3);
-  --color-gray-4: var(--_color-gray-4);
-  --color-gray-5: var(--_color-gray-5);
-  --color-gray-6: var(--_color-gray-6);
-  --color-gray-7: var(--_color-gray-7);
-  --color-gray-8: var(--_color-gray-8);
-  --color-gray-9: var(--_color-gray-9);
-  --color-gray-10: var(--_color-gray-10);
-  --color-gray-11: var(--_color-gray-11);
-  --color-gray-12: var(--_color-gray-12);
-  --color-gray-contrast: var(--_color-gray-contrast);
+  --color-gray-1: var(--gray-1);
+  --color-gray-2: var(--gray-2);
+  --color-gray-3: var(--gray-3);
+  --color-gray-4: var(--gray-4);
+  --color-gray-5: var(--gray-5);
+  --color-gray-6: var(--gray-6);
+  --color-gray-7: var(--gray-7);
+  --color-gray-8: var(--gray-8);
+  --color-gray-9: var(--gray-9);
+  --color-gray-10: var(--gray-10);
+  --color-gray-11: var(--gray-11);
+  --color-gray-12: var(--gray-12);
+  --color-gray-contrast: var(--gray-contrast);
 
-  --color-accent-1: var(--_color-accent-1);
-  --color-accent-2: var(--_color-accent-2);
-  --color-accent-3: var(--_color-accent-3);
-  --color-accent-4: var(--_color-accent-4);
-  --color-accent-5: var(--_color-accent-5);
-  --color-accent-6: var(--_color-accent-6);
-  --color-accent-7: var(--_color-accent-7);
-  --color-accent-8: var(--_color-accent-8);
-  --color-accent-9: var(--_color-accent-9);
-  --color-accent-10: var(--_color-accent-10);
-  --color-accent-11: var(--_color-accent-11);
-  --color-accent-12: var(--_color-accent-12);
-  --color-accent-contrast: var(--_color-accent-contrast);
+  --color-accent-1: var(--accent-1);
+  --color-accent-2: var(--accent-2);
+  --color-accent-3: var(--accent-3);
+  --color-accent-4: var(--accent-4);
+  --color-accent-5: var(--accent-5);
+  --color-accent-6: var(--accent-6);
+  --color-accent-7: var(--accent-7);
+  --color-accent-8: var(--accent-8);
+  --color-accent-9: var(--accent-9);
+  --color-accent-10: var(--accent-10);
+  --color-accent-11: var(--accent-11);
+  --color-accent-12: var(--accent-12);
+  --color-accent-contrast: var(--accent-contrast);
 
-  --color-code-foreground: var(--_color-code-foreground);
-  --color-code-background: var(--_color-code-background);
-  --color-code-token-constant: var(--_color-code-token-constant);
-  --color-code-token-string: var(--_color-code-token-string);
-  --color-code-token-comment: var(--_color-code-token-comment);
-  --color-code-token-keyword: var(--_color-code-token-keyword);
-  --color-code-token-parameter: var(--_color-code-token-parameter);
-  --color-code-token-function: var(--_color-code-token-function);
-  --color-code-token-string-expression: var(--_color-code-token-string-expression);
-  --color-code-token-punctuation: var(--_color-code-token-punctuation);
+  --color-code-foreground: var(--code-foreground);
+  --color-code-background: var(--code-background);
+  --color-code-token-constant: var(--code-token-constant);
+  --color-code-token-string: var(--code-token-string);
+  --color-code-token-comment: var(--code-token-comment);
+  --color-code-token-keyword: var(--code-token-keyword);
+  --color-code-token-parameter: var(--code-token-parameter);
+  --color-code-token-function: var(--code-token-function);
+  --color-code-token-string-expression: var(--code-token-string-expression);
+  --color-code-token-punctuation: var(--code-token-punctuation);
+  --color-code-token-link: var(--code-token-link);
 
   --default-transition-duration: 200ms;
 }
 
-@layer base {
-  html {
-    @apply scheme-only-light;
+[data-theme='light'] {
+  @apply scheme-only-light;
 
-    --_color-gray-1: oklch(98.5% 0 none);
-    --_color-gray-2: oklch(90.9% 0 none);
-    --_color-gray-3: oklch(88.8% 0 none);
-    --_color-gray-4: oklch(86.1% 0 none);
-    --_color-gray-5: oklch(83.4% 0 none);
-    --_color-gray-6: oklch(80.6% 0 none);
-    --_color-gray-7: oklch(76.9% 0 none);
-    --_color-gray-8: oklch(70.5% 0 none);
-    --_color-gray-9: oklch(55.2% 0 none);
-    --_color-gray-10: oklch(51.7% 0 none);
-    --_color-gray-11: oklch(41.4% 0 none);
-    --_color-gray-12: oklch(24.3% 0 none);
-    --_color-gray-contrast: oklch(0% 0 none);
+  --gray-1: oklch(98.5% 0 none);
+  --gray-2: oklch(90.9% 0 none);
+  --gray-3: oklch(88.8% 0 none);
+  --gray-4: oklch(86.1% 0 none);
+  --gray-5: oklch(83.4% 0 none);
+  --gray-6: oklch(80.6% 0 none);
+  --gray-7: oklch(76.9% 0 none);
+  --gray-8: oklch(70.5% 0 none);
+  --gray-9: oklch(55.2% 0 none);
+  --gray-10: oklch(51.7% 0 none);
+  --gray-11: oklch(41.4% 0 none);
+  --gray-12: oklch(24.3% 0 none);
+  --gray-contrast: oklch(0% 0 none);
 
-    --_color-accent-1: oklch(93.4% 0 none);
-    --_color-accent-2: oklch(91.8% 0 none);
-    --_color-accent-3: oklch(88.8% 0 none);
-    --_color-accent-4: oklch(85.9% 0 none);
-    --_color-accent-5: oklch(83.3% 0 none);
-    --_color-accent-6: oklch(80.4% 0 none);
-    --_color-accent-7: oklch(76.5% 0 none);
-    --_color-accent-8: oklch(70.3% 0 none);
-    --_color-accent-9: oklch(55% 0 none);
-    --_color-accent-10: oklch(50.4% 0 none);
-    --_color-accent-11: oklch(41.7% 0 none);
-    --_color-accent-12: oklch(24.5% 0 none);
-    --_color-accent-contrast: oklch(100% 0 none);
+  --accent-1: oklch(93.4% 0 none);
+  --accent-2: oklch(91.8% 0 none);
+  --accent-3: oklch(88.8% 0 none);
+  --accent-4: oklch(85.9% 0 none);
+  --accent-5: oklch(83.3% 0 none);
+  --accent-6: oklch(80.4% 0 none);
+  --accent-7: oklch(76.5% 0 none);
+  --accent-8: oklch(70.3% 0 none);
+  --accent-9: oklch(55% 0 none);
+  --accent-10: oklch(50.4% 0 none);
+  --accent-11: oklch(41.7% 0 none);
+  --accent-12: oklch(24.5% 0 none);
+  --accent-contrast: oklch(100% 0 none);
 
-    --_color-code-foreground: oklch(6.3% 0 none);
-    --_color-code-background: oklch(100% 0 none);
-    --_color-code-token-constant: oklch(52.3% 0 none);
-    --_color-code-token-string: oklch(50.7% 0 none);
-    --_color-code-token-comment: oklch(68.2% 0 none);
-    --_color-code-token-keyword: oklch(52.3%% 0 none);
-    --_color-code-token-parameter: oklch(0% 0 none);
-    --_color-code-token-function: oklch(0% 0 none);
-    --_color-code-token-string-expression: oklch(50.7% 0 none);
-    --_color-code-token-punctuation: oklch(0% 0 none);
-    --_color-code-token-link: oklch(0% 0 none);
-  }
+  --code-foreground: oklch(6.3% 0 none);
+  --code-background: oklch(100% 0 none);
+  --code-token-constant: oklch(52.3% 0 none);
+  --code-token-string: oklch(50.7% 0 none);
+  --code-token-comment: oklch(68.2% 0 none);
+  --code-token-keyword: oklch(52.3%% 0 none);
+  --code-token-parameter: oklch(0% 0 none);
+  --code-token-function: oklch(0% 0 none);
+  --code-token-string-expression: oklch(50.7% 0 none);
+  --code-token-punctuation: oklch(0% 0 none);
+  --code-token-link: oklch(0% 0 none);
+}
 
-  html.dark {
-    @apply scheme-only-dark;
+[data-theme='dark'] {
+  @apply scheme-only-dark;
 
-    --_color-gray-1: oklch(0% 0 none);
-    --_color-gray-2: oklch(18.4% 0 none);
-    --_color-gray-3: oklch(23.9% 0 none);
-    --_color-gray-4: oklch(27.6% 0 none);
-    --_color-gray-5: oklch(30.9% 0 none);
-    --_color-gray-6: oklch(34.7% 0 none);
-    --_color-gray-7: oklch(40.1% 0 none);
-    --_color-gray-8: oklch(48.8% 0 none);
-    --_color-gray-9: oklch(53.8% 0 none);
-    --_color-gray-10: oklch(58.5% 0 none);
-    --_color-gray-11: oklch(77% 0 none);
-    --_color-gray-12: oklch(94.9% 0 none);
-    --_color-gray-contrast: oklch(100% 0 none);
+  --gray-1: oklch(0% 0 none);
+  --gray-2: oklch(18.4% 0 none);
+  --gray-3: oklch(23.9% 0 none);
+  --gray-4: oklch(27.6% 0 none);
+  --gray-5: oklch(30.9% 0 none);
+  --gray-6: oklch(34.7% 0 none);
+  --gray-7: oklch(40.1% 0 none);
+  --gray-8: oklch(48.8% 0 none);
+  --gray-9: oklch(53.8% 0 none);
+  --gray-10: oklch(58.5% 0 none);
+  --gray-11: oklch(77% 0 none);
+  --gray-12: oklch(94.9% 0 none);
+  --gray-contrast: oklch(100% 0 none);
 
-    --_color-accent-1: oklch(0% 0 none);
-    --_color-accent-2: oklch(18.4% 0 none);
-    --_color-accent-3: oklch(23.9% 0 none);
-    --_color-accent-4: oklch(27.6% 0 none);
-    --_color-accent-5: oklch(30.9% 0 none);
-    --_color-accent-6: oklch(34.7% 0 none);
-    --_color-accent-7: oklch(40.1% 0 none);
-    --_color-accent-8: oklch(48.7% 0 none);
-    --_color-accent-9: oklch(95.5% 0 none);
-    --_color-accent-10: oklch(92.7% 0 none);
-    --_color-accent-11: oklch(77% 0 none);
-    --_color-accent-12: oklch(94.9% 0 none);
-    --_color-accent-contrast: oklch(20% 0 none);
+  --accent-1: oklch(0% 0 none);
+  --accent-2: oklch(18.4% 0 none);
+  --accent-3: oklch(23.9% 0 none);
+  --accent-4: oklch(27.6% 0 none);
+  --accent-5: oklch(30.9% 0 none);
+  --accent-6: oklch(34.7% 0 none);
+  --accent-7: oklch(40.1% 0 none);
+  --accent-8: oklch(48.7% 0 none);
+  --accent-9: oklch(95.5% 0 none);
+  --accent-10: oklch(92.7% 0 none);
+  --accent-11: oklch(77% 0 none);
+  --accent-12: oklch(94.9% 0 none);
+  --accent-contrast: oklch(20% 0 none);
 
-    --_color-code-foreground: oklch(94.7% 0 none);
-    --_color-code-background: oklch(0% 0 none);
-    --_color-code-token-constant: oklch(67.3% 0 none);
-    --_color-code-token-string: oklch(76.7% 0 none);
-    --_color-code-token-comment: oklch(53.8% 0 none);
-    --_color-code-token-keyword: oklch(67.3%% 0 none);
-    --_color-code-token-parameter: oklch(100% 0 none);
-    --_color-code-token-function: oklch(100% 0 none);
-    --_color-code-token-string-expression: oklch(76.7% 0 none);
-    --_color-code-token-punctuation: oklch(100% 0 none);
-    --_color-code-token-link: oklch(100% 0 none);
-  }
+  --code-foreground: oklch(94.7% 0 none);
+  --code-background: oklch(0% 0 none);
+  --code-token-constant: oklch(67.3% 0 none);
+  --code-token-string: oklch(76.7% 0 none);
+  --code-token-comment: oklch(53.8% 0 none);
+  --code-token-keyword: oklch(67.3%% 0 none);
+  --code-token-parameter: oklch(100% 0 none);
+  --code-token-function: oklch(100% 0 none);
+  --code-token-string-expression: oklch(76.7% 0 none);
+  --code-token-punctuation: oklch(100% 0 none);
+  --code-token-link: oklch(100% 0 none);
 }
 
 @utility scrollbar {
-  @apply [scrollbar-color:var(--color-gray-3)_transparent] [scrollbar-width:thin];
+  @apply [scrollbar-color:var(--gray-3)_transparent] [scrollbar-width:thin];
 }
 
 @utility rounded-border {
