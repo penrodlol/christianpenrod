@@ -55,6 +55,7 @@ export default defineConfig({
         cssVariable: '--font-sans',
         weights: [400],
         subsets: ['latin'],
+        styles: ['normal'],
       },
       {
         provider: fontProviders.fontsource(),
@@ -62,6 +63,7 @@ export default defineConfig({
         cssVariable: '--font-mono',
         weights: [400],
         subsets: ['latin'],
+        styles: ['normal'],
       },
       {
         provider: fontProviders.fontsource(),
@@ -69,6 +71,7 @@ export default defineConfig({
         cssVariable: '--font-serif',
         weights: [400],
         subsets: ['latin'],
+        styles: ['normal'],
       },
     ],
   },
