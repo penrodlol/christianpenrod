@@ -49,31 +49,17 @@ export default defineConfig({
   experimental: {
     responsiveImages: true,
     fonts: [
-      {
-        provider: fontProviders.fontsource(),
-        name: 'Geist Sans',
-        cssVariable: '--font-sans',
-        weights: [400],
-        subsets: ['latin'],
-        styles: ['normal'],
-      },
-      {
-        provider: fontProviders.fontsource(),
-        name: 'Geist Mono',
-        cssVariable: '--font-mono',
-        weights: [400],
-        subsets: ['latin'],
-        styles: ['normal'],
-      },
-      {
-        provider: fontProviders.fontsource(),
-        name: 'EB Garamond',
-        cssVariable: '--font-serif',
-        weights: [400],
-        subsets: ['latin'],
-        styles: ['normal'],
-      },
-    ],
+      { name: 'Geist Sans', type: 'sans' },
+      { name: 'Geist Mono', type: 'mono' },
+      { name: 'EB Garamond', type: 'serif' },
+    ].map((font) => ({
+      provider: fontProviders.fontsource(),
+      name: font.name,
+      cssVariable: `--font-${font.type}`,
+      weights: [400],
+      subsets: ['latin'],
+      styles: ['normal'],
+    })),
   },
   vite: { plugins: [tailwindcss()] },
   integrations: [
