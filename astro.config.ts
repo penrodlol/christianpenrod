@@ -56,7 +56,6 @@ export default defineConfig({
       provider: fontProviders.fontsource(),
       name: font.name,
       cssVariable: `--font-${font.type}`,
-      weights: [400],
       subsets: ['latin'],
       styles: ['normal'],
     })),
