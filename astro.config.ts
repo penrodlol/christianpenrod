@@ -7,7 +7,7 @@ import tailwindcss from '@tailwindcss/vite';
 import icon from 'astro-icon';
 import pagefind from 'astro-pagefind';
 import robotsTxt from 'astro-robots-txt';
-import { defineConfig, envField } from 'astro/config';
+import { defineConfig, envField, fontProviders } from 'astro/config';
 import { toString } from 'mdast-util-to-string';
 import readingTime from 'reading-time';
 import prettyCode from 'rehype-pretty-code';
@@ -46,7 +46,21 @@ export default defineConfig({
       GITHUB_TOKEN: envField.string({ context: 'server', access: 'secret' }),
     },
   },
-  experimental: { responsiveImages: true },
+  experimental: {
+    responsiveImages: true,
+    fonts: [
+      { name: 'Geist', type: 'sans', weights: '100 900' },
+      { name: 'Geist Mono', type: 'mono', weights: '100 900' },
+      { name: 'EB Garamond', type: 'serif', weights: '400 800' },
+    ].map((font) => ({
+      provider: fontProviders.fontsource(),
+      name: font.name,
+      cssVariable: `--font-${font.type}`,
+      weights: [font.weights],
+      subsets: ['latin'],
+      styles: ['normal'],
+    })),
+  },
   vite: { plugins: [tailwindcss()] },
   integrations: [
     mdx(),
