@@ -1,6 +1,7 @@
 import { Octokit } from '@octokit/rest';
 import { glob } from 'astro/loaders';
-import { defineCollection, z } from 'astro:content';
+import { z } from 'astro/zod';
+import { defineCollection } from 'astro:content';
 import { GITHUB_TOKEN, USERNAME } from 'astro:env/server';
 
 const octokit = new Octokit({ auth: GITHUB_TOKEN });
@@ -60,8 +61,8 @@ export const collections = {
         forks: z.number(),
         watchers: z.number(),
         topics: z.array(z.string()),
-        githubUrl: z.string().url(),
-        websiteUrl: z.string().url(),
+        githubUrl: z.url(),
+        websiteUrl: z.url(),
       }),
   }),
 };

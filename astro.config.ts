@@ -46,21 +46,18 @@ export default defineConfig({
       GITHUB_TOKEN: envField.string({ context: 'server', access: 'secret' }),
     },
   },
-  experimental: {
-    responsiveImages: true,
-    fonts: [
-      { name: 'Geist', type: 'sans', weights: '100 900' },
-      { name: 'Geist Mono', type: 'mono', weights: '100 900' },
-      { name: 'EB Garamond', type: 'serif', weights: '400 800' },
-    ].map((font) => ({
-      provider: fontProviders.fontsource(),
-      name: font.name,
-      cssVariable: `--font-${font.type}`,
-      weights: [font.weights],
-      subsets: ['latin'],
-      styles: ['normal'],
-    })),
-  },
+  fonts: [
+    { name: 'Geist', type: 'sans', weights: '100 900' },
+    { name: 'Geist Mono', type: 'mono', weights: '100 900' },
+    { name: 'EB Garamond', type: 'serif', weights: '400 800' },
+  ].map((font) => ({
+    provider: fontProviders.fontsource(),
+    name: font.name,
+    cssVariable: `--font-${font.type}`,
+    weights: [font.weights],
+    subsets: ['latin'],
+    styles: ['normal'],
+  })),
   vite: { plugins: [tailwindcss()] },
   integrations: [
     mdx(),
